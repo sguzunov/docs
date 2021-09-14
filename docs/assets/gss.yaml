@@ -1,0 +1,528 @@
+swagger: '2.0'
+info:
+  title: Tick42 GLUE Search Service (GSS) REST API
+  description: |
+    GSS REST API provided by a server. Typical GSS REST client will connect to multiple servers.
+
+    GLUE Search Service (GSS) allows desktop applications to search Entities like Clients,
+    Instruments, Accounts, Mandates, etc.
+
+    Each Entity is associated with a set of fields, where each field has:
+
+    - name, e.g. FullName, etc.
+    - type - most scalar values, e.g. Boolean, Int, Long, Double, String, DateTime
+    - search type - None, Partial, Exact or Both (supports Exact and Partial matching)
+    - isArray - flag indicating that the field is an array, search type is implicitly None
+    - display name
+    - description
+    - metadata (arbitrary key/value pairs)
+
+    There could be multiple Search Providers for each entity type, e.g. Clients can be provided
+    by Mosaic, PBDS, and Outlook.
+
+    Providers are not required to offer the same set of entity fields. However, all Providers
+    must use the same Entity type names and field descriptors for the fields they support.
+    The only exception is the search type, where providers can specify different search type
+    for any of the fields.
+
+    A Provider can add a special field, called <FULL_TEXT>, to an entity type definition, which allows
+    clients to execute a Partial search against all indexed fields for that entity (or a full text
+    search).
+
+    A Client issues a Search Query on an entity, specifying one or more search fields, and
+    optionally the maximum number of entries for each provider to return, and the set of fields
+    that are required in the result.
+
+    Results of a Search Query are returned asynchronously and it is expected that different
+    Providers will return results at different latency.
+
+    A typical Provider will limit the number of results returned to some value, configurable per Search Query.
+
+    Since one query can return multiple results from multiple Providers, each result is tagged
+    with the Provider's name and also carries a flag indicating whether this is the last result
+    from this Provider (in case the Provider batches results or searches accross various sources
+    of data internally).
+
+    Once all results from all Providers are delivered to the client application, the search query
+    also fires a completion callback to indicate that the application should not expect more results.
+
+    If the Query is kept open kept open, providers can send additional (new) results after the
+    completion of the initial search.
+
+    At any time, a client application can cancel a search request or change the query filter
+    (e.g. user typing a few more characters). A search timeout can be specified globally or per query.
+    If a search request times out (regardless of whether data was received), the query's state will
+    become "timed out" and the completion callback will fire.
+
+    Client applications don't talk to providers directly, similarly to GNS, clients send requests to
+    the GSS Desktop Manager (GSS DM) application.
+
+    GSS DM is responsible for multiplexing request to Providers and demultiplexing results back to client
+    applications. It can also optionally implement local caching with configurable expiration.
+
+    JavaScript client applications talk to the GSS DM using a JavaScript API which utilises AGM Streaming.
+
+    GSS Providers can use 2 protocols to provide search results - AGM (subscription/push-based) and
+    REST (request-based). Providers can be deployed on a backend server (e.g. REST GSS Provider on
+    top of Mosaic) or on the desktop (AGM GSS Provider in an Outlook addin).
+
+    The GSS DM configuration is typically held in the Config Manager and can be configured with
+    user-specific overrides and modified during runtime. As with GNS, local file configuration
+    can also be used for development/test/demo purposes.
+
+    To perform a search, an application needs to create a search query and pass the entity type and
+    a filter to the DM. Both the entity type and the filter are required. No filtering is performed
+    on the GSS DM's side.
+
+    There is no attempt to provide joins across Entity types in GSS.
+
+    The query filter is a set of key/value pairs, where the key is the name of one of the entity
+    type's fields, and the value is the value to search for. Depending on the search type, the
+    relevant providers will perform exact or partial matching (it is an error to pass a field in
+    the search filter, if field's search type is None). Clients applications can optionally pass
+    both a field value, and the requested search type. In case the client wants the search to be
+    performed for all of the fields client can specify field name = "ANY" which will be dispatched
+    to all providers.
+
+    Optionally, applications can restrict the set of fields they want returned by the DM,
+    by default they'll get all fields from all Providers. This means that different entities in
+    the result set can have different set of fields available.
+
+    When a search is performed, the DM looks at the set of fields and finds the appropriate
+    Search Providers. It then runs parallel queries (AGM subscription or REST call) against
+    these providers. As each provider returns data (REST) or starts streaming data (AGM),
+    the DM will start streaming (over AGM) the results back to the client application.
+
+    Note that no conflation or throttling is performed in the GSS DM or by the JavaScript API.
+
+
+  version: 1.0.3
+  contact:
+    name: Tick 42 Ltd
+    url: http://www.tick42.com/
+  license:
+    name: Proprietary source code, (c) Tick42
+    url: N/A
+basePath: /gds/v1.0
+consumes:
+  - application/json
+produces:
+  - application/json
+schemes:
+  - http
+  - https
+
+paths:
+  /entityTypes:
+    post:
+      tags:
+        - Metadata
+      operationId: getEntities
+      description: |
+        Returns the entity types which are supported by the provider.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/GssEntityType'
+        default:
+          $ref: '#/responses/ErrorResponse'
+  /search:
+    post:
+      tags:
+        - Search
+      operationId: search
+      description: |
+        Performs a search using the specified query.
+      parameters:
+        - name: query
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GssQuery'
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            $ref: '#/definitions/GssResult'
+        default:
+          $ref: '#/responses/ErrorResponse'
+  /providers:
+    post:
+      tags:
+        - Metadata
+      operationId: getProviders
+      description: |
+        Returns the entity types which are supported by the provider.
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/GssProvider'
+        default:
+          $ref: '#/responses/ErrorResponse'
+
+
+responses:
+  ErrorResponse:
+    description: Generic definition of an error response.
+    schema:
+      $ref: '#/definitions/GssError'
+
+definitions:
+
+  GssEntityType:
+    description: |
+       Defines the structure of an Entity such as a Client, Instrument, Account or Mandate
+       Each Entity is associated with a set of fields, where each field has:
+        - name, e.g. FullName, etc.
+        - type - most scalar values, e.g. Boolean, Number, String, Date
+        - isArray - flag indicating that the field is an array, search type is implicitly None
+        - search type - None, Partial, Exact or Both (supports Exact and Partial matching)
+        - display name
+        - description
+        - metadata (arbitrary key/value pairs)
+    type: object
+    required:
+      - name
+      - properties
+    properties:
+      name:
+        description: |
+          The name of the entity, e.g. 'Client'.
+        type: string
+      properties:
+        description: |
+          A list of fields defining the entity type.
+        type: array
+        items:
+          $ref: '#/definitions/GssPropertyDescriptor'
+
+  GssPropertyDescriptor:
+    description: |
+      Defines an entity type's field.
+    type: object
+    required:
+      - name
+      - type
+    properties:
+      name:
+        description: |
+          The name of the field.
+        type: string
+      type:
+        description: |
+          The type of the field.
+        type: string
+        enum:
+          - Bool
+          - Int
+          - Long
+          - Double
+          - DateTime
+          - String
+          - Composite
+      isArray:
+        description: |
+          Determines whether the current field is an array or a scalar value.
+        type: boolean
+        default: false
+      displayName:
+        description: |
+          Display name of the field.
+        type: string
+      description:
+        description: |
+          Optional description of the field.
+        type: string
+      searchType:
+        description: |
+          Returns the field's search type supported by the provider.
+        type: string
+        enum:
+          - None
+          - Exact
+          - Partial
+          - Both
+      metaData:
+        description: |
+          A list of key/value pairs where the key and value are strings, e.g.
+          [ { name: "format", value: "0.00" }, { "min": "1" }, { "max": "100" }
+        type: array
+        items:
+          $ref: '#/definitions/GssAttribute'
+      properties:
+        description: |
+          A list of fields defining the composite field's properties.
+        type: array
+        items:
+          $ref: '#/definitions/GssPropertyDescriptor'
+
+  GssQuery:
+    description: |
+      Represents a search request for a specific entity type.
+    type: object
+    required:
+      - entityType
+      - filter
+    properties:
+      entityType:
+        description: |
+          The entity type for which the provider should perform the search.
+        type: string
+      filter:
+        type: array
+        items:
+          $ref: '#/definitions/FieldFilter'
+        description: |
+          Selection, as a list of field criteria. For each field the client can specify the
+          required search matching (Partial, Exact or Both).
+      properties:
+        description: |
+          Projection, the set of properties we want returned, e.g. client can exclude exact match search fields.
+          If not specified, all fields defined in the entity type's schema must be returned.
+        type: array
+        items:
+          type: string
+      providers:
+        description: |
+          List of providers for which the search will be performed. If not specified
+          the search will be performed for all of the providers.
+        type: array
+        items:
+          type: string
+      limit:
+        description: |
+          Maximum number of entities which should be returned in the search result.
+        type: integer
+        format: int32
+
+  FieldFilter:
+    description: |
+      Defines the search criteria for a field in a query.
+    type: object
+    required:
+      - name
+      - value
+    properties:
+      name:
+        description: The field name
+        type: string
+      value:
+        description: |
+          The field's value, will be validated against the field's type,
+          trivial value coercions might be performed.
+        type: object
+      searchType:
+        type: string
+        enum:
+          - Partial
+          - Exact
+          - Both
+
+  GssResult:
+    description: |
+      Represents a search result produced by a single Search Provider.
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        description: A list of entities returned by the provider as a result of the search
+        type: array
+        items:
+          $ref: '#/definitions/GssObject'
+      expiration:
+        description: Optional expiration hint for the GSS DM in case caching is enabled
+        $ref: '#/definitions/GssExpiration'
+      provider:
+        description: The display name of the provider which performed the search
+        type: string
+      isLast:
+        description: |
+          Returns whether this is the last result (for streaming/AGM providers) for a given provider.
+        type: boolean
+      isLastForQuery:
+        description: |
+            Returns whether this is the last result from all available providers for a given query.
+        type: boolean
+      isFromCache:
+        description: |
+          Returns whether this is the value is retrieved from the cache.
+        type: boolean
+
+  GssObject:
+    description: |
+      An entity returned in a search result. An "instance" of an GssEntityType.
+    type: object
+    required:
+      - properties
+    properties:
+      properties:
+        description: A list of the entity's properties (field values)
+        type: array
+        items:
+          $ref: '#/definitions/GssProperty'
+
+  GssProperty:
+    description: |
+      Represents an entity's field value
+    type: object
+    required:
+      - name
+      - value
+    properties:
+      name:
+        description: The name of the entity type's field
+        type: string
+      value:
+        description: The value of the field
+        $ref: '#/definitions/GssValue'
+
+  GssValue:
+    description: A discriminated union used to represent the value of an entity's field
+    properties:
+      bool:
+        type: boolean
+      int:
+        type: integer
+        format: int32
+      long:
+        type: integer
+        format: int64
+      double:
+        type: number
+        format: double
+      timestamp:
+        type: string
+        format: date-time
+      string:
+        type: string
+      composite:
+        description: Nested complex type value
+        $ref: '#/definitions/GssObject'
+      bools:
+        type: array
+        items:
+          type: boolean
+      ints:
+        type: array
+        items:
+          type: integer
+          format: int32
+      longs:
+        type: array
+        items:
+          type: integer
+          format: int64
+      doubles:
+        type: array
+        items:
+          type: number
+          format: double
+      timestamps:
+        type: array
+        items:
+          type: string
+          format: date-time
+      strings:
+        type: array
+        items:
+          type: string
+      composites:
+        description: Nested complex type array
+        type: array
+        items:
+          $ref: '#/definitions/GssObject'
+
+  GssExpiration:
+    description: |
+      Represents an expiration defined either as an absolute timestamp or
+      as a relative timespan interval. Can be used by GSS DM as a hint
+      to expire items in the cache, if caching is enabled.
+    type: object
+    properties:
+      expiresAt:
+        description: Sets an absolute timestamp
+        type: string
+        format: date-time
+      expiresIn:
+        description: Sets a relative timespan interval
+        type: integer
+        format: int32
+
+  GssError:
+    description: Defines a generic error used in error responses, e.g. ENOSYS (38) - Function not implemented.
+    type: object
+    required:
+      - message
+    properties:
+      code:
+        description: Error code if GSS server is designed to return numbers as error codes, e.g. 38.
+        type: integer
+        format: int32
+      mnemonic:
+        description: Error code if GSS server is designed to return string tokens as error codes, e.g. 'ENOSYS'.
+        type: string
+      message:
+        description: Description of the error, e.g. 'Function not implemented'
+        type: string
+
+  GssCapabilities:
+    description: |
+      Defines the features which this GSS server offers to GSS clients (typically a GSS Desktop Manager)
+      The set of capabilities might need to be extended but look at the additional attribute for a generic
+      way to extend these.
+    type: object
+    properties:
+      defaultLimit:
+        description: Maximum number of entities returned as a result of a query.
+        type: integer
+        format: int32
+      defaultExpiration:
+        description: Default expiration of entities, hint for any caching components.
+        $ref: '#/definitions/GssExpiration'
+      additional:
+        description: |
+          An arbitrary sequence of key/value pairs further describing the capabilities of this GSS server.
+        type: array
+        items:
+          $ref: '#/definitions/GssAttribute'
+
+  GssAttribute:
+    description: Defines a simple key/value pair used to describe arbitrary metadata
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+  GssProvider:
+    description: |
+       Defines the structure describing GSS Provider metadata.
+    type: object
+    required:
+      - name
+      - type
+      - entities
+    properties:
+      name:
+        description: |
+          The name of the provider
+        type: string
+      type:
+        description: |
+          The type of the provider, e.g. REST, AGM.
+        type: string
+      entities:
+        description: |
+          A list of entities served by the provider.
+        type: array
+        items:
+          $ref: '#/definitions/GssEntityType'

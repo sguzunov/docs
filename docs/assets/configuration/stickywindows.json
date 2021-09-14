@@ -1,0 +1,196 @@
+{
+    "title": "StickyWindows configuration",
+    "description": "Schema describing the sticky windows configuration in Glue42 Desktop",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "targetMode": {
+            "description": "Property that changes the functional behavior depending on the selected platform.",
+            "type": "string",
+            "enum": [
+                "Glue",
+                "Connect",
+                "Default"
+            ],
+            "default": "Connect"
+        },
+        "identity": {
+            "description": "Used for interprocess communication filtering.",
+            "type": "string"
+        },
+        "snapDistance": {
+            "description": "Distance at which windows should snap (stick) together.",
+            "type": "integer",
+            "default": 5
+        },
+        "approachingDistance": {
+            "description": "Distance at which approaching edges will be highlighted.",
+            "type": "integer"
+        },
+        "edgeDistance": {
+            "description": "Distance between the edges of snapped windows.",
+            "type": "integer",
+            "default": 4
+        },
+        "snapToScreenEdges": {
+            "description": "Enable/disable snapping to the screen edges.",
+            "type": "boolean",
+            "default": true
+        },
+        "autoSnap": {
+            "description": "Auto snap windows on end of the snapping operation (mouse up). Windows are snapped to the approaching edges (if any).",
+            "type": "boolean",
+            "default": true
+        },
+        "autoCollapse": {
+            "description": "Auto collapse windows when on moving/sizing operations they will go out of the screen.",
+            "type": "boolean",
+            "default": false
+        },
+        "autoArrange": {
+            "description": "Auto arrange (move windows around) when removing a window from a group.",
+            "type": "boolean",
+            "default": false
+        },
+        "autoAlign": {
+            "description": "Align the window (change size/location) to the neighbour windows when adding it to a group.",
+            "type": "boolean",
+            "default": true
+        },
+        "hideGroupCaption": {
+            "description": "Caption in groups will be not visible",
+            "type": "boolean",
+            "default": false
+        },
+        "autoRemoveWindows": {
+            "description": "Auto remove local windows when they are destroyed.",
+            "type": "boolean",
+            "default": false
+        },
+        "unlockTimeout": {
+            "description": "Specifies the timeout (in ms) to wait before unlocking windows from the group on a long mouse press.",
+            "type": "integer",
+            "default": 1000
+        },
+        "unlockTolerance": {
+            "description": "Specifies the distance (in px) allowed for the mouse to move from its initial position and unlocking to be still available.",
+            "type": "integer",
+            "default": 5
+        },
+        "minimumWindowSize": {
+            "description": "Specifies the minimum window size which will be used if no minimum width/height is set by the user. If the value is 0 (or less), this setting will not be used.",
+            "type": "integer",
+            "default": 0
+        },
+        "debugWindow": {
+            "description": "Specifies the debug window support behavior. The default is `Disabled`.",
+            "type": "string",
+            "enum": [
+                "Disabled",
+                "Hidden",
+                "Shown"
+            ],
+            "default": "Disabled"
+        },
+        "movingGroupsFromTopWindowOnly": {
+            "description": "If `true`, moving a window group is allowed only from the top window (and from the group header as well).",
+            "type": "boolean",
+            "default": true
+        },
+        "enableCrossProcess": {
+            "description": "Enables communication between different processes that use Glue42 windows. This is used to allow .NET and Java applications to use Glue42 windows.",
+            "type": "boolean",
+            "default": false
+        },
+        "sizingMode": {
+            "description": "`Proportional` - moving the inner borders of a window group does not change the size of the entire group, only resizes the windows inside the group. `Single` - moving the inner borders of a window group will result in a push/pull resize of the entire group.",
+            "type": "string",
+            "enum": [
+                "Single",
+                "Proportional",
+                "Default"
+            ],
+            "default": "Single"
+        },
+        "groupMaximizedMode": {
+            "description": "Defines the behavior of a window with size restrictions which will be violated during resize operations with Windows gestures. `Proportional` - the proportions of all windows in the group will be preserved relatively to the size of the restricted window. `Fill` - the group will be resized in a way that the unsrestricted windows will fill as much space as possible. (Only rectangular groups without holes are currently supported.)",
+            "type": "string",
+            "enum": [
+                "Proportional",
+                "Fill",
+                "Default"
+            ],
+            "default": "Proportional"
+        },
+        "hideSwimlaneFrameCaption": {
+            "description": "Hides swimlane frame window caption.",
+            "type": "boolean",
+            "default": false
+        },
+        "enableSwimlaneFrameDropShadow": {
+            "description": "Enables drop shadow sizing border around swimlane frame window.",
+            "type": "boolean",
+            "default": false
+        },
+        "enableWindowGroupsDropShadow": {
+            "description": "Enables drop shadow borders for Glue42 Window groups.",
+            "type": "boolean",
+            "default": false
+        },
+        "rendererTransparencyMode": {
+            "type": "string",
+            "enum": [
+                "Auto",
+                "KeyColor",
+                "Regions",
+                "Default"
+            ],
+            "default": "Auto"
+        },
+        "rendererTransparencyKeyColor": {
+            "type": "string",
+            "default": "#FD12EF"
+        },
+        "flydownShowDelay": {
+            "description": "The delay in ms before showing the flydown window after the user hovers over the flydown zone.",
+            "type": "integer",
+            "default": 200
+        },
+        "flydownChangeDelay": {
+            "description": "Delay in ms allowing the callback for handling the flydown window to return a result when changing the flydown zone.",
+            "type": "integer",
+            "default": 150
+        },
+        "flydownHideDelay": {
+            "description": "The delay in ms before hiding the flydown window (e.g., when the user moves the cursor out of the flydown zone).",
+            "type": "integer",
+            "default": 400
+        },
+        "flydownHideCheckInterval": {
+            "description": "Interval in ms at which the system will check whether the flydown window should be hidden. Its value should be less than the value of `flydownHideDelay`, otherwise the flydown window will be hidden at the end of the interval specified here and not at the end of the delay specified in `flydownHideDelay`.",
+            "type": "integer",
+            "default": 100
+        },
+        "enableStickiness": {
+            "description": "Controls the stickiness of Glue42 Windows.",
+            "type": "boolean",
+            "default": true
+        },
+        "tabs": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "buttonsAlwaysVisible": {
+                    "description": "If `true`, the buttons in a tab group will be always visible. Otherwise, they will show only on hover.",
+                    "type": "boolean",
+                    "default": false
+                },
+                "flatWhenSingle": {
+                    "description": "When `true`, the tab window will look as a flat window (without a tab header) when it is single.\r\n            Tabs will appear automatically when you add one or more tab windows to it.",
+                    "type": "boolean",
+                    "default": false
+                }
+            }
+        }
+    }
+}

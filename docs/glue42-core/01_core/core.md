@@ -1,0 +1,5 @@
+## Overview
+
+[**Glue42 Core**](https://glue42.com/core/) is the world's first open source web integration platform. It enables multiple standalone web applications to share data between each other, expose functionality, open and manipulate windows. [**Glue42 Core**](https://glue42.com/core/) is mainly targeted for use with Progressive Web Applications. Combining PWAs with [**Glue42 Core**](https://glue42.com/core/) not only leverages the advantages of PWAs (native-like feel, working offline, enhanced performance, etc.), but incorporates an interoperability layer in your web application ecosystem as well.
+
+For more information, see the [Glue42 Core product page](https://glue42.com/core/), the [official Glue42 Core documentation](https://core-docs.glue42.com) and the [Glue42 Core GitHub repo](https://github.com/Glue42/core).

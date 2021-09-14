@@ -1,0 +1,87 @@
+## Raising a Notification
+
+The **Glue42 Notification Service** API can be accessed through the `Notifications` property of the `Glue` object:
+
+```csharp
+var notification = new DesktopNotification("New Trade",
+	NotificationSeverity.Low,
+    "type",
+    Description.Text,
+    "category",
+    "source"
+);
+
+App.Glue.Notifications.Publish(notification);
+```
+
+![Simple notification](../../../images/notifications/no-actions.png)
+
+*See the .NET [Notifications example](https://github.com/Tick42/net-examples/tree/master/notifications) on GitHub.*
+
+## Notification Click
+
+When raising a notification, you can specify what happens when the user clicks on the notification. By default, this will show the built-in notification details view, but you can replace that with invoking an [Interop](../../data-sharing-between-apps/interop/net/index.html#method_invocation) method. To do this, add a `GlueRoutingDetailMethodName` parameter to your `Notification` object. In the following example, clicking on the notification will invoke the `DetailsHandler` Interop method:
+
+```csharp
+var notification = new DesktopNotification(Title.Text,
+	NotificationSeverity.Low,
+	"type",
+	Description.Text,
+	"category",
+	"source",
+	"DetailsHandler"      
+);
+```
+
+## Actions
+
+Notifications may contain actions (usually displayed as buttons in the UI) that the user can execute when they see the notification. Executing an action results in invoking an Interop method. This Interop method can be registered by the publisher of the notification or any other application that can handle the action. The handler of the Interop action can also receive parameters, specified by the publisher of the notification.
+
+In the following example, we add actions **Call Client** and **Open Portfolio** passing a `customerId` parameter to the action handlers:
+
+```csharp
+var parameters = new List<GlueMethodParameter>()
+{
+	new GlueMethodParameter("customerId", new GnsValue("11"))
+};
+
+var actions = new List<GlueRoutingMethod>()
+{
+	new GlueRoutingMethod("CallClient", Description: "Call Client", Parameters: parameters),
+    new GlueRoutingMethod("Open Portfolio", Description: "Open Portfolio", Parameters: parameters)
+};
+
+var notification = new DesktopNotification(Title.Text,
+	NotificationSeverity.Low,
+	"type",
+    Description.Text,
+    "category",
+    "source",
+    "DetailsHandler",              
+    actions
+);
+```
+
+![Notification with actions](../../../images/notifications/actions.png)
+
+## Custom Notification UI
+
+You can change the default notification UI by changing the GNS application configuration:
+- if you are running in local mode, go to `%LOCALAPPDATA%\Tick42\GlueDesktop\config\apps\gns.json`
+- find the GNS application;
+- add a `customProperties` section (or update the existing one):
+
+```json
+"customProperties": {
+	"toastUrl": "https://enterprise-demos.tick42.com/gns-custom-toasts/",
+	"width": 250,
+	"height": 125,
+	"count": 3
+}
+```
+
+![Notification with actions](../../../images/notifications/custom-notification.png)
+
+**Example** 
+
+You can check out the **Glue42 Notification Service** example in our Glue42 .NET examples repository at [GitHub](https://github.com/Tick42/net-examples) (`notifications` folder). 

@@ -1,11 +1,11 @@
-## Register Froms as Separate Glue Applications
+## Register Child Forms as Separate Glue42 Applications
 In a multi-form application, you can expose individual forms as separate applications in Glue42.  
 You will need the following:
-- Implement the IGlueApp interface in the forms which are to be exposed as Glue applications
-- Register a form as a Glue application factory and configure the applications
+- Implement the IGlueApp interface in the forms which are to be exposed as Glue42 applications
+- Register the main form as a Glue42 application factory and configure the applications
 
 ### Implement the `IGlueApp` Interface
-The forms which are to be exposed as Glue applications need to implement the `IGlueApp` interface.
+The forms which are to be exposed as Glue42 applications need to implement the `IGlueApp` interface.
 ```delphi
 TApp01Form = class(TForm, IGlueApp)
   ...
@@ -35,9 +35,9 @@ begin
 end;
 ```
 
-### Turn a form into a Glue application factory
-A form can act as a Glue application factory when it implements the `IAppFactory` interface. The `CreateApp` method will be invoked by Glue whenever a new Glue application/form is to be created.  
-The form acting as a Glue application factory does not need to be visible.
+### Turn a form into a Glue42 application factory
+A form can act as a Glue42 application factory when it implements the `IAppFactory` interface. The `CreateApp` method will be invoked by Glue42 whenever a new Glue42 application/form is to be created.  
+The form acting as a Glue42 application factory does not need to be visible.
 
 ```delphi
   TMainForm = class(TForm, IAppFactory)
@@ -48,7 +48,7 @@ The form acting as a Glue application factory does not need to be visible.
   ...
 ```    
 
-### Register the Glue application(s)
+### Register the Glue42 application(s)
 
 ```delphi
 procedure TMainForm.InitializeGlue;
@@ -76,8 +76,8 @@ begin
   ...
 ```
 
-### Create the Glue applications/forms
-Creating the forms and wrapping them as Glue windows is done in the implementation of the `CreateApp` method
+### Create the Glue42 applications/forms
+Creating the forms and wrapping them as Glue42 windows is done in the implementation of the `CreateApp` method
 
 ```delphi
 function TMainForm.CreateApp(const appDefName: WideString; state: GlueValue; const announcer: IAppAnnouncer): HResult; stdcall;
@@ -100,14 +100,15 @@ begin
   else
     Result := E_FAIL;
 end;
-
 ```
+
+Note that the `RegisterAppInstance` method also registers the child form window as a Glue42 window.
 
 ### Start the Applications
 
-Once the Delphi application has started started and the code to initialize Glue and register the forms has executed, the newly registered applications will appear in the Glue42 Enterprise Application Manager.
+Once the Delphi application has started started and the code to initialize Glue42 and register the forms has executed, the newly registered applications will appear in the __Glue42 Enterprise__ Application Manager.
 
-![App Manager](../../../images/com/delphi-start-app.png)
+![App Manager](AppManagerDelphiApps.png)
 
-When the application is started from the Application Manager, Glue will invoke the `CreateApp` method of the form acting as application factory with appropriate parameters.
-This will trigger the creation of the forms and wrapping them as Glue windows.
+When the application is started from the Application Manager, Glue42 will invoke the `CreateApp` method of the form acting as application factory with appropriate parameters.
+This will trigger the creation of the forms and wrapping them as Glue42 windows.

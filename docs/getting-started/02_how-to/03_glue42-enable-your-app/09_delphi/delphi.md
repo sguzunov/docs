@@ -1,12 +1,12 @@
 ## Overview
 
-The Glue42 COM library allows you to Glue42 enable your Delphi applications, integrate them with other Glue42 enabled applications in **Glue42 Enterprise** and use Glue42 functionality in them. To access Glue42 functionalities in your Delphi application, you have to reference and initialize the Glue42 COM library. All files necessary for Glue42 enabling your Delphi application are a part of the SDK bundle of **Glue42 Enterprise** located in the `%LocalAppData%\Tick42\GlueSDK\GlueCOM` folder. Currently, the Glue42 COM library supports Delphi 7 and Delphi 10.
+The Glue42 COM library allows you to Glue42 enable your Delphi applications, integrate them with other Glue42 enabled applications in [Glue42 Enterprise](https://glue42.com/enterprise/) and use Glue42 functionality in them. To access Glue42 functionalities in your Delphi application, you have to reference and initialize the Glue42 COM library. All files necessary for Glue42 enabling your Delphi application are a part of the SDK bundle of [Glue42 Enterprise](https://glue42.com/enterprise/) located in the `%LocalAppData%\Tick42\GlueSDK\GlueCOM` folder. Currently, the Glue42 COM library supports Delphi 7 and Delphi 10.
 
 ## Using the Glue42 COM Library
 
 ### Referencing
 
-To use any **Glue42 Enterprise** functionality, you need to add the following units to your Delphi project:
+To use any [Glue42 Enterprise](https://glue42.com/enterprise/) functionality, you need to add the following units to your Delphi project:
 
 - `GlueCOM_TLB.pas` - declarations for the Glue42 COM type library;
 - `mscorlib_TLB.pas` - declarations for the Microsoft Common Object Runtime library (the Glue42 COM type library depends on it);
@@ -69,7 +69,7 @@ begin
 end;
 ```
 
-4. You can invoke `InitializeGlue()` in the `OnCreate` event handler and perform cleanup in the `OnClose` event handler for the form:
+4. You can invoke `InitializeGlue` in the `OnCreate` event handler and perform cleanup in the `OnClose` event handler for the form:
 
 ```delphi
 procedure TMainForm.FormCreate(Sender: TObject);
@@ -88,7 +88,7 @@ end;
 
 ## Application Configuration
 
-To add your Delphi application to the **Glue42 Enterprise** Application Manager, you need to define a `.json` configuration file and add it to the application configuration store (remote or local). You can add an application configuration file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder to publish your application locally. `<ENV-REG>` in the link should be replaced with the environment and region folder name used for the deployment of your **Glue42 Enterprise** - e.g., `T42-DEMO`. This way, your files will not be erased or overwritten, in case you decide to upgrade or change your **Glue42 Enterprise** version.
+To add your Delphi application to the [Glue42 Enterprise](https://glue42.com/enterprise/) Application Manager, you need to define a `.json` configuration file and add it to the application configuration store (remote or local). You can add an application configuration file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder to publish your application locally. `<ENV-REG>` in the link should be replaced with the environment and region folder name used for the deployment of your [Glue42 Enterprise](https://glue42.com/enterprise/) - e.g., `T42-DEMO`. This way, your files will not be erased or overwritten, in case you decide to upgrade or change your [Glue42 Enterprise](https://glue42.com/enterprise/) version.
 
 Application configuration example:
 
@@ -106,12 +106,14 @@ Application configuration example:
 }
 ```
 
-- `type` should be `exe`;
-- `path` is the path to the executable file. It can be relative or absolute. You can also use the **%GDDIR%** environment variable, which points to the **Glue42 Enterprise** installation folder; 
-- `command` is the actual command to execute (the `.exe` file name);
-- `parameters` holds command line arguments passed to the executable;
+| Property | Description |
+|----------|-------------|
+| `"type"` | Must be `"exe"`. |
+| `"path"` | The path to the application - relative or absolute. You can also use the **%GDDIR%** environment variable, which points to the [Glue42 Enterprise](https://glue42.com/enterprise/) installation folder. |
+| `"command"` | The actual command to execute (the EXE file name). |
+| `"parameters"` | Specifies command line arguments. |
 
-*Note that the definition should be a valid `.json` file (you should either use forward slash or escape the backslash).*
+*Note that the definition should be a valid JSON file (you should either use a forward slash or escape the backslash).*
 
 ## Glue42 Delphi Concepts
 
@@ -119,7 +121,7 @@ Application configuration example:
 
 ## Glue42 Helper Unit
 
-The `GlueHelper` unit contains native [type definitions](#) and additional helper classes and methods facilitating the use of the Glue42 COM library. 
+The `GlueHelper` unit contains native [type definitions](#glue42_helper_unit-types) and additional helper classes and methods facilitating the use of the Glue42 COM library. 
 
 It is recommended to use the [conversion functions](#conversion_functions) provided in the `GlueHelper` unit to transform the parameters or return values from a `PSafeArray` to native types and vice-versa:
 
@@ -127,92 +129,90 @@ It is recommended to use the [conversion functions](#conversion_functions) provi
 
 - The functions in the `SA_As[type]` format can be used to transform a `PSafeArray` to various native types.  
 
-## Types  
+### Types  
 
-### Array types  
+#### Array Types  
 
-The following array types are defined in the GlueHelper unit:  
+The following array types are defined in the `GlueHelper` unit:  
 
-|Array|of Type|
-|-----|-------|
-|`GlueContextArray`|[GlueContext](#ext-type-gluecontext)|
-|`GlueContextValueArray`|[GlueContextValue](#ext-type-gluecontextvalue)|
-|`GlueStreamSubscriberArray`|[IGlueStreamSubscriber](#ext-iface-igluestreamsubscriber)
-|`GlueValueArray`|[GlueValue](#ext-type-gluevalue)|
-|`TDateTimeArray`|`TDateTime`|
-|`TDoubleArray`|`Double`|
-|`TGlueContextValueArray`|[TGlueContextValue](#helper-type-tgluecontextvalue)|
-|`TGlueInstanceArray`|[GlueInstance](#ext-type-glueinstance)|
-|`TGlueInvocationResultArray`|[GlueInvocationResult](#ext-type-glueinvocationresult)|
-|`TGlueMethodArray`|[GlueMethod](#ext-type-gluemethod)|
-|`TGlueValueArray`|^[TGlueValue](#helper-type-tgluevalue) (pointer)|
-|`TInt64Array`|`Int64`|
-|`TIntArray`|`Integer`|
-|`TStrArray`|`String`|
-|`TWideStringArray`|`WideString`|
-|`TWordBoolArray`|`WordBool`|
+| Array | Type |
+|-------|------|
+| `GlueContextArray` | [GlueContext](#types-gluecontext) |
+| `GlueContextValueArray` | [GlueContextValue](#types-gluecontextvalue) |
+| `GlueStreamSubscriberArray` | [IGlueStreamSubscriber](#interfaces-igluestreamsubscriber) |
+| `GlueValueArray` | [GlueValue](#types-gluevalue) |
+| `TDateTimeArray` | `TDateTime` |
+| `TDoubleArray` | `Double` |
+| `TGlueContextValueArray` | [TGlueContextValue](#tgluecontextvalue) |
+| `TGlueInstanceArray` | [GlueInstance](#types-glueinstance) |
+| `TGlueInvocationResultArray` | [GlueInvocationResult](#types-glueinvocationresult) |
+| `TGlueMethodArray` | [GlueMethod](#types-gluemethod) |
+| `TGlueValueArray` | [TGlueValue](#tgluevalue) (pointer) |
+| `TInt64Array` | `Int64` |
+| `TIntArray` | `Integer` |
+| `TStrArray` | `String` |
+| `TWideStringArray` | `WideString` |
+| `TWordBoolArray` | `WordBool` |
 
-### Pointer types  
+#### Pointer Types  
 
-The following pointer types are defined in the GlueHelper unit:  
+The following pointer types are defined in the `GlueHelper` unit:  
 
-|Type|Pointer to|
-|----|----------|
-|`PGlueContextValue`|[GlueContextValue](#ext-type-gluecontextvalue)|
-|`PGlueInvocationResult`|[GlueInvocationResult](#ext-type-glueinvocationresult)|
-|`PGlueMethod`|[GlueMethod](#ext-type-gluemethod)|
-|`PGlueResult`|[GlueResult](#ext-type-glueresult)|
-|`PGlueValue`|[GlueValue](#ext-type-gluevalue)|
-|`PTGlueValue`|[TGlueValue](#helper-type-tgluevalue)|
+| Type | Points to |
+|------|-----------|
+| `PGlueContextValue` | [GlueContextValue](#types-gluecontextvalue) |
+| `PGlueInvocationResult` | [GlueInvocationResult](#types-glueinvocationresult) |
+| `PGlueMethod` | [GlueMethod](#types-gluemethod) |
+| `PGlueResult` | [GlueResult](#types-glueresult) |
+| `PGlueValue` | [GlueValue](#types-gluevalue) |
+| `PTGlueValue` | [TGlueValue](#tgluevalue) |
 
+#### Native Record Types  
 
-### Native Record Types  
+##### TGlueContextValue   
 
-#### <a id="helper-type-tgluecontextvalue"></a> TGlueContextValue   
+This is a translated version (i.e. not using `PSafeArray` directly or indirectly) of [GlueContextValue](#types-gluecontextvalue) representing a name-value pair.
 
-This is a translated version (i.e. not using `PSafeArray`, directly or indirectly) of [GlueContextValue](#ext-type-gluecontextvalue), representing a name-value pair.
+**Properties**
 
-Properties:  
+| Name | Type | Description |
+|------|------|-------------|
+| `Name` | `WideString` | Name associated with the value. |
+| `Value` | `PTGlueValue` | Pointer to [TGlueValue](#tgluevalue). |
 
-|Name|Type|Description|
-|----|----|-----------|
-|`Name`|`WideString`|Name associated with the value.|
-|`Value`|`PTGlueValue`|Pointer to [TGlueValue](#helper-type-tgluevalue).|
+##### TGlueValue  
 
-#### <a id="helper-type-tgluevalue"></a> TGlueValue  
+This is a translated version (i.e. not using `PSafeArray` directly or indirectly) of [GlueValue](#types-gluevalue) representing an elementary or composite value.  
 
-This is a translated version (i.e. not using `PSafeArray`, directly or indirectly) of [GlueValue](#ext-type-gluevalue), representing an elementary or composite value.  
+**Properties**
 
-Properties:  
-
-|Name|Type|Description|
-|----|----|-----------|
-|`GlueType`|[GlueValueType](#ext-enum-gluevaluetype)|Type of the Glue value.|
-|`IsArray`|`WordBool`|Indicates if the value is an array.|
+| Name | Type | Description |
+|------|------|-------------|
+| `GlueType` | [GlueValueType](#enums-gluevaluetype) | Type of the Glue42 value. |
+| `IsArray` | `WordBool` | Indicates whether the value is an array. |
 
 The following properties will be initialized according to `GlueType` and `IsArray`:  
 
-|Name|Type|Description|
-|----|----|-----------|
-|`BoolValue`|`WordBool`|The boolean value.|
-|`LongValue`|`Int64`|The integer value.|
-|`DoubleValue`|`Double`|The double-precision floating-point value.|
-|`StringValue`|`WideString`|The string value.|
-|`BoolArray`|`TWordBoolArray`|Array of `WordBool`'s.|
-|`LongArray`|`TInt64Array`|Array of `Int64`'s.|
-|`DoubleArray`|`TDoubleArray`|Array of `Double`'s.|
-|`StringArray`|`TStrArray`|Array of `String`'s.|
-|`DateTimeArray`|`TDateTimeArray`|Array of `TDateTime`'s.|
-|`Tuple`|`TGlueValueArray`|Array of `TGlueValue`'s.|
-|`CompositeValue`|`TGlueContextValueArray`|Array of [TGlueContextValue](#helper-type-tgluecontextvalue)'s.|
+| Name | Type | Description |
+|------|------|-------------|
+| `BoolValue` | `WordBool` | Boolean value. |
+| `LongValue` | `Int64` | Integer value. |
+| `DoubleValue` | `Double` | Double-precision floating-point value. |
+| `StringValue` | `WideString` | String value. |
+| `BoolArray` | `TWordBoolArray` | Array of `WordBool` values. |
+| `LongArray` | `TInt64Array` | Array of `Int64` values. |
+| `DoubleArray` | `TDoubleArray` | Array of `Double` values. |
+| `StringArray` | `TStrArray` | Array of `String` values. |
+| `DateTimeArray` | `TDateTimeArray` | Array of `TDateTime` values. |
+| `Tuple` | `TGlueValueArray` | Array of `TGlueValue` values. |
+| `CompositeValue` | `TGlueContextValueArray` | Array of [TGlueContextValue](#tgluecontextvalue) values. |
 
-
-
-## Working with `PSafeArray`'s  
+### Working with PSafeArray  
 
 The GlueHelper unit provides a set of functions which can be used to convert from/to `PSafeArray` which is widely used when sending or receiving data from Glue.  
 
-### <a id="helper-psafearray-summary"></a> Summary  
+#### Summary  
+
 The table below summarizes the available functions to convert from/to `PSafeArray`, based on the content type.  
 
 |Array type|Array of|from `PSafeArray`|to `PSafeArray`|
@@ -233,8 +233,9 @@ The table below summarizes the available functions to convert from/to `PSafeArra
 |`GlueValueArray`|[GlueValue](#ext-type-gluevalue)|SA_AsGlueValueArray|CreateTuple_SA|
 
 
-### Conversion Functions Reference  
-All conevrion functions take a single parameter of the type to be converted.  
+#### Conversion Functions
+
+All conversion functions take a single parameter of the type to be converted.  
 The returned `PSafeArray`'s need to be destroyed with `SafeArrayDestroy` when no longer needed.  
 
 |Function|Parameter Type|Return Type|Array of type|
@@ -262,67 +263,66 @@ The returned `PSafeArray`'s need to be destroyed with `SafeArrayDestroy` when no
 |SA_AsWideStringArray|`PSafeArray`|`TWideStringArray`|`WideString`|
 |SA_AsWordBoolArray|`PSafeArray`|`TWordBoolArray`|`WordBool`|
 
-### Functions for creating creating Glue values and context values  
+#### Functions for creating Glue42 values and context values  
 
-#### CreateContextValue  
-This function is used to create a [TGlueContextValue](#helper-type-tgluecontextvalue) representing a name-value pair. This can be put in a `TGlueContextValueArray` that can evetually be converted to a `PSafeArray` so that it can be sent to Glue.  
+- `CreateContextValue`  
+This function is used to create a [TGlueContextValue](#helper-type-tgluecontextvalue) representing a name-value pair. This can be put in a `TGlueContextValueArray` that can eventually be converted to a `PSafeArray` so that it can be sent to Glue.  
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`string`|String representing the name in the name-value pair.|
 |`Value`|[TGlueValue](#helper-type-tgluevalue)|The value of the name-value pair.|
 
 Return value: [TGlueContextValue](#helper-type-tgluecontextvalue)  
 
-
-#### CreateValue functions  
+- `CreateValue` 
 This is a set of overloaded functions for creating [TGlueValue](#helper-type-tgluevalue)'s out of various types.  
 The overloads accepting arrays will create composite values.  
 The following types are currently accepted as the sole parameter of the functions:  
-* `Double`  
-* `Int64`  
-* `Integer`  
-* `String`  
-* `TDoubleArray`  
-* `TInt64Array`  
-* `TStrArray`  
+- `Double`  
+- `Int64`  
+- `Integer`  
+- `String`  
+- `TDoubleArray`  
+- `TInt64Array`  
+- `TStrArray`  
 
 Return value: [TGlueValue](#helper-type-tgluevalue)  
 
-#### CreateComposite  
+- `CreateComposite`  
 This function creates a composite value out of a `TGlueContextValueArray`.  
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Value`|`TGlueContextValueArray`|An array of [TGlueContextValue](#helper-type-tgluecontextvalue)'s representing the contents of the composite value.|
 |`IsArray`|`Bool`|Specifies if the created composite value is an array.|
 
 Return value: [TGlueValue](#helper-type-tgluevalue)  
 
-#### CreateTuple  
+- `CreateTuple`  
 This function creates a composite value representing a tuple, i.e. an array of (possibly) heterogeneous elements.  
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Value`|`TGlueValueArray`|An array of [TGlueValue](#helper-type-tgluevalue)'s representing the elements of the tuple.|
 
 Return value: [TGlueValue](#helper-type-tgluevalue)  
 
-## Helper classes for handling events  
+### Helper classes for handling events  
 This is a set of classes which implement callback interfaces, aimed at simplifying the implementation of callback event handlers.
 
-### TGlueRequestHandler  
+#### TGlueRequestHandler  
 This class implements the `IGlueRequestHandler` interface which invokes a callback whenever a registered Glue42 method is invoked.  
 The class constructor accepts the following parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Cookie`|`TCallbackCookie`|Optional pointer to custom data which will be passed to the callback procedure.|
 |`handlerLambda`|`TRequestHandlerLambda`|The procedure which will be invoked when the associated Glue42 method is invoked.|
 
@@ -337,12 +337,12 @@ TRequestHandlerLambda = procedure(Sender: TGlueRequestHandler;
     argsSA: PSafeArray) of object;
 ```
 
-### TGlueResultHandler  
+#### TGlueResultHandler  
 This class implements the `IGlueInvocationResultHandler` interface which invokes a callback when the result(s) of a Glue42 method invocation become available.  
 The class constructor accepts the following parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Cookie`|`TCallbackCookie`|Optional pointer to custom data which will be passed to the callback procedure.|
 |`handlerLambda`|`TResultHandlerLambda`|The procedure which will be invoked when the results of the associated Glue42 method invocation become avaialble.|
 
@@ -354,12 +354,12 @@ TResultHandlerLambda = procedure(Sender: TGlueResultHandler;
     const correlationId: WideString) of object;
 ```
 
-### TGlueStreamHandler  
+#### TGlueStreamHandler  
 This class implements the `IGlueStreamHandler` interface which invokes callbacks for streaming method related events.  
 The class constructor accepts the following parameter:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`dataLambda`|`TStreamDataLambda`|The procedure which will be invoked when data is pushed on the stream to the subscriber.|
 
 The callback procedure must have the following signature:  
@@ -382,8 +382,8 @@ Definition of a child application to be registered with Glue.
 
 ### Properties
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Category`|`WideString`|Application category|
 |`Name`|`WideString`|Application name under which the app will be registered with Glue |
 |`title`|`WideString`|Application title, as it will appear in the Glue Application Manager|
@@ -395,8 +395,8 @@ See also:
 
 ### Properties
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`LoggingConfigurationPath`|`WideString`|Logging configuration path|
 |`GWUri`|`WideString`|Glue Gateway URI|
 |`AppDefinitionStartup`|`WideString`|Application startup file|
@@ -407,8 +407,8 @@ See also:
 
 ### Properties
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name of the Glue context|
 |`Id`|`WideString`|Identifier of the Glue context|
 
@@ -418,8 +418,8 @@ This type represents a name-value pair.
 
 ### Properties
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the value|
 |`Value`|[GlueValue](#type-gluevalue)|The Glue value|
 
@@ -430,8 +430,8 @@ Describes the identity of a Glue instance - i.e. how the instance is seen by oth
 
 ### Properties
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`InstanceId`|`WideString`|Identifier of the Glue instance|
 |`Version`|`WideString`|Version reported by the application instance|
 |`MachineName`|`WideString`|Machine (network) name|
@@ -449,8 +449,8 @@ Describes the identity of a Glue instance - i.e. how the instance is seen by oth
 
 ### Properties  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Method`|[GlueMethod](#type-gluemethod)|Information about the Glue interop method returning the result|
 |`Result`|[GlueResult](#type-glueresult)|The result returned by the method| 
 
@@ -458,8 +458,8 @@ Describes the identity of a Glue instance - i.e. how the instance is seen by oth
 
 ### Properties  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Method name|
 |`Input`|`WideString`|Input signature|
 |`Output`|`WideString`|Output signature|
@@ -472,8 +472,8 @@ Describes the identity of a Glue instance - i.e. how the instance is seen by oth
 
 ### Properties  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Values`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s representing the result value.|
 |`Status`|[GlueMethodInvocationStatus](#enum-gluemethodinvocationstatus)|Status of the method invocation|
 |`Message`|`WideString`|Message related to the method invocation status|
@@ -485,15 +485,15 @@ This type represents an elementary or compisite value.
 
 ### Properties  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`GlueType`|[GlueValueType](#enum-gluevaluetype)|Type of the Glue value.|
 |`IsArray`|`WordBool`|Indicates if the value is an array.|
 
 The following properties will be initialized according to `GlueType` and `IsArray`:
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`BoolValue`|`WordBool`|The boolean value.|
 |`LongValue`|`Int64`|The integer value.|
 |`DoubleValue`|`Double`|The double-precision floating-point value.|
@@ -592,8 +592,8 @@ Inform Glue that a new child application instance could not be created.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`error`|`WideString`|Text passed back to Glue as error message|
 
 Return value: None  
@@ -603,8 +603,8 @@ Register a new child application instance with Glue.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`hwnd`|`Integer`|Handle to the window representing the Glue application instance|
 |`glueApp`|[IGlueApp](#iface-iglueapp)|Object of class implementing the `IGlueApp` interface|
 
@@ -623,8 +623,8 @@ This callback method is invoked when a new child application instance is to be c
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`appDefName`|`WideString`|Name under which the child application was registered|
 |`state`|[GlueValue](#type-gluevalue)|Saved application state|
 |`announcer`|[IAppAnnouncer](#iface-iappannouncer)|Announcer object, used to announce to Glue successfull application creation or failure|
@@ -642,8 +642,8 @@ Register an app factory as a creator of a child application with the provided de
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`appDefinition`|[GlueAppDefinition](#type-glueappdefinition)|Defition of the app to register|
 |`factory`|[IAppFactory](#iface-iappfactory)|Object of class implementing the `IAppFactory` interface|
 
@@ -655,8 +655,8 @@ Register an application instance with Glue.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`appDefName`|`WideString`|Application name|
 |`glueWindow`|[IGlueWindow](#iface-igluewindow)|A registered Glue window|
 |`glueApp`|[IGlueApp](#iface-iglueapp)|Object of class implementing the `IGlueApp` interface|
@@ -670,8 +670,8 @@ You need to create a single object of this class in order to access __Glue__ fun
 ### <a id="iface-iglue42-properties"></a> Properties  
 
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |AppFactoryRegistry|[IAppFactoryRegistry](#iface-iappfactoryregistry)||
 
 
@@ -682,8 +682,8 @@ Invoke a Glue interop method of a single target or multiple targets.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Method`|`WideString`|Name of the method to invoke|
 |`builderCallback`|[IGlueContextBuilderCallback](#iface-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface. This can be used to build the method invocation arguments|
 |`targets`|`PSafeArray`|Optional: allows filtering the invocation targets. If provided, this must be an array of [GlueInstance](#type-glueinstance)'s|
@@ -700,8 +700,8 @@ Create a `PSafeArray` of [GlueContextValue](#type-gluecontextvalue)'s using a ca
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`contextBuilderCallback`|[IGlueContextBuilderCallback](#iface-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface|
 
 Return value: `PSafeArray`  
@@ -762,8 +762,8 @@ Get the method names exposed by applications.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`targetRegex`|`WideString`|Optional regular expression for filtering by application name. An empty string will match all application names.|
 
 Return value: `PSafeArray`  
@@ -776,8 +776,8 @@ Get the methods exposed by matching application instance(s).
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Instance`|[GlueInstance](#type-glueinstance)|A Glue instance with one or more properties set to the values to match|
 |`identity`|[GlueInstanceIdentity](#enum-glueinstanceidentity)| Specifies which of the properties set in the `Instance` parameter are to be matched|
 
@@ -799,8 +799,8 @@ Invoke a Glue interop method of a specific single target.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Method`|[GlueMethod](#type-gluemethod)|Information about the method to invoke|
 |`invocationArgs`|`PSafeArray`|Method invocation arguments. This must be an array of [GlueContextValue](#type-gluecontextvalue)'s|
 |`resultHandler`|[IGlueInvocationResultHandler](#iface-iglueinvocationresulthandler)|Object of class implementing the `IGlueInvocationResultHandler` interface. This is used to handle the result(s) of the method invocation|
@@ -814,8 +814,8 @@ Invoke a Glue interop method at a single or multiple targets.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Method`|`WideString`|Method name|
 |`invocationArgs`|`PSafeArray`|Method invocation arguments. This must be an array of [GlueContextValue](#type-gluecontextvalue)'s|
 |`targets`|`PSafeArray`|Optional: allows filtering the invocation targets. If provided, this must be an array of [GlueInstance](#type-glueinstance)'s|
@@ -833,8 +833,8 @@ Invoke a Glue interop method synchronously.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`methodName`|`WideString`|Name of the method to invoke|
 |`argsAsJson`|`WideString`|Arguments to pass to the method, in JSON format|
 |`resultFieldPath`|`WideString`|Optional field path. If provided, the return value will be the value of the specified field within the whole result structure.|
@@ -848,8 +848,8 @@ Convert a JSON string into a variant array.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`json`|`WideString`|The JSON string to convert|
 
 Return value: `PSafeArray`  
@@ -862,8 +862,8 @@ Output a message to the Glue log.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`level`|`Byte`|Log level. The following values are accepted:<br> 0 = Trace<br>1 = Debug<br>2 = Info<br>3 = Warn<br>4 = Error<br>5 = Fatal|
 |`Message`|`WideString`|The message text to log|
 
@@ -875,8 +875,8 @@ This method needs to be invoked before invoking the [Start](#iface-iglue42-start
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`configuration`|[GlueConfiguration](#type-glueconfiguration)|The configuration to use|
 
 Return value: None
@@ -886,8 +886,8 @@ Initiate the registration of a window as a Glue window and set the related event
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`hwnd`|Integer|Handle of the window to register.|
 |`windowEventHandler`|`IGlueWindowEventHandler`|An object of class implementing the [IGlueWindowEventHandler](#iface-igluewindoweventhandler) interface.|
 
@@ -901,8 +901,8 @@ Initiate the registration of a window as a Glue window with specific settings an
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`hwnd`|Integer|Handle of the window to register.|
 |`settings`|[IGlueWindowSettings](#iface-igluewindowsettings)|An object of `IGlueWindowSettings` containing the settings to use during the window registration.|
 |`windowEventHandler`|`IGlueWindowEventHandler`|An object of class implementing the [IGlueWindowEventHandler](#iface-igluewindoweventhandler) interface.|
@@ -917,8 +917,8 @@ Register a Glue method (invocation endpoint).
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`methodName`|`WideString`|Method name to register|
 |`requestHandler`|`IGlueRequestHandler`|An object of class implementing the [IGlueRequestHandler](#iface-igluerequesthandler) interface|
 |`Input`|`WideString`|Optional input signature|
@@ -935,8 +935,8 @@ Initiate the registration of a window as a Glue window and set the related event
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`hwnd`|Integer|Handle of the window to register.|
 |`windowEventHandler`|`IGlueWindowEventHandler`|An object of class implementing the [IGlueWindowEventHandler](#iface-igluewindoweventhandler) interface.|
 
@@ -950,8 +950,8 @@ Initiate the registration of a window as a Glue window with specific settings an
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`hwnd`|Integer|Handle of the window to register.|
 |`settings`|[IGlueWindowSettings](#iface-igluewindowsettings)|An object of `IGlueWindowSettings` containing the settings to use during the window registration.|
 |`windowEventHandler`|`IGlueWindowEventHandler`|An object of class implementing the [IGlueWindowEventHandler](#iface-igluewindoweventhandler) interface.|
@@ -966,8 +966,8 @@ Register a Glue stream (streaming method), setting the related subscribtiob hand
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`streamName`|`WideString`|Name of the stream to register|
 |`subscriptionHandler`|[IGlueSubscriptionHandler](#iface-igluesubscriptionhandler)|An object of class implementing the `IGlueSubscriptionHandler` interface. This is used to handle incoming subscription requests.|
 |`Input`|`WideString`|Optional input signature|
@@ -984,8 +984,8 @@ Set the value of a field (member) in an existing Glue channel.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`channel`|`WideString`|The channel name.|
 |`fieldPath`|`WideString`|Path to the field in javascript notation, e.g. `'data.objectL1.objectL2.field01'`|
 |`data`|`WideString`|A string representing the value to set|
@@ -1007,8 +1007,8 @@ See Also:
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`logConfigPath`|`WideString`|Path to the Glue logging configuration.|
 
 Return value: None  
@@ -1019,8 +1019,8 @@ Connection to the Glue gateway is necessary for using any Glue42 functionality.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Instance`|[GlueInstance](#type-glueinstance)|Describes the identity to use when announcing the Glue application instance|
 
 Return value: None  
@@ -1031,8 +1031,8 @@ Connection to the Glue gateway is necessary for using any Glue42 functionality.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`ApplicationName`|`WideString`|The application name to use when announcing the Glue application instance|
 
 Return value: None  
@@ -1053,8 +1053,8 @@ Subscribe an object of class implementing the [IGlueEvents](#iface-iglueevents) 
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`handler`|[IGlueEvents](#iface-iglueevents)|Object of class implementing the `IGlueEvents` interface|
 
 Return value: None  
@@ -1064,8 +1064,8 @@ Subscribe to a Glue context.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`contextName`|`WideString`|Name of the context. If the context does not exist it will be automatically created.|
 |`handler`|[IGlueContextHandler](#iface-igluecontexthandler)|Object of class implementing the `IGlueContextHandler` interface|
 
@@ -1077,8 +1077,8 @@ Subscribe to a Glue stream (send a subscription request) of a specific Glue appl
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`stream`|[GlueMethod](#type-gluemethod)|Description of the Glue streaming method to subscribe to. The properties `stream.Name` and `stream.Instance.InstanceId` must be initialized with the stream name and instance id of the Glue application publishing the stream respectively.|
 |`subscriptionRequestArgs`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s. representing the arguments to pass with the subscription request.|
 |`streamHandler`|[IGlueStreamHandler](#iface-igluestreamhandler)|Object of class implementing the `IGlueStreamHandler` interface which will receive the stream event notifications.|
@@ -1091,8 +1091,8 @@ Subscribe to a Glue stream or streams registered by one or more Glue application
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`streamName`|`WideString`|Name of the Glue stream to subscribe to.|
 |`subscriptionRequestArgs`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s. representing the arguments to pass with the subscription request(s).|
 |`targets`|`PSafeArray`|Optional: allows filtering the subscription targets. If provided, this must be an array of [GlueInstance](#type-glueinstance)'s|
@@ -1108,8 +1108,8 @@ Subscribe to a Glue stream or streams registered by one or more Glue application
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`streamName`|`WideString`|Name of the Glue stream to subscribe to.|
 |`subscriptionRequestArgs`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s. representing the arguments to pass with the subscription request(s).|
 |`targetRegex`|`WideString`|Optional regular expression for filtering targets by application name. An empty string will match all application names.|
@@ -1124,8 +1124,8 @@ Unregister a Glue method (invocation endpoint).
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Method`|[GlueMethod](#type-gluemethod)|Description of the method to unregister. This must be the value returned by [RegisterMethod](#iface-iglue42-registermethod) or [RegisterStream](#iface-iglue42-registerstream).|
 
 Return value: None  
@@ -1135,8 +1135,8 @@ Cancel a subscription created with the [Subscribe](#iface-iglue42-subscribe) met
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`handler`|[IGlueEvents](#iface-iglueevents)|Object of class implementing the `IGlueEvents` interface. This must be the same object previously passed to the `Subscribe` method|
 
 Return value: None  
@@ -1185,8 +1185,8 @@ This callback method is invoked when the child application is being initialized.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`state`|[GlueValue](#type-gluevalue)|A previously saved application state|
 |`glueWindow`|[IGlueWindow](#iface-igluewindow)|The registered Glue window for the application|
 
@@ -1199,8 +1199,8 @@ This callback method is invoked when Glue needs to save the application state.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`out pRetVal`|[GlueValue](#type-gluevalue)|Output parameter. The implementation may initialize `pRetVal` with the application state to be saved|
 
 Return value: `HResult`  
@@ -1225,8 +1225,8 @@ Set new (replace) context data using a callback method.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`builderCallback`|[IGlueContextBuilderCallback](#iface-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface|
 
 Return value: None  
@@ -1237,8 +1237,8 @@ Update context data using a callback method.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`builderCallback`|[IGlueContextBuilderCallback](#iface-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface|
 
 Return value: None
@@ -1285,8 +1285,8 @@ Set new (replace) context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`data`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s representing the new context data.|
 
 Return value: None  
@@ -1302,8 +1302,8 @@ Update context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`data`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s representing the new context data.|
 
 Return value: None  
@@ -1321,8 +1321,8 @@ Add a boolean value to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`WordBool`|The value to add|
 
@@ -1334,8 +1334,8 @@ Add an array of boolean values to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`PSafeArray`|An array of `WordBool` values|
 
@@ -1347,8 +1347,8 @@ Add a composite value to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`composite`|`PSafeArray`|The composite value as a `PSafeArray`|
 |`IsArray`|`WordBool`|Indicates if the composite value is an array|
@@ -1361,8 +1361,8 @@ Add a value represented as `GlueContextValue` to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`GlueContextValue`|[GlueContextValue](#type-gluecontextvalue)|The `GlueContextValue` to add|
 
 Return value: None  
@@ -1373,8 +1373,8 @@ Add a datetime value to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`Int64`|An integer representation of Glue time. This is defined as the number of milliseconds since the Unix epoch i.e. 1970-01-01 00:00:00 UTC|
 
@@ -1387,8 +1387,8 @@ Add an array of datetime values to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`PSafeArray`|An array of `Int64` values representing Glue time|
 
@@ -1400,8 +1400,8 @@ Add a double-precision floating-point value to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`Double`|The value to add|
 
@@ -1413,8 +1413,8 @@ Add an array of double-precision floating-point values to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`PSafeArray`|An array of `Double` values|
 
@@ -1426,8 +1426,8 @@ Add a value represented as `GlueValue` to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|[GlueValue](#type-gluevalue)|The value to add|
 
@@ -1439,8 +1439,8 @@ Add an integer value to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`Integer`|The value to add|
 
@@ -1452,8 +1452,8 @@ Add an array of integer values to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`PSafeArray`|An array of `Integer` values|
 
@@ -1465,8 +1465,8 @@ Add a long integer value to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`Int64`|The value to add|
 
@@ -1478,8 +1478,8 @@ Add an array of long integer values to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`PSafeArray`|An array of `Int64` values|
 
@@ -1492,8 +1492,8 @@ Add a string value to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`WideString`|The value to add|
 
@@ -1505,8 +1505,8 @@ Add an array of string values to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|`PSafeArray`|An array of `WideString` values|
 
@@ -1518,8 +1518,8 @@ Add a tuple of values to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Tuple`|`PSafeArray`|Array of [GlueValue](#type-gluevalue)'s.|
 
@@ -1531,8 +1531,8 @@ Add a tuple of values represented as `GlueValue` to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`Value`|[GlueValue](#type-gluevalue)|The value representing the tuple|
 
@@ -1544,8 +1544,8 @@ Build a value using a callback method and add it to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`callback`|[IGlueContextBuilderCallback](#iface-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface|
 |`IsArray`|`WordBool`|Indicates if the value is an array|
@@ -1558,8 +1558,8 @@ Build a tuple value using a callback method and add it to the context data.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Name`|`WideString`|Name associated with the context value|
 |`callback`|[IGlueContextBuilderCallback](#iface-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface|
 
@@ -1583,8 +1583,8 @@ This callback method is invoked when context data needs to be built. This happen
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`builder`|[IGlueContextBuilder](#iface-igluecontextbuilder)|An instance of `IGlueContextBuilder` which can be used to build the context data|
 
 Return value: `HResult`  
@@ -1604,8 +1604,8 @@ This callback method is invoked when a Glue context subscription is activated vi
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`context`|[IGlueContext](#iface-igluecontext)|This can be used to set/update context data.|
 
 Return value: `HResult`  
@@ -1617,8 +1617,8 @@ This callback method is invoked when the associated context has been updated.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`contextUpdate`|[IGlueContextUpdate](#iface-igluecontextupdate)|This object can be used to obtain information about the Glue context update|
 
 Return value: `HResult`  
@@ -1680,8 +1680,8 @@ This callback method is invoked when the Glue connection status has changed.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`state`|[GlueState](#enum-gluestate)|The new Glue connection state|
 |`Message`|`WideString`|Message text related to the connection status change|
 |`date`|`Int64`|Glue time when the connection status changed|
@@ -1695,8 +1695,8 @@ This callback method is invoked when a new Glue context has been created.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`context`|[GlueContext](#type-gluecontext)|Information about the Glue context associated with the event|
 |`created`|`WordBool`|Indicates whether the context is newly created|
 
@@ -1709,8 +1709,8 @@ This callback method is invoked when a Glue application instance appears or disa
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Instance`|[GlueInstance](#type-glueinstance)|Information about the Glue application instance associated with the event|
 |`active`|`WordBool`|Indicates whether the application instance is now active|
 
@@ -1723,8 +1723,8 @@ This callback method is invoked when a Glue interop method (invokation endpoint)
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Method`|[GlueMethod](#type-gluemethod)|Information about the Glue interop method associated with the event|
 |`active`|`WordBool`|Indicates whether the Glue interop method is now active|
 
@@ -1738,8 +1738,8 @@ This callback method is invoked when an exception is raised during Glue operatio
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`ex`|`_Exception`|An `_Exception` object as defined in the `mscorlib` type library.|
 
 Return value: `HResult`  
@@ -1761,8 +1761,8 @@ This callback method is invoked when a Glue interop method invocation has comple
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`invocationResult`|`PSafeArray`|An array of [GlueInvocationResult](#type-glueinvocationresult)'s|
 |`correlationId`|`WideString`|Correlation Id passed when the method was invoked|
 
@@ -1783,8 +1783,8 @@ This callback method is invoked when a registered Glue method is invoked.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Method`|[GlueMethod](#type-gluemethod)|Information about the Glue method being invoked|
 |`caller`|[GlueInstance](#type-glueinstance)|Information about the Glue application instance that invoked the method|
 |`requestValues`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s. representing the method invocation arguments|
@@ -1806,8 +1806,8 @@ Send the result of a method invocation to the caller application instance.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Result`|[GlueResult](#type-glueresult)|The result to send back to the caller|
 
 Return value: None  
@@ -1824,8 +1824,8 @@ Accept a Glue stream subscription request.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`branch`|`WideString`|Optional branch key (name) on which the subscriber will be registered. If the specified branch does not exist it will be created.|
 |`Result`|[GlueResult](#type-glueresult)|Subscription result information to be sent back to the subscriber.|
 
@@ -1839,8 +1839,8 @@ Reject a Glue stream subscription request.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`Result`|[GlueResult](#type-glueresult)|Rejection information to be sent back to the application requesting subscription.|
 
 Return value: None  
@@ -1858,8 +1858,8 @@ This will disconnect (unsubscribe) all subscribers to the branch and remove the 
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`branch`|`WideString`|Name of the branch to close|
 
 Return value: None  
@@ -1879,8 +1879,8 @@ Get an existing stream branch.
 
 
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`branchKey`|`WideString`|The key (name) of the branch to get|
 
 Return value: [IGlueStreamBranch](#iface-igluestreambranch)  
@@ -1902,8 +1902,8 @@ Push data on a stream.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`data`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s representing the data to be pushed on the stream.|
 |`branch`|`WideString`|Optional branch name on which to push the data. The branch must have been created previously. If not specified, the data will be broadcast to all subscribers.|
 
@@ -1959,8 +1959,8 @@ Push data on the stream branch.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`data`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s representing the data to be pushed to the stream branch.|
 
 Return value: None  
@@ -1981,8 +1981,8 @@ This callback method is invoked when data has been pushed (published) by the Glu
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`stream`|[GlueMethod](#type-gluemethod)|Information about the Glue streaming method that pushed the data.|
 |`data`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s representing the data pushed by the streaming method.|
 
@@ -1995,8 +1995,8 @@ This callback method is invoked when the state of the Glue stream subscription h
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`stream`|[GlueMethod](#type-gluemethod)|Information about the Glue streaming method related to the subscription.|
 |`state`|[GlueStreamState](#enum-gluestreamstate)|The new state of the Glue stream subscription|
 |`Message`|`WideString`|Message related to the subscription status change.|
@@ -2011,8 +2011,8 @@ This callback method is invoked when the Glue stream associated with the subscri
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`stream`|[GlueMethod](#type-gluemethod)|Information about the Glue streaming method related to the subscription.|
 
 Return value: `HResult`  
@@ -2024,8 +2024,8 @@ This callback method is invoked when the subscription request has been dispatche
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`GlueStreamSubscription`|[IGlueStreamSubscription](#iface-igluestreamsubscription)|An instance of the stream subscription. This can later be used to close the subscription from the client side.|
 
 Return value: `HResult`  
@@ -2042,8 +2042,8 @@ Disconnect (unsubscribe) the subscriber from the stream.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`data`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s. This parameter is currently ignored.|
 
 Return value: None
@@ -2064,8 +2064,8 @@ Push data to the subscriber.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`data`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s representing the data to be pushed to the subscriber.|
 
 Return value: None  
@@ -2096,8 +2096,8 @@ This callback method is invoked when a new subscriber to the stream is accepted.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`subscriberInstance`|[GlueInstance](#type-glueinstance)|Description of the Glue application instance which subscribed to the stream|
 |`glueStreamSubscriber`|[IGlueStreamSubscriber](#iface-igluestreamsubscriber)|An instance of `IGlueStreamSubscriber` representing the new subscriber|
 |`requestValues`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s. representing the arguments passed with the subscription request|
@@ -2112,8 +2112,8 @@ This also includes the cases where subscribers have been forcefully unsubscribed
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`subscriberInstance`|[GlueInstance](#type-glueinstance)|Description of the Glue application instance which is no longer subscribed to the stream|
 |`glueStreamSubscriber`|[IGlueStreamSubscriber](#iface-igluestreamsubscriber)|An instance of `IGlueStreamSubscriber` representing the subscriber lost.|
 
@@ -2127,8 +2127,8 @@ This callback method is invoked when a Glue application instance requests to sub
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`stream`|[GlueMethod](#type-gluemethod)|Description of the Glue stream for which the subscription is requested.|
 |`caller`|[GlueInstance](#type-glueinstance)|Description of the Glue application instance requesting to subscribe to the stream.|
 |`requestValues`|`PSafeArray`|An array of [GlueContextValue](#type-gluecontextvalue)'s. representing the arguments passed with the subscription request.|
@@ -2178,8 +2178,8 @@ Hide or show the channel selector box in the Glue42 window title bar.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`showLink`|`WordBool`|Indicates whether the channel selector box is to be visible or not. Note that hiding or showing the channel selector box does not enable or disable channel support for the window - this can only be done during the window registration.|
 
 Return value: None  
@@ -2190,8 +2190,8 @@ Set the Glue window title.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`title`|`WideString`|Text to set in the window title bar|
 
 Return value: None  
@@ -2202,8 +2202,8 @@ Makes the Glue window visible/invisible.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`visible`|`WordBool`|Indicates whether the window is to be visible.|
 
 Return value: None  
@@ -2235,8 +2235,8 @@ This callback method is invoked when the Glue window registration has completed.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`glueWindow`|[IGlueWindow](#iface-igluewindow)|The registered Glue window.|
 
 Return value: `HResult`  
@@ -2248,8 +2248,8 @@ This callback method is invoked when the user changes the channel via the channe
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`glueWindow`|[IGlueWindow](#iface-igluewindow)|The registered Glue window for the application|
 |`channel`|[IGlueContext](#iface-igluecontext)|Glue context of the newly selected channel|
 |`prevChannel`|[GlueContext](#type-gluecontext)|Information about the previously selected channel|
@@ -2263,8 +2263,8 @@ This callback method is invoked when the data in the currently selected channel 
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`glueWindow`|[IGlueWindow](#iface-igluewindow)|The registered Glue window for the application|
 |`channelUpdate`|[IGlueContextUpdate](#iface-igluecontextupdate)|This object can be used to obtain information about the Glue context update|
 
@@ -2277,8 +2277,8 @@ This callback method is invoked when the Glue window is being destroyed.
 
 Parameters:  
 
-|Name|Type|Description|
-|----|----|-----------|
+| Name | Type | Description |
+|------|------|-------------|
 |`glueWindow`|[IGlueWindow](#iface-igluewindow)|The registered Glue window for the application.|
 
 Return value: `HResult`  

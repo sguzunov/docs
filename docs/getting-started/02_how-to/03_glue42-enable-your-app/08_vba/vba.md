@@ -414,7 +414,7 @@ Function CreateServerMethod(methodName As String, Input As String, Output As Str
 | `methodName` | `String` | Name of the method to create. |
 | `Input` | `String` | Optional string representation of the method input arguments signature. |
 | `Output` | `String` | Optional string representation of the method return value signature. |
-| `objectTypesCSV` | `String` | Optional string of comma-separated values specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.) |
+| `objectTypesCSV` | `String` | Optional string of comma-separated values specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.). |
 
 *Return value:* [`GlueServerMethod`](#classes-glueservermethod)  
 
@@ -435,7 +435,7 @@ Function CreateServerStream(streamName As String, Input As String, Output As Str
 | `streamName` | `String` | Name of the stream to create. |
 | `Input` | `String` | Optional string representation of the stream subscription request arguments. |
 | `Output` | `String` | Optional string representation of the published stream data structure. |
-| `objectTypesCSV` | `String` | Optional string of comma-separated values specifying the types of objects that the stream method works with (e.g., `Instrument`, `Client`, etc.) |
+| `objectTypesCSV` | `String` | Optional string of comma-separated values specifying the types of objects that the stream method works with (e.g., `Instrument`, `Client`, etc.). |
 
 *Return value:* [`GlueServerStream`](#classes-glueserverstream)  
 

@@ -556,12 +556,12 @@ Describes an Interop method.
 | Name | Type | Description |
 |------|------|-------------|
 | `Name` | `WideString` | Method name. |
-| `Input` | `WideString` | Input signature. |
-| `Output` | `WideString` | Output signature. |
+| `Input` | `WideString` | *Optional.* String representation of the method input arguments signature. |
+| `Output` | `WideString` | *Optional.* String representation of the method return value signature. |
 | `Instance` | [`GlueInstance`](#types-glueinstance) | Information about the Glue42 application instance that has registered the Interop method. |
 | `RegistrationCookie` | `WideString` | Method registration cookie. |
 | `Flags` | [`GlueMethodFlags`](#enums-gluemethodflags) | Interop method flags. |
-| `ObjectTypes` | `PSafeArray` | Optional array of `WideString` values specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.). |
+| `ObjectTypes` | `PSafeArray` | *Optional.* Array of `WideString` values specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.). |
 
 ### GlueResult
 
@@ -631,7 +631,7 @@ Registers a new child application instance in Glue42.
 | Name | Type | Description |
 |------|------|-------------|
 | `hwnd` | `Integer` | Handle to the window representing the Glue42 application instance. |
-| `glueApp` | [`IGlueApp`](#interfaces-iglueapp) | Object of a class implementing the `IGlueApp` interface. |
+| `glueApp` | [`IGlueApp`](#interfaces-iglueapp) | An object of a class implementing the `IGlueApp` interface. |
 
 *Return value:* [`IGlueWindow`](#interfaces-igluewindow)  
 
@@ -676,7 +676,7 @@ Registers an app factory as a creator of a child application with the provided d
 | Name | Type | Description |
 |------|------|-------------|
 | `appDefinition` | [`GlueAppDefinition`](#types-glueappdefinition) | Definition of the app to register. |
-| `factory` | [IAppFactory](#interfaces-iappfactory) | Object of class implementing the `IAppFactory` interface. |
+| `factory` | [IAppFactory](#interfaces-iappfactory) | An object of a class implementing the `IAppFactory` interface. |
 
 *Return value:* None  
 
@@ -689,8 +689,8 @@ Register an application instance in Glue42.
 | Name | Type | Description |
 |------|------|-------------|
 | `appDefName` | `WideString` | Application name. |
-| `glueWindow` | [IGlueWindow](#interfaces-igluewindow) | A registered Glue42 window. |
-| `glueApp` | [IGlueApp](#interfaces-iglueapp) | Object of class implementing the `IGlueApp` interface. |
+| `glueWindow` | [IGlueWindow](#interfaces-igluewindow) | A registered Glue42 Window. |
+| `glueApp` | [IGlueApp](#interfaces-iglueapp) | An object of a class implementing the `IGlueApp` interface. |
 
 *Return value:* None
 
@@ -707,309 +707,325 @@ Create a single object of this class in order to access Glue42 functionality.
 **Methods**
 
 #### BuildAndInvoke
-Invoke a Glue interop method of a single target or multiple targets.  
+
+Invokes an Interop method on a single or multiple targets.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Method`|`WideString`|Name of the method to invoke|
-|`builderCallback`|[IGlueContextBuilderCallback](#interfaces-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface. This can be used to build the method invocation arguments|
-|`targets`|`PSafeArray`|Optional: allows filtering the invocation targets. If provided, this must be an array of [GlueInstance](#types-glueinstance)'s|
-|`all`|`WordBool`|Indicates if the method should be invoked at all the matching targets that expose it, or only at the first one that matches.|
-|`identity`|[GlueInstanceIdentity](#enums-glueinstanceidentity)|Specifies the identity properties to be matched when applying the `targets` filter|
-|`resultHandler`|[IGlueInvocationResultHandler](#interfaces-iglueinvocationresulthandler)|Object of class implementing the `IGlueInvocationResultHandler` interface. This is used to handle the result(s) of the method invocation|
-|`invocationTimeoutMsecs`|`Int64`|The method invocation will time out after the specified number of milliseconds. If the provided value is less than or equal to zero then a default timeout value will be used.|
-|`correlationId`|`WideString`|Optional parameter which will be passed to the implementetion of [IGlueInvocationResultHandler](#interfaces-iglueinvocationresulthandler).[HandleResult](#interfaces-iglueinvocationresulthandler-handleresult)|
+| `Method` | `WideString` | Name of the method to invoke. |
+| `builderCallback` | [`IGlueContextBuilderCallback`](#interfaces-igluecontextbuildercallback) | An object of a class implementing the `IGlueContextBuilderCallback` interface. This can be used to build the method invocation arguments. |
+| `targets` | `PSafeArray` | *Optional.* Allows filtering the invocation targets. If provided, this must be an array of [`GlueInstance`](#types-glueinstance) objects. |
+| `all` | `WordBool` | Indicates whether the method should be invoked on all matching targets that offer it or only on the first one. |
+| `identity` | [`GlueInstanceIdentity`](#enums-glueinstanceidentity) | Specifies the identity properties to be matched when applying the `targets` filter. |
+| `resultHandler` | [`IGlueInvocationResultHandler`](#interfaces-iglueinvocationresulthandler) | An object of a class implementing the `IGlueInvocationResultHandler` interface. This is used to handle the result from the method invocation. |
+| `invocationTimeoutMsecs` | `Int64` | The method invocation will time out after the specified number of milliseconds. If the provided value is less than or equal to zero, then the default timeout value will be used. |
+| `correlationId` | `WideString`| *Optional.* A parameter that will be passed to the implementation of the [`HandleResult`](#interfaces-iglueinvocationresulthandler-handleresult) method of the [`IGlueInvocationResultHandler`](#interfaces-iglueinvocationresulthandler) interface. |
 
-*Return value:* None  
+*Return value:* None
 
 #### BuildGlueContextValues
-Create a `PSafeArray` of [GlueContextValue](#types-gluecontextvalue)'s using a callback method.  
+
+Creates a `PSafeArray` of [`GlueContextValue`](#types-gluecontextvalue) values using a callback method.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`contextBuilderCallback`|[IGlueContextBuilderCallback](#interfaces-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface|
+| `contextBuilderCallback` | [`IGlueContextBuilderCallback`](#interfaces-igluecontextbuildercallback) | An object of a class implementing the `IGlueContextBuilderCallback` interface |
 
-*Return value:* `PSafeArray`  
-An array of [GlueContextValue](#types-gluecontextvalue)'s.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+*Return value:* `PSafeArray`
+
+An array of [`GlueContextValue`](#types-gluecontextvalue) values. The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.
 
 
 #### GetAllInstances
 
-Get an array of all available Glue instances.  
+Gets an array of all available Glue42 instances.  
 
-*Parameters:* None  
+*Parameters:* None
 
-*Return value:* `PSafeArray`  
-An array of [GlueInstance](#types-glueinstance)'s.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+*Return value:* `PSafeArray`
+
+An array of [`GlueInstance`](#types-glueinstance) objects. The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.
 
 #### GetAllMethods
 
-Get an array of available Glue interop methods of all available instances, including Streaming methods.  
+Gets an array of the available Interop methods from all Glue42 instances, including Interop streaming methods.  
 
-*Parameters:* None  
+*Parameters:* None
 
-*Return value:* `PSafeArray`  
-An array of [GlueMethod](#types-gluemethod)'s.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+*Return value:* `PSafeArray`
+
+An array of [`GlueMethod`](#types-gluemethod) objects. The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.
 
 #### GetChannels  
 
-Get an array of the names of all available Glue channels.  
+Gets an array of the names of all available Glue42 Channels.  
 
-*Parameters:* None  
+*Parameters:* None
 
-*Return value:* `PSafeArray`  
-An array of `WideString`'s with the channel names.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+*Return value:* `PSafeArray`
+
+An array of `WideString` values with the Channel names. The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.
 
 #### GetInstance
 
-Get the current Glue instance.  
+Gets the current Glue42 instance.  
 
-*Parameters:* None  
+*Parameters:* None
 
-*Return value:* [GlueInstance](#types-glueinstance)  
-Contains information about the current Glue application instance.
+*Return value:* [`GlueInstance`](#types-glueinstance)
+
+Contains information about the current Glue42 application instance.
 
 #### GetKnownContexts
-Get an array of all available Glue contexts.  
 
-*Parameters:* None  
+Gets an array of all available Glue42 contexts.
 
-*Return value:* `PSafeArray`  
-An array of [GlueContext](#types-gluecontext)'s.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+*Parameters:* None
+
+*Return value:* `PSafeArray`
+
+An array of [`GlueContext`](#types-gluecontext) values. The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.
 
 #### GetMethodNamesForTarget
-Get the method names exposed by applications.  
+
+Gets the names of the Interop methods exposed by an application.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`targetRegex`|`WideString`|Optional regular expression for filtering by application name. An empty string will match all application names.|
+| `targetRegex` | `WideString` | *Optional.* Regular expression for filtering by application name. An empty string will match all application names. |
 
-*Return value:* `PSafeArray`  
-An array of `WideString`'s with the method names.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+*Return value:* `PSafeArray`
+
+An array of `WideString` values with the method names. The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.
 
 #### GetMethodsForInstance
 
-Get the methods exposed by matching application instance(s).  
+Gets the Interop methods exposed by matching one or more application instances.  
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Instance`|[GlueInstance](#types-glueinstance)|A Glue instance with one or more properties set to the values to match|
-|`identity`|[GlueInstanceIdentity](#enums-glueinstanceidentity)| Specifies which of the properties set in the `Instance` parameter are to be matched|
+| `Instance` | [`GlueInstance`](#types-glueinstance) | A Glue42 instance with one or more properties set to the values to match. |
+| `identity` | [`GlueInstanceIdentity`](#enums-glueinstanceidentity) |  Specifies which properties set in the `Instance` parameter to be matched. |
 
-*Return value:* `PSafeArray`  
-An array of [GlueMethod](#types-gluemethod)'s.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+*Return value:* `PSafeArray`
+
+An array of [`GlueMethod`](#types-gluemethod) objects. The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.
 
 #### GetTargets
-Get the names of all active applications (targets) currently exposing interop methods.  
 
-*Parameters:* None  
+Gets the names of all active applications (targets) currently offering Interop methods.
 
-*Return value:* `PSafeArray`  
-An array of `WideString`'s with the application names.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+*Parameters:* None
+
+*Return value:* `PSafeArray`
+
+An array of `WideString` values with the application names. The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.  
 
 #### InvokeMethod
-Invoke a Glue interop method of a specific single target.
+
+Invokes an Interop method on a specific single target.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Method`|[GlueMethod](#types-gluemethod)|Information about the method to invoke|
-|`invocationArgs`|`PSafeArray`|Method invocation arguments. This must be an array of [GlueContextValue](#types-gluecontextvalue)'s|
-|`resultHandler`|[IGlueInvocationResultHandler](#interfaces-iglueinvocationresulthandler)|Object of class implementing the `IGlueInvocationResultHandler` interface. This is used to handle the result(s) of the method invocation|
-|`invocationTimeoutMsecs`|`Int64`|The method invocation will time out after the specified number of milliseconds. If the provided value is less than or equal to zero then a default timeout value will be used.|
-|`correlationId`|`WideString`|Optional parameter which will be passed to the implementetion of [IGlueInvocationResultHandler](#interfaces-iglueinvocationresulthandler).[HandleResult](#interfaces-iglueinvocationresulthandler-handleresult)|
+| `Method` | [`GlueMethod`](#types-gluemethod) | Information about the method to invoke. |
+| `invocationArgs` | `PSafeArray` | Method invocation arguments. This must be an array of [`GlueContextValue`](#types-gluecontextvalue) values. |
+| `resultHandler` | [`IGlueInvocationResultHandler`](#interfaces-iglueinvocationresulthandler) | An object of a class implementing the `IGlueInvocationResultHandler` interface. This is used to handle the result from the method invocation. |
+| `invocationTimeoutMsecs` | `Int64` | The method invocation will time out after the specified number of milliseconds. If the provided value is less than or equal to zero, then the default timeout value will be used. |
+| `correlationId` | `WideString` | *Optional.* A parameter that will be passed to the implementation of the [`HandleResult`](#interfaces-iglueinvocationresulthandler-handleresult) method of the [`IGlueInvocationResultHandler`](#interfaces-iglueinvocationresulthandler) interface. |
 
-*Return value:* None  
+*Return value:* None
 
 #### InvokeMethods
-Invoke a Glue interop method at a single or multiple targets.
+
+Invokes an Interop method on a single or multiple targets.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Method`|`WideString`|Method name|
-|`invocationArgs`|`PSafeArray`|Method invocation arguments. This must be an array of [GlueContextValue](#types-gluecontextvalue)'s|
-|`targets`|`PSafeArray`|Optional: allows filtering the invocation targets. If provided, this must be an array of [GlueInstance](#types-glueinstance)'s|
-|`all`|`WordBool`|Indicates if the method should be invoked at all the matching targets that expose it, or only at the first one that matches.|
-|`identity`|[GlueInstanceIdentity](#enums-glueinstanceidentity)|Specifies the identity properties to be matched when applying the `targets` filter|
-|`resultHandler`|[IGlueInvocationResultHandler](#interfaces-iglueinvocationresulthandler)|Object of class implementing the `IGlueInvocationResultHandler` interface. This is used to handle the result(s) of the method invocation|
-|`invocationTimeoutMsecs`|`Int64`|The method invocation will time out after the specified number of milliseconds.  If the provided value is less than or equal to zero then a default timeout value will be used.|
-|`correlationId`|`WideString`|Optional parameter which will be passed to the implementetion of [IGlueInvocationResultHandler](#interfaces-iglueinvocationresulthandler).[HandleResult](#interfaces-iglueinvocationresulthandler-handleresult)|
+| `Method` | `WideString` | Method name. |
+| `invocationArgs` | `PSafeArray` | Method invocation arguments. This must be an array of [`GlueContextValue`](#types-gluecontextvalue) values. |
+| `targets` | `PSafeArray` | *Optional.* Allows filtering the invocation targets. If provided, this must be an array of [`GlueInstance`](#types-glueinstance) objects. |
+| `all` | `WordBool` | Indicates whether the method should be invoked on all matching targets that offer it or only on the first one. |
+| `identity` | [`GlueInstanceIdentity`](#enums-glueinstanceidentity) | Specifies the identity properties to be matched when applying the `targets` filter. |
+| `resultHandler` | [`IGlueInvocationResultHandler`](#interfaces-iglueinvocationresulthandler) | An object of a class implementing the `IGlueInvocationResultHandler` interface. This is used to handle the result from the method invocation. |
+| `invocationTimeoutMsecs` | `Int64` | The method invocation will time out after the specified number of milliseconds. If the provided value is less than or equal to zero, then the default timeout value will be used. |
+| `correlationId` | `WideString` | *Optional.* A parameter that will be passed to the implementation of the [`HandleResult`](#interfaces-iglueinvocationresulthandler-handleresult) method of the [`IGlueInvocationResultHandler`](#interfaces-iglueinvocationresulthandler) interface. |
 
-
-*Return value:* None  
+*Return value:* None
 
 #### InvokeSync
-Invoke a Glue interop method synchronously.  
+
+Invokes an Interop method synchronously.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`methodName`|`WideString`|Name of the method to invoke|
-|`argsAsJson`|`WideString`|Arguments to pass to the method, in JSON format|
-|`resultFieldPath`|`WideString`|Optional field path. If provided, the return value will be the value of the specified field within the whole result structure.|
-|`targetRegex`|`WideString`|Optional regular expression for filtering targets by application name. If provided, the method will be invoked at all targets with application name matching the regular expression. If not provided, the method will be invoked at a single target.|
+| `methodName` | `WideString` | Name of the method to invoke. |
+| `argsAsJson` | `WideString` | Arguments in JSON format to pass to the method. |
+| `resultFieldPath` | `WideString` | *Optional.* Field path. If provided, the return value will be the value of the specified field within the entire result structure. |
+| `targetRegex` | `WideString` | *Optional.* Regular expression for filtering targets by application name. If provided, the method will be invoked on all targets with application name matching the regular expression. If not provided, the method will be invoked on a single target. |
 
-*Return value:* `WideString`  
-The string represents the Return value(s) from the method invocation, in JSON format.  
+*Return value:* `WideString`
+
+The string represents the return values from the method invocation in JSON format.
 
 #### JsonToVariant
-Convert a JSON string into a variant array.  
+
+Converts a JSON string to a variant array.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`json`|`WideString`|The JSON string to convert|
+| `json` | `WideString` | The JSON string to convert. |
 
-*Return value:* `PSafeArray`  
-An array of variants.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+*Return value:* `PSafeArray`
 
+An array of variants. The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.
 
 #### Log
-Output a message to the Glue log.  
+
+Outputs a message to the Glue42 log.  
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`level`|`Byte`|Log level. The following values are accepted:<br> 0 = Trace<br>1 = Debug<br>2 = Info<br>3 = Warn<br>4 = Error<br>5 = Fatal|
-|`Message`|`WideString`|The message text to log|
+| `level` | `Byte` | Log level. The following values are accepted: `0` (trace), `1` (debug), `2` (info), `3` (warn), `4` (error), `5` (fatal). |
+| `Message` | `WideString` | The message text to log. |
 
-*Return value:* None  
+*Return value:* None
 
 #### OverrideConfiguration
-Override the default Glue configuration.  
-This method needs to be invoked before invoking the [Start](#interfaces-iglue42-start) method, otherwise it will have no effect.  
+
+Overrides the default Glue42 configuration. This method must be invoked before invoking the [`Start`](#interfaces-iglue42-start) method, otherwise it will have no effect.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`configuration`|[GlueConfiguration](#types-glueconfiguration)|The configuration to use|
+| `configuration` | [`GlueConfiguration`](#types-glueconfiguration) | The configuration to use. |
 
 *Return value:* None
 
 #### RegisterGlueWindow
-Initiate the registration of a window as a Glue window and set the related event handler.  
+
+Initiates the registration of a window as a Glue42 Window and sets the related event handler.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`hwnd`|Integer|Handle of the window to register.|
-|`windowEventHandler`|`IGlueWindowEventHandler`|An object of class implementing the [IGlueWindowEventHandler](#interfaces-igluewindoweventhandler) interface.|
+| `hwnd` | `Integer` | Handle of the window to register. |
+| `windowEventHandler` | `IGlueWindowEventHandler` | An object of a class implementing the [`IGlueWindowEventHandler`](#interfaces-igluewindoweventhandler) interface. |
 
-*Return value:* [IGlueWindow](#interfaces-igluewindow)  
-An object representing the registered Glue window.
-> Note: The returned value should not be used to interact with the Glue window until the [HandleWindowReady](#interfaces-igluewindoweventhandler-handlewindowready) callback method is invoked (i.e. the registration is complete). 
+*Return value:* [`IGlueWindow`](#interfaces-igluewindow)
 
+An object representing the registered Glue42 Window.
+
+*Note that the returned value shouldn't be used to interact with the Glue42 Window until the [`HandleWindowReady`](#interfaces-igluewindoweventhandler-handlewindowready) callback method is invoked (i.e. the registration is complete).*
 
 #### RegisterGlueWindowWithSettings
-Initiate the registration of a window as a Glue window with specific settings and set the related event handler.  
+
+Initiates the registration of a window as a Glue42 Window with specific settings and sets the related event handler.  
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`hwnd`|Integer|Handle of the window to register.|
-|`settings`|[IGlueWindowSettings](#interfaces-igluewindowsettings)|An object of `IGlueWindowSettings` containing the settings to use during the window registration.|
-|`windowEventHandler`|`IGlueWindowEventHandler`|An object of class implementing the [IGlueWindowEventHandler](#interfaces-igluewindoweventhandler) interface.|
+| `hwnd` | `Integer` | Handle of the window to register. |
+| `settings` | [`IGlueWindowSettings`](#interfaces-igluewindowsettings) | An object of `IGlueWindowSettings` containing the settings to use during the window registration. |
+| `windowEventHandler` | `IGlueWindowEventHandler` | An object of a class implementing the [`IGlueWindowEventHandler`](#interfaces-igluewindoweventhandler) interface. |
 
-*Return value:* [GlueWindow](#vba-class-gluewindow)
-> Note: The returned value should not be used to interact with the Glue window until the [HandleWindowReady](#interfaces-igluewindoweventhandler-handlewindowready) callback method is invoked (i.e. the registration is complete). 
+*Return value:* [`IGlueWindow`](#interfaces-igluewindow)
 
-
+*Note that the returned value shouldn't be used to interact with the Glue42 Window until the [`HandleWindowReady`](#interfaces-igluewindoweventhandler-handlewindowready) callback method is invoked (i.e. the registration is complete).*
 
 #### RegisterMethod
-Register a Glue method (invocation endpoint).  
+
+Registers an Interop method.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`methodName`|`WideString`|Method name to register|
-|`requestHandler`|`IGlueRequestHandler`|An object of class implementing the [IGlueRequestHandler](#interfaces-igluerequesthandler) interface|
-|`Input`|`WideString`|Optional input signature|
-|`Output`|`WideString`|Optional output signature|
-|`ObjectTypes`|`PSafeArray`|Optional array of `WideString`'s providing additional information about the method|
+| `methodName` | `WideString` | Name for the method to register. |
+| `requestHandler` | `IGlueRequestHandler` | An object of a class implementing the [`IGlueRequestHandler`](#interfaces-igluerequesthandler) interface. |
+| `Input` | `WideString` | *Optional.* String representation of the method input arguments signature. |
+| `Output` | `WideString` | *Optional.* String representation of the method return value signature. |
+| `ObjectTypes` | `PSafeArray` | *Optional.* Array of `WideString` values specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.). |
 
-*Return value:* [GlueMethod](#types-gluemethod)  
-An object describing the registered Glue method.  
-The Return value can be used to unregister the method using [UnregisterMethod](#interfaces-iglue42-unregistermethod).  
+*Return value:* [`GlueMethod`](#types-gluemethod)
 
+An object describing the registered Interop method. The return value can be used to unregister the method by using its [`UnregisterMethod`](#interfaces-iglue42-unregistermethod) method.
 
 #### RegisterStartupGlueWindow
-Initiate the registration of a window as a Glue window and set the related event handler. Use/load the default startup options, if any.  
+
+Initiates the registration of a window as a Glue42 Window and sets the related event handler. Uses the default startup options, if any.  
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`hwnd`|Integer|Handle of the window to register.|
-|`windowEventHandler`|`IGlueWindowEventHandler`|An object of class implementing the [IGlueWindowEventHandler](#interfaces-igluewindoweventhandler) interface.|
+| `hwnd` | `Integer` | Handle of the window to register. |
+| `windowEventHandler` | `IGlueWindowEventHandler` | An object of a class implementing the [`IGlueWindowEventHandler`](#interfaces-igluewindoweventhandler) interface. |
 
-*Return value:* [IGlueWindow](#interfaces-igluewindow)  
-An object representing the registered Glue window.
-> Note: The returned value should not be used to interact with the Glue window until the [HandleWindowReady](#interfaces-igluewindoweventhandler-handlewindowready) callback method is invoked (i.e. the registration is complete). 
+*Return value:* [`IGlueWindow`](#interfaces-igluewindow)
 
+An object representing the registered Glue42 Window.
+
+*Note that the returned value shouldn't be used to interact with the Glue42 Window until the [`HandleWindowReady`](#interfaces-igluewindoweventhandler-handlewindowready) callback method is invoked (i.e. the registration is complete).*
 
 #### RegisterStartupGlueWindowWithSettings
-Initiate the registration of a window as a Glue window with specific settings and set the related event handler.  Use/load the default startup options, if any.
+
+Initiates the registration of a window as a Glue42 Window with specific settings and sets the related event handler. Uses the default startup options, if any.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`hwnd`|Integer|Handle of the window to register.|
-|`settings`|[IGlueWindowSettings](#interfaces-igluewindowsettings)|An object of `IGlueWindowSettings` containing the settings to use during the window registration.|
-|`windowEventHandler`|`IGlueWindowEventHandler`|An object of class implementing the [IGlueWindowEventHandler](#interfaces-igluewindoweventhandler) interface.|
+| `hwnd` | Integer | Handle of the window to register. |
+| `settings` | [`IGlueWindowSettings`](#interfaces-igluewindowsettings) | An object of `IGlueWindowSettings` containing the settings to use during the window registration. |
+| `windowEventHandler` | `IGlueWindowEventHandler` | An object of a class implementing the [`IGlueWindowEventHandler`](#interfaces-igluewindoweventhandler) interface. |
 
-*Return value:* [GlueWindow](#vba-class-gluewindow)
-> Note: The returned value should not be used to interact with the Glue window until the [HandleWindowReady](#interfaces-igluewindoweventhandler-handlewindowready) callback method is invoked (i.e. the registration is complete). 
+*Return value:* [`IGlueWindow`](#interfaces-igluewindow)
 
-
+*Note that the returned value shouldn't be used to interact with the Glue42 Window until the [`HandleWindowReady`](#interfaces-igluewindoweventhandler-handlewindowready) callback method is invoked (i.e. the registration is complete).*
 
 #### RegisterStream
-Register a Glue stream (streaming method), setting the related subscribtiob handler.  
+
+Registers an Interop stream (streaming method) and sets the related subscription handler.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`streamName`|`WideString`|Name of the stream to register|
-|`subscriptionHandler`|[IGlueSubscriptionHandler](#interfaces-igluesubscriptionhandler)|An object of class implementing the `IGlueSubscriptionHandler` interface. This is used to handle incoming subscription requests.|
-|`Input`|`WideString`|Optional input signature|
-|`Output`|`WideString`|Optional output signature|
-|`ObjectTypes`|`PSafeArray`|Optional array of `WideString`'s providing additional information about the method|
-|`out stream`|[IGlueStream](#interfaces-igluestream)|Output parameter. An object representing the newly created stream|
+| `streamName` | `WideString` | Name of the Interop stream to register. |
+| `subscriptionHandler` | [`IGlueSubscriptionHandler`](#interfaces-igluesubscriptionhandler) | An object of a class implementing the `IGlueSubscriptionHandler` interface. This is used to handle incoming subscription requests. |
+| `Input` | `WideString` | *Optional.* String representation of the method input arguments signature. |
+| `Output` | `WideString` | *Optional.* String representation of the method return value signature. |
+| `ObjectTypes` | `PSafeArray` | *Optional.* Array of `WideString` values specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.). |
+| `out stream` | [`IGlueStream`](#interfaces-igluestream) | Output parameter. An object representing the newly created stream. |
 
-*Return value:* [GlueMethod](#types-gluemethod)  
-An object describing the registered Glue streaming method.  
-The Return value can be used to unregister the streaming method using [UnregisterMethod](#interfaces-iglue42-unregistermethod).  
+*Return value:* [`GlueMethod`](#types-gluemethod)
+
+An object describing the registered Interop streaming method. The return value can be used to unregister the streaming method by using its [UnregisterMethod](#interfaces-iglue42-unregistermethod) method.  
 
 #### SetChannelData
-Set the value of a field (member) in an existing Glue channel.  
+
+Sets the value of a field in an existing Glue42 Channel.
 
 *Parameters:*
 
@@ -1029,7 +1045,7 @@ Notes:
 
 #### SetLogConfigurationPath
 Set (override) the Glue logging confgiguration path.
-This method needs to be invoked before invoking the [Start](#interfaces-iglue42-start) method, otherwise it will have no effect.  
+This method must be invoked before invoking the [Start](#interfaces-iglue42-start) method, otherwise it will have no effect.  
 
 *See also:*  
 * [IGlue42](#interfaces-iglue42).[OverrideConfiguration](#interfaces-iglue42-overrideconfiguration)  
@@ -1296,7 +1312,7 @@ Get context data.
 
 *Return value:* `PSafeArray`  
 An array of [GlueContextValue](#types-gluecontextvalue)'s.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.  
 
 
 #### GetReflectData
@@ -1665,7 +1681,7 @@ Get an array of values which have been added to the context.
 
 *Return value:* `PSafeArray`  
 An array of [GlueContextValue](#types-gluecontextvalue)'s.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.  
 
 #### GetContext
 
@@ -1683,7 +1699,7 @@ Get an array of the names of the properties which have been removed from the con
 
 *Return value:* `PSafeArray`  
 An array of `WideString`'s.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.  
 
 #### GetUpdated
 
@@ -1693,7 +1709,7 @@ Get an array of values which have been updated in the context.
 
 *Return value:* `PSafeArray`  
 An array of [GlueContextValue](#types-gluecontextvalue)'s.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.  
 
 ### IGlueEvents
 Implementing this interface allows an object to receive notifications about various Glue events.  
@@ -1923,7 +1939,7 @@ Get the keys (names) of the available branches for the stream.
 
 *Return value:* `PSafeArray`  
 An array of `WideString`'s with the names of the available branches.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.  
 
 #### Push
 
@@ -1980,7 +1996,7 @@ Get the subscribers to the stream branch.
 
 *Return value:* `PSafeArray`  
 An array of [IGlueStreamSubscriber](#interfaces-igluestreamsubscriber)'s, representing all current subscribers to the branch stream.
-The returned value needs to be destroyed with `SafeArrayDestroy` when no longer needed.  
+The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.  
 
 #### Push
 
@@ -2203,7 +2219,7 @@ Determine if the Glue window is visible.
 
 #### SetChannelSupport
 
-Hide or show the channel selector box in the Glue42 window title bar.  
+Hide or show the channel selector box in the Glue42 Window title bar.  
 
 *Parameters:*
 

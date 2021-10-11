@@ -307,7 +307,7 @@ This type is used to store information about a Glue42 method or stream.
 | `Input` | `String` | String representation of the method arguments signature as provided during the method registration. |
 | `Instance` | [`VBGlueInstance`](#types-vbglueinstance) | Contains information about the Glue42 application instance that has registered the method. |
 | `Name` | `String` | Method name. |
-| `ObjectTypes` | `String()` | Optional array of strings specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.) |
+| `ObjectTypes` | `String()` | *Optional.* Array of strings specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.) |
 | `Output` | `String` | String representation of the method return value signature as provided during the method registration. |
 | `RegistrationCookie` | `String` | Unique identifier assigned to the method during registration. |
 
@@ -320,8 +320,8 @@ This type is used to store information about the result that a Glue42 Interop me
 | Name | Type | Description |
 |------|------|-------------|
 | `GlueData` | [`GlueData`](#classes-gluedata) | Represents the data contained in the result. |
-| `LogDetails` | `String` | Additional optional information about the result. |
-| `Message` | `String` | Optional message associated with the result. |
+| `LogDetails` | `String` | *Optional.* Additional information about the result. |
+| `Message` | `String` | *Optional.* Message associated with the result. |
 | `method` | [`VBGlueMethod`](#types-vbgluemethod) | Information about the Glue42 method providing the result. |
 | `Status` | [`GlueMethodInvocationStatus`](#enums-gluemethodinvocationstatus) | Enumeration value representing the method invocation status. |
 
@@ -412,9 +412,9 @@ Function CreateServerMethod(methodName As String, Input As String, Output As Str
 | Name | Type | Description |
 |------|------|-------------|
 | `methodName` | `String` | Name of the method to create. |
-| `Input` | `String` | Optional string representation of the method input arguments signature. |
-| `Output` | `String` | Optional string representation of the method return value signature. |
-| `objectTypesCSV` | `String` | Optional string of comma-separated values specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.). |
+| `Input` | `String` | *Optional.* String representation of the method input arguments signature. |
+| `Output` | `String` | *Optional.* String representation of the method return value signature. |
+| `objectTypesCSV` | `String` | *Optional.* String of comma-separated values specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.). |
 
 *Return value:* [`GlueServerMethod`](#classes-glueservermethod)  
 
@@ -433,9 +433,9 @@ Function CreateServerStream(streamName As String, Input As String, Output As Str
 | Name | Type | Description |
 |------|------|-------------|
 | `streamName` | `String` | Name of the stream to create. |
-| `Input` | `String` | Optional string representation of the stream subscription request arguments. |
-| `Output` | `String` | Optional string representation of the published stream data structure. |
-| `objectTypesCSV` | `String` | Optional string of comma-separated values specifying the types of objects that the stream method works with (e.g., `Instrument`, `Client`, etc.). |
+| `Input` | `String` | *Optional.* String representation of the stream subscription request arguments. |
+| `Output` | `String` | *Optional.* String representation of the published stream data structure. |
+| `objectTypesCSV` | `String` | *Optional.* String of comma-separated values specifying the types of objects that the stream method works with (e.g., `Instrument`, `Client`, etc.). |
 
 *Return value:* [`GlueServerStream`](#classes-glueserverstream)  
 
@@ -513,7 +513,7 @@ Function GetMethodNamesForTarget(targetRegex As String) As String()
 
 | Name | Type | Description |
 |------|------|-------------|
-| `targetRegex` | `String` | Optional regular expression pattern which allows selecting for which target applications to retrieve the registered Interop methods/streams. If provided, only methods and streams exposed by applications with names matching the regular expression will be returned. An empty string or `Nothing` will match all application names. |
+| `targetRegex` | `String` | *Optional.* Regular expression pattern which allows selecting for which target applications to retrieve the registered Interop methods/streams. If provided, only methods and streams exposed by applications with names matching the regular expression will be returned. An empty string or `Nothing` will match all application names. |
 
 *Return value:* `String()`
 
@@ -545,7 +545,7 @@ Sub Log(level As Byte, Message As String)
 
 | Name | Type | Description |
 |------|------|-------------|
-| `level` | `Byte` | Log level. The following values are accepted: `0` (trace), `1` (debug), `2` (info), `3` (warn), `4` (error), `5` (fatal) |
+| `level` | `Byte` | Log level. The following values are accepted: `0` (trace), `1` (debug), `2` (info), `3` (warn), `4` (error), `5` (fatal). |
 | `Message` | `String` | The message to log. |
 
 *Return value:* None
@@ -902,7 +902,7 @@ Sub SendFailure(Message As String, additionalData as Variant)
 | Name | Type | Description |
 |------|------|-------------|
 | `Message`| `String` | Message describing the failure to be returned to the caller. |
-| `additionalData` | `Variant` | Optional additional data to return to the caller. See details below. |
+| `additionalData` | `Variant` | *Optional.* Additional data to return to the caller. See details below. |
 
 The following may be provided as `additionalData`:
 
@@ -932,7 +932,7 @@ Sub SendResult(result as Variant)
 
 | Name | Type | Description |
 |------|------|-------------|
-| `result` | `Variant` | Optional additional data to return to the caller. See details below. |
+| `result` | `Variant` | *Optional.* Additional data to return to the caller. See details below. |
 
 The following may be provided as `result`:
 
@@ -970,7 +970,7 @@ This class is used to store information about a Glue42 streaming method. Instanc
 
 | Name | Type | Description |
 |------|------|-------------|
-| `correlationId` | `String` | Optional user-defined string which was passed as an argument to [`Subscribe`](#subscribe) when the application initiated the stream subscription. |
+| `correlationId` | `String` | *Optional.* User-defined string which was passed as an argument to [`Subscribe`](#subscribe) when the application initiated the stream subscription. |
 | `method` | [`VBGlueMethod`](#types-vbgluemethod) | Contains details about the Glue42 stream. |
 
 **Methods**
@@ -1002,10 +1002,10 @@ Sub InvokeAsync(method As String, targetRegex As String, args, all As Boolean, c
 | Name | Type | Description |
 |------|------|-------------|
 | `method` | `String` | Name of the method to invoke. |
-| `targetRegex` | `String` | Optional regular expression pattern which allows selecting the target application(s) which will service the method invocation. If provided, only targets with application name matching the regular expression will be considered. An empty string or `Nothing` will match all application names. |
+| `targetRegex` | `String` | *Optional.* Regular expression pattern which allows selecting the target application(s) which will service the method invocation. If provided, only targets with application name matching the regular expression will be considered. An empty string or `Nothing` will match all application names. |
 | `args` | `Variant` | An instance of [`GlueDynamicValue`](#classes-gluedynamicvalue) representing the arguments to pass to the Glue42 method being invoked (see also [Building Composite Values](#building_composite_values)) or `Nothing` in case the method accepts no arguments. |
 | `all` | `Boolean` | Indicates whether the method invocation request should be sent to all available application targets or to one target only. |
-| `correlationId` | `String` | Optional user-defined string which will be delivered back to the invocation result handler. This can be used to distinguish the returned results in case you make several invocations without waiting for the results to arrive first. |
+| `correlationId` | `String` | *Optional.* User-defined string which will be delivered back to the invocation result handler. This can be used to distinguish the returned results in case you make several invocations without waiting for the results to arrive first. |
 | `timeoutMsecs` | `Long` | Specifies how long (in milliseconds) Glue42 will wait for the method invocation to complete before sending a "timed out" status to the caller. |
 
 *Return value:* None  
@@ -1027,7 +1027,7 @@ Function InvokeSync(method As String, targetRegex As String, args, all As Boolea
 | Name | Type | Description |
 |------|------|-------------|
 | `method` | `String` | Name of the method to invoke. |
-| `targetRegex` | `String` | Optional regular expression pattern which allows selecting the target application(s) which will service the method invocation. If provided, only targets with application name matching the regular expression will be considered. An empty string or `Nothing` will match all application names. |
+| `targetRegex` | `String` | *Optional.* Regular expression pattern which allows selecting the target application(s) which will service the method invocation. If provided, only targets with application name matching the regular expression will be considered. An empty string or `Nothing` will match all application names. |
 | `args` | `Variant` | An instance of [`GlueDynamicValue`](#classes-gluedynamicvalue) representing the arguments to pass to the Glue42 method being invoked (see also [Building Composite Values](#building_composite_values)) or `Nothing` in case the method accepts no arguments. |
 | `all` | `Boolean` | Indicates whether the method invocation request should be sent to all available application targets or to one target only. |
 | `timeoutMsecs` | `Long` | Specifies how long (in milliseconds) Glue42 will wait for the method invocation to complete before sending a "timed out" status to the caller. |
@@ -1312,10 +1312,10 @@ Sub Subscribe(stream As String, targetRegex As String, args, all As Boolean, cor
 | Name | Type | Description |
 |------|------|-------------|
 | `stream` | `String` | Name of the stream to which to subscribe. |
-| `targetRegex` | `String` | Optional regular expression pattern which allows selecting the target application(s) publishing the stream. If provided, only applications with name matching the regular expression will be considered. An empty string or `Nothing` will match all application names. |
+| `targetRegex` | `String` | *Optional.* Regular expression pattern which allows selecting the target application(s) publishing the stream. If provided, only applications with name matching the regular expression will be considered. An empty string or `Nothing` will match all application names. |
 | `args` | `Variant` | An instance of [`GlueDynamicValue`](#classes-gluedynamicvalue) representing the arguments to pass along with the subscription request (see also [Building Composite Values](#building_composite_values)) or `Nothing` if the stream publisher requires no arguments. |
 | `all` | `Boolean` | Indicates whether the subscription request should be sent to all matching applications which publish the stream, or a single application only. |
-| `correlationId` | `String` | Optional user-defined string which will be delivered back to the stream consumer event handlers. It can be used to distinguish subscriptions in case you use the same stream consumer for multiple subscriptions. |
+| `correlationId` | `String` | *Optional.* User-defined string which will be delivered back to the stream consumer event handlers. It can be used to distinguish subscriptions in case you use the same stream consumer for multiple subscriptions. |
 | `timeoutMsecs` | `Long` | Specifies how long (in milliseconds) Glue42 will wait for the subscription request to be accepted or rejected before sending a "timed out" status to the caller. |
 
 *Return value:* None  
@@ -1371,7 +1371,7 @@ Sub GlueStreamConsumer_HandleStreamStatus(ByVal stream As IGlueMethodInfo, ByVal
 |------|------|-------------|
 | `stream` | `IGlueMethodInfo` | An instance of [`GlueMethodInfo`](#gluemethodinfo) containing information about the streaming method. |
 | `state` | [`GlueStreamState`](#enums-gluestreamstate) | Enumeration value representing the status of the Glue42 stream. |
-| `Message` | `String` | Optional message describing the reason for the status change. |
+| `Message` | `String` | *Optional.* Message describing the reason for the status change. |
 | `datetime` | `Double` | Number representing the [Glue42 Time](#glue42_vba_concepts-glue42_time) when the stream status changed. |
 
 #### HandleSubscriptionActivated
@@ -1389,7 +1389,7 @@ Sub GlueStreamConsumer_HandleSubscriptionActivated(ByVal subscription As IGlueSt
 | Name | Type | Description |
 |------|------|-------------|
 | `subscription` | `IGlueStreamSubscription` | An instance of [`GlueStreamSubscription`](#classes-gluestreamsubscription). |  
-| `correlationId` | `String` | Optional user-defined string which was passed as a parameter to [`Subscribe`](#subscribe) when the application initiated the stream subscription. |
+| `correlationId` | `String` | *Optional.* User-defined string which was passed as a parameter to [`Subscribe`](#subscribe) when the application initiated the stream subscription. |
 
 *Note that when this event is invoked, the subscription request has not yet been resolved.*
 
@@ -1487,7 +1487,7 @@ Sub Reject(result)
 
 | Name | Type | Description |
 |------|------|-------------|
-| `result` | `Variant` | Optional `String` containing a message to deliver back to the application which has sent the subscription request. |
+| `result` | `Variant` | *Optional.* String containing a message to deliver back to the application which has sent the subscription request. |
 
 *Return value:* None
 

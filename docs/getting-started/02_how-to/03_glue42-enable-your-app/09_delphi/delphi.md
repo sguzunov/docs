@@ -495,14 +495,14 @@ Used for overriding the default Glue42 configuration.
 
 ### GlueContext
 
-Stores information about a Glue42 context.
+Stores information about a Glue42 shared context.
 
 **Properties**
 
 | Name | Type | Description |
 |------|------|-------------|
-| `Name` | `WideString` | Name of the Glue42 context. |
-| `Id` | `WideString` | Identifier of the Glue42 context. |
+| `Name` | `WideString` | Name of the Glue42 shared context. |
+| `Id` | `WideString` | Identifier of the Glue42 shared context. |
 
 ### GlueContextValue
 
@@ -782,7 +782,7 @@ Contains information about the current Glue42 application instance.
 
 #### GetKnownContexts
 
-Gets an array of all available Glue42 contexts.
+Gets an array of all available Glue42 shared contexts.
 
 *Parameters:* None
 
@@ -1031,192 +1031,196 @@ Sets the value of a field in an existing Glue42 Channel.
 
 | Name | Type | Description |
 |------|------|-------------|
-|`channel`|`WideString`|The channel name.|
-|`fieldPath`|`WideString`|Path to the field in javascript notation, e.g. `'data.objectL1.objectL2.field01'`|
-|`data`|`WideString`|A string representing the value to set|
+| `channel` | `WideString` | The Channel name. |
+| `fieldPath` | `WideString` | Path to the field in JavaScript notation (e.g., `'data.object1.object2.field1'`). |
+| `data` | `WideString` | A string representing the value to set. |
 
-*Return value:* None  
+*Return value:* None
 
-Notes:
-* If any of the intermediate objects specified in `fieldPath` (e.g. `objectL1`) or the field itself (e.g. `field01`) do not exist in the JSON tree, they will be automatically created.
-* If any of the intermediate objects specified in `fieldPath` already exist in the JSON tree but are not objects, the call will fail.
-* If the field specified `fieldPath` (e.g. `field01`) already exists in the JSON tree, its value will be replaced. This will work also when the existing `field01` is an object.
-
+*Note that:*
+- *If any of the intermediate objects specified in `fieldPath` (e.g., `object1`) or the field itself (`field1`) don't exist in the JSON tree, they will be automatically created.*
+- *If any of the intermediate objects specified in `fieldPath` already exist in the JSON tree but aren't objects, the call will fail.*
+- *If the field specified in `fieldPath` (e.g., `field1`) already exists in the JSON tree, its value will be replaced. This will work also if the existing field is an object.*
 
 #### SetLogConfigurationPath
-Set (override) the Glue logging confgiguration path.
-This method must be invoked before invoking the [Start](#interfaces-iglue42-start) method, otherwise it will have no effect.  
 
-*See also:*  
-* [IGlue42](#interfaces-iglue42).[OverrideConfiguration](#interfaces-iglue42-overrideconfiguration)  
+Overrides the Glue42 logging configuration path. This method must be invoked before invoking the [Start](#interfaces-iglue42-start) method, otherwise it will have no effect.
+
+*See also:*
+
+- [IGlue42](#interfaces-iglue42) - the [OverrideConfiguration](#interfaces-iglue42-overrideconfiguration) method.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`logConfigPath`|`WideString`|Path to the Glue logging configuration.|
+| `logConfigPath` | `WideString` | Path to the Glue logging configuration. |
 
-*Return value:* None  
+*Return value:* None
 
 #### Start
-Connect to the Glue gateway and announce the application instance.
-Connection to the Glue gateway is necessary for using any Glue42 functionality.  
+
+Connects to Glue42 and announces the application instance. The connection to Glue42 is necessary for using any Glue42 functionality.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Instance`|[GlueInstance](#types-glueinstance)|Describes the identity to use when announcing the Glue application instance|
+| `Instance` | [`GlueInstance`](#types-glueinstance) | Describes the identity to use when announcing the Glue42 application instance. |
 
-*Return value:* None  
+*Return value:* None
 
 #### StartWithAppName
-Connect to the Glue gateway and announce the application instance.
-Connection to the Glue gateway is necessary for using any Glue42 functionality.  
+
+Connects to Glue42 and announces the application instance. The connection to Glue42 is necessary for using any Glue42 functionality.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`ApplicationName`|`WideString`|The application name to use when announcing the Glue application instance|
+| `ApplicationName` | `WideString` | The application name to use when announcing the Glue42 application instance. |
 
-*Return value:* None  
+*Return value:* None
 
-Notes:  
-* Invoking this method is equivalent to invoking the [Start](#interfaces-iglue42-start) method with only the `ApplicationName` property of the `Instance` parameter initialized;
-
+*Note that invoking this method is equivalent to invoking the [`Start`](#interfaces-iglue42-start) method with only the `ApplicationName` property of the `Instance` parameter initialized.*
 
 #### Stop
-Disconnect from the Glue gateway, shutting down all communication.
 
-*Parameters:* None  
+Disconnects from Glue42, shutting down all communication.
 
-*Return value:* None  
+*Parameters:* None
+
+*Return value:* None
 
 #### Subscribe
-Subscribe an object of class implementing the [IGlueEvents](#interfaces-iglueevents) interface for receiving various notifications from Glue.  
+
+Subscribes an object of a class implementing the [`IGlueEvents`](#interfaces-iglueevents) interface for receiving various notifications from Glue42.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`handler`|[IGlueEvents](#interfaces-iglueevents)|Object of class implementing the `IGlueEvents` interface|
+| `handler` | [`IGlueEvents`](#interfaces-iglueevents) | An object of a class implementing the `IGlueEvents` interface. |
 
-*Return value:* None  
+*Return value:* None
 
 #### SubscribeGlueContext
-Subscribe to a Glue context.  
+
+Subscribes to a Glue42 shared context.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`contextName`|`WideString`|Name of the context. If the context does not exist it will be automatically created.|
-|`handler`|[IGlueContextHandler](#interfaces-igluecontexthandler)|Object of class implementing the `IGlueContextHandler` interface|
+| `contextName` | `WideString` | Name of the shared context. If the context doesn't exist, it will be automatically created. |
+| `handler` | [`IGlueContextHandler`](#interfaces-igluecontexthandler) | An object of a class implementing the `IGlueContextHandler` interface. |
 
-*Return value:* None  
-
+*Return value:* None
 
 #### SubscribeStream
-Subscribe to a Glue stream (send a subscription request) of a specific Glue application instance and set the related stream event handler.  
+
+Subscribes to an Interop stream published by a Glue42 application instance and sets the related stream event handler.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`stream`|[GlueMethod](#types-gluemethod)|Description of the Glue streaming method to subscribe to. The properties `stream.Name` and `stream.Instance.InstanceId` must be initialized with the stream name and instance id of the Glue application publishing the stream respectively.|
-|`subscriptionRequestArgs`|`PSafeArray`|An array of [GlueContextValue](#types-gluecontextvalue)'s. representing the arguments to pass with the subscription request.|
-|`streamHandler`|[IGlueStreamHandler](#interfaces-igluestreamhandler)|Object of class implementing the `IGlueStreamHandler` interface which will receive the stream event notifications.|
-|`subscriptionTimeoutMsecs`|`Int64`|The subscription request will time out after the specified number of milliseconds. If the provided value is less than or equal to zero then a default timeout value will be used.|
+| `stream` | [`GlueMethod`](#types-gluemethod) | Description of the Interop streaming method to which to subscribe. The `Name` and `Instance.InstanceId` properties must be initialized respectively with the name of the Interop stream and the instance ID of the Glue42 application publishing the stream. |
+| `subscriptionRequestArgs` | `PSafeArray` | An array of [`GlueContextValue`](#types-gluecontextvalue) values representing the arguments to pass with the subscription request. |
+| `streamHandler` | [`IGlueStreamHandler`](#interfaces-igluestreamhandler) | An object of a class implementing the `IGlueStreamHandler` interface which will receive the stream event notifications. |
+| `subscriptionTimeoutMsecs` | `Int64` | The subscription request will time out after the specified number of milliseconds. If the provided value is less than or equal to zero, then the default timeout value will be used. |
 
-*Return value:* None  
+*Return value:* None
 
 #### SubscribeStreams
-Subscribe to a Glue stream or streams registered by one or more Glue applications and set the related stream event handler.  
+
+Subscribes to an Interop stream published by one or more Glue42 applications and sets the related stream event handler.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`streamName`|`WideString`|Name of the Glue stream to subscribe to.|
-|`subscriptionRequestArgs`|`PSafeArray`|An array of [GlueContextValue](#types-gluecontextvalue)'s. representing the arguments to pass with the subscription request(s).|
-|`targets`|`PSafeArray`|Optional: allows filtering the subscription targets. If provided, this must be an array of [GlueInstance](#types-glueinstance)'s|
-|`all`|`WordBool`|Indicates if the subscription request should be sent to all the matching targets, or only to the first one that matches.|
-|`identity`|[GlueInstanceIdentity](#enums-glueinstanceidentity)|Specifies the identity properties to be matched when applying the `targets` filter|
-|`streamHandler`|[IGlueStreamHandler](#interfaces-igluestreamhandler)|Object of class implementing the `IGlueStreamHandler` interface which will receive the stream event notifications.|
-|`invocationTimeoutMsecs`|`Int64`|The subscription request(s) will time out after the specified number of milliseconds. If the provided value is less than or equal to zero then a default timeout value will be used.|
+| `streamName` | `WideString` | Name of the Interop stream to subscribe to. |
+| `subscriptionRequestArgs` | `PSafeArray` | An array of [`GlueContextValue`](#types-gluecontextvalue) values representing the arguments to pass with the subscription request. |
+| `targets` | `PSafeArray` | *Optional.* Allows filtering the subscription targets. If provided, this must be an array of [`GlueInstance`](#types-glueinstance). |
+| `all` | `WordBool` | Indicates whether the subscription request should be sent to all matching targets or only to the first one. |
+| `identity` | [`GlueInstanceIdentity`](#enums-glueinstanceidentity) | Specifies the identity properties to be matched when applying the `targets` filter. |
+| `streamHandler` | [`IGlueStreamHandler`](#interfaces-igluestreamhandler) | An object of a class implementing the `IGlueStreamHandler` interface which will receive the stream event notifications. |
+| `subscriptionTimeoutMsecs` | `Int64` | The subscription request will time out after the specified number of milliseconds. If the provided value is less than or equal to zero, then the default timeout value will be used. |
 
-*Return value:* None  
+*Return value:* None
 
 #### SubscribeStreamsFilterTargets
-Subscribe to a Glue stream or streams registered by one or more Glue applications and set the related stream event handler. Subscription targets can be filtered by name.
+
+Subscribes to an Interop stream published by one or more Glue42 applications and sets the related stream event handler. Subscription targets can be filtered by name.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`streamName`|`WideString`|Name of the Glue stream to subscribe to.|
-|`subscriptionRequestArgs`|`PSafeArray`|An array of [GlueContextValue](#types-gluecontextvalue)'s. representing the arguments to pass with the subscription request(s).|
-|`targetRegex`|`WideString`|Optional regular expression for filtering targets by application name. An empty string will match all application names.|
-|`all`|`WordBool`|Indicates if the subscription request should be sent to all the matching targets, or only to the first one that matches.|
-|`streamHandler`|[IGlueStreamHandler](#interfaces-igluestreamhandler)|Object of class implementing the `IGlueStreamHandler` interface which will receive the stream event notifications.|
-|`invocationTimeoutMsecs`|`Int64`|The subscription request(s) will time out after the specified number of milliseconds. If the provided value is less than or equal to zero then a default timeout value will be used.|
+| `streamName` | `WideString` | Name of the Interop stream to subscribe to. |
+| `subscriptionRequestArgs` | `PSafeArray` | An array of [`GlueContextValue`](#types-gluecontextvalue) values representing the arguments to pass with the subscription request. |
+| `targetRegex` | `WideString` | *Optional.* Regular expression for filtering targets by application name. An empty string will match all application names. |
+| `all` | `WordBool` | Indicates whether the subscription request should be sent to all matching targets or only to the first one. |
+| `streamHandler` | [`IGlueStreamHandler`](#interfaces-igluestreamhandler) | An object of a class implementing the `IGlueStreamHandler` interface which will receive the stream event notifications. |
+| `subscriptionTimeoutMsecs` | `Int64` | The subscription request will time out after the specified number of milliseconds. If the provided value is less than or equal to zero, then the default timeout value will be used. |
 
-*Return value:* None 
+*Return value:* None
 
 #### UnregisterMethod
-Unregister a Glue method (invocation endpoint).  
+
+Unregisters an Interop method.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Method`|[GlueMethod](#types-gluemethod)|Description of the method to unregister. This must be the value returned by [RegisterMethod](#interfaces-iglue42-registermethod) or [RegisterStream](#interfaces-iglue42-registerstream).|
+| `Method` | [`GlueMethod`](#types-gluemethod) | Description of the method to unregister. This must be the value returned by [`RegisterMethod`](#interfaces-iglue42-registermethod) or [`RegisterStream`](#interfaces-iglue42-registerstream). |
 
-*Return value:* None  
+*Return value:* None
 
 #### Unsubscribe
-Cancel a subscription created with the [Subscribe](#interfaces-iglue42-subscribe) method.  
+
+Cancels a subscription created with the [`Subscribe`](#interfaces-iglue42-subscribe) method.  
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`handler`|[IGlueEvents](#interfaces-iglueevents)|Object of class implementing the `IGlueEvents` interface. This must be the same object previously passed to the `Subscribe` method|
+| `handler` | [`IGlueEvents`](#interfaces-iglueevents) | An object of a class implementing the `IGlueEvents` interface. This must be the same object previously passed to the `Subscribe` method. |
 
-*Return value:* None  
+*Return value:* None
 
 #### Other Methods
-The following methods of IGlue42 exposed in the COM library are not intended to be used in Delphi:
 
+The following methods of `IGlue42` exposed in the COM library aren't intended to be used in Delphi:
 
-* AddCorrelationInterest
-* CloseResource
-* CreateGlueData
-* CreateGlueValues
-* CreateMethodInvocator
-* CreateServerMethod
-* CreateServerStream
-* CreateStreamConsumer
-* G4O_XL_OpenSheet
-* GetGlueContext
-* InvokeAsync
-* InvokeVariantData
-* RegisterGlueWindowInSink
-* RegisterMethodInSink
-* RegisterSingleBranchStream
-* RegisterStreamInSink
-* RegisterVariantMethodInSink
-* RegisterVoidMethodInSink
-* SubscribeChannel
-* SubscribeStreamInSink
-* TranslateVbObject
-* YieldCallbackData
-* YieldCallbackVariantData
-
-
+- `AddCorrelationInterest`
+- `CloseResource`
+- `CreateGlueData`
+- `CreateGlueValues`
+- `CreateMethodInvocator`
+- `CreateServerMethod`
+- `CreateServerStream`
+- `CreateStreamConsumer`
+- `G4O_XL_OpenSheet`
+- `GetGlueContext`
+- `InvokeAsync`
+- `InvokeVariantData`
+- `RegisterGlueWindowInSink`
+- `RegisterMethodInSink`
+- `RegisterSingleBranchStream`
+- `RegisterStreamInSink`
+- `RegisterVariantMethodInSink`
+- `RegisterVoidMethodInSink`
+- `SubscribeChannel`
+- `SubscribeStreamInSink`
+- `TranslateVbObject`
+- `YieldCallbackData`
+- `YieldCallbackVariantData`
 
 ### IGlueApp
+
 Implementing this interface allows an object to be registered as a Glue application instance.  
 *See also:*  
 * [IAppAnnouncer](#interfaces-iappannouncer).[RegisterAppInstance](#interfaces-iappannouncer-registerappinstance)

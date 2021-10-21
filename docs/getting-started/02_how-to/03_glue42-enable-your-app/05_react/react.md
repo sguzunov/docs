@@ -121,7 +121,7 @@ To access the [**Glue42 Enterprise**](https://glue42.com/enterprise/) APIs, init
 
 - #### GlueProvider
 
-Add the `<GlueProvider />` component by wrapping your other components inside it (preferably the root one). Pass the settings object to the `<GlueProvider />`. It will initialize the [**Glue42 Enterprise**](https://glue42.com/enterprise/) [JavaScript library](../../../../reference/glue/latest/glue/index.html#) and make the [**Glue42 Enterprise**](https://glue42.com/enterprise/) APIs available in your application by setting the returned `glue` object as the value of `GlueContext`:
+Add the `<GlueProvider />` component by wrapping your other components inside it (preferably the root one). Pass the settings object to the `<GlueProvider />`. It will initialize the [**Glue42 Enterprise**](https://glue42.com/enterprise/) [JavaScript library](../../../../reference/glue/latest/glue/index.html) and make the [**Glue42 Enterprise**](https://glue42.com/enterprise/) APIs available in your application by setting the returned `glue` object as the value of `GlueContext`:
 
 ```javascript
 //index.js

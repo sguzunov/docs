@@ -220,4 +220,4 @@ glue.layouts.clearDefaultGlobal();
 
 ## Reference
 
-[Layouts API Reference](../../../../reference/glue/latest/layouts/index.html) 
+For a complete list of the available Layouts API methods and properties, see the [Layouts API Reference Documentation](../../../../reference/glue/latest/layouts/index.html).

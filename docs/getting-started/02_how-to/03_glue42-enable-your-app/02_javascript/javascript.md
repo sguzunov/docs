@@ -257,7 +257,7 @@ The `"name"`, `"type"`, `"details"` and `"url"` properties are required.
 
 See the [Application Configuration](../../../../developers/configuration/application/index.html) section for more information.
 
-*See the [JavaScript examples](https://github.com/Tick42/js-examples) at GitHub which demonstrate various [**Glue42 Enterprise**](https://glue42.com/enterprise/) features.*
+*See the [JavaScript examples](https://github.com/Glue42/js-examples) at GitHub which demonstrate various [**Glue42 Enterprise**](https://glue42.com/enterprise/) features.*
 
 ## Glue42 JavaScript Concepts
 

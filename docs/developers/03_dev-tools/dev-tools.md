@@ -19,7 +19,7 @@ In addition, the following tools are also available for debugging:
 
 - [Applications View](../../getting-started/how-to/use-glue42/index.html#applications_view) - a tool that provides general overview of all running hidden or visible applications.
 - Press `F12` on a focused Glue42 window to open the built-in browser developer console.
-- Add DevTools Extensions supported by Electron to [**Glue42 Enterprise**](https://glue42.com/enterprise/). See [Adding DevTools Extensions](../../glue42-concepts/glue42-platform-features/index.html#adding_devtools_extensions)
+- Add DevTools Extensions supported by Electron to [**Glue42 Enterprise**](https://glue42.com/enterprise/). See [Adding DevTools Extensions](../../glue42-concepts/glue42-platform-features/index.html#adding_devtools_extensions).
 
 ## Application Monitor
 

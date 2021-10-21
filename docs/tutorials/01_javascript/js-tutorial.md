@@ -30,7 +30,7 @@ We will be working with our latest development drop at the time of writing this 
 
 ## Tutorial Structure
 
-The tutorial code is available for download at [GitHub](https://github.com/Tick42/g4e-tutorial). Clone the repo and you will get the latest version of the tutorial code. Checkout the branch named **GD3-Start** to begin.
+The tutorial code is available for download at [GitHub](https://github.com/Glue42/js-tutorial). Clone the repo and you will get the latest version of the tutorial code. Checkout the branch named **GD3-Start** to begin.
 
 The tutorial directory is organized as follows:
 - **app** - put the files you will be working on here. More on that in **Chapter 1**;
@@ -52,7 +52,7 @@ Naturally, we have also included a full tutorial solution, which follows the app
 
 ### 1.1. Getting Started with the Tutorial Files
 
-Getting started with the Glue42 for Javascript tutorial is very easy. The first thing you need to do is get all of the tutorial code. The latest tutorial version is available at [GitHub](https://github.com/Tick42/g4e-tutorial), so just clone the repo and you will get everything you need to get started. Next, run `npm install` to get all the tutorial dependencies:
+Getting started with the Glue42 for Javascript tutorial is very easy. The first thing you need to do is get all of the tutorial code. The latest tutorial version is available at [GitHub](https://github.com/Glue42/js-tutorial), so just clone the repo and you will get everything you need to get started. Next, run `npm install` to get all the tutorial dependencies:
 
 ```bash
 cd /*path-to-tutorial*

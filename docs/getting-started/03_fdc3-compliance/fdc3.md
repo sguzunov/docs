@@ -147,6 +147,6 @@ To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to retrieve
 
 Note that currently only [application configurations](../../developers/configuration/application/index.html) that comply with Glue42 specifications are supported.
 
-*For a reference implementation of the FDC3 App Directory, see the [Node.js REST Config Example](https://github.com/Tick42/rest-config-example-node-js) on GitHub.*
+*For a reference implementation of the FDC3 App Directory, see the [Node.js REST Config Example](https://github.com/Glue42/rest-config-example-node-js) on GitHub.*
 
 *For more information on using App Directory, see the [FDC3 App Directory documentation](https://fdc3.finos.org/docs/next/app-directory/overview).* 

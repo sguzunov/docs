@@ -40,7 +40,7 @@ By default, the Layouts are saved to and loaded from a local Layouts store, loca
 
 Layout definitions can also be hosted on a server and obtained from a REST service. 
 
-For a reference implementation of a remote Layout definitions store, see the [Node.js REST Config](https://github.com/Tick42/rest-config-example-node-js) example. This basic implementation stores the user Layouts in files (they have the same structure as the local Layouts files) and returns the same set of data for all users (does not take the user into account). New Layouts are stored in files (using the name of the Layout - there is no validation whether the Layouts name can be used as a file name). The remove Layout operation is not implemented and just logs to the console. For instructions on running the sample server on your machine, see the `README.md` file in the repository.
+For a reference implementation of a remote Layout definitions store, see the [Node.js REST Config](https://github.com/Glue42/rest-config-example-node-js) example. This basic implementation stores the user Layouts in files (they have the same structure as the local Layouts files) and returns the same set of data for all users (does not take the user into account). New Layouts are stored in files (using the name of the Layout - there is no validation whether the Layouts name can be used as a file name). The remove Layout operation is not implemented and just logs to the console. For instructions on running the sample server on your machine, see the `README.md` file in the repository.
 
 For a .NET implementation of a remote Layout definitions store, see the [.NET REST Config](https://github.com/Tick42/rest-config-example-net) example.
 

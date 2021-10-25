@@ -87,7 +87,7 @@ WPF windows are automatically unregistered when they are closed. If you want to 
 glueWindow.Unregister();
 ```
 
-*See the .NET [WPF window registration example](https://github.com/Tick42/net-examples/tree/master/wpf-sw) on GitHub.*
+*See the .NET [WPF window registration example](https://github.com/Glue42/net-examples/tree/master/wpf-sw) on GitHub.*
 
 ### WinForms Windows
 
@@ -127,7 +127,7 @@ glue.GlueWindows.RegisterAppWindow(myWindow, myWindow, myWindowAppName,
         .WithType(GlueWindowType.Tab));
 ```
 
-*For more details on multi window application support, see [Multi Window Apps](../../../application-management/net/index.html#multi_window_apps) and the .NET [Multi Window Demo example](https://github.com/Tick42/net-examples/tree/master/multiwindow-demo) on GitHub.*
+*For more details on multi window application support, see [Multi Window Apps](../../../application-management/net/index.html#multi_window_apps) and the .NET [Multi Window Demo example](https://github.com/Glue42/net-examples/tree/master/multiwindow-demo) on GitHub.*
 
 ## Window Operations
 
@@ -375,7 +375,7 @@ var subscription = window.Subscribe(
 
 ## WPF Example
 
-This is a minimalistic WPF example that registers its main window as a Glue42 window. You can clone the repo with our Glue42 .NET examples on [GitHub](https://github.com/Tick42/net-examples) (`wpf-sw` subfolder example).
+This is a minimalistic WPF example that registers its main window as a Glue42 window. You can clone the repo with our Glue42 .NET examples on [GitHub](https://github.com/Glue42/net-examples) (`wpf-sw` subfolder example).
 
 `App.xaml` - initialize Glue42:
 

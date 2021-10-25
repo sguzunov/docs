@@ -1,6 +1,6 @@
 ## Declarative Model
 
-*See the .NET [Simple](https://github.com/Tick42/net-examples/tree/master/interop/SimpleDeclarativeInterop) and [Advanced](https://github.com/Tick42/net-examples/tree/master/interop/AdvancedDeclarativeInterop) declarative Interop examples on GitHub.*
+*See the .NET [Simple](https://github.com/Glue42/net-examples/tree/master/interop/SimpleDeclarativeInterop) and [Advanced](https://github.com/Glue42/net-examples/tree/master/interop/AdvancedDeclarativeInterop) declarative Interop examples on GitHub.*
 
 With the declarative model you can provide methods to other applications by creating and attributing interfaces. In the following example, we create a CRM service interface that exposes a `SynchronizeContact()` method:
 
@@ -116,7 +116,7 @@ glue.Interop.UnregisterService<ICRMService>(impl);
 
 ## Imperative Model
 
-*See the .NET [Simple](https://github.com/Tick42/net-examples/tree/master/interop/SimpleImperativeInteropDuplexChat) and [Advanced](https://github.com/Tick42/net-examples/tree/master/interop/AdvancedImperativeInterop) imperative Interop examples on GitHub.*
+*See the .NET [Simple](https://github.com/Glue42/net-examples/tree/master/interop/SimpleImperativeInteropDuplexChat) and [Advanced](https://github.com/Glue42/net-examples/tree/master/interop/AdvancedImperativeInterop) imperative Interop examples on GitHub.*
 
 ### Method Registration
 
@@ -281,7 +281,7 @@ g40RemoteService_.ShowClient(sender, new ServiceOptions(
 
 ## Streaming
 
-*See the .NET [Streaming example](https://github.com/Tick42/net-examples/tree/master/streaming) on GitHub.*
+*See the .NET [Streaming example](https://github.com/Glue42/net-examples/tree/master/streaming) on GitHub.*
 
 ### Overview
 
@@ -504,4 +504,4 @@ if (streamingMethod.TryGetBranch(out IEventStreamBranch streamBranch, "myBranchN
 
 Streams are special Interop methods, so you can use the [Interop Discovery](#discovery) API to find available streams. The only difference is that streaming methods are flagged with a property `IMethod.Definition.Flags.HasFlag(DOT.AGM.MethodFlags.SupportsStreaming)`.
 
-*You can download a full .NET Streaming example from [GitHub](https://github.com/Tick42/net-examples/tree/master/streaming)*  
+*You can download a full .NET Streaming example from [GitHub](https://github.com/Glue42/net-examples/tree/master/streaming)*  

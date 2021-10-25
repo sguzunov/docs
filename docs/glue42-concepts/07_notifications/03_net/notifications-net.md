@@ -16,7 +16,7 @@ App.Glue.Notifications.Publish(notification);
 
 ![Simple notification](../../../images/notifications/no-actions.png)
 
-*See the .NET [Notifications example](https://github.com/Tick42/net-examples/tree/master/notifications) on GitHub.*
+*See the .NET [Notifications example](https://github.com/Glue42/net-examples/tree/master/notifications) on GitHub.*
 
 ## Notification Click
 
@@ -84,4 +84,4 @@ You can change the default notification UI by changing the GNS application confi
 
 **Example** 
 
-You can check out the **Glue42 Notification Service** example in our Glue42 .NET examples repository at [GitHub](https://github.com/Tick42/net-examples) (`notifications` folder). 
+You can check out the **Glue42 Notification Service** example in our Glue42 .NET examples repository at [GitHub](https://github.com/Glue42/net-examples) (`notifications` folder). 

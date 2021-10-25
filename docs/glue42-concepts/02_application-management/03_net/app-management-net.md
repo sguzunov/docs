@@ -14,7 +14,7 @@ To get a specific application, use `AwaitApplication()` and pass a predicate fun
 var app = await glue.AppManager.AwaitApplication(a => a.Name == "appName");
 ```
 
-*See the .NET [Application Management example](https://github.com/Tick42/net-examples/tree/master/app-management-demo) on GitHub.*
+*See the .NET [Application Management example](https://github.com/Glue42/net-examples/tree/master/app-management-demo) on GitHub.*
 
 ## Starting Applications
 
@@ -121,7 +121,7 @@ glue.AppManager.ApplicationInstanceStopped += (appManager, instanceArgs) =>
 
 Glue42 .NET offers support for applications (WPF and WinForms) consisting of multiple windows. Each window can be registered not only as a [Glue42 Window](../../windows/window-management/net/index.html#glue42_windows), but also as a Glue42 application that you can save and restore in a [Layout](../../windows/layouts/overview/index.html), start directly from the Glue42 Toolbar, etc. This features allows you to register WPF and WinForms windows at runtime and to properly persist their state when saving and restoring a Layout. 
 
-*See the .NET [Multi Window Demo example](https://github.com/Tick42/net-examples/tree/master/multiwindow-demo) on GitHub.*
+*See the .NET [Multi Window Demo example](https://github.com/Glue42/net-examples/tree/master/multiwindow-demo) on GitHub.*
 
 ### Registering Apps at Runtime
 

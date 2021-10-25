@@ -1,6 +1,6 @@
 ## Updating a Context
 
-*See the .NET [Shared Contexts example](https://github.com/Tick42/net-examples/tree/master/shared-contexts) on GitHub.*
+*See the .NET [Shared Contexts example](https://github.com/Glue42/net-examples/tree/master/shared-contexts) on GitHub.*
 
 First, make sure you initialize the `Glue` object with `Contexts` enabled:
 

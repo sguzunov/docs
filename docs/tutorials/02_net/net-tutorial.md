@@ -10,11 +10,11 @@ The purpose of this tutorial is to introduce [**Glue42 Enterprise**](https://glu
 
 ## Resources
 
-Before you start the tutorial, see the [.NET examples](https://github.com/Tick42/net-examples) at GitHub - a repository with sample projects that use the Glue42 .NET API. 
+Before you start the tutorial, see the [.NET examples](https://github.com/Glue42/net-examples) at GitHub - a repository with sample projects that use the Glue42 .NET API. 
 
 ## Setup
 
-First, clone the [tutorial repository](https://github.com/Tick42/net-tutorial)  and start [**Glue42 Enterprise**](https://glue42.com/enterprise/).
+First, clone the [tutorial repository](https://github.com/Glue42/net-tutorial)  and start [**Glue42 Enterprise**](https://glue42.com/enterprise/).
 
 After that, reference the `Glue42.dll`, located in `%LocalAppData%/Tick42/GlueSDK/Glue42NET/lib/net45`, in each of the projects.  
 

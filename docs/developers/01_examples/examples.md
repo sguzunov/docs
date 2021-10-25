@@ -21,7 +21,7 @@ Here you can find links to Glue42 examples in GitHub. These implementations are 
 
 ### .NET
 
-[.NET Examples Repository](https://github.com/Tick42/net-examples)
+[.NET Examples Repository](https://github.com/Glue42/net-examples)
 
 - Application Management Example
 - Multi Window App Example

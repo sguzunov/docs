@@ -8,7 +8,7 @@ To improve the efficiency of your business processes, you often find the need to
 
 ## Generation
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) starts to generate metrics automatically when initialized. To control what data you want to receive, add configuration for the metrics in the `"configuration"` property of the `"gw"` top level key of the `system.json` file, located in `%LocalAppData%\Tick42\GlueDesktop\config`. 
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) starts to generate metrics automatically when initialized. To control what data you want to receive, add configuration for the metrics in the `"configuration"` property of the `"gw"` top-level key of the `system.json` file, located in `%LocalAppData%\Tick42\GlueDesktop\config`. 
 
 The example configuration below shows how to allow only the [User Journey](#generation-user_journey_metrics) metrics from all publishers and publish them to a local file:
 
@@ -297,7 +297,7 @@ The generated metrics are also injected automatically with meta-data like timest
 
 ### Custom Metrics
 
-We are constantly communicating with our clients in order to improve our product with new features and functionalities. It is, therefore, possible for us to create custom metrics and add them to our product, if the ideas discussed with our clients prove to be useful and of value.
+There is constant communication between the Glue42 team and clients in order to improve [**Glue42 Enterprise**](https://glue42.com/enterprise/) with new features and functionalities. It is, therefore, possible to create custom metrics and add them to [**Glue42 Enterprise**](https://glue42.com/enterprise/), if the ideas discussed prove to be useful and of value.
 
 ## Publishing
 
@@ -307,6 +307,7 @@ The Glue42 Gateway publishes the generated metrics to a server. The means of tra
 - REST service
 - A user defined JavaScript function
 - Solace
+- Kafka
 
 ### Publishers
 
@@ -345,7 +346,7 @@ The `"publishers"` key specifies a list of metrics publishers, or a JavaScript f
 
 Metrics can be passed to a JavaScript function which handles the publishing. It is possible to define your custom JavaScript publisher function and configure the Glue42 Gateway to pass the metrics to it.
 
-**Configuration**
+#### Configuration
 
 Below is an example configuration for enabling a custom JavaScript publisher. The example uses the template file for creating a JavaScript publisher function provided with the [**Glue42 Enterprise**](https://glue42.com/enterprise/) distribution. To add your custom metrics publisher, add a `"customMetricsPublishers"` property to the Glue42 Gateway configuration under the `"configuration"` property of the `"gw"` key in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/):
 
@@ -384,7 +385,7 @@ Below is an example configuration for enabling a custom JavaScript publisher. Th
 | `"split-size"` | `number` | The number of pieces the metrics batch is split into when it is pushed to the publisher. |
 | `"publisherConfiguration"` | `object` | Custom configuration options that will be passed as an object argument to the function exported from the Node.js module defined in the `"file"` property. |
 
-**JavaScript Publishing Function**
+#### JavaScript Publishing Function
 
 Below is an example skeleton you can use to create your custom JavaScript publisher:
 
@@ -425,7 +426,7 @@ module.exports = function (publisherConfiguration) {
 
 [**Glue42 Enterprise**](https://glue42.com/enterprise/) supports publishing metrics via Solace. You can configure the Glue42 Gateway to publish the generated metrics using Solace as a transport.
 
-**Configuration**
+#### Configuration
 
 Configuring the Glue42 Gateway to use Solace for publishing metrics is similar to configuring a custom JavaScript publisher.
 
@@ -537,11 +538,31 @@ Below is a configuration that allows all metrics from a publisher whose service 
 
 *Note that publishers are going to be created on the metrics bus only when they have matching metrics.*
 
-## Storage
+## Transformation and Storage
 
-Once the metrics are published to a server, they are transformed and routed to the respective storage (or to another transport bus, depending on the client infrastructure and intentions). The transformation is done using the [JSLT](https://github.com/schibsted/jslt) language. The fields in the JSON files are queried and if they meet certain requirements, the metrics are routed to the respective storage/bus. 
+The Glue42 metrics are published as structured JSON trees. Once published to a server, they are transformed and routed to the respective storage (or to another transport bus, depending on the client infrastructure and intentions). The transformation is done using the [JSLT](https://github.com/schibsted/jslt) language. The fields in the JSON files are queried and if they meet certain requirements, the metrics are routed to the respective storage/bus. 
 
-Currently, support is offered for RDBMS, ElasticSearch and VaranDB (Tick42 proprietary Cassandra/ElasticSearch high-volume solution). Support for other options is being developed as well.
+Glue42 provides solutions for metrics transformation depending on the respective storage and data volumes: [Metrics Server](#transformation_and_storage-metrics_server) - for lower record volumes, and [Metrics Recorder](#transformation_and_storage-metrics_recorder) - for large record volumes. Also available is a [Metrix in a Box](#transformation_and_storage-metrics_in_a_box) solution which includes the Metrics Server connected with a preconfigured SQL database and allows clients to quickly connect an analytics tool of their choice in order to evaluate the Metrics Server.
+
+Currently, storage support is offered for RDBMS, ElasticSearch and VaranDB (Tick42 proprietary Cassandra/ElasticSearch high-volume solution). Support for other options is being developed as well.
+
+### Metrics Server
+
+The Metrics Server is a server-side component combining a REST and a transformation service. It can receive metrics via a REST protocol, Kafka and Solace. The Metrics Server transforms the Glue42 metrics allowing for direct storage in SQL databases. Clients can also insert custom code to write to any data store of their choice. The Metrics server is a solution suitable for lower record volumes. The actual volumes depend on the number of metrics and the capacity of the SQL database, but the Metrics Server can handle hundreds of desktops.
+
+![Metrics Server](../../../images/metrics/metrics-server.png)
+
+### Metrics in a Box
+
+The Metrics in a Box solution allows developers to easily setup and evaluate the [Metrics Server](#transformation_and_storage-metrics_server). It comes as two docker images that contain the Metrics Server and an SQL database. The SQL database is preconfigured with tables which store some of the default Glue42 metrics. The Metrics Server transforms the metrics so that they can be used in these tables. Based on this setup, users can connect an analytics software of their choice (e.g., Tableau or Qlik) to the SQL database.
+
+![Metrics in a Box](../../../images/metrics/metrics-in-a-box.png)
+
+### Metrics Recorder
+
+The Metrics Recorder is a Glue42 Java application based on the Tick42 proprietary VaranDB library. The Metrics Recorder can transform large volumes of metrics (from tens of thousands of users) and store them using Cassandra and ElasticSearch storage engines. Supported transports are REST API, Kafka, Solace. A site-specific data extraction process is required to extract the data from the Cassandra/ElasticSearch store and use it for reports. Typically, this involves writing the extracted data to an SQL store for use by a business intelligence system.
+
+![Metrics Recorder](../../../images/metrics/metrics-recorder.png)
 
 ## Visualization
 

@@ -491,6 +491,8 @@ Adding a custom button in the System Buttons zone:
 
 #### Move Area
 
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.13">
+
 The `<MoveArea />` component allows you to place the move area wherever you like in your custom Workspaces App. If you use the `<MoveArea />` component anywhere in your app, the default move area will be automatically disabled, there is no need to do that manually in the code.
 
 *Note that you must use only one instance of the `<MoveArea />` component.*

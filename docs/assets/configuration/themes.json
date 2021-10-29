@@ -196,6 +196,22 @@
                         "description": "Specifies an external XAML file containing a user-defined loading animation.",
                         "type": "string"
                     },
+                    "loadingText": {
+                        "description": "Specifies custom text to display under the loading animation.",
+                        "type": "string"
+                    },
+                    "loadingTextFont": {
+                        "description": "Specifies custom font for the text to display under the loading animation.",
+                        "type": "string"
+                    },
+                    "loadingTextFontSize": {
+                        "description": "Specifies custom font size for the text to display under the loading animation.",
+                        "type": "number"
+                    },
+                    "loadingTextColor": {
+                        "description": "Specifies custom color for the text to display under the loading animation.",
+                        "type": "string"
+                    },
                     "tabs": {
                         "type": "object",
                         "additionalProperties": false,
@@ -531,7 +547,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the close  button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
+                                                "description": "The foreground color for the close  button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -556,7 +572,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the maximize button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
+                                                "description": "The foreground color for the maximize button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -581,7 +597,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the minimize button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
+                                                "description": "The foreground color for the minimize button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -606,7 +622,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the restore button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
+                                                "description": "The foreground color for the restore button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -631,7 +647,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the extract button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
+                                                "description": "The foreground color for the extract button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -678,13 +694,61 @@
                                             },
                                             "tooltip": {
                                                 "description": "The text which appears in the tooltip when the sticky button is hovered. Defaults to \"Sticky\". To remove the tooltip pass an empty string - \"\"",
-                                                "type": "string",
-                                                "default": "Sticky"
+                                                "type": "string"
                                             },
                                             "pressedTooltip": {
                                                 "description": "The text which appears in the tooltip when the sticky button is pressed and hovered. Defaults to \"Sticky\". To remove the tooltip pass an empty string - \"\"",
-                                                "type": "string",
-                                                "default": "Sticky"
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "collapse": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "backgroundColor": {
+                                                "type": "string"
+                                            },
+                                            "foregroundColor": {
+                                                "description": "The foreground color for the collapse button of a tab group. Defaults to tab buttons foreground color; path - .tabs.headerButtons",
+                                                "type": "string"
+                                            },
+                                            "hoverBackgroundColor": {
+                                                "description": "The background color for the collapse button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
+                                                "type": "string"
+                                            },
+                                            "hoverForegroundColor": {
+                                                "description": "The foreground color for the collapse button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
+                                                "type": "string"
+                                            },
+                                            "tooltip": {
+                                                "description": "The text which appears in the tooltip when the collapse button is hovered. Defaults to \"Collapse\". To remove the tooltip pass an empty string - \"\"",
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "expand": {
+                                        "type": "object",
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "backgroundColor": {
+                                                "type": "string"
+                                            },
+                                            "foregroundColor": {
+                                                "description": "The foreground color for the expand button of a tab group. Defaults to tab buttons foreground color; path - .tabs.headerButtons",
+                                                "type": "string"
+                                            },
+                                            "hoverBackgroundColor": {
+                                                "description": "The background color for the expand button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
+                                                "type": "string"
+                                            },
+                                            "hoverForegroundColor": {
+                                                "description": "The foreground color for the expand button when hovered. Defaults to tab buttons hover background color; path - .tabs.headerButtons",
+                                                "type": "string"
+                                            },
+                                            "tooltip": {
+                                                "description": "The text which appears in the tooltip when the expand button is hovered. Defaults to \"Expand\". To remove the tooltip pass an empty string - \"\"",
+                                                "type": "string"
                                             }
                                         }
                                     }
@@ -772,7 +836,7 @@
                                         "type": "string"
                                     },
                                     "hoverForegroundColor": {
-                                        "description": "The background color for the close button when hovered. Defaults to window buttons hover background color; path - buttons",
+                                        "description": "The foreground color for the close button when hovered. Defaults to window buttons hover background color; path - buttons",
                                         "type": "string"
                                     },
                                     "tooltip": {
@@ -797,7 +861,7 @@
                                         "type": "string"
                                     },
                                     "hoverForegroundColor": {
-                                        "description": "The background color for the maximize button when hovered. Defaults to window buttons hover background color; path - buttons",
+                                        "description": "The foreground color for the maximize button when hovered. Defaults to window buttons hover background color; path - buttons",
                                         "type": "string"
                                     },
                                     "tooltip": {
@@ -822,7 +886,7 @@
                                         "type": "string"
                                     },
                                     "hoverForegroundColor": {
-                                        "description": "The background color for the minimize button when hovered. Defaults to window buttons hover background color; path - buttons",
+                                        "description": "The foreground color for the minimize button when hovered. Defaults to window buttons hover background color; path - buttons",
                                         "type": "string"
                                     },
                                     "tooltip": {
@@ -847,7 +911,7 @@
                                         "type": "string"
                                     },
                                     "hoverForegroundColor": {
-                                        "description": "The background color for the restore button when hovered. Defaults to window buttons hover background color; path - buttons",
+                                        "description": "The foreground color for the restore button when hovered. Defaults to window buttons hover background color; path - buttons",
                                         "type": "string"
                                     },
                                     "tooltip": {
@@ -872,7 +936,7 @@
                                         "type": "string"
                                     },
                                     "hoverForegroundColor": {
-                                        "description": "The background color for the extract button when hovered. Defaults to window buttons hover background color; path - buttons",
+                                        "description": "The foreground color for the extract button when hovered. Defaults to window buttons hover background color; path - buttons",
                                         "type": "string"
                                     },
                                     "tooltip": {
@@ -897,7 +961,7 @@
                                         "type": "string"
                                     },
                                     "hoverForegroundColor": {
-                                        "description": "The background color for the sticky button when hovered. Defaults to window buttons hover background color; path - buttons",
+                                        "description": "The foreground color for the sticky button when hovered. Defaults to window buttons hover background color; path - buttons",
                                         "type": "string"
                                     },
                                     "pressedBackgroundColor": {
@@ -912,18 +976,66 @@
                                         "type": "string"
                                     },
                                     "pressedHoverForegroundColor": {
-                                        "description": "The background color for the sticky button when hovered when the button is pressed. Defaults to window buttons hover background color; path - buttons",
+                                        "description": "The foreground color for the sticky button when hovered when the button is pressed. Defaults to window buttons hover background color; path - buttons",
                                         "type": "string"
                                     },
                                     "tooltip": {
                                         "description": "The text which appears in the tooltip when the sticky button is hovered. Defaults to \"Sticky\". To remove the tooltip pass an empty string - \"\"",
-                                        "type": "string",
-                                        "default": "Sticky"
+                                        "type": "string"
                                     },
                                     "pressedTooltip": {
                                         "description": "The text which appears in the tooltip when the sticky button is pressed and hovered. Defaults to \"Sticky\". To remove the tooltip pass an empty string - \"\"",
-                                        "type": "string",
-                                        "default": "Sticky"
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "collapse": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "backgroundColor": {
+                                        "type": "string"
+                                    },
+                                    "foregroundColor": {
+                                        "description": "The foreground color for the collapse button of a window. Defaults to window buttons foreground color; path - buttons",
+                                        "type": "string"
+                                    },
+                                    "hoverBackgroundColor": {
+                                        "description": "The background color for the collapse button when hovered. Defaults to window buttons hover background color; path - buttons",
+                                        "type": "string"
+                                    },
+                                    "hoverForegroundColor": {
+                                        "description": "The foreground color for the collapse button when hovered. Defaults to window buttons hover background color; path - buttons",
+                                        "type": "string"
+                                    },
+                                    "tooltip": {
+                                        "description": "The text which appears in the tooltip when the collapse button is hovered. Defaults to \"Collapse\". To remove the tooltip pass an empty string - \"\"",
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "expand": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "backgroundColor": {
+                                        "type": "string"
+                                    },
+                                    "foregroundColor": {
+                                        "description": "The foreground color for the expand button of a window. Defaults to window buttons foreground color; path - buttons",
+                                        "type": "string"
+                                    },
+                                    "hoverBackgroundColor": {
+                                        "description": "The background color for the expand button when hovered. Defaults to window buttons hover background color; path - buttons",
+                                        "type": "string"
+                                    },
+                                    "hoverForegroundColor": {
+                                        "description": "The foreground color for the expand button when hovered. Defaults to window buttons hover background color; path - buttons",
+                                        "type": "string"
+                                    },
+                                    "tooltip": {
+                                        "description": "The text which appears in the tooltip when the expand button is hovered. Defaults to \"Expand\". To remove the tooltip pass an empty string - \"\"",
+                                        "type": "string"
                                     }
                                 }
                             }
@@ -933,6 +1045,23 @@
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
+                            "icon": {
+                                "description": "Icon that will be used in the taskbar for Glue42 Window groups.",
+                                "type": "string"
+                            },
+                            "title": {
+                                "description": "Text that will be used in the taskbar for Glue42 Window groups.",
+                                "type": "string",
+                                "default": "Group"
+                            },
+                            "tabGroupIcon": {
+                                "description": "Icon that will be used in the taskbar for Glue42 Window tab groups.",
+                                "type": "string"
+                            },
+                            "tabGroupTitle": {
+                                "description": "Text that will be used in the taskbar for Glue42 Window tab groups.",
+                                "type": "string"
+                            },
                             "headerHeight": {
                                 "description": "The height of the group header. The default is 25",
                                 "type": "integer",
@@ -991,10 +1120,6 @@
                                 ],
                                 "default": "Unspecified"
                             },
-                            "icon": {
-                                "description": "Icon that will be used in the taskbar for Glue42 Window groups.",
-                                "type": "string"
-                            },
                             "buttons": {
                                 "type": "object",
                                 "additionalProperties": false,
@@ -1046,7 +1171,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the close button when hovered. Defaults to group buttons hover background color; path - group.buttons",
+                                                "description": "The foreground color for the close button when hovered. Defaults to group buttons hover background color; path - group.buttons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -1072,7 +1197,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the maximize button when hovered. Defaults to group buttons hover background color; path - group.buttons",
+                                                "description": "The foreground color for the maximize button when hovered. Defaults to group buttons hover background color; path - group.buttons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -1098,7 +1223,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the minimize button when hovered. Defaults to group buttons hover background color; path - group.buttons",
+                                                "description": "The foreground color for the minimize button when hovered. Defaults to group buttons hover background color; path - group.buttons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -1124,7 +1249,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the restore button when hovered. Defaults to group buttons hover background color; path - group.buttons",
+                                                "description": "The foreground color for the restore button when hovered. Defaults to group buttons hover background color; path - group.buttons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -1150,7 +1275,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the extract button when hovered. Defaults to group buttons hover background color; path - group.buttons",
+                                                "description": "The foreground color for the extract button when hovered. Defaults to group buttons hover background color; path - group.buttons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -1713,7 +1838,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the close button when hovered. Defaults to window buttons hover background color; path - swimlanes.buttons",
+                                                "description": "The foreground color for the close button when hovered. Defaults to window buttons hover background color; path - swimlanes.buttons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -1738,7 +1863,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the maximize button when hovered. Defaults to window buttons hover background color; path - swimlanes.buttons",
+                                                "description": "The foreground color for the maximize button when hovered. Defaults to window buttons hover background color; path - swimlanes.buttons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -1763,7 +1888,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the minimize button when hovered. Defaults to window buttons hover background color; path - swimlanes.buttons",
+                                                "description": "The foreground color for the minimize button when hovered. Defaults to window buttons hover background color; path - swimlanes.buttons",
                                                 "type": "string"
                                             },
                                             "tooltip": {
@@ -1788,7 +1913,7 @@
                                                 "type": "string"
                                             },
                                             "hoverForegroundColor": {
-                                                "description": "The background color for the restore button when hovered. Defaults to window buttons hover background color; path - swimlanes.buttons",
+                                                "description": "The foreground color for the restore button when hovered. Defaults to window buttons hover background color; path - swimlanes.buttons",
                                                 "type": "string"
                                             },
                                             "tooltip": {

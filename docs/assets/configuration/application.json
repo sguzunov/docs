@@ -322,6 +322,11 @@
                     "type": "boolean",
                     "default": true
                 },
+                "disableTransitions": {
+                    "description": "If `true`, disables transition animations applied when showing a hidden window or changing its state during minimize/restore/maximize.",
+                    "type": "boolean",
+                    "default": false
+                },
                 "autoSnap": {
                     "description": "If `true`, when the move operation ends, the window will snap to one of the approaching edges of another window (if any of the approaching edges are marked with red).",
                     "type": "boolean",
@@ -1055,6 +1060,18 @@
                         }
                     },
                     "additionalProperties": false
+                },
+                "allowOSInfo": {
+                    "description": "If `true`, the user can retrieve OS information.",
+                    "type": "boolean",
+                    "default": false
+                },
+                "preloadScripts": {
+                    "description": "A list of preload scripts (URLs) that will be loaded and executed before the actual page is executed",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
             "required": [
@@ -1318,6 +1335,11 @@
                     "type": "boolean",
                     "default": true
                 },
+                "disableTransitions": {
+                    "description": "If `true`, disables transition animations which are applied when showing a hidden window, minimize, restore, maximize, etc.",
+                    "type": "boolean",
+                    "default": false
+                },
                 "showInTaskbar": {
                     "description": "If `false`, the window will not appear in the taskbar.",
                     "type": "boolean",
@@ -1573,6 +1595,11 @@
                     "type": "boolean",
                     "default": true
                 },
+                "disableTransitions": {
+                    "description": "If `true`, disables transition animations which are applied when showing a hidden window, minimize, restore, maximize, etc.",
+                    "type": "boolean",
+                    "default": false
+                },
                 "showInTaskbar": {
                     "description": "If `false`, the window will not appear in the taskbar.",
                     "type": "boolean",
@@ -1788,6 +1815,11 @@
                     "description": "If `false`, the window will not be able to minimize via buttons and/or windows gestures.",
                     "type": "boolean",
                     "default": true
+                },
+                "disableTransitions": {
+                    "description": "If `true`, disables transition animations which are applied when showing a hidden window, minimize, restore, maximize, etc.",
+                    "type": "boolean",
+                    "default": false
                 },
                 "showInTaskbar": {
                     "description": "If `false`, the window will not appear in the taskbar.",
@@ -2080,6 +2112,11 @@
                     "description": "If `false`, the window will not be able to minimize via buttons and/or windows gestures.",
                     "type": "boolean",
                     "default": true
+                },
+                "disableTransitions": {
+                    "description": "If `true`, disables transition animations which are applied when showing a hidden window, minimize, restore, maximize, etc.",
+                    "type": "boolean",
+                    "default": false
                 },
                 "showInTaskbar": {
                     "description": "If `false`, the window will not appear in the taskbar.",
@@ -2414,6 +2451,11 @@
                 },
                 "hibernation": {
                     "$ref": "system.json#/definitions/hibernationConfig"
+                },
+                "framePool": {
+                    "type": "number",
+                    "description": "Controls the count of cached frames, which will be used for workspace extract. The higher the number the higher the consumed memory, the lower the number the chance for workspace extract rejection, because the pool is empty will be higher.",
+                    "default": 3
                 }
             },
             "required": []

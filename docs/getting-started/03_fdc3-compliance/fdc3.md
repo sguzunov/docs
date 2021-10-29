@@ -79,10 +79,11 @@ Below is an example configuration for an Intent:
     }
 ]
 ```
-
-- `"name"` - Required. The name of the Intent;
-- `"displayName"` - The human readable name of the Intent. Can be used in context menus, etc., to visualize the Intent;
-- `"contexts"` - Required. The type of predefined data structures that the application can work with (see [FDC3 Contexts](https://fdc3.finos.org/docs/next/context/overview)).
+| Property | Description |
+|----------|-------------|
+| `"name"` | **Required.** The name of the Intent. |
+| `"displayName"` | The human readable name of the Intent. Can be used in context menus, etc., to visualize the Intent. |
+| `"contexts"` | **Required.** The type of predefined data structures that the application can work with (see [FDC3 Contexts](https://fdc3.finos.org/docs/next/context/overview)). |
 
 *For more information on using Intents, see the [FDC3 Intents API](https://fdc3.finos.org/docs/next/intents/overview).*
 
@@ -140,10 +141,12 @@ To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to retrieve
 ]
 ```
 
-- `"auth"` - authentication configuration;
-- `"pollInterval"` - interval at which to poll the REST service for updates;
-- `"enablePersistentCache"` - whether to cache and persist the layouts locally (e.g., in case of connection interruptions);
-- `"cacheFolder"` - where to keep the persisted layout files;
+| Property | Description |
+|----------|-------------|
+| `"auth"` | Authentication configuration. Can be one of `"no-auth"`, `"negotiate"` or `"kerberos"`. |
+| `"pollInterval"` | Interval at which to poll the REST service for updates. |
+| `"enablePersistentCache"` | Whether to cache and persist the configuration files locally (e.g., in case of connection interruptions). |
+| `"cacheFolder"` | Where to keep the persisted configuration files. |
 
 Note that currently only [application configurations](../../developers/configuration/application/index.html) that comply with Glue42 specifications are supported.
 

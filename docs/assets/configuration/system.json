@@ -7,13 +7,11 @@
     "properties": {
         "region": {
             "type": "string",
-            "description": "Glue42 Desktop region.",
-            "default": "DEMO"
+            "description": "Glue42 Desktop region."
         },
         "env": {
             "type": "string",
-            "description": "Glue42 Desktop environment.",
-            "default": "T42"
+            "description": "Glue42 Desktop environment."
         },
         "systemConfigurations": {
             "description": "TODO",
@@ -64,6 +62,22 @@
                     "description": "Whether to enable or disable the search provider.",
                     "type": "boolean",
                     "default": true
+                },
+                "types": {
+                    "description": "Defines types that are provided by the provider. By default all types are enabled - use this configuration to restrict the types provided by Glue42.",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "Search provider's type."
+                    },
+                    "default": [
+                        "application",
+                        "layout",
+                        "workspace",
+                        "swimlane",
+                        "action"
+                    ],
+                    "additionalProperties": false
                 }
             },
             "additionalProperties": false
@@ -920,6 +934,10 @@
                     "$ref": "#/definitions/applicationPreferencesStore"
                 }
             }
+        },
+        "allowNTLMCredentialsForDomains": {
+            "description": "Dynamically sets whether to always send credentials for HTTP NTLM or Negotiate authentication. A comma-separated list of servers for which integrated authentication is enabled.",
+            "type": "string"
         }
     },
     "required": [
@@ -1119,6 +1137,11 @@
                             "description": "The location of the cached files.",
                             "type": "string",
                             "default": "%LocalAppData%/Tick42/UserData/%GLUE-ENV%-%GLUE-REGION%/gcsCache"
+                        },
+                        "readCacheAfter": {
+                            "description": "Try to read the cache after this interval.",
+                            "type": "number",
+                            "default": 30000
                         },
                         "proxy": {
                             "description": "HTTP proxy to use when fetching data.",
@@ -1449,6 +1472,10 @@
         "splashConfig": {
             "description": "Splash screen configuration.",
             "properties": {
+                "disabled": {
+                    "description": "If true welcome splash is disabled",
+                    "type": "boolean"
+                },
                 "url": {
                     "description": "The URL where the splash screen is hosted.",
                     "default": "file://%GDDIR%/assets/splash/splash.html",
@@ -1463,6 +1490,11 @@
                     "description": "Specify window height.",
                     "default": 233,
                     "type": "number"
+                },
+                "blockStartup": {
+                    "description": "If true will block startup until the welcome splash is loaded. This is default behavior before 3.13. It was switched to false in 3.13",
+                    "default": false,
+                    "type": "boolean"
                 }
             },
             "additionalProperties": false
@@ -1572,12 +1604,17 @@
                         "commands": {
                             "description": "Whether a GLUE42 Server commands functionality to be automatically enabled.",
                             "type": "boolean"
+                        },
+                        "preferencesStore": {
+                            "description": "Whether a GLUE42 Server preferences store to be automatically injected.",
+                            "type": "boolean"
                         }
                     },
                     "default": {
                         "applicationsStore": true,
                         "layoutsStore": true,
-                        "commands": true
+                        "commands": true,
+                        "preferencesStore": true
                     }
                 }
             }
@@ -1734,9 +1771,29 @@
                     "default": false
                 },
                 "stopLoadingOnCertificationErrors": {
-                    "description": "Whether to load the page if certificates are invalid.",
+                    "description": "Deprecated. Whether to load the page if certificates are invalid.",
                     "type": "boolean",
                     "default": true
+                },
+                "onCertificateError": {
+                    "description": "Whether to load the page if certificates are invalid.",
+                    "type": "object",
+                    "default": {},
+                    "properties": {
+                        "action": {
+                            "enum": [
+                                "allow",
+                                "deny",
+                                "ask"
+                            ],
+                            "default": "allow"
+                        },
+                        "reportURL": {
+                            "description": "Only valid if the action is 'ask'",
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": false
                 },
                 "navigateOnDragDrop": {
                     "description": "Whether dragging and dropping a file or link onto the page triggers navigation.",

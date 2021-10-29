@@ -606,7 +606,7 @@ The following properties will be initialized according to `GlueType` and `IsArra
 
 ### IAppAnnouncer
 
-An instance of this is passed to the implementation of the `CreateApp` method of the [IAppFactory](#interfaces-iappfactory) interface.  
+An instance of this is passed to the implementation of the [`CreateApp`](#interfaces-iappfactory-createapp) method of the [`IAppFactory`](#interfaces-iappfactory) interface.  
 
 **Methods**
 
@@ -1221,429 +1221,431 @@ The following methods of `IGlue42` exposed in the COM library aren't intended to
 
 ### IGlueApp
 
-Implementing this interface allows an object to be registered as a Glue application instance.  
-*See also:*  
-* [IAppAnnouncer](#interfaces-iappannouncer).[RegisterAppInstance](#interfaces-iappannouncer-registerappinstance)
-* [IAppFactoryRegistry](#interfaces-iappfactoryregistry).[RegisterAppInstance](#interfaces-iappfactoryregistry-registerappinstance)
+Implementing this interface allows an object to be registered as a Glue42 application instance.
+
+*See also:*
+
+- [`IAppAnnouncer`](#interfaces-iappannouncer) - the [`RegisterAppInstance`](#interfaces-iappannouncer-registerappinstance) method.
+- [`IAppFactoryRegistry`](#interfaces-iappfactoryregistry) - the [`RegisterAppInstance`](#interfaces-iappfactoryregistry-registerappinstance) method.
 
 **Methods**
 
 #### Initialize
 
-This callback method is invoked when the child application is being initialized.  
+Initializes a child application.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`state`|[GlueValue](#types-gluevalue)|A previously saved application state|
-|`glueWindow`|[IGlueWindow](#interfaces-igluewindow)|The registered Glue window for the application|
+| `state` | [`GlueValue`](#types-gluevalue) | A previously saved application state. |
+| `glueWindow` | [`IGlueWindow`](#interfaces-igluewindow) | The registered Glue42 Window for the application. |
 
-*Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Return value:* `HResult`
+
+*Note that the implementation must return `S_OK`.*
 
 #### SaveState
 
-This callback method is invoked when Glue needs to save the application state.  
+Saves the application state.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`out pRetVal`|[GlueValue](#types-gluevalue)|Output parameter. The implementation may initialize `pRetVal` with the application state to be saved|
+| `out pRetVal` | [`GlueValue`](#types-gluevalue) | Output parameter. The implementation may initialize `pRetVal` with the application state to be saved. |
 
-*Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Return value:* `HResult`
+
+*Note that the implementation must return `S_OK`.*
 
 #### Shutdown
 
-This callback method is invoked when Glue is shutting down.
+Shuts down the application when Glue42 shuts down.
 
-*Parameters:* None  
+*Parameters:* None
 
-*Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Return value:* `HResult`
+
+*Note that the implementation must return `S_OK`.*
 
 ### IGlueContext
+
+This interface is implemented by Glue42 shared context objects.
 
 **Methods**
 
 #### BuildAndSetContextData
 
-Set new (replace) context data using a callback method.  
+Sets new (replaces) shared context data using a callback method.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`builderCallback`|[IGlueContextBuilderCallback](#interfaces-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface|
+| `builderCallback` | [`IGlueContextBuilderCallback`](#interfaces-igluecontextbuildercallback) | An object of a class implementing the `IGlueContextBuilderCallback` interface. |
 
-*Return value:* None  
+*Return value:* None
 
 #### BuildAndUpdateContextData
 
-Update context data using a callback method.  
+Updates the shared context data using a callback method.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`builderCallback`|[IGlueContextBuilderCallback](#interfaces-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface|
+| `builderCallback` | [`IGlueContextBuilderCallback`](#interfaces-igluecontextbuildercallback) | An object of a class implementing the `IGlueContextBuilderCallback` interface. |
 
 *Return value:* None
 
 #### Close
 
-Unsubscribe from the associated Glue context.
+Unsubscribes from the associated Glue42 shared context.
 
-*Parameters:* None  
+*Parameters:* None
 
-*Return value:* None  
+*Return value:* None
 
 #### GetContextInfo
 
-Get information about the context.  
+Gets information about the shared context.
 
 *Parameters:* None  
 
-*Return value:* [GlueContext](#types-gluecontext)  
+*Return value:* [`GlueContext`](#types-gluecontext)
 
 #### GetData
 
-Get context data.  
+Gets the shared context data.
 
-*Parameters:* None  
+*Parameters:* None
 
-*Return value:* `PSafeArray`  
-An array of [GlueContextValue](#types-gluecontextvalue)'s.
-The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.  
+*Return value:* `PSafeArray`
 
-
-#### GetReflectData
-
-The method `GetReflectData` is not intended to be used in Delphi.
-
-#### Open
-
-The method `Open` is not intended to be used in Delphi.
-
+An array of [`GlueContextValue`](#types-gluecontextvalue) values. The returned value must be destroyed with `SafeArrayDestroy` when no longer needed.
 
 #### SetContextData
 
-Set new (replace) context data.
+Sets new (replaces) shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`data`|`PSafeArray`|An array of [GlueContextValue](#types-gluecontextvalue)'s representing the new context data.|
+| `data` | `PSafeArray` | An array of [`GlueContextValue`](#types-gluecontextvalue) values representing the new context data. |
 
-*Return value:* None  
-
-#### SetValue
-
-The method `SetValue` is not intended to be used in Delphi.
-
+*Return value:* None
 
 #### UpdateContextData
 
-Update context data.
+Updates the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`data`|`PSafeArray`|An array of [GlueContextValue](#types-gluecontextvalue)'s representing the new context data.|
+| `data` | `PSafeArray` | An array of [`GlueContextValue`](#types-gluecontextvalue) values representing the new context data. |
 
-*Return value:* None  
+*Return value:* None
 
+#### Other Methods
+
+The following methods of `IGlueContext` exposed in the COM library aren't intended to be used in Delphi:
+
+- `GetReflectData`
+- `Open`
+- `SetValue`
 
 ### IGlueContextBuilder
 
-An instance of this is passed as a parameter to the implementation of [IGlueContextBuilderCallback](#interfaces-igluecontextbuildercallback).[Build](#interfaces-igluecontextbuildercallback-build).  
+An instance of this is passed as a parameter to the implementation of the [`Build`](#interfaces-igluecontextbuildercallback-build) method of the [`IGlueContextBuilderCallback`](#interfaces-igluecontextbuildercallback) interface.
 
 **Methods**
 
 #### AddBool
 
-Add a boolean value to the context data.
+Adds a boolean value to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`WordBool`|The value to add|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `WordBool` | The value to add. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddBoolArray
 
-Add an array of boolean values to the context data.
+Adds an array of boolean values to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`PSafeArray`|An array of `WordBool` values|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `PSafeArray` | An array of `WordBool` values. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddComposite
 
-Add a composite value to the context data.  
+Adds a composite value to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`composite`|`PSafeArray`|The composite value as a `PSafeArray`|
-|`IsArray`|`WordBool`|Indicates if the composite value is an array|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `composite` | `PSafeArray` | The composite value as a `PSafeArray`. |
+| `IsArray` | `WordBool` | Indicates whether the composite value is an array. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddContextValue
 
-Add a value represented as `GlueContextValue` to the context data.  
+Adds a value represented as a [`GlueContextValue`](#types-gluecontextvalue) to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`GlueContextValue`|[GlueContextValue](#types-gluecontextvalue)|The `GlueContextValue` to add|
+| `GlueContextValue` | [`GlueContextValue`](#types-gluecontextvalue) | The [`GlueContextValue`](#types-gluecontextvalue) to add. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddDatetime
 
-Add a datetime value to the context data.  
+Adds a datetime value to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`Int64`|An integer representation of Glue time. This is defined as the number of milliseconds since the Unix epoch i.e. 1970-01-01 00:00:00 UTC|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `Int64` | An integer representation of Glue42 time. This is defined as the number of milliseconds since the Unix epoch, i.e. `1970-01-01 00:00:00 UTC`. |
 
-*Return value:* None  
-
+*Return value:* None
 
 #### AddDatetimeArray
 
-Add an array of datetime values to the context data.  
+Adds an array of datetime values to the shared context data.  
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`PSafeArray`|An array of `Int64` values representing Glue time|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `PSafeArray` | An array of `Int64` values representing Glue42 time. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddDouble
 
-Add a double-precision floating-point value to the context data.
+Adds a double-precision floating-point value to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`Double`|The value to add|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `Double` | The value to add. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddDoubleArray
 
-Add an array of double-precision floating-point values to the context data.  
+Adds an array of double-precision floating-point values to the shared context data.  
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`PSafeArray`|An array of `Double` values|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `PSafeArray` | An array of `Double` values. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddGlueValue
 
-Add a value represented as `GlueValue` to the context data.  
+Adds a value represented as a [`GlueValue`](#types-gluevalue) to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|[GlueValue](#types-gluevalue)|The value to add|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | [`GlueValue`](#types-gluevalue) | The value to add. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddInt
 
-Add an integer value to the context data.  
+Adds an integer value to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`Integer`|The value to add|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `Integer` | The value to add. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddIntArray
 
-Add an array of integer values to the context data.  
+Adds an array of integer values to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`PSafeArray`|An array of `Integer` values|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `PSafeArray` | An array of `Integer` values. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddLong
 
-Add a long integer value to the context data.  
+Adds a long integer value to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`Int64`|The value to add|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `Int64` | The value to add. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddLongArray
 
-Add an array of long integer values to the context data.  
+Adds an array of long integer values to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`PSafeArray`|An array of `Int64` values|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `PSafeArray` | An array of `Int64` values. |
 
-*Return value:* None  
-
+*Return value:* None
 
 #### AddString
 
-Add a string value to the context data.  
+Add a string value to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`WideString`|The value to add|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `WideString` | The value to add. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddStringArray
 
-Add an array of string values to the context data.  
+Adds an array of string values to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|`PSafeArray`|An array of `WideString` values|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | `PSafeArray` | An array of `WideString` values. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddTuple
 
-Add a tuple of values to the context data.  
+Adds a tuple of values to the context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Tuple`|`PSafeArray`|Array of [GlueValue](#types-gluevalue)'s.|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Tuple` | `PSafeArray` | Array of [`GlueValue`](#types-gluevalue) values. |
 
-*Return value:* None  
+*Return value:* None
 
 #### AddTupleValue
 
-Add a tuple of values represented as `GlueValue` to the context data.
+Adds a tuple of values represented as a [`GlueValue`](#types-gluevalue) to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`Value`|[GlueValue](#types-gluevalue)|The value representing the tuple|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `Value` | [`GlueValue`](#types-gluevalue) | The value representing the tuple. |
 
-*Return value:* None  
+*Return value:* None
 
 #### BuildComposite
 
-Build a value using a callback method and add it to the context data.
+Builds a value using a callback method and adds it to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`callback`|[IGlueContextBuilderCallback](#interfaces-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface|
-|`IsArray`|`WordBool`|Indicates if the value is an array|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `callback` | [`IGlueContextBuilderCallback`](#interfaces-igluecontextbuildercallback) | An object of a class implementing the `IGlueContextBuilderCallback` interface. |
+| `IsArray` | `WordBool` | Indicates whether the value is an array. |
 
 *Return value:* None
 
 #### BuildTuple
 
-Build a tuple value using a callback method and add it to the context data.  
+Builds a tuple value using a callback method and adds it to the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`Name`|`WideString`|Name associated with the context value|
-|`callback`|[IGlueContextBuilderCallback](#interfaces-igluecontextbuildercallback)|Object of class implementing the `IGlueContextBuilderCallback` interface|
+| `Name` | `WideString` | Name associated with the shared context value. |
+| `callback` | [`IGlueContextBuilderCallback`](#interfaces-igluecontextbuildercallback) | An object of a class implementing the `IGlueContextBuilderCallback` interface. |
 
-*Return value:* None  
+*Return value:* None
 
 #### Clear
 
-Clear all context data.  
+Clears all shared context data.
 
-*Parameters:* None  
+*Parameters:* None
 
-*Return value:* None  
+*Return value:* None
 
 ### IGlueContextBuilderCallback
+
+An instance of this is passed to the implementations of the methods which use callbacks for building shared context data values (e.g., [`BuildAndSetContextData`](#interfaces-igluecontext-buildandsetcontextdata) or [`BuildComposite`](#interfaces-igluecontextbuilder-buildcomposite)).
 
 **Methods**
 
 #### Build
 
-This callback method is invoked when context data needs to be built. This happens when a method requiring an `IGlueContextBuilderCallback` implementation is used (e.g. [BuildAndSetContextData](#interfaces-igluecontext-buildandsetcontextdata)).  
+Builds the shared context data.
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-|`builder`|[IGlueContextBuilder](#interfaces-igluecontextbuilder)|An instance of `IGlueContextBuilder` which can be used to build the context data|
+| `builder` | [`IGlueContextBuilder`](#interfaces-igluecontextbuilder) | An instance of `IGlueContextBuilder` which can be used to build the shared context data. |
 
-*Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Return value:* `HResult`
+
+*Note that the implementation must return `S_OK`.*
 
 ### IGlueContextHandler
 
-Implementing this interface allows an object to receive notifications about changes in a Glue context.  
+Implementing this interface allows an object to receive notifications about changes in a shared context.
+
 *See also:*
-* [IGlue42](#interfaces-iglue42).[SubscribeGlueContext](#interfaces-iglue42-subscribegluecontext)
+
+- [`IGlue42`](#interfaces-iglue42) - the [`SubscribeGlueContext`](#interfaces-iglue42-subscribegluecontext) method.
 
 **Methods**
 
@@ -1658,7 +1660,7 @@ This callback method is invoked when a Glue context subscription is activated vi
 |`context`|[IGlueContext](#interfaces-igluecontext)|This can be used to set/update context data.|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 #### HandleContextUpdate
 
@@ -1671,7 +1673,7 @@ This callback method is invoked when the associated context has been updated.
 |`contextUpdate`|[IGlueContextUpdate](#interfaces-igluecontextupdate)|This object can be used to obtain information about the Glue context update|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 ### IGlueContextUpdate
 
@@ -1736,7 +1738,7 @@ This callback method is invoked when the Glue connection status has changed.
 |`date`|`Int64`|Glue time when the connection status changed|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 #### HandleGlueContext
 
@@ -1750,7 +1752,7 @@ This callback method is invoked when a new Glue context has been created.
 |`created`|`WordBool`|Indicates whether the context is newly created|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 #### HandleInstanceStatus
 
@@ -1764,7 +1766,7 @@ This callback method is invoked when a Glue application instance appears or disa
 |`active`|`WordBool`|Indicates whether the application instance is now active|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 #### HandleMethodStatus
 
@@ -1778,7 +1780,7 @@ This callback method is invoked when a Glue interop method (invokation endpoint)
 |`active`|`WordBool`|Indicates whether the Glue interop method is now active|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 
 #### HandleException
@@ -1792,7 +1794,7 @@ This callback method is invoked when an exception is raised during Glue operatio
 |`ex`|`_Exception`|An `_Exception` object as defined in the `mscorlib` type library.|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 ### IGlueInvocationResultHandler
 Implementing this interface allows an object to handle method invocation results.  
@@ -1816,7 +1818,7 @@ This callback method is invoked when a Glue interop method invocation has comple
 |`correlationId`|`WideString`|Correlation Id passed when the method was invoked|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 ### IGlueRequestHandler
 
@@ -1840,7 +1842,7 @@ This callback method is invoked when a registered Glue method is invoked.
 |`resultCallback`|[IGlueServerMethodResultCallback](#interfaces-iglueservermethodresultcallback)|Object of class implementing the `IGlueServerMethodResultCallback` interface. This can be used to send the result of the method invocation to the caller application instance|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 ### IGlueServerMethodResultCallback
 
@@ -2036,7 +2038,7 @@ This callback method is invoked when data has been pushed (published) by the Glu
 |`data`|`PSafeArray`|An array of [GlueContextValue](#types-gluecontextvalue)'s representing the data pushed by the streaming method.|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 #### HandleStreamStatus
 
@@ -2052,7 +2054,7 @@ This callback method is invoked when the state of the Glue stream subscription h
 |`dateTime`|`Int64`|Glue time when the subscription state changed.|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 #### StreamClosed
 
@@ -2065,7 +2067,7 @@ This callback method is invoked when the Glue stream associated with the subscri
 |`stream`|[GlueMethod](#types-gluemethod)|Information about the Glue streaming method related to the subscription.|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 #### SubscriptionActivated
 
@@ -2078,7 +2080,7 @@ This callback method is invoked when the subscription request has been dispatche
 |`GlueStreamSubscription`|[IGlueStreamSubscription](#interfaces-igluestreamsubscription)|An instance of the stream subscription. This can later be used to close the subscription from the client side.|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 
 ### IGlueStreamSubscriber
@@ -2152,7 +2154,7 @@ This callback method is invoked when a new subscriber to the stream is accepted.
 |`requestValues`|`PSafeArray`|An array of [GlueContextValue](#types-gluecontextvalue)'s. representing the arguments passed with the subscription request|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 #### HandleSubscriberLost
 
@@ -2167,7 +2169,7 @@ This also includes the cases where subscribers have been forcefully unsubscribed
 |`glueStreamSubscriber`|[IGlueStreamSubscriber](#interfaces-igluestreamsubscriber)|An instance of `IGlueStreamSubscriber` representing the subscriber lost.|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 
 #### HandleSubscriptionRequest
@@ -2184,7 +2186,7 @@ This callback method is invoked when a Glue application instance requests to sub
 |`callback`|[IGlueServerSubscriptionCallback](#interfaces-iglueserversubscriptioncallback)|An instance of `IGlueServerSubscriptionCallback` which can be used to accept or reject the subscription request.|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 ### IGlueWindow
 
@@ -2289,7 +2291,7 @@ This callback method is invoked when the Glue window registration has completed.
 |`glueWindow`|[IGlueWindow](#interfaces-igluewindow)|The registered Glue window.|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 #### HandleChannelChanged
 
@@ -2304,7 +2306,7 @@ This callback method is invoked when the user changes the channel via the channe
 |`prevChannel`|[GlueContext](#types-gluecontext)|Information about the previously selected channel|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 #### HandleChannelData
 
@@ -2318,7 +2320,7 @@ This callback method is invoked when the data in the currently selected channel 
 |`channelUpdate`|[IGlueContextUpdate](#interfaces-igluecontextupdate)|This object can be used to obtain information about the Glue context update|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 #### HandleWindowDestroyed
 
@@ -2331,7 +2333,7 @@ This callback method is invoked when the Glue window is being destroyed.
 |`glueWindow`|[IGlueWindow](#interfaces-igluewindow)|The registered Glue window for the application.|
 
 *Return value:* `HResult`  
-The implementation needs to return `S_OK`.  
+*Note that the implementation must return `S_OK`.*
 
 ### IGlueWindowSettings
 

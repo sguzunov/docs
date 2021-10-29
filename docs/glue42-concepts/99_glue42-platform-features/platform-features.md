@@ -1001,32 +1001,6 @@ To set the process reuse behavior on an application level, use the `"processAffi
 | `"dedicatedProcess"` | `boolean` | If `true`, each instance of the app will be started in a separate dedicated process. This property is useful if you have an important application and you want each instance of it to start in a dedicated process. |
 | `"affinity"` | `string` | All apps with the same affinity values will be grouped in the same process until the maximum number of slots (defined globally in the `"maxAppsInProcess"` property) in the process is reached. When `"affinity"` is set, the global `"appSlotSize"` property is ignored. This means that you can group different app instances with the same `"affinity"` however you like within the limits of the `"maxAppsInProcess"` property. Use this property if you want to group several apps in a process. |
 
-## Flash Plugin
-
-<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.9">
-
-By default, Flash plugins are disabled in Glue42 Windows. To enable Flash plugins, add the respective configuration in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) under the `"flash"` top-level key.
-
-To enable the default Flash plugin that comes with [**Glue42 Enterprise**](https://glue42.com/enterprise/):
-
-```json
-{
-    ...
-    "flash": true,
-    ...
-}
-```
-
-To enable a specific Flash plugin, provide its path:
-
-```json
-{
-    ...
-    "flash": "C:\\Users\\user\\AppData\\Local\\Tick42\\GlueDesktop\\assets\\flash\\32.0.0.330\\pepflashplayer.dll",
-    ...
-}
-```
-
 ## Issue Reporting
 
 [**Glue42 Enterprise**](https://glue42.com/enterprise/) has a built-in feedback form that allows users to send feedback with improvement suggestions or bug reports. The user can describe the problem/suggestion in the "Description" field and can optionally attach logs/configs to the report. The form can be configured to send an email with the report to our team and/or to automatically create a Jira ticket with the issue reported by the user. Both on-premise and cloud based Jira solutions are supported.

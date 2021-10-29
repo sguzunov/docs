@@ -59,6 +59,6 @@ Example configuration for extending a `system.json` file by combining settings f
 
 As you can see from the example, you can use Glue42 environment variables for region and environment in the paths or URLs to the configuration files. The values for the variables can be set in the `system.json` file or as OS environment variables. The values from the `system.json` will override the ones from the OS.
 
-*Note that due to limitations regarding the Electron startup, the `"splash"`, `"cache"` and `"flash"` properties must be set locally in the `system.json` file.*
+*Note that due to limitations regarding the Electron startup, the `"splash"` and `"cache"` properties must be set locally in the `system.json` file.*
 
 *See the [Node.js REST Config](https://github.com/Glue42/rest-config-example-node-js) example to explore and test extending configurations from a REST store.*

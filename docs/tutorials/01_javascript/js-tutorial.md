@@ -346,7 +346,7 @@ Finally, in order to pass the selected `party` to the newly created **Portfolio*
 
 Next, in `portfolio.js`, navigate to `TUTOR_TODO chapter 4.3 Task 2` in the `setUpAppContent()` method. Up until now we registered the Interop methods, but now we may not need to do that. If the current **Portfolio** window is created as a tab, we should not register the method, because this will break our idea of individual portfolio windows. Achieving this effect is pretty easy:
 
-- Get the window context ([`glue.windows.my().context`](../../../reference/glue/latest/windows/index.html#GDWindow-context)).
+- Get the window context ([`glue.windows.my().getContext()`](../../../reference/glue/latest/windows/index.html#GDWindow-context)).
 - Check if it contains the passed `party` object.
 - If it doesn't, this means that the **Portfolio** window was opened by clicking the button at the bottom of the **Clients** window, in which case let the code register the Interop method for handling `party` changes.
 - If it does have a `party` object, this means that this **Portfolio** window is for a specific **client**, and in that case you don't want to listen for changes, because, if you do, all tabs will display the same data. Instead:
@@ -436,7 +436,7 @@ You can also remove the window style properties like [`minHeight`](../../../refe
 Next, in the `openTabWindow()` function find `TUTOR_TODO Chapter 5 Task 2` and go through the same process as in `Task 1`.
 Note that you cannot re-use the filtering you (likely) did in `openTabWindow()`, because you cannot set the window name. So, you need to get creative. What else is unique to the tabs that we can use as a filtering condition?
 
-## 6. Glue42 Search Service
+## 6. ~~Glue42 Search Service~~
 
 Our users say some **instruments** don't have a ticker symbol, but either CUSIP, or ISIN, or SEDOL, and they would be very interested in a solution which lets them search by **any** instrument identification code when they are managing a client's portfolio.
 
@@ -467,11 +467,12 @@ When you are ready, your apps should look like the example below. Type part of a
 
 You are ready. Try playing with the `ClientSearch` options to see how data comes in and out.
 
+
 ## 7. Glue42 Notification Service
 
 The market data team is now sending GNS notifications when a major financial event occurs, which requires advisors to call clients who can lose (or gain) a lot of money, because of a sudden market or instrument price change (e.g., Apple buys Microsoft, or a Grexit/Brexit). Our users are very happy with the notifications, but say that as we own the client portfolios, we surely know who the affected clients are, and wonder if we can do something about it.
 
-We ask the market data team to add [Glue42 Routing](../../../glue42-concepts/notifications/javascript/index.html#glue42_routing) to their [GNS](../../../glue42-concepts/notifications/javascript/index.html) notifications so we can trap these on the desktop, instead of in the generic GNS notifications UI. They will route the notification so that when it arrives on the user's desktop, the user will still be able to see the notification toast, but when they click it, it will take them to our new "who-to-call" window instead of the generic notification details window.
+We ask the market data team to add [Glue42 Routing](../../../glue42-concepts/notifications/javascript/index.html#advanced_usage-glue42_routing) to their [GNS](../../../glue42-concepts/notifications/javascript/index.html) notifications so we can trap these on the desktop, instead of in the generic GNS notifications UI. They will route the notification so that when it arrives on the user's desktop, the user will still be able to see the notification toast, but when they click it, it will take them to our new "who-to-call" window instead of the generic notification details window.
 
 In this chapter, your task is to handle notifications from your app by registering a Glue42 Routing handler for GNS notifications in your application.
 
@@ -511,7 +512,7 @@ This tutorial assumes that you already have [**Glue42 Enterprise**](https://glue
 
 Knowing our users spend a considerable amount of time working with Outlook, where they usually have to copy and paste data from our applications, we will try to surprise them by adding the ability to compose an e-mail at the click of a button, right from our web application.
 
-First, you should include `glue4office-dev.js` (located in `lib/tick42-g4oe`) in `portfolio.html` with `TUTOR_TODO Chapter 8 Task 1`. Then you need to uncomment the `Send as e-mail` button from `TUTOR_TODO Chapter 8 Task 2`, which, when clicked, will send the data the user is looking at in a new message, along with an attachment of the raw data, ready to be imported and analyzed into other applications, such as Excel.
+First, you should include `office.js` (located in `lib/tick42-g4oe`) in `portfolio.html` with `TUTOR_TODO Chapter 8 Task 1`. Then you need to uncomment the `Send as e-mail` button from `TUTOR_TODO Chapter 8 Task 2`, which, when clicked, will send the data the user is looking at in a new message, along with an attachment of the raw data, ready to be imported and analyzed into other applications, such as Excel.
 
 Next, you will need to enable the Glue42 Outlook Connector by running `_EnableGlueOutlook.cmd` in `%LocalAppData%\Tick42\GlueOutlook`. Exit Outlook before attempting to install the connector.
 
@@ -588,6 +589,25 @@ Now that our metrics are set up, we should use them to change system state, if n
 - The latency metric should be stopped as soon as the load succeeds (`TUTOR_TODO Chapter 11 Task 8`) or fails (`TUTOR_TODO Chapter 11 Task 9`).
 - Now, assuming the load was successful, we need to alert if the load was too slow. If so, set the system state to **AMBER** in `TUTOR_TODO Chapter 11 Task 10`. Otherwise, set the system state to **GREEN** in `TUTOR_TODO Chapter 11 Task 11`.
 - Assuming the loading failed - we have already stopped the latency metric, but we have yet to increment the error count. Do this in `TUTOR_TODO Chapter 11 Task 12`. If the loading failed, we should also update the `lastServiceError` in `TUTOR_TODO Chapter 11 Task 13` and set the state of the system to **RED** in `TUTOR_TODO Chapter 11 Task 14`.
+
+## 12. Workspaces
+
+We were meant to develop a **Client Details** app for our users, but it turned out that another group has already developed it. Not only that, but they built the app so that it can work either standalone (using Interop), or be used in a **workspace**, with a certain context that includes our `party` object.
+
+Users should be notified when an email from their clients is received in their [Outlook](../../../connectors/ms-office/outlook-connector/javascript/index.html#working_with_emails-email_monitoring_and_notifications) mailbox. The users should be able to take quick actions from the notification and either open the email or restore a **Client** workspace. 
+
+**Client** workspace should load the `Client`, `Portfolio` and `Client Details` applications in three columns. 
+To reduce the manual click and automate the workflow fully, the three applications should start with a predefined context - the client who send the email.
+
+We are ready, we have just cut a lot of development time and money and will surely get our bonuses this year!!
+
+## 13. Global Search
+
+Users want to discover clients quickly and restore a **Client** workspace as they already do from a notification. 
+The requirement extends the ability to launch **Client** workspace with a predefined context, but this time the entry point for launching the workspace must be the [Global Search](../../../glue42-concepts/global-search/index.html#overview).
+
+To prepare for this task, you should get acquainted with the ability to create custom search providers - https://docs.glue42.com/glue42-concepts/global-search/index.html#creating_search_providers.
+
 
 ## Congratulations!
 

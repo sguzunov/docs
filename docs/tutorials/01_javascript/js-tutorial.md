@@ -599,6 +599,8 @@ Users should be notified when an email from their clients is received in their [
 **Client** workspace should load the `Client`, `Portfolio` and `Client Details` applications in three columns. 
 To reduce the manual click and automate the workflow fully, the three applications should start with a predefined context - the client who send the email.
 
+`Client` and `Portfolio` applications cannot be used in a **workspace** yet. To start with, you need to configure both application to use the [Glue42 Workspaces API](../../../glue42-concepts/windows/workspaces/javascript/index.html#enabling_workspaces)
+
 We are ready, we have just cut a lot of development time and money and will surely get our bonuses this year!!
 
 ## 13. Global Search

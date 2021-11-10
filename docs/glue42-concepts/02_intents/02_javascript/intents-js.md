@@ -4,6 +4,8 @@
 
 The Intents API is accessible through the [`glue.intents`](../../../reference/glue/latest/intents/index.html) object.
 
+*See the JavaScript [Intents example](https://github.com/Glue42/js-examples/tree/master/intents) on GitHub.*
+
 ## Finding Intents
 
 To find all registered Intents, use the [`all()`](../../../reference/glue/latest/intents/index.html#API-all) method:

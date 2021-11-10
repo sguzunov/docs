@@ -53,7 +53,7 @@ const config = { channels: true };
 window.glue = await Glue(config);
 ```
 
-*See the JavaScript [Channels example](https://github.com/Glue42/js-examples/tree/master/channels-example) on GitHub.*
+*See the JavaScript [Channels example](https://github.com/Glue42/js-examples/tree/master/channels) on GitHub.*
 
 ## Current Channel
 

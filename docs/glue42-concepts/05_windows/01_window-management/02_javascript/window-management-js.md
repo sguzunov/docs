@@ -1249,7 +1249,7 @@ Flydown windows are helper windows which can be easily configured to appear on h
 
 ![Flydown](../../../../images/window-management/flydown.gif)
 
-*See the JavaScript [Flydown example](https://github.com/Glue42/js-examples/tree/master/flydown-example) on GitHub.*
+*See the JavaScript [Flydown example](https://github.com/Glue42/js-examples/tree/master/flydown) on GitHub.*
 
 *The delay times for showing and hiding flydown windows can be set using the global [Glue42 Window configuration](../../../../developers/configuration/glue42-windows/index.html#glue42_window_properties-flydown_windows).*
 
@@ -1448,7 +1448,7 @@ Popup windows are helper windows that can appear when the user clicks an area in
 
 ![Popup](../../../../images/window-management/popup.gif)
 
-*See the JavaScript [Popup example](https://github.com/Glue42/js-examples/tree/master/popup-example) on GitHub.*
+*See the JavaScript [Popup example](https://github.com/Glue42/js-examples/tree/master/popup) on GitHub.*
 
 Implementing the behavior of popup windows can be a very tedious task. You must handle all cases in which the popup may go out of screen, handle user input from multiple windows which may involve confusion with timeouts and potential race conditions. While not impossible, it is an endeavor prone to many errors, while the end result most often is unreliable. The [`showPopup()`](../../../../reference/glue/latest/windows/index.html#API-showPopup) method handles all these problems and almost no additional code is required to make it work smoothly in all cases. You can call [`showPopup()`](../../../../reference/glue/latest/windows/index.html#API-showPopup) either through `glue.windows.showPopup()` or directly on a window instance. This method accepts `targetWindowId` and a [`PopupOptions`](../../../../reference/glue/latest/windows/index.html#PopupOptions) object as arguments. If you call [`showPopup()`](../../../../reference/glue/latest/windows/index.html#API-showPopup) directly on a window instance, don't pass a `targetWindowId`, as the ID of the current window will be used to create the popup window.
 

@@ -79,6 +79,8 @@ The only required properties are `"type"`, which should be set to `"rest"`, and 
 | `"enablePersistentCache"` | Whether to cache and persist the configuration files locally (e.g., in case of connection interruptions). |
 | `"cacheFolder"` | Where to keep the persisted configuration files. |
 
+*For details on working with remote store compliant with FDC3 App Directory standards, see the [FDC3 Compliance](../../../getting-started/fdc3-compliance/index.html#fdc3_for_glue42_enterprise-app_directory) section and the [FDC3 App Directory documentation](https://fdc3.finos.org/docs/app-directory/overview).*
+
 ## Application Settings
 
 - Use the `"titleFormat"` property under the `"applications"` top-level key to set a format for the titles of application windows. Use the supported macros - `{title}` and `{instanceIndex}`:

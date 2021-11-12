@@ -309,6 +309,23 @@ The configuration below shows how to group applications in a subfolder:
 }
 ```
 
+## Default Application Bounds
+
+When an application is started from the [Glue42 Toolbar](../../../glue42-concepts/glue42-toolbar/index.html), its initial size and position is defined in the application configuration. When the user moves or resizes an application, [**Glue42 Enterprise**](https://glue42.com/enterprise/) remembers its last position and size and uses them as initial bounds the next time the application starts. Saving the last window bounds is enabled by default for all applications, but can be disabled per application using the `"ignoreSavedLayout"` property in its configuration:
+
+```json
+{
+    "name": "my-app",
+    "type": "window",
+    ...
+    "ignoreSavedLayout": true,
+    "details": {
+        "url": "https://example.com",
+        ...
+    }
+}
+```
+
 ## Configuration Validator
 
 We offer a free [Glue42 Configuration Validator](https://marketplace.visualstudio.com/items?itemName=Tick42.glue42-configuration-validator) tool which you can install as a Visual Studio Code extension. The validator tool has several functionalities:

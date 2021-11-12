@@ -156,7 +156,7 @@ According to the [FDC3 App Directory specifications](https://fdc3.finos.org/sche
 ```json
 {
     "applications": [
-        // List of application definitions objects.
+        // List of application definition objects.
         {...}, {...}
     ]
 }

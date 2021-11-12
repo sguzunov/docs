@@ -510,7 +510,7 @@ The following is a basic example of creating and consuming an Interop stream.
 Creating a stream and publishing data to it:
 
 ```csharp
-// Define the hierarchy of objects to publish:
+// Define the hierarchy of objects to publish.
 public class Fruit
 {
     public string Type { get; set; } = "Generic";

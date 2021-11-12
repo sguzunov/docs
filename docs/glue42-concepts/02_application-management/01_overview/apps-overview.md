@@ -86,7 +86,7 @@ The remote store must return application definitions in the following response s
 ```json
 {
     "applications": [
-        // List of application definitions objects.
+        // List of application definition objects.
         {...}, {...}
     ]
 }

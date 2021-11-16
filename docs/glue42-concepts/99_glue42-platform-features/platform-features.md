@@ -139,8 +139,10 @@ The following example demonstrates defining two preload scripts by providing the
 When you install [**Glue42 Enterprise**](https://glue42.com/enterprise/), it is registered as the default handler of the Glue42 global protocol. The protocol is in the following format:
 
 ```cmd
-glue42://<option>/<identifier>[&args]
+glue42://<option>/<identifier>[?args&args]
 ```
+
+*To pass arguments when employing the different options of the Glue42 global protocol, use a single `?` after the identifier, except with `url` - use double `??` when passing arguments for the `url` protocol option. Use `&` between the arguments when specifying more than one argument.*
 
 The Glue42 global protocol allows you to create and send links which will open a URL in a Glue42 Window. You can also create links that will start a Glue42 enabled app, load a specified Workspace or Layout and even invoke Interop methods with custom arguments.
 
@@ -191,13 +193,13 @@ To start a Glue42 enabled application, use the `app` protocol option and pass th
 glue42://app/clientlist
 ```
 
-To pass startup options for a Glue42 enabled application, use `&` before each setting. The following example demonstrates passing a location and context for the started app:
+To pass startup options for a Glue42 enabled application, use `?` after the app identifier and `&` before each settings. The following example demonstrates passing a location and context for the started app:
 
 ```cmd
-glue42://app/clientlist&left=100&context.clientID=1
+glue42://app/clientlist?left=100&context.clientID=1
 ```
 
-*To specify a property of an object as an option, use the standard dot notation - e.g., `&context.clientID=42`.*
+*To specify a property of an object as an option, use the standard dot notation - e.g., `context.clientID=42`.*
 
 #### Layouts
 
@@ -215,13 +217,13 @@ To open a Workspace, use the `workspace` protocol option and pass the Workspace 
 glue42://workspace/StartOfDay
 ```
 
-To pass context for the Workspace, use `&context`:
+To pass context for the Workspace, use `context`:
 
 ```cmd
-glue42://workspace/StartOfDay&context.clientID=1
+glue42://workspace/StartOfDay?context.clientID=1
 ```
 
-*To specify a property of an object as an option, use the standard dot notation - e.g., `&context.clientID=42`.*
+*To specify a property of an object as an option, use the standard dot notation - e.g., `context.clientID=42`.*
 
 #### Glue42 Windows
 
@@ -231,13 +233,13 @@ To open a URL in a Glue42 Window, use the `url` protocol option and pass the URL
 glue42://url/https://google.com 
 ```
 
-To specify [Glue42 Window settings](../../reference/glue/latest/windows/index.html#WindowSettings) when opening a URL, use `&&` after the URL and `&` before each setting. The following example demonstrates passing a location for the newly opened window: 
+To specify [Glue42 Window settings](../../reference/glue/latest/windows/index.html#WindowSettings) when opening a URL, use `??` after the URL and `&` before each setting. The following example demonstrates passing a location for the newly opened window: 
 
 ```cmd
-glue42://url/https://google.com&&left=100&top=200
+glue42://url/https://google.com??left=100&top=200
 ```
 
-*To specify a property of an object as a setting, use the standard dot notation - e.g., `&downloadSettings.autoSave=false`.*
+*To specify a property of an object as a setting, use the standard dot notation - e.g., `downloadSettings.autoSave=false`.*
 
 #### Interop Methods
 
@@ -247,10 +249,10 @@ To invoke an Interop method, use the `invoke` protocol option and pass the metho
 glue42://invoke/Shutdown
 ```
 
-To pass arguments and/or target when invoking an Interop method, use `&args` and `&target`:
+To pass arguments and/or target when invoking an Interop method, use `args` and `target`:
 
 ```cmd
-glue42://invoke/ShowClient&args.clientId=1&target=best
+glue42://invoke/ShowClient?args.clientId=1&target=best
 ```
 
 ## Downloading Files

@@ -28,7 +28,7 @@ To configure the Glue42 Gateway to use a random free port, go to the `"configura
 
 ## Application Stores
 
-To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to load application configuration files from a local path, use the `"appStores"` top-level key. Set the `"type"` property to `"path"` and specify a relative or an absolute path to the application definitions. The environment variables set by [**Glue42 Enterprise**](https://glue42.com/enterprise/) can also be used as values:
+To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to load application configuration files from a local path, use the `"appStores"` top-level key. Set the `"type"` property of the app store configuration object to `"path"` and specify a relative or an absolute path to the application definitions. The environment variables set by [**Glue42 Enterprise**](https://glue42.com/enterprise/) can also be used as values:
 
 ```json
 "appStores": [
@@ -53,7 +53,7 @@ To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to load app
 ]
 ```
 
-To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to load application definitions from a remote application store, set the the `"type"` property to `"rest"` and provide details about the remote application store:
+To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to load application definitions from a remote application store, set the the `"type"` property of the app store configuration object to `"rest"` and provide details about the remote application store:
 
 ```json
 "appStores": [
@@ -70,7 +70,7 @@ To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to load app
 ]
 ```
 
-The only required properties are `"type"`, which should be set to `"rest"`, and `"url"`, which is the address of the remote application store. You can also set the authentication, polling interval, cache persistence and cache folder.
+The only required properties for each app store configuration object are `"type"`, which should be set to `"rest"`, and `"url"`, which is the address of the remote application store. You can also set the authentication, polling interval, cache persistence and cache folder.
 
 | Property | Description |
 |----------|-------------|
@@ -80,6 +80,16 @@ The only required properties are `"type"`, which should be set to `"rest"`, and 
 | `"cacheFolder"` | Where to keep the persisted configuration files. |
 
 *For details on working with remote store compliant with FDC3 App Directory standards, see the [FDC3 Compliance](../../../getting-started/fdc3-compliance/index.html#fdc3_for_glue42_enterprise-app_directory) section and the [FDC3 App Directory documentation](https://fdc3.finos.org/docs/app-directory/overview).*
+
+You can also use the [Glue42 Server](../../../glue42-concepts/glue42-server/index.html) for hosting and retrieving application stores. The [Glue42 Server](../../../glue42-concepts/glue42-server/index.html) is a complete server-side solution for providing data to Glue42. To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to fetch application configurations from a [Glue42 Server](../../../glue42-concepts/glue42-server/index.html), set the `"type"` property of the app store configuration object to `"server"`:
+
+```json
+"appStores": [
+    {
+        "type": "server"
+    }
+]
+```
 
 ## Application Settings
 

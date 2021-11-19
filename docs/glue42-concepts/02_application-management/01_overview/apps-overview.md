@@ -22,7 +22,7 @@ In the standard [**Glue42 Enterprise**](https://glue42.com/enterprise/) deployme
 
 ### Local App Stores
 
-To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to load application configuration files from a local path, use the `"appStores"` top-level key of the `system.json` file. Set the `"type"` property to `"path"` and specify a relative or an absolute path to the application definitions. The environment variables set by [**Glue42 Enterprise**](https://glue42.com/enterprise/) can also be used as values:
+To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to load application configuration files from a local path, use the `"appStores"` top-level key of the `system.json` file. Set the `"type"` property of the app store configuration object to `"path"` and specify a relative or an absolute path to the application definitions. The environment variables set by [**Glue42 Enterprise**](https://glue42.com/enterprise/) can also be used as values:
 
 ```json
 "appStores": [
@@ -51,7 +51,7 @@ To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to load app
 
 Application configurations can also be hosted on a server and obtained from a REST service. 
 
-For a reference implementation of a remote application configurations store, see the [Node.js REST Config](https://github.com/Glue42/rest-config-example-node-js) example that implements the [FDC3 App Directory](https://fdc3.finos.org/docs/1.0/appd-intro) and is compatible with [**Glue42 Enterprise**](https://glue42.com/enterprise/). This basic implementation doesn't take the user into account and returns the same set of data for all requests. For instructions on running the sample server on your machine, see the `README.md` in the repository.
+For a reference implementation of a remote application configurations store, see the [Node.js REST Config](https://github.com/Glue42/rest-config-example-node-js) example that implements the [FDC3 App Directory](https://fdc3.finos.org/docs/1.0/appd-intro) and is compatible with [**Glue42 Enterprise**](https://glue42.com/enterprise/). This basic implementation doesn't take the user into account and returns the same set of data for all requests. For instructions on running the sample server on your machine, see the `README.md` file in the repository.
 
 For a .NET implementation of a remote application configurations store, see the [.NET REST Config](https://github.com/Tick42/rest-config-example-net) example.
 
@@ -72,7 +72,7 @@ To configure a connection to the REST service providing the application store, a
 ]
 ```
 
-The only required properties are `"type"`, which should be set to `"rest"`, and `"url"`, which is the address of the remote application store. You can also set the authentication, polling interval, cache persistence and cache folder.
+The only required properties for each app store configuration object are `"type"`, which should be set to `"rest"`, and `"url"`, which is the address of the remote application store. You can also set the authentication, polling interval, cache persistence and cache folder.
 
 | Property | Description |
 |----------|-------------|
@@ -90,4 +90,14 @@ The remote store must return application definitions in the following response s
         {...}, {...}
     ]
 }
+```
+
+You can also use the [Glue42 Server](../../glue42-server/index.html) for hosting and retrieving application stores. The [Glue42 Server](../../glue42-server/index.html) is a complete server-side solution for providing data to Glue42. To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to fetch application configurations from a [Glue42 Server](../../glue42-server/index.html), set the `"type"` property of the app store configuration object to `"server"`:
+
+```json
+"appStores": [
+    {
+        "type": "server"
+    }
+]
 ```

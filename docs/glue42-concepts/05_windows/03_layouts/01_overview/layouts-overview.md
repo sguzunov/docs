@@ -89,7 +89,7 @@ The remote store must return application definitions in the following response s
 }
 ```
 
-You can also use the [Glue42 Server](../../../glue42-server/index.html) for hosting and retrieving Layout stores. The [Glue42 Server](../../../glue42-server/index.html) is a complete server-side solution for providing data to Glue42. To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to fetch application configurations from a [Glue42 Server](../../glue42-server/index.html), set the `"type"` property to `"server"`:
+You can also use the [Glue42 Server](../../../glue42-server/index.html) for hosting and retrieving Layout stores. The [Glue42 Server](../../../glue42-server/index.html) is a complete server-side solution for providing data to Glue42. To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to fetch application configurations from a [Glue42 Server](../../../glue42-server/index.html), set the `"type"` property to `"server"`:
 
 ```json
 "layouts" : {

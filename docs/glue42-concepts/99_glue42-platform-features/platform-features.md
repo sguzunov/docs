@@ -866,7 +866,7 @@ const startTime = glue42gd.glue42StartTime;
 
 ## Process Reuse
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) is an Electron based application and as such uses the built-in [process management](https://electronjs.org/docs/tutorial/application-architecture#main-and-renderer-processes) mechanisms of Electron - each window has a separate renderer process. This, however, may lead to a large memory footprint. The concept of process reuse helps you achieve balance between performance and consumption of system resources.
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) is an Electron based application and as such uses the built-in [process management](https://www.electronjs.org/docs/latest/tutorial/process-model) mechanisms of Electron - each window has a separate renderer process. This, however, may lead to a large memory footprint. The concept of process reuse helps you achieve balance between performance and consumption of system resources.
 
 [**Glue42 Enterprise**](https://glue42.com/enterprise/) offers configurable grouping of application instances in a single process. Process reuse can be configured both on a system from the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) or on an application level from the respective application configuration file. 
 

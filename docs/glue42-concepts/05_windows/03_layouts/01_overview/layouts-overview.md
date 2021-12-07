@@ -99,4 +99,4 @@ You can also use the [Glue42 Server](../../../glue42-server/index.html) for host
 }
 ```
 
-*Note that when using the [Glue42 Server](../../../glue42-server/index.html) as a Layout store, Layouts files are not only fetched from the server, but are also saved on the server (e.g., when the user edits and saves an existing Layout).*
+*Note that when using the [Glue42 Server](../../../glue42-server/index.html) as a Layout store, Layouts files aren't only fetched from the server, but are also saved on the server (e.g., when the user edits and saves an existing Layout).*

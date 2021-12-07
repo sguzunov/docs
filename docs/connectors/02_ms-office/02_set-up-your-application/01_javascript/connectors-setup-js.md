@@ -8,9 +8,9 @@ After completing the steps in this guide, you can read the respective developmen
 
 ### Programming Experience with JavaScript
 
-We assume you are a front-end JavaScript developer, or a full-stack developer with sufficient JavaScript knowledge. This guide uses ECMAScript 6 (ES6) in the examples, but ES6 knowledge is not required to use the API. 
+We assume you are a front-end JavaScript developer, or a full-stack developer with sufficient JavaScript knowledge. This guide uses ECMAScript 6 (ES6) in the examples, but ES6 knowledge isn't required to use the API. 
 
-All APIs return [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). If you are not comfortable using `Promise`s and prefer `Node.js`-style callbacks, you can use [nodeify](https://github.com/then/nodeify) to convert `Promise`s to `Node.js`-style callbacks.
+All APIs return [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). If you aren't comfortable using `Promise`s and prefer `Node.js`-style callbacks, you can use [nodeify](https://github.com/then/nodeify) to convert `Promise`s to `Node.js`-style callbacks.
 
 ### Glue42 Enterprise Installation
 

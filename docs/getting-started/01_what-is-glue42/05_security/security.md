@@ -59,7 +59,7 @@ The Glue42 Gateway supports connection filtering based on the origin header of t
 |------------|---------|---------|-------------------------------|
 | `whitelist` | array of strings  | empty | List of strings or regex patterns (strings starting with `#`) that allow an origin |
 | `blacklist`   | array of strings | empty | List of strings or regex patterns (strings starting with `#`) that block an origin |
-| `non_matched` | `"whitelist"` or `"blacklist"` | `"whitelist"` | Action to take if the origin does not match the white or the black list. |
+| `non_matched` | `"whitelist"` or `"blacklist"` | `"whitelist"` | Action to take if the origin doesn't match the white or the black list. |
 | `missing` | `"whitelist"` or `"blacklist"` | `"whitelist"` | Action to take if the origin header is missing |
 
 Example:

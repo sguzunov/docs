@@ -100,7 +100,7 @@ Summary Metrics allow you to track how long an application has been on focus. Th
 | Property | Type | Description |
 |----------|------|-------------|
 | `"enabled"` | `boolean` | Set to `true` to enable Summary Metrics. |
-| `"collectInterval"` | `number` | The interval (in minutes) at which to publish the gathered metrics. Cannot be less than 30 minutes. |
+| `"collectInterval"` | `number` | The interval (in minutes) at which to publish the gathered metrics. Can't be less than 30 minutes. |
 | `"minimalFocusInterval"` | `number` | The minimal focus time (in ms) for which to record metric data (e.g., if you want to filter out accidental focus of apps). |
 | `"flushOnShutdown"` | `boolean` | specifies whether or not to publish the gathered metrics on shutdown. |
 
@@ -485,9 +485,9 @@ The filtering configuration has the following syntax:
 }   
 ```
 
-To match the publisher, the value of its identity needs to match the regex (or direct string) that is specified in the `"publisher"` configuration. For every configuration that is matched, the `"whitelist"` and `"blacklist"` are checked against the metric name. If a single blacklist or no whitelists match, then the metric will not be published.
+To match the publisher, the value of its identity needs to match the regex (or direct string) that is specified in the `"publisher"` configuration. For every configuration that is matched, the `"whitelist"` and `"blacklist"` are checked against the metric name. If a single blacklist or no whitelists match, then the metric won't be published.
 
-If a publisher is not matched, the value specified in the `"non-matched"` property will be taken into consideration - it can be set to either `"whitelist"` or `"blacklist"`.
+If a publisher isn't matched, the value specified in the `"non-matched"` property will be taken into consideration - it can be set to either `"whitelist"` or `"blacklist"`.
 
 A sample configuration that allows only the User Journey and Feature metrics coming from all publishers looks like this:
 

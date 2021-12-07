@@ -88,7 +88,7 @@ end;
 
 ## Application Configuration
 
-To add your Delphi application to the [Glue42 Enterprise](https://glue42.com/enterprise/) Application Manager, you need to define a `.json` configuration file and add it to the application configuration store (remote or local). You can add an application configuration file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder to publish your application locally. `<ENV-REG>` in the link should be replaced with the environment and region folder name used for the deployment of your [Glue42 Enterprise](https://glue42.com/enterprise/) - e.g., `T42-DEMO`. This way, your files will not be erased or overwritten, in case you decide to upgrade or change your [Glue42 Enterprise](https://glue42.com/enterprise/) version.
+To add your Delphi application to the [Glue42 Enterprise](https://glue42.com/enterprise/) Application Manager, you need to define a `.json` configuration file and add it to the application configuration store (remote or local). You can add an application configuration file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder to publish your application locally. `<ENV-REG>` in the link should be replaced with the environment and region folder name used for the deployment of your [Glue42 Enterprise](https://glue42.com/enterprise/) - e.g., `T42-DEMO`. This way, your files won't be erased or overwritten, in case you decide to upgrade or change your [Glue42 Enterprise](https://glue42.com/enterprise/) version.
 
 Application configuration example:
 
@@ -395,7 +395,7 @@ TStreamDataLambda = procedure(Method: GlueMethod;
 
 This reference describes the components in the Glue42 COM library relevant to Delphi.
 
-*Note that the library also contains components that are not intended to be directly used by Delphi applications.*
+*Note that the library also contains components that aren't intended to be directly used by Delphi applications.*
 
 ## Enums
 
@@ -2385,8 +2385,8 @@ Contains properties representing the settings to use during a Glue42 Window regi
 
 **Properties**
 
-| Name | Type | Default Value | Description |
-|------|------|---------------|-------------|
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
 | `AllowTabClose` | `WordBool` | `True` | Specifies whether a tab window will have a "Close" button. Only applicable when the window `Type` is set to `"Tab"`. |
 | `AllowUnstick` | `WordBool` | `True` | Specifies whether the Glue42 Window can be separated from other Glue42 Windows once it has been stuck to another Glue42 Window or window group. (Currently unusable.) |
 | `Channel` | `WideString` | `''` | Specifies the Channel to be initially selected. No Channel is selected by default. |
@@ -2394,10 +2394,10 @@ Contains properties representing the settings to use during a Glue42 Window regi
 | `FrameColor` | `WideString` | `''` | The color of the window frame. (Currently unusable.) |
 | `Icon` | `WideString` | `''` | Icon for the application. (Currently unusable.) |
 | `IsSticky` | `WordBool` | `True` | Specifies whether the window can be stuck to other Glue42 Windows or window groups. |
-| `MaxHeight` | `Integer` | `0` | Specifies the maximum height (in pixels) to which the window can be resized. A value of `0` means no limit. The height of the window title bar is not included. |
+| `MaxHeight` | `Integer` | `0` | Specifies the maximum height (in pixels) to which the window can be resized. A value of `0` means no limit. The height of the window title bar isn't included. |
 | `Maximizable` | `Integer` | `True` | Specifies whether the window will have a "Maximize" button. |
 | `MaxWidth` | `Integer` | `0` | Specifies the maximum width (in pixels) to which the window can be resized. A value of `0` means no limit. |
-| `MinHeight` | `Integer` | `0` | Specifies the minimum height (in pixels) to which the window can be resized. The height of the window title bar is not included. |
+| `MinHeight` | `Integer` | `0` | Specifies the minimum height (in pixels) to which the window can be resized. The height of the window title bar isn't included. |
 | `Minimizable` | `WordBool` | `True` | Specifies whether the window will have a "Minimize" button. |
 | `MinWidth` | `Integer` | `0` | Specifies the minimum width (in pixels) to which the window can be resized. |
 | `ShowTaskbarIcon` | `WordBool` | `True` | Specifies whether the window should have an icon in the taskbar. |
@@ -2412,7 +2412,7 @@ The `StandardButtons` property specifies which command buttons will be available
 
 | Value | Description |
 |-------|-------------|
-| `'None'` | No command buttons will be shown. This is used to hide all command buttons and cannot be combined with other values. |
+| `'None'` | No command buttons will be shown. This is used to hide all command buttons and can't be combined with other values. |
 | `'LockUnlock'` | Show the "Lock/Unlock" button. |
 | `'Extract'` | Show the "Extract" button. |
 | `'Collapse'` | Show the "Collapse" button. |

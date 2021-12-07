@@ -273,7 +273,7 @@ g40RemoteService_.ShowClient(sender, new ServiceOptions(
          if (result == null || result.Status != MethodInvocationStatus.Succeeded || ex != null)
          {
              ShowNotification("Show client failed",
-                 "Cannot show client due to " +
+                 "can't show client due to " +
                  (result?.ToString() ?? "appropriate target method not found"));
          }
      }));

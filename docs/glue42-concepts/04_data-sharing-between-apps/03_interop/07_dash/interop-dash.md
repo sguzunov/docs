@@ -64,7 +64,7 @@ def sum_invocation_handler(invoke):
     if are_numbers:
         total = float(a) + float(b)
 
-        # When a method is not void, you must always return the assigned `invocationId`,
+        # When a method isn't void, you must always return the assigned `invocationId`,
         # otherwise the caller won't receive the result.
         return {
             "invocationId": invocationId,

@@ -483,7 +483,7 @@ initiateStream().catch(console.error);
 
 ### Accepting or Rejecting Subscriptions
 
-Subscriptions are auto accepted by default. You can control this behavior by passing a [`subscriptionRequestHandler`](../../../../reference/glue/latest/interop/index.html#StreamOptions-subscriptionRequestHandler) in the [`StreamOptions`](../../../../reference/glue/latest/interop/index.html#StreamOptions) object. Note that this handler is called before the [`subscriptionAddedHandler`](../../../../reference/glue/latest/interop/index.html#StreamOptions-subscriptionAddedHandler), so if you reject the request, the `subscriptionAddedHandler` will not be called.
+Subscriptions are auto accepted by default. You can control this behavior by passing a [`subscriptionRequestHandler`](../../../../reference/glue/latest/interop/index.html#StreamOptions-subscriptionRequestHandler) in the [`StreamOptions`](../../../../reference/glue/latest/interop/index.html#StreamOptions) object. Note that this handler is called before the [`subscriptionAddedHandler`](../../../../reference/glue/latest/interop/index.html#StreamOptions-subscriptionAddedHandler), so if you reject the request, the `subscriptionAddedHandler` won't be called.
 
 The [`subscriptionRequest`](../../../../reference/glue/latest/interop/index.html#SubscriptionRequest) object, passed as an argument to the subscription request handler, has the following properties and methods:
 

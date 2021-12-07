@@ -4,7 +4,7 @@
 
 ## Service Windows
 
-Service windows are hidden windows which perform a specific supporting role for your applications. They can be configured as any normal window (name, URL, etc.), the difference being that a UI configuration is not necessary as it is assumed that the purpose of these windows is to provide some "behind-the-scenes" (hidden) service to your applications. Therefore, the user doesn't need to see them or interact with them.
+Service windows are hidden windows which perform a specific supporting role for your applications. They can be configured as any normal window (name, URL, etc.), the difference being that a UI configuration isn't necessary as it is assumed that the purpose of these windows is to provide some "behind-the-scenes" (hidden) service to your applications. Therefore, the user doesn't need to see them or interact with them.
 
 Service windows may be useful in many scenarios. For instance, you may have a number of applications that need to receive and process data from several different providers. Instead of setting up each application to receive and then process the data from every provider, you can create a hidden service window which will communicate with the providers, collect the data, pre-process it and route it to the respective applications. This way, your applications have to handle communication with only one end point, all the necessary data is consolidated, processed, filtered, etc., at one central data hub from where it can be sent to any window needing it. Depending on your needs or goals, you can configure your service windows to auto start on system startup, or to start when an application requests that service. The service windows approach offers you additional flexibility and versatility in designing solutions for the application services you need.
 
@@ -402,7 +402,7 @@ Enable the context menu:
 
 ## Hotkeys
 
-The Hotkeys API allows applications to register key combinations and receive notifications when a key combination is pressed by the user irrespective of whether the application is on focus or not. Hotkeys is useful for web applications that do not have access to system resources and cannot register global shortcuts.
+The Hotkeys API allows applications to register key combinations and receive notifications when a key combination is pressed by the user irrespective of whether the application is on focus or not. Hotkeys is useful for web applications that don't have access to system resources and can't register global shortcuts.
 
 ### Configuration
 
@@ -1094,7 +1094,7 @@ Here is an example extensibility file content, listing most of the available ext
         // unattended installation
         "unattended",
 
-        // NB: the installation cannot run while certain applications are running,
+        // NB: the installation can't run while certain applications are running,
         // e.g. a previous installation of Glue42 Enterprise, or Excel/Word/Outlook
         // (unless the corresponding plugin is disabled in the artifacts extensibility point)
 
@@ -1181,7 +1181,7 @@ Here is an example extensibility file content, listing most of the available ext
                 // by default, exit code 0 is success,
                 // while any other means error message, followed by installer exiting
                 // you can override with "success" for success, any other string for error message
-                // (error messages are not shown in unattended installation to avoid stalling)
+                // (error messages aren't shown in unattended installation to avoid stalling)
                 "exitCode1": "There was an error validating your installation",
                 "exitCode2": "There was an error contacting server",
                 "exitCode3": "success",

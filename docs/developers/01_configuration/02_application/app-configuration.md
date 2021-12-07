@@ -2,7 +2,7 @@
 
 The configuration of an application consists of base properties which are common for all types of applications, while type-specific ones are located in the `"details"` property. The bare minimum of properties, regardless of the type of application, is to set the `"name"`, `"type"` and `"details"`. 
 
-User application configuration files should be stored in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder where `<ENV-REG>` should be replaced by the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). The files at this location will not be erased or overwritten in case you change or upgrade your version of [**Glue42 Enterprise**](https://glue42.com/enterprise/).
+User application configuration files should be stored in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder where `<ENV-REG>` should be replaced by the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). The files at this location won't be erased or overwritten in case you change or upgrade your version of [**Glue42 Enterprise**](https://glue42.com/enterprise/).
 
 The configuration files of the apps that come with the [**Glue42 Enterprise**](https://glue42.com/enterprise/) installer are located in the `%LocalAppData%\Tick42\GlueDesktop\config\apps` folder. For more details, see the [application configuration schema](../../../assets/configuration/application.json).
 

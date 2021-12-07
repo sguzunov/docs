@@ -26,7 +26,7 @@ As a **developer**, you no longer need to waste time and effort struggling to un
 
 ### End Users
 
-As an **end user**, you will continue working with a familiar environment and will not need to learn how to use new and incompatible application UIs. Enjoy the comfort of using all these familiar apps whenever and however you need to.
+As an **end user**, you will continue working with a familiar environment and won't need to learn how to use new and incompatible application UIs. Enjoy the comfort of using all these familiar apps whenever and however you need to.
 
 - See why organizations around the world are choosing [**Glue42 Enterprise**](https://glue42.com/enterprise/) as their desktop management solution: our partners' [success stories](https://glue42.com/success-stories/).
 

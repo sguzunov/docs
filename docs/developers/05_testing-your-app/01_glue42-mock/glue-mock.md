@@ -6,7 +6,7 @@ A mock implementation of the Glue42 library is useful when you want to test your
 - `/src` - the source of a sample Glue42 enabled app;
 - `/test` - [Puppeteer](https://developers.google.com/web/tools/puppeteer) tests of the sample app;
 
-*[Puppeteer](https://developers.google.com/web/tools/puppeteer) is used to test the sample Glue42 enabled app. However, the Glue42 mock is not tied up to Puppeteer and can be used with other tools as well.*
+*[Puppeteer](https://developers.google.com/web/tools/puppeteer) is used to test the sample Glue42 enabled app. However, the Glue42 mock isn't tied up to Puppeteer and can be used with other tools as well.*
 
 ## Glue42 Mock
 

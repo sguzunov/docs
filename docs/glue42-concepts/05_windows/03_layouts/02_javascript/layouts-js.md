@@ -57,7 +57,7 @@ To get a collection of all currently available [`Layout`](../../../../reference/
 const layouts = glue.layouts.list(); 
 ```
 
-*The `list()` method is not available in `"slim"` mode. Use [`export()`](#layout_operations-exporting_and_importing) instead.*
+*The `list()` method isn't available in `"slim"` mode. Use [`export()`](#layout_operations-exporting_and_importing) instead.*
 
 ### Saving and Restoring
 

@@ -105,7 +105,7 @@ glueWindowOptions.WithTitle("My Window");
 IGlueWindow glueWindow = await glue.GlueWindows.RegisterWindow(this.Handle, glueWindowOptions);
 ```
 
-WinForms windows do not support automatic unregistration. You should explicitly call `Unregister()` when the window is closed:
+WinForms windows don't support automatic unregistration. You should explicitly call `Unregister()` when the window is closed:
 
 ```csharp
 glueWindow.Unregister();
@@ -131,7 +131,7 @@ glue.GlueWindows.RegisterAppWindow(myWindow, myWindow, myWindowAppName,
 
 ## Window Operations
 
-Once an application window is registered, the Window Management API will accept full control over the window positioning, sizing and visibility. The application should not use *native* methods (for example, WPF/WinForms calls) to control the window as it will interfere with the Glue42 window management. 
+Once an application window is registered, the Window Management API will accept full control over the window positioning, sizing and visibility. The application shouldn't use *native* methods (for example, WPF/WinForms calls) to control the window as it will interfere with the Glue42 window management. 
 
 You can perform operations on the current window and on any other registered window.
 

@@ -69,7 +69,7 @@ Configure the resize behavior when resizing Glue42 Windows within a group by dra
 "sizingMode": "Single"
 ```
 
-*Note that when using `"sizingMode": "Single"`, the `borderSize`, `frameThickness` and `singleFrameThickness` theme properties must not be set to `0`, otherwise you will not be able to resize or stick the Glue42 Windows properly.*
+*Note that when using `"sizingMode": "Single"`, the `borderSize`, `frameThickness` and `singleFrameThickness` theme properties must not be set to `0`, otherwise you won't be able to resize or stick the Glue42 Windows properly.*
 
 ![Proportional Sizing](../../../images/sw-configuration/sizing-single.gif)
 

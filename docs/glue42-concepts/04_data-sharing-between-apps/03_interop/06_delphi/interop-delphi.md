@@ -1,8 +1,8 @@
 ## Method Registration
 
-To expose a Glue42 method that can be invoked by other Glue42 enabled applications, you must register the method in Glue42 and provide its implementation. The application must also implement the [`IGlueRequestHandler`](../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#interfaces-igluerequesthandler) interface to dispatch and handle the method invocation requests.  
+To expose a Glue42 method that can be invoked by other Glue42 enabled applications, you must register the method in Glue42 and provide its implementation. The application must also implement the [`IGlueRequestHandler`](../../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#interfaces-igluerequesthandler) interface to dispatch and handle the method invocation requests.  
 
-This can be simplified by using the [`TGlueRequestHandler`](../../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#glue42_helper_unit-classes_for_handling_events-tgluerequesthandler) class of the [Glue42 Helper Unit](../../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#glue42_helper_unit) which takes care of implementing [`IGlueRequestHandler`](../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#interfaces-igluerequesthandler) and dispatching the request to a specific Delphi procedure.
+This can be simplified by using the [`TGlueRequestHandler`](../../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#glue42_helper_unit-classes_for_handling_events-tgluerequesthandler) class of the [Glue42 Helper Unit](../../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#glue42_helper_unit) which takes care of implementing [`IGlueRequestHandler`](../../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#interfaces-igluerequesthandler) and dispatching the request to a specific Delphi procedure.
 
 ### Registering Methods
 

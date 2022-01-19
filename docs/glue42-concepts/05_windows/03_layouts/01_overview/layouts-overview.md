@@ -36,7 +36,7 @@ In the standard [**Glue42 Enterprise**](https://glue42.com/enterprise/) deployme
 
 ### Local Layout Stores
 
-By default, the Layouts are saved to and loaded from a local Layouts store located in the `%LocalAppData%\Tick42\UserData\T42-DEMO\layouts` folder, where you can store, customize and delete your Layout files locally. 
+By default, the Layouts are saved to and loaded from a local Layout store located in the `%LocalAppData%\Tick42\UserData\T42-DEMO\layouts` folder, where you can store, customize and delete your Layout files locally. 
 
 The configuration for the Layout stores is found under the `"layouts"` top-level key of the `system.json` file and by default it is set to manage Layouts as local files:
 
@@ -52,7 +52,7 @@ The configuration for the Layout stores is found under the `"layouts"` top-level
 
 Layout definitions can also be hosted on a server and obtained from a REST service. 
 
-For a reference implementation of a remote Layout definitions store, see the [Node.js REST Config](https://github.com/Glue42/rest-config-example-node-js) example. The user Layouts are stored in files with the same structure as local Layouts files. This basic implementation doesn't take the user into account and returns the same set of data for all users. New Layouts are stored in files using the name of the Layout and there isn't validation for the name. The operation for removing a Layout isn't implemented and just logs to the console. For instructions on running the sample server on your machine, see the `README.md` file in the repository.
+For a reference implementation of a remote Layout definitions store, see the [Node.js REST Config](https://github.com/Glue42/rest-config-example-node-js) example. The user Layouts are stored in files with the same structure as local Layout files. This basic implementation doesn't take the user into account and returns the same set of data for all users. New Layouts are stored in files using the name of the Layout and there isn't validation for the name. The operation for removing a Layout isn't implemented and just logs to the console. For instructions on running the sample server on your machine, see the README file in the repository.
 
 For a .NET implementation of a remote Layout definitions store, see the [.NET REST Config](https://github.com/Tick42/rest-config-example-net) example.
 
@@ -71,14 +71,14 @@ To configure a connection to the REST service providing the Layout store, edit t
 
 | Property | Description |
 |----------|-------------|
-| `"type"` | Can be `"file"`, `"rest"` or `"server"`, depending on the type of Layouts store. |
+| `"type"` | Can be `"file"`, `"rest"` or `"server"`, depending on the type of Layout store. |
 | `"restURL"` | The URL address of the Layouts REST service. |
 | `"restFetchInterval"` | Interval (in seconds) for fetching Layouts from the REST service. |
 | `"restClientAuth"` | Authentication configuration. Can be one of `"no-auth"`, `"negotiate"` or `"kerberos"`. |
 
 *The `"restURL"`, `"restFetchInterval"` and `"restClientAuth"` properties are valid only when `"type"` is set to `"rest"`. Otherwise, they are ignored.*
 
-The remote store must return application definitions in the following response shape:
+The remote store must return Layout definitions in the following response shape:
 
 ```json
 {
@@ -99,4 +99,4 @@ You can also use the [Glue42 Server](../../../glue42-server/index.html) for host
 }
 ```
 
-*Note that when using the [Glue42 Server](../../../glue42-server/index.html) as a Layout store, Layouts files aren't only fetched from the server, but are also saved on the server (e.g., when the user edits and saves an existing Layout).*
+*Note that when using the [Glue42 Server](../../../glue42-server/index.html) as a Layout store, Layout files aren't only fetched from the server, but are also saved on the server (e.g., when the user edits and saves an existing Layout).*

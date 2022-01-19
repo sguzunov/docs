@@ -14,7 +14,7 @@ All APIs return [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScri
 
 ### Glue42 Enterprise Installation
 
-You can download the [**Glue42 Enterprise**](https://glue42.com/enterprise/) trial version from [here](https://glue42.com/).
+You can download the [**Glue42 Enterprise**](https://glue42.com/enterprise/) trial version from [here](https://glue42.com/free-trial/).
 
 ## Referencing
 

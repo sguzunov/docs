@@ -93,15 +93,27 @@ Setting the background color of windows when loading:
 
 ![Loading background color](../../../images/themes/loading-background-color.png)
 
-You can use XAML files to set a custom loading animation. Specify a path to the XAML file - either absolute or relative to the `%LocalAppData%\Tick42\GlueDesktop\config` folder:
+To set a custom loading animation for Glue42 Windows, specify a path to a XAML file - either absolute or relative to the `%LocalAppData%\Tick42\GlueDesktop\config` folder:
 
 ```json
 "properties": {
-    "loadingAnimation": "../custom/dotCircleSpinner.xaml",
+    "loadingAnimation": "../custom/spinner.xaml",
 }
 ```
 
-![Loading animation](../../../images/themes/dot-circle.png)
+Setting custom text, font, font size and text color for the Glue42 Window loader:
+
+```json
+"properties": {
+    "loadingAnimation": "../custom/spinner.xaml",
+    "loadingText": "My custom loader text.",
+    "loadingTextFont": "Calibri",
+    "loadingTextFontSize": 20,
+    "loadingTextColor": "#eeeeee"
+}
+```
+
+![Loading animation](../../../images/themes/custom-window-loader.png)
 
 ### Tabs
 

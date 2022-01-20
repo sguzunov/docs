@@ -1,8 +1,8 @@
 ## Overview
 
-The Glue42 **Dev Tools** are meant to help both developers and non-technical users to better understand the processes taking place inside the Glue42 enabled applications. They deliver useful internal framework information in an intuitive and user-friendly UI. 
+The Glue42 **Dev Tools** are meant to help both developers and non-technical users to better understand the processes taking place inside the Glue42 enabled applications. They deliver useful internal framework information in an intuitive and user-friendly UI.
 
-This information is useful when testing app integration, app performance or app interaction with other apps or [contexts](../../glue42-concepts/data-sharing-between-apps/shared-contexts/overview/index.html) within the Glue42 environment. Testing your app behavior doesn't require the use of dummy apps for the debugging process - you can directly see and interfere with the processes taking place between real apps, in real time. Whether you are a single developer working on the compatibility of an app with Glue42, or you collaborate with other dev teams and want to ensure cross-team method implementation consistency, the Dev Tools provide powerful means to extract and monitor the necessary information. 
+This information is useful when testing app integration, app performance or app interaction with other apps or [contexts](../../glue42-concepts/data-sharing-between-apps/shared-contexts/overview/index.html) within the Glue42 environment. Testing your app behavior doesn't require the use of dummy apps for the debugging process - you can directly see and interfere with the processes taking place between real apps, in real time. Whether you are a single developer working on the compatibility of an app with Glue42, or you collaborate with other dev teams and want to ensure cross-team method implementation consistency, the Dev Tools provide powerful means to extract and monitor the necessary information.
 
 Launch each Dev Tool from the Dev Tools Launcher application accessible from the Glue42 toolbar.
 
@@ -17,7 +17,7 @@ Available applications:
 
 In addition, the following tools are also available for debugging:
 
-- [Applications View](../../getting-started/general-overview/index.html#using_glue42_enterprise-applications_view) - a tool that provides general overview of all running hidden or visible applications.
+- [Applications View](../../getting-started/what-is-glue42/general-overview/index.html#using_glue42_enterprise-applications_view) - a tool that provides general overview of all running hidden or visible applications.
 - Press `F12` on a focused Glue42 window to open the built-in browser developer console.
 - Add DevTools Extensions supported by Electron to [**Glue42 Enterprise**](https://glue42.com/enterprise/). See [Adding DevTools Extensions](../../glue42-concepts/glue42-platform-features/index.html#adding_devtools_extensions).
 
@@ -29,7 +29,7 @@ The Application Monitor provides an overview of all applications running in [**G
 
 ### Enabling Performance Tracking
 
-The Application Monitor is disabled by default. To be able to use the Application Monitor and the Performance Report, enable the tracking of application performance information from the [**Glue42 Enterprise**](https://glue42.com/enterprise/) system configuration. 
+The Application Monitor is disabled by default. To be able to use the Application Monitor and the Performance Report, enable the tracking of application performance information from the [**Glue42 Enterprise**](https://glue42.com/enterprise/) system configuration.
 
 Configure the `"performanceTracker"` top-level key in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) to enable performance tracking:
 
@@ -67,9 +67,9 @@ Right click anywhere on the grid and select "Export to Excel" from the context m
 
 ### Rows
 
-Each row represents an application and the information inside it is updated every 2 seconds. 
+Each row represents an application and the information inside it is updated every 2 seconds.
 
-- "Report" button - opens a new window with a [Performance Report](#performance_report) for an individual application. 
+- "Report" button - opens a new window with a [Performance Report](#performance_report) for an individual application.
 - "Performance Report" button - select several apps and click the "Performance Report" button at the bottom to open a [Performance Report](#performance_report) for the selected apps.
 
 To focus an application, double click anywhere on its row. This action will also show a hidden application for a limited period of time (20 seconds), in case you need to open a browser dev console for it, for example.
@@ -107,7 +107,7 @@ Right click anywhere in the application information grid to choose which columns
 
 ## Performance Report
 
-Performance Report is a tool for finding performance issues of applications running in [**Glue42 Enterprise**](https://glue42.com/enterprise/). It is useful for delving into performance, requests, issues and also enables you to compare app performance. To initiate Performance Report for a single app, click the "Report" button at the end of the row of the respective application. For Performance Report for multiple apps, select the desired apps and click the Performance Report button at the bottom of the window. 
+Performance Report is a tool for finding performance issues of applications running in [**Glue42 Enterprise**](https://glue42.com/enterprise/). It is useful for delving into performance, requests, issues and also enables you to compare app performance. To initiate Performance Report for a single app, click the "Report" button at the end of the row of the respective application. For Performance Report for multiple apps, select the desired apps and click the Performance Report button at the bottom of the window.
 
 ![Initiate](../../images/dev-tools/performance-report/initiate.gif)
 
@@ -136,13 +136,13 @@ All events grouped as "Glue" events (`connection`, `interop`, `appManager`, `glu
 
 All Electron events - refreshes, interactions, events concerning browser/window creation, etc.
 
-#### Requests 
+#### Requests
 
-Network requests and redirects made by the monitored applications.   
+Network requests and redirects made by the monitored applications.
 
 ### Event Visualization
 
-Events are visualized in 2 different ways - **Data Grid** and **Timeline**. 
+Events are visualized in 2 different ways - **Data Grid** and **Timeline**.
 
 #### Data Grid
 
@@ -179,7 +179,7 @@ An Issue is a pre-defined rule that has been broken:
 
 ## Context Viewer
 
-Many applications use some type of Glue42 context to interact with other applications in the Glue42 environment. The Context Viewer provides a convenient way for a developer to edit and track the changes of a context object - a [Glue42 Window context](../../glue42-concepts/windows/window-management/javascript/index.html#context), a [shared context](../../glue42-concepts/data-sharing-between-apps/shared-contexts/overview/index.html) or a [Channel context](../../glue42-concepts/data-sharing-between-apps/channels/overview/index.html).  
+Many applications use some type of Glue42 context to interact with other applications in the Glue42 environment. The Context Viewer provides a convenient way for a developer to edit and track the changes of a context object - a [Glue42 Window context](../../glue42-concepts/windows/window-management/javascript/index.html#context), a [shared context](../../glue42-concepts/data-sharing-between-apps/shared-contexts/overview/index.html) or a [Channel context](../../glue42-concepts/data-sharing-between-apps/channels/overview/index.html).
 
 Editing and tracking context updates is useful if you want to ensure that your application interacts with context objects as intended. The visual aid and action options provided by the Context Viewer enable you to check whether your app updates the context correctly and whether it reacts to context updates as expected. In some cases, context updates may be happening very frequently rendering the task of retracing the process very difficult. In other cases, an application may be breaking the accepted context data format which in turn causes all other applications interacting with that context object to break. In such situations, the Context Viewer tool greatly simplifies the debugging process.
 
@@ -192,7 +192,7 @@ The Context Viewer tracks the following types of contexts in the Glue42 framewor
 
 ![Context types](../../images/dev-tools/context-viewer/context-types.png)
 
-Choose a context type and click on a specific context to go to the Main Editor page. 
+Choose a context type and click on a specific context to go to the Main Editor page.
 
 ![Main Editor](../../images/dev-tools/context-viewer/main-editor.png)
 
@@ -223,7 +223,7 @@ In the example below the "Client List" application is listening for context upda
 
 ### Tracking Context Change
 
-The Context Viewer allows you to track how contexts change and to compare different context states. 
+The Context Viewer allows you to track how contexts change and to compare different context states.
 
 In the example below, "History Mode" for the "Red" Channel is enabled, meaning that each update of the "Red" Channel context will be recorded as a context state. The Diff Tool displays a list of the context states (to the left) and the difference between two context states selected by the user (to the right):
 
@@ -294,4 +294,4 @@ The stream tab has three sections - Expected Input, User Input and Subscriptions
 
 *The Expected Input (top-left) and User Input (bottom-left) sections are identical with the ones for invoking an Interop method and are described in the [Invoking Methods](#interop_viewer-invoking_methods) section above.*
 
-- Subscriptions (right) - shows all subscriptions as timestamped tabs. The status of the subscription is shown as a colored circle in the tab - a blue circle signifies an active subscription, an empty circle signifies a suspended one, or one with error. Switch between "Stream" and "Called with" to see the data received from the stream or the arguments with which the subscription was made. Each subscription tab contains data entries received from the stream subscription. The subscription may be to one or more servers offering the same stream - the data entries from the different servers are color coded. Select a server from the "SERVERS" panel at the bottom of the Subscriptions section to show/hide the data entries from the respective servers. Click on the header of a data entry to expand or collapse it. Use the buttons in the left vertical panel of the Subscriptions section to control the subscription status and results. The "Use Call Arguments" button will insert the arguments from the currently selected subscription in the User Input section. The "Disconnect/Reconnect" button will stop/resume the subscription. The "Expand/Collapse Results" button will expand or collapse all data entries. The "Clear Results" button will remove all data entries. Expand a data entry to see the data chunk received from the stream. Use the "Copy" button to copy the data chunk as an object literal to the clipboard. 
+- Subscriptions (right) - shows all subscriptions as timestamped tabs. The status of the subscription is shown as a colored circle in the tab - a blue circle signifies an active subscription, an empty circle signifies a suspended one, or one with error. Switch between "Stream" and "Called with" to see the data received from the stream or the arguments with which the subscription was made. Each subscription tab contains data entries received from the stream subscription. The subscription may be to one or more servers offering the same stream - the data entries from the different servers are color coded. Select a server from the "SERVERS" panel at the bottom of the Subscriptions section to show/hide the data entries from the respective servers. Click on the header of a data entry to expand or collapse it. Use the buttons in the left vertical panel of the Subscriptions section to control the subscription status and results. The "Use Call Arguments" button will insert the arguments from the currently selected subscription in the User Input section. The "Disconnect/Reconnect" button will stop/resume the subscription. The "Expand/Collapse Results" button will expand or collapse all data entries. The "Clear Results" button will remove all data entries. Expand a data entry to see the data chunk received from the stream. Use the "Copy" button to copy the data chunk as an object literal to the clipboard.

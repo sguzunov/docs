@@ -1,8 +1,8 @@
 ## Splash Screen
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) has a built-in splash screen, but also supports showing a custom splash screen. The splash screen can be loaded from a local file or from a remote location. 
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) has a built-in splash screen, but also supports showing a custom splash screen. The splash screen can be loaded from a local file or from a remote location.
 
-To replace the splash screen HTML file, go to `%LocalAppData%\Tick42\GlueDesktop\assets\splash` and add your own custom file. 
+To replace the splash screen HTML file, go to `%LocalAppData%\Tick42\GlueDesktop\assets\splash` and add your own custom file.
 
 Use the `"splash"` top-level key in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) to specify the splash screen location, bounds and other options. The path to a local splash screen file can be either absolute or relative to the `%LocalAppData%\Tick42\GlueDesktop\assets\splash` folder:
 
@@ -20,13 +20,13 @@ The `"disabled"` property is set to `false` by default. Use the `"blockStartup"`
 
 ![Splash](../../../../images/rebrand-glue42/splash.png)
 
-For the splash screen setup to work, you must handle the following events: 
+For the splash screen setup to work, you must handle the following events:
 
 ```javascript
 // `updateStatus` event
 ipcRenderer.on("updateStatus", (event, arg) => {
     console.log(`updating status to ${arg.text}`);
-    var status = document.getElementById("status");    
+    var status = document.getElementById("status");
     status.innerHTML = arg.text + "...";
 });
 
@@ -131,6 +131,7 @@ To change the product name in the splash screen or the toolbar applications, you
 The built-in [**Glue42 Enterprise**](https://glue42.com/enterprise/) icons are replaceable. You can change:
 
 - the icon displayed when [**Glue42 Enterprise**](https://glue42.com/enterprise/) is pinned to the taskbar;
+- the [**Glue42 Enterprise**](https://glue42.com/enterprise/) splash icon;
 - the [**Glue42 Enterprise**](https://glue42.com/enterprise/) tray icon;
 - the default taskbar icon for apps;
 - the taskbar icon for Glue42 Window groups;
@@ -144,9 +145,17 @@ The built-in [**Glue42 Enterprise**](https://glue42.com/enterprise/) icons are r
 
 To change the default icon displayed when [**Glue42 Enterprise**](https://glue42.com/enterprise/) is pinned to the taskbar, go to `%LocalAppData%\Tick42\GlueDesktop\assets\images` and replace the `glue.ico` file with your own custom icon, keeping the name `glue.ico`.
 
-### Tray & App Default
+### Splash
 
-The icon displayed in the system tray is also used as a default taskbar icon for Glue42 enabled applications. To change it, go to `%LocalAppData%\Tick42\GlueDesktop\assets\images` and replace the `logo.ico` file with your own custom icon, keeping the name `logo.ico`.
+To change the icon displayed in the taskbar when [**Glue42 Enterprise**](https://glue42.com/enterprise/) is starting and the splash screen is showing, go to `%LocalAppData%\Tick42\GlueDesktop\assets\images`, add you custom icon and name it `splash.ico`. If a `splash.ico` file isn't available, the `logo.ico` file will be used as a default.
+
+### Tray
+
+To change the icon displayed in the system tray, go to `%LocalAppData%\Tick42\GlueDesktop\assets\images`, add you custom icon and name it `tray.ico`. If a `tray.ico` file isn't available, the `logo.ico` file will be used as a default.
+
+### App Default
+
+The `logo.ico` file located in `%LocalAppData%\Tick42\GlueDesktop\assets\images` is used as a default taskbar icon for Glue42 enabled applications. To change it, replace the `logo.ico` file with your own custom icon, keeping the name `logo.ico`.
 
 *Note that the [Floating Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html#floating_toolbar) application also uses this icon by default as its taskbar icon.*
 

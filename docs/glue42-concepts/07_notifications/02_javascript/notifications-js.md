@@ -1,6 +1,6 @@
 ## Raising Notifications from a Web App
 
-*Note that the Glue42 Notifications API uses interfaces extending the interfaces of the [DOM Notifications API](https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API). The documentation below describes the specifics of the Glue42 Notifications API. For full details on the DOM Notification API interfaces, see the respective DOM documentation for [`Notification`](https://developer.mozilla.org/en-US/docs/Web/API/Notification), [`NotificationAction`](https://developer.mozilla.org/en-US/docs/Web/API/NotificationAction), [`NotificationOptions`](https://microsoft.github.io/PowerBI-JavaScript/interfaces/_node_modules_typedoc_node_modules_typescript_lib_lib_dom_d_.notificationoptions.html) and [`Event`](https://developer.mozilla.org/en-US/docs/Web/API/Event).*
+*Note that the Glue42 Notifications API uses interfaces extending the interfaces of the [DOM Notifications API](https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API). The documentation below describes the specifics of the Glue42 Notifications API. For full details on the DOM Notification API interfaces, see the respective DOM documentation for [`Notification`](https://developer.mozilla.org/en-US/docs/Web/API/Notification), [`NotificationAction`](https://microsoft.github.io/PowerBI-JavaScript/interfaces/_node_modules_typedoc_node_modules_typescript_lib_lib_dom_d_.notificationaction.html), [`NotificationOptions`](https://microsoft.github.io/PowerBI-JavaScript/interfaces/_node_modules_typedoc_node_modules_typescript_lib_lib_dom_d_.notificationoptions.html) and [`Event`](https://developer.mozilla.org/en-US/docs/Web/API/Event).*
 
 The Notifications API is accessible through the [`glue.notifications`](../../../reference/glue/latest/notifications/index.html) object.
 
@@ -102,7 +102,7 @@ const notification = await glue.notifications.raise(options);
 
 ## Notification Actions
 
-You can create action buttons for the notification. When the user clicks on an action button, the specified callbacks will be invoked. 
+You can create action buttons for the notification. When the user clicks on an action button, the specified callbacks will be invoked.
 
 ![Actions](../../../images/notifications/actions.png)
 
@@ -233,7 +233,7 @@ const allowOnly = {
     allowed: ["app-one", "app-two"]
 };
 
-// Allows all except the blocked apps to raise notifications. 
+// Allows all except the blocked apps to raise notifications.
 const allowAllExcept = {
     allowed: ["*"],
     blocked: ["app-one", "app-two"]
@@ -296,7 +296,7 @@ There are 4 customizations you can make:
 
 #### Using Notifications in a Workflow
 
-A mortgage specialist might be entering information about a mortgage in an application. This will create a server-side notification that in turn will be pushed to a mortgage support team. Then, the notification will be received by a team member who will click on it and the "Mortgages" application will be automatically opened. The team member can then review and validate the information entered by the mortgage specialist. 
+A mortgage specialist might be entering information about a mortgage in an application. This will create a server-side notification that in turn will be pushed to a mortgage support team. Then, the notification will be received by a team member who will click on it and the "Mortgages" application will be automatically opened. The team member can then review and validate the information entered by the mortgage specialist.
 
 All this becomes possible by assigning an Interop detail routing method to the notification so that the GNS Desktop Manager will call this method (registered by the "Mortgages" app) instead of showing the notification details.
 
@@ -304,7 +304,7 @@ All this becomes possible by assigning an Interop detail routing method to the n
 
 **Handler Method**
 
-Signature: 
+Signature:
 
 ```javascript
 bool HandleNotification(Notification notification)
@@ -314,7 +314,7 @@ If present, the method will be called by the GNS Desktop Manager when a notifica
 
 **Popup Method**
 
-Signature: 
+Signature:
 
 ```javascript
 void PopupNotification(Notification notification)
@@ -324,7 +324,7 @@ Used to define a method which GNS Clients should call to display the notificatio
 
 **Detail Method**
 
-Signature: 
+Signature:
 
 ```javascript
 void ShowNotificationDetails(Notification notification)
@@ -342,20 +342,20 @@ Generic GNS clients will merge the actions defined in the:
 - notification source
 - notification itself
 
-The merging will be done in that order of precedence. 
-	
-The GNS clients can then present the actions to the user in a suitable way (e.g., as hover buttons or a context menu). When a user clicks on an action, the GNS client will execute the corresponding Interop method. Actions can be optionally grouped in a pattern, which may be used by a GNS client to merge the actions under a menu tree or to group the actions in clusters. 
+The merging will be done in that order of precedence.
+
+The GNS clients can then present the actions to the user in a suitable way (e.g., as hover buttons or a context menu). When a user clicks on an action, the GNS client will execute the corresponding Interop method. Actions can be optionally grouped in a pattern, which may be used by a GNS client to merge the actions under a menu tree or to group the actions in clusters.
 
 ```javascript
 const notificationOptions = {
     title: "Critical Alert",
     body: "Your computer will be restarted in 30 seconds",
-    actions: [{ 
+    actions: [{
         action: "restart",
         description: "Initiate system restart.",
         title: "Restart"
     },
-    { 
+    {
         action: "postpone",
         description: "Postpone system restart.",
         title: "Postpone"

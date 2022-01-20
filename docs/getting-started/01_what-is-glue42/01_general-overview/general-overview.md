@@ -30,7 +30,7 @@ Another solution is to use workflow services. This allows a quick DIY approach t
 
 [**Glue42 Enterprise**](https://glue42.com/enterprise/) is a desktop integration platform which brings order and efficiency to the business desktop. It helps you declutter your workspace and make the most use of the precious desktop real estate when your daily workflow requires you to use multiple applications. [**Glue42 Enterprise**](https://glue42.com/enterprise/) allows developers to integrate applications not only at a UI level - providing you with the look and feel of a single app, but also at a functional level - enabling applications to interoperate by communicating with each other. You no longer need to copy-paste your way through several applications multiple times a day just to get the necessary information - [**Glue42 Enterprise**](https://glue42.com/enterprise/) reduces this tiresome and time consuming process to just a single click! What's more, this works for legacy and modern desktop or web apps, and for apps using different technologies - JavaScript, Java, .NET, VBA, Delphi, Node.js, Angular, React, etc.
 
-*In the following sections you will get to know [**Glue42 Enterprise**](https://glue42.com/enterprise/) by using the trial demo edition. If you have not already done so, download the trial installer from the [official Glue42 site](https://glue42.com/free-trial/) and see the [How to Install](../install/index.html) section. Keep in mind that all functionalities and UIs of [**Glue42 Enterprise**](https://glue42.com/enterprise/) can be fully redesigned and customized to suit your specific needs and requirements.*
+*In the following sections you will get to know [**Glue42 Enterprise**](https://glue42.com/enterprise/) by using the trial demo edition. If you have not already done so, download the trial installer from the [official Glue42 site](https://glue42.com/free-trial/) and see the [How to Install](../../how-to/install/index.html) section. Keep in mind that all functionalities and UIs of [**Glue42 Enterprise**](https://glue42.com/enterprise/) can be fully redesigned and customized to suit your specific needs and requirements.*
 
 ### Glue42 Toolbar
 
@@ -48,7 +48,7 @@ The Launchpad is a Windows style Toolbar that is hidden on startup and is activa
 
 ![Launchpad](../../../images/toolbar/launchpad.gif)
 
-### Window Management 
+### Window Management
 
 [**Glue42 Enterprise**](https://glue42.com/enterprise/) offers you an extremely flexible way of arranging all your Glue42 enabled apps on your desktop:
 
@@ -69,7 +69,7 @@ The Launchpad is a Windows style Toolbar that is hidden on startup and is activa
 
 ### Application Data Synchronization
 
-Besides UI integration, [**Glue42 Enterprise**](https://glue42.com/enterprise/) brings application integration on a functional level. By being able to communicate with each other, your apps will not only look as one unified macro application, but will start working together as components of a single system as well. [**Glue42 Enterprise**](https://glue42.com/enterprise/) offers the developers several different approaches to [sharing data between apps](../../../glue42-concepts/data-sharing-between-apps/shared-contexts/overview/index.html), which guarantees flexibility in finding and implementing swift and reliable development solutions for your apps. 
+Besides UI integration, [**Glue42 Enterprise**](https://glue42.com/enterprise/) brings application integration on a functional level. By being able to communicate with each other, your apps will not only look as one unified macro application, but will start working together as components of a single system as well. [**Glue42 Enterprise**](https://glue42.com/enterprise/) offers the developers several different approaches to [sharing data between apps](../../../glue42-concepts/data-sharing-between-apps/shared-contexts/overview/index.html), which guarantees flexibility in finding and implementing swift and reliable development solutions for your apps.
 
 In the example below, apps communicate and synchronize cross-application data between each other by using the Glue42 [Channels](../../../glue42-concepts/data-sharing-between-apps/channels/overview/index.html):
 
@@ -103,7 +103,7 @@ Use the demo GNS Action Tester to explore the notifications UI:
 
 ### Global Search
 
-The Global Search app enables you to search through multiple search providers (applications, backend services, etc.), providing you almost instantly with the necessary information. This saves you the time and trouble of performing multiple searches in different apps until you finally find what you need. The Global Search is activated by pressing a configurable shortcut. [**Glue42 Enterprise**](https://glue42.com/enterprise/) by default is a search provider for applications, Layouts and actions (switching the theme, saving and restoring Layouts, opening URLs directly in Glue42 Windows, restarting or shutting down Glue42). 
+The Global Search app enables you to search through multiple search providers (applications, backend services, etc.), providing you almost instantly with the necessary information. This saves you the time and trouble of performing multiple searches in different apps until you finally find what you need. The Global Search is activated by pressing a configurable shortcut. [**Glue42 Enterprise**](https://glue42.com/enterprise/) by default is a search provider for applications, Layouts and actions (switching the theme, saving and restoring Layouts, opening URLs directly in Glue42 Windows, restarting or shutting down Glue42).
 
 ![Search](../../../images/search/global-search-usage.gif)
 
@@ -115,7 +115,7 @@ Change the theme of [**Glue42 Enterprise**](https://glue42.com/enterprise/) from
 
 ### Platform Features
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) offers a variety of other features - a Logger API, extensible installer, adding extensions to web apps, Hotkeys, support for Flash, zooming, downloading files and more. 
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) offers a variety of other features - a Logger API, extensible installer, adding extensions to web apps, Hotkeys, support for Flash, zooming, downloading files and more.
 
 See some of the [Glue42 Platform Features](../../../glue42-concepts/glue42-platform-features/index.html) below.
 
@@ -158,9 +158,9 @@ Access a general overview of all running hidden or visible applications from the
 
 This section and the trial demo offer only a quick and limited glimpse into the [**Glue42 Enterprise**](https://glue42.com/enterprise/) platform and its unparalleled capabilities. All functionalities and UIs are entirely customizable in order to meet your specifications. This allows for outstanding tailored enterprise solutions, completely fulfilling your business needs and requirements. See the [results our clients have achieved](https://glue42.com/company/about-us/) by using Glue42 - a true testament to the magnitude of [**Glue42 Enterprise**](https://glue42.com/enterprise/)!
 
-For more information, visit the [official Glue42 site](https://glue42.com/) or explore the [Glue42 Concepts](../../../glue42-concepts/glue42-toolbar/index.html) documentation. 
+For more information, visit the [official Glue42 site](https://glue42.com/) or explore the [Glue42 Concepts](../../../glue42-concepts/glue42-toolbar/index.html) documentation.
 
-[Contact us](https://glue42.com/contacts/) at `info@glue42.com` to request a tailored demo or to discuss the [**Glue42 Enterprise**](https://glue42.com/enterprise/) platform and how it can benefit you and your business processes! 
+[Contact us](https://glue42.com/contacts/) at `info@glue42.com` to request a tailored demo or to discuss the [**Glue42 Enterprise**](https://glue42.com/enterprise/) platform and how it can benefit you and your business processes!
 
 ## Glue42 Enterprise for Developers
 

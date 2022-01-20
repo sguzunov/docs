@@ -4,7 +4,7 @@
 
 ## How It All Works
 
-The main components of [**Glue42 Enterprise**](https://glue42.com/enterprise/) are **Glue42 Desktop** and the Glue42 Gateway. These two components can be packed together or deployed independently (see [Deployment](../deployment/index.html#installation_and_setup)).
+The main components of [**Glue42 Enterprise**](https://glue42.com/enterprise/) are **Glue42 Desktop** and the Glue42 Gateway. These two components can be packed together or deployed independently.
 
 ### Glue42 Desktop
 

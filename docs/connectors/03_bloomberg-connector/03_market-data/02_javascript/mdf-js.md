@@ -1,6 +1,6 @@
 ## Initialization
 
-The **BBG Market Data** library is available as an `npm` package - [`@glue42/bbg-market-data`](https://www.npmjs.com/package/@glue42/bbg-market-data). To install it, run the following command in your project directory:
+The **BBG Market Data** library is available as an NPM package - [`@glue42/bbg-market-data`](https://www.npmjs.com/package/@glue42/bbg-market-data). To install it, run the following command in your project directory:
 
 ```cmd
 npm install @glue42/bbg-market-data

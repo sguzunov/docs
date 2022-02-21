@@ -6,7 +6,7 @@ The Glue42 COM library allows you to Glue42 enable your Delphi applications, int
 
 ### Referencing
 
-The [Glue42 COM](https://www.nuget.org/packages/GlueCOM/) library is available as a package in `NuGet` which you can include in your projects. The Glue42 COM library is also distributed with [**Glue42 Enterprise**](https://glue42.com/enterprise/) and is usually located in the `%LocalAppData%\Tick42\GlueSDK\GlueCOMv2` folder.
+The [Glue42 COM](https://www.nuget.org/packages/GlueCOM/) library is available as a package in NuGet which you can include in your projects. The Glue42 COM library is also distributed with [**Glue42 Enterprise**](https://glue42.com/enterprise/) and is usually located in the `%LocalAppData%\Tick42\GlueSDK\GlueCOMv2` folder.
 
 To use any [**Glue42 Enterprise**](https://glue42.com/enterprise/) functionality, you need to add the following units to your Delphi project:
 

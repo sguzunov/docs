@@ -42,7 +42,7 @@ The tutorial directory is organized as follows:
 - **util** - a simple image to base64 converter;
 
 
-Glue42 for JavaScript is also available as versioned `npm` packages (and also runs in `Node.js`), but to keep things simple, in this tutorial we are going to use the latest development version, browserified and ready to be included in your HTML pages. The tutorial is broken into several parts, each demonstrating different Glue42 capabilities, and each part will depend on the completion of the previous ones. We will try to minimize the amount of boilerplate code not related to Glue42, so we will have all HTML, CSS and some JavaScript files already coded and ready to use. Plain HTML and JavaScript are used throughout the tutorial to avoid confusion with other technologies. The coding you are required to do is marked with `TUTOR_TODO` comments, so make sure you search for all of these in all parts of the tutorial. Even though each chapter depends on the previous one, we have provided all the necessary support files, applications and code from the beginning, so you can start and complete the tutorial with your own additions to the starter skeleton, without losing progress.
+Glue42 for JavaScript is also available as versioned NPM packages (and also runs in `Node.js`), but to keep things simple, in this tutorial we are going to use the latest development version, browserified and ready to be included in your HTML pages. The tutorial is broken into several parts, each demonstrating different Glue42 capabilities, and each part will depend on the completion of the previous ones. We will try to minimize the amount of boilerplate code not related to Glue42, so we will have all HTML, CSS and some JavaScript files already coded and ready to use. Plain HTML and JavaScript are used throughout the tutorial to avoid confusion with other technologies. The coding you are required to do is marked with `TUTOR_TODO` comments, so make sure you search for all of these in all parts of the tutorial. Even though each chapter depends on the previous one, we have provided all the necessary support files, applications and code from the beginning, so you can start and complete the tutorial with your own additions to the starter skeleton, without losing progress.
 
 Each part will try to introduce you to just one Glue42 concept, in as little detail as necessary to complete it. You can get a lot more detailed information about the Glue42 APIs in the [API guides](../../../glue42-concepts/glue42-toolbar/index.html) and [references](../../../reference/glue/latest/glue/index.html).
 
@@ -266,8 +266,8 @@ Finally, use the [**Window Management**](../../../reference/glue/latest/windows/
 
 ```javascript
 glue.windows.open(
-    windowName, 
-    window.location.href.replace("clients.html", "portfolio.html"), 
+    windowName,
+    window.location.href.replace("clients.html", "portfolio.html"),
     options);
 ```
 ![Glue42 JavaScript Tutorial Chapter 4.1](../../../images/tutorials/enterprise-js/4.1.gif "Glue42 JavaScript Tutorial Chapter 4.1")
@@ -315,7 +315,7 @@ These settings will make our application feel more like a single app, instead of
 
 The [window settings documentation](../../../glue42-concepts/windows/window-management/javascript/index.html#window_settings) may come in handy here.
 
-**Important note!**   
+**Important note!**
 *You may have noticed that we are configuring the **Portfolio** window twice (once in the config file and once from the `options` object in our code). The reason is that for the time being we are using the **Window Management** API to open a new window/application. When we do this, the application config file isn't taken into account. The proper way to open an application is by using the **Application Management** API, which we will take a look at in **Chapter 5**. When we start using the **Application Management** API, our settings in the config file will be taken into account, but we could still override them with our `options` object.*
 
 Finally, in order to detect when the **Clients** window is closed, you will use a **Window Management** API event ([`windowRemoved()`](../../../reference/glue/latest/windows/index.html#API-windowRemoved)), so that when **Clients** is closed, you will close the **Portfolio** window as well.
@@ -595,4 +595,4 @@ You should now have the foundation to start working on Glue42 enabling your real
 
 Next step?
 
-Build awesome Glue42 enabled apps!! 
+Build awesome Glue42 enabled apps!!

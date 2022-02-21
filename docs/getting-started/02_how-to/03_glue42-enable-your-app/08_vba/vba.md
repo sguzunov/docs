@@ -10,7 +10,7 @@ In the [Glue42 VBA Concepts](#glue42_vba_concepts) section below you will find g
 
 ### Referencing
 
-The [Glue42 COM](https://www.nuget.org/packages/GlueCOM/) library is available as a package in `NuGet` which you can include in your projects. The Glue42 COM library is also distributed with [**Glue42 Enterprise**](https://glue42.com/enterprise/) and is usually located in the `%LocalAppData%\Tick42\GlueSDK\GlueCOMv2` folder.
+The [Glue42 COM](https://www.nuget.org/packages/GlueCOM/) library is available as a package in NuGet which you can include in your projects. The Glue42 COM library is also distributed with [**Glue42 Enterprise**](https://glue42.com/enterprise/) and is usually located in the `%LocalAppData%\Tick42\GlueSDK\GlueCOMv2` folder.
 
 To reference the Glue42 COM library, open the Microsoft VBA Editor and go to `Tools > References`. Click "Browse" find and select the `GlueCOM.dll` file. In the list of available references you should now see "Tick42 Glue for COM":
 

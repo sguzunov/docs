@@ -20,7 +20,7 @@ If you plan on using the [`GlueBase`](https://www.nuget.org/packages/GlueBase/) 
 
 ## Referencing
 
-The [`GlueBase`](https://www.nuget.org/packages/GlueBase/) library is available as a `NuGet` package which you can include and configure in your projects. Download and reference the latest [`GlueBase`](https://www.nuget.org/packages/GlueBase/) version.
+The [`GlueBase`](https://www.nuget.org/packages/GlueBase/) library is available as a NuGet package which you can include and configure in your projects. Download and reference the latest [`GlueBase`](https://www.nuget.org/packages/GlueBase/) version.
 
 *See the [Blazor examples](https://github.com/Glue42/net-examples/tree/master/glazor) on GitHub demonstrating the various [**Glue42 Enterprise**](https://glue42.com/enterprise/) features.*
 

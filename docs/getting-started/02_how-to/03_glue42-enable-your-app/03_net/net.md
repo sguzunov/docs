@@ -1,10 +1,10 @@
 ## Referencing
 
-To use any [**Glue42 Enterprise**](https://glue42.com/enterprise/) functionality, you need to reference the Glue42 .NET library (either as a standalone `Glue42.dll` file or as a [`NuGet` package](https://www.nuget.org/packages/Glue42/)), instantiate and initialize a class called `Glue42`, which provides access to the different [**Glue42 Enterprise**](https://glue42.com/enterprise/) functionalities.
+To use any [**Glue42 Enterprise**](https://glue42.com/enterprise/) functionality, you need to reference the Glue42 .NET library (either as a standalone `Glue42.dll` file or as a [NuGet package](https://www.nuget.org/packages/Glue42/)), instantiate and initialize a class called `Glue42`, which provides access to the different [**Glue42 Enterprise**](https://glue42.com/enterprise/) functionalities.
 
 ### As a NuGet Package
 
-The [Glue42 .NET](https://www.nuget.org/packages/Glue42/) library is available as a `NuGet` package which you can include and configure in your projects.
+The [Glue42 .NET](https://www.nuget.org/packages/Glue42/) library is available as a NuGet package which you can include and configure in your projects.
 
 ![NuGet Package](../../../../images/nuget-package.gif)
 

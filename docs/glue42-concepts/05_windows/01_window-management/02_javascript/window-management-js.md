@@ -409,7 +409,7 @@ await myWindow.setSticky(false);
 To check whether the window is sticky, use the [`isSticky`](../../../../reference/glue/latest/windows/index.html#GDWindow-isSticky) property of a [`GDWindow`](../../../../reference/glue/latest/windows/index.html#GDWindow) instance:
 
 ```javascript
-// Returns a boolean value.
+// Returns a Boolean value.
 const isSticky = myWindow.isSticky;
 ```
 

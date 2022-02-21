@@ -145,7 +145,7 @@ Instead of `name()`, you can also use the `nameMatches()` method to pass a regex
 
 #### Local and Remote Methods
 
-You can look for methods offered both by local and remote servers by using the `localOnly()` method. Pass a boolean value to it to specify whether you need methods offered only by local servers or by both local and remote servers. The method `localOnly()` defaults to `true`, so if you omit it in the search, only methods offered by local servers will be returned.
+You can look for methods offered both by local and remote servers by using the `localOnly()` method. Pass a Boolean value to it to specify whether you need methods offered only by local servers or by both local and remote servers. The method `localOnly()` defaults to `true`, so if you omit it in the search, only methods offered by local servers will be returned.
 
 Here is an example search for local methods:
 

@@ -397,6 +397,26 @@ To change the product name displayed in the installer, use the `"context"` exten
 
 *See also [Extensibility Point: "context"](#extensible_installer-extensibility_points__items-extensibility_point_context).*
 
+### Version
+
+To add a custom suffix to the product version, use the `"context"` extensibility point:
+
+```json
+{
+    "context": [
+        {
+            "type": "setValue",
+            "args": {
+                "name": "VersionSuffix",
+                "value": "custom-suffix"
+            }
+        }
+    ]
+}
+```
+
+*See also [Extensibility Point: "context"](#extensible_installer-extensibility_points__items-extensibility_point_context).*
+
 ### Window Title
 
 To change the title of the installer window, use the `"context"` extensibility point:

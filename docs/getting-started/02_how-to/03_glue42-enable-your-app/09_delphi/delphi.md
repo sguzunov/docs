@@ -111,7 +111,7 @@ Application configuration example:
 | Property | Description |
 |----------|-------------|
 | `"type"` | Must be `"exe"`. |
-| `"path"` | The path to the application - relative or absolute. You can also use the **%GDDIR%** environment variable, which points to the [**Glue42 Enterprise**](https://glue42.com/enterprise/) installation folder. |
+| `"path"` | The path to the application - relative or absolute. You can also use the `%GDDIR%` environment variable, which points to the [Glue42 Enterprise](https://glue42.com/enterprise/) installation folder. |
 | `"command"` | The actual command to execute (the EXE file name). |
 | `"parameters"` | Specifies command line arguments. |
 

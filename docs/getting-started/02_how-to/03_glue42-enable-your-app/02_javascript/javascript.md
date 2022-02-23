@@ -12,7 +12,7 @@ Below you can explore both options for using the Glue42 JavaScript library.
 
 ### From a JavaScript File
 
-Glue42 JavaScript is a library available as a single JavaScript file, which you can include in your web applications using a `<script>` tag. If you are using a Glue42 installer, you can find the JavaScript files in `%LOCALAPPDATA%\Tick42\GlueSDK\GlueJS\js\web`.
+The Glue42 JavaScript library is available as a single JavaScript file, which you can include in your web applications using a `<script>` tag. If you are using a Glue42 installer, you can find the JavaScript files in `%LOCALAPPDATA%\Tick42\GlueSDK\GlueJS\js`.
 
 ```html
 <script type="text/javascript" src="desktop.umd.js"></script>
@@ -52,7 +52,7 @@ Your `package.json` file now should have an entry similar to this:
 ```json
 {
     "dependencies": {
-        "@glue42/desktop": "^5.6.1"
+        "@glue42/desktop": "^5.9.0"
     }
 }
 ```
@@ -110,11 +110,13 @@ Auto injection can be configured on a system level and can be overridden on an a
 To enable auto injection on a system level, edit the `"autoInjectAPI"` property under the `"windows"` top-level key in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/), located in `%LocalAppData%\Tick42\GlueDesktop\config`:
 
 ```json
-"windows": {
-    "autoInjectAPI":{
-        "enabled": true,
-        "version": "5.6.1",
-        "autoInit": false
+{
+    "windows": {
+        "autoInjectAPI":{
+            "enabled": true,
+            "version": "5.6.1",
+            "autoInit": false
+        }
     }
 }
 ```
@@ -166,12 +168,14 @@ You can whitelist and blacklist applications on a system level to control which 
 - all whitelisted applications will be auto injected with the library, all other applications won't be auto injected:
 
 ```json
-"windows": {
-    "autoInjectAPI":{
-        "enabled": true,
-        "version": "4.6.2",
-        "autoInit": false,
-        "whitelist": ["clientlist"]
+{
+    "windows": {
+        "autoInjectAPI":{
+            "enabled": true,
+            "version": "5.9.0",
+            "autoInit": false,
+            "whitelist": ["clientlist"]
+        }
     }
 }
 ```
@@ -179,12 +183,14 @@ You can whitelist and blacklist applications on a system level to control which 
 - blacklisted applications won't be auto injected with the library, all other applications will be auto injected:
 
 ```json
-"windows": {
-    "autoInjectAPI":{
-        "enabled": true,
-        "version": "4.6.2",
-        "autoInit": false,
-        "blacklist": ["clientlist"]
+{
+    "windows": {
+        "autoInjectAPI":{
+            "enabled": true,
+            "version": "5.9.0",
+            "autoInit": false,
+            "blacklist": ["clientlist"]
+        }
     }
 }
 ```
@@ -202,11 +208,12 @@ To configure auto injection on an application level, edit (or add) the `"autoInj
 Below is an example configuration for auto injection on an application level:
 
 ```json
-"details": {
-    ...
-    "autoInjectAPI":{
-        "enabled": true,
-        "autoInit": false
+{
+    "details": {
+        "autoInjectAPI":{
+            "enabled": true,
+            "autoInit": false
+        }
     }
 }
 ```
@@ -225,19 +232,21 @@ If you want to auto initialize your app with a custom initialization [`Config`](
 Below is an example configuration that will auto initialize an application with [Channels](../../../../glue42-concepts/data-sharing-between-apps/channels/javascript/index.html) enabled:
 
 ```json
-"autoInjectAPI":{
-    "enabled": true,
-    "autoInit": {
-        "channels": true
+{
+    "autoInjectAPI":{
+        "enabled": true,
+        "autoInit": {
+            "channels": true
+        }
     }
 }
 ```
 
 ## Application Configuration
 
-To add your application to the [**Glue42 Enterprise**](https://glue42.com/enterprise/) Application Manager, you need to define a JSON configuration file. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder, where `<ENV-REG>` should be replaced by the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
+To add your JavaScript app to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with application configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder, where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
 
-Below you can see how to create a quick and simple application definition:
+The following is an example configuration for a JavaScript app:
 
 ```json
 {
@@ -245,7 +254,7 @@ Below you can see how to create a quick and simple application definition:
     "title": "My App",
     "type": "window",
     "details": {
-        "url": "http://localhost:3333/my-app.html",
+        "url": "https://example.com/my-app/",
         "mode": "tab",
         "width": 500,
         "height": 400
@@ -253,9 +262,9 @@ Below you can see how to create a quick and simple application definition:
 }
 ```
 
-The `"name"`, `"type"`, `"details"` and `"url"` properties are required.
+The `"name"`, `"type"` and `"url"` properties are required and `"type"` must be set to `"window"`. The `"url"` property points to the location of the web application.
 
-See the [Application Configuration](../../../../developers/configuration/application/index.html) section for more information.
+*For more details, see the [Application Configuration](../../../../developers/configuration/application/index.html) section.*
 
 *See the [JavaScript examples](https://github.com/Glue42/js-examples) on GitHub which demonstrate various [**Glue42 Enterprise**](https://glue42.com/enterprise/) features.*
 
@@ -283,4 +292,4 @@ Once the Glue42 JavaScript library has been initialized, your application has ac
 
 ## Reference
 
-[Glue42 JavaScript Reference](../../../../reference/glue/latest/glue/index.html)
+For a complete list of the available JavaScript APIs, see the [Glue42 JavaScript Reference Documentation](../../../../reference/glue/latest/glue/index.html).

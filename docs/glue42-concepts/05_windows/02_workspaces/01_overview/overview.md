@@ -323,7 +323,7 @@ import { useGlue } from "@glue42/react-hooks";
 import { Glue42 } from "@glue42/desktop";
 
 const App = () => {
-	useGlue((glue) => {
+	useGlue(async (glue) => {
         // Getting the ID of the current Frame.
         const frameID = getFrameId();
         // Waiting for the Frame to be loaded.

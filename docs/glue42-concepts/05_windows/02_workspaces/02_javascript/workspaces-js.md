@@ -327,7 +327,7 @@ To specify a position for the [`Workspace`](../../../../reference/glue/latest/wo
 ```javascript
 const restoreOptions = { positionIndex: 1 };
 
-await glue.worksapces.restoreWorkspace("myWorkspace", restoreOptions);
+await glue.workspaces.restoreWorkspace("myWorkspace", restoreOptions);
 ```
 
 *Note that the groups of [pinned and unpinned](#workspace-pinning__unpinning_workspaces) Workspaces are arranged independently of each other, so using the `positionIndex` property of a pinned Workspace will define its position within the pinned Workspaces group.*
@@ -351,7 +351,7 @@ The following example demonstrates how to set an icon for a Workspace when resto
 ```javascript
 const restoreOptions = { icon: "https://example.com/icon.svg" };
 
-await glue.worksapces.restoreWorkspace("myWorkspace", restoreOptions);
+await glue.workspaces.restoreWorkspace("myWorkspace", restoreOptions);
 ```
 
 The following example demonstrates how to set an icon for a Workspace using the [`setIcon()`](../../../../reference/glue/latest/workspaces/index.html#Workspace-setIcon) method:
@@ -389,7 +389,7 @@ To specify whether a Workspace should be pinned when creating or restoring it, u
 ```javascript
 const restoreOptions = { isPinned: true };
 
-await glue.worksapces.restoreWorkspace("myWorkspace", restoreOptions);
+await glue.workspaces.restoreWorkspace("myWorkspace", restoreOptions);
 ```
 
 ### Finding Workspace Elements

@@ -139,8 +139,6 @@ The following is an example JSON configuration for a Java app:
 | `"command"` | The actual command to execute (`java`). |
 | `"parameters"` | Specifies command line arguments. |
 
-*Note that the definition must be a valid JSON file (you should either use a forward slash or escape the backslash).*
-
 *To be able to start Glue42 Java on a dual core machine, you have to pass the `-Dglue.gateway.ws.max-pool-size=3` parameter to the JVM by adding it to the `"parameters"` property described above.*
 
 *For more details, see the [Application Configuration](../../../../developers/configuration/application/index.html#application_configuration-exe) section.*

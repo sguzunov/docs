@@ -90,9 +90,9 @@ end;
 
 ## Application Configuration
 
-To add your Delphi application to the [**Glue42 Enterprise**](https://glue42.com/enterprise/) Application Manager, you need to define a `.json` configuration file and add it to the application configuration store (remote or local). You can add an application configuration file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder to publish your application locally. `<ENV-REG>` in the link should be replaced with the environment and region folder name used for the deployment of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) - e.g., `T42-DEMO`. This way, your files won't be erased or overwritten, in case you decide to upgrade or change your [**Glue42 Enterprise**](https://glue42.com/enterprise/) version.
+To add your Delphi application to [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with application configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder, where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
 
-Application configuration example:
+The following is an example configuration for a Delphi app:
 
 ```json
 {
@@ -114,8 +114,6 @@ Application configuration example:
 | `"path"` | The path to the application - relative or absolute. You can also use the `%GDDIR%` environment variable, which points to the [Glue42 Enterprise](https://glue42.com/enterprise/) installation folder. |
 | `"command"` | The actual command to execute (the EXE file name). |
 | `"parameters"` | Specifies command line arguments. |
-
-*Note that the definition should be a valid JSON file (you should either use a forward slash or escape the backslash).*
 
 ## Glue42 Delphi Concepts
 

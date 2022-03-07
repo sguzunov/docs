@@ -46,7 +46,7 @@ The `"window"` object has the following properties:
 
 ### Authentication
 
-To allow the user access after authenticating, you must signal [**Glue42 Enterprise**](https://glue42.com/enterprise/) that the authentication process is complete. Use the `doneAuth()` method of the `glue42gd` object which is injected in the global `window` object. It accepts an *optional* object as a parameter in which you can specify the name of the authenticated user, а token and headers:
+To allow the user access after authenticating, you must signal [**Glue42 Enterprise**](https://glue42.com/enterprise/) that the authentication process is complete. Use the `authDone()` method of the `glue42gd` object which is injected in the global `window` object. It accepts an *optional* object as a parameter in which you can specify the name of the authenticated user, а token and headers:
 
 ```javascript
 const options = {
@@ -57,10 +57,10 @@ const options = {
     }
 };
 
-glue42gd.doneAuth(options);
+glue42gd.authDone(options);
 ```
 
-The optional object passed as an argument to `doneAuth()` has the following properties:
+The optional object passed as an argument to `authDone()` has the following properties:
 
 | Property | Type | Description |
 |----------|------|-------------|

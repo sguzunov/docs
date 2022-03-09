@@ -43,7 +43,7 @@ Once the Glue42 COM library has been initialized, your application has access to
 - [Interop](../../../../glue42-concepts/data-sharing-between-apps/interop/vba/index.html)
 - [Window Management](../../../../glue42-concepts/windows/window-management/vba/index.html)
 
-The sections below explain several concepts related to using the Glue42 COM library.
+The sections below explain concepts related to using the Glue42 COM library.
 
 ### Composite Values
 

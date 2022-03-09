@@ -117,6 +117,16 @@ The following is an example configuration for a Delphi app:
 
 ## Glue42 Delphi Concepts
 
+Once the Glue42 COM library has been initialized, your application has access to all Glue42 functionalities. For more detailed information on the different Glue42 concepts and APIs, see:
+
+- [Application Management](../../../../glue42-concepts/application-management/delphi/index.html)
+- [Shared Contexts](../../../../glue42-concepts/data-sharing-between-apps/shared-contexts/delphi/index.html)
+- [Channels](../../../../glue42-concepts/data-sharing-between-apps/channels/delphi/index.html)
+- [Interop](../../../../glue42-concepts/data-sharing-between-apps/interop/delphi/index.html)
+- [Window Management](../../../../glue42-concepts/windows/window-management/delphi/index.html)
+
+The sections below explains concepts related to using the Glue42 COM library.
+
 ### Glue42 Time
 
 Glue42 time is essentially a Unix timestamp: the number of milliseconds since the Unix epoch, i.e. `1970-01-01 00:00:00 UTC`, ignoring leap seconds.

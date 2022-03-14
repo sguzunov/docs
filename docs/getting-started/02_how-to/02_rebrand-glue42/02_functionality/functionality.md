@@ -420,7 +420,6 @@ The `"allowMultipleInstances"` property accepts the following values:
 | Value | Description |
 |-------|-------------|
 | `"inDifferentEnvRegion"` | Default. Allows running multiple instances only in different [environments/regions](#environments__regions). |
-| `"always"` | Allows running multiple instances under all conditions. |
 | `"never"` | Disables running multiple instances. |
 
 ### Multiple Versions

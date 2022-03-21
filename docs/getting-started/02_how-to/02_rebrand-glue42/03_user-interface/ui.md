@@ -304,7 +304,7 @@ To change the taskbar icon of the Notification Panel, modify the [application co
 
 ```json
 {
-    "name": "js-gns-dialog-toast",
+    "name": "js-gns-dialog-panel",
     "icon": "file:///%GDDIR%/assets/custom/icon.ico"
 }
 ```

@@ -919,6 +919,26 @@ To opt out of creating a Start Menu folder, use the `"context"` extensibility po
 
 *See also [Extensibility Point: "context"](#extensible_installer-extensibility_points__items-extensibility_point_context).*
 
+## Control Panel Settings
+
+To change the publisher name in the Control Panel "Uninstall or change a program" menu, use the `"context"` extensibility point:
+
+```json
+{
+    "context": [
+        {
+            "type": "setValue",
+            "args": {
+                "name": "UninstallPublisher",
+                "value": "My Company Name"
+            }
+        }
+    ]
+}
+```
+
+*See also [Extensibility Point: "context"](#extensible_installer-extensibility_points__items-extensibility_point_context).*
+
 ## Artifacts
 
 The following is a list of the names of the available [**Glue42 Enterprise**](https://glue42.com/enterprise/) Artifacts:

@@ -77,7 +77,7 @@ The only required properties for each app store configuration object are `"type"
 | Property | Description |
 |----------|-------------|
 | `"auth"` | Authentication configuration. Can be one of `"no-auth"`, `"negotiate"` or `"kerberos"`. |
-| `"pollInterval"` | Interval at which to poll the REST service for updates. |
+| `"pollInterval"` | Interval in milliseconds at which to poll the REST service for updates. |
 | `"enablePersistentCache"` | Whether to cache and persist the configuration files locally (e.g., in case of connection interruptions). |
 | `"cacheFolder"` | Where to keep the persisted configuration files. |
 
@@ -295,4 +295,4 @@ The `"citrix"` key has the following properties:
 | `"launcherPath"` | Location of the Citrix module used to launch published Citrix Virtual Apps. |
 | `"launcherModule"` | The file name of the Citrix module used to launch published Citrix Virtual Apps. |
 | `"launcherArguments"` | The command line arguments used to launch published Citrix Virtual Apps. |
-| `"launcherSpawnInterval"` | Interval (in milliseconds) at which multiple launcher modules will be spawned. |
+| `"launcherSpawnInterval"` | Interval in milliseconds at which multiple launcher modules will be spawned. |

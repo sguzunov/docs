@@ -94,7 +94,7 @@ Provides a continuous, uninterrupted installation process from the moment the in
 | Argument | Type | Description |
 |----------|------|-------------|
 | `"conflictHandling"` | `"ask"` \| `"retry"` | Specify how to handle conflicts during unattended or hidden installations. The possible values are `"retry"` - try to resume the installation automatically, and `"ask"` - display a message for the user to dismiss. Using `"ask"` may stall the installation if no user is present. |
-| `"waitMs"` | `number` | At what interval in milliseconds to attempt resuming the installation. |
+| `"waitMs"` | `number` | Interval in milliseconds at which to attempt resuming the installation. |
 | `"retries"` | `number` | The number of times to try to resume the installation. |
 
 *See also the [Unattended Installation](#unattended_installation) section.*

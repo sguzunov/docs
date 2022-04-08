@@ -921,7 +921,7 @@ To opt out of creating a Start Menu folder, use the `"context"` extensibility po
 
 ## Control Panel Settings
 
-To change the publisher name in the Control Panel "Uninstall or change a program" menu, use the `"context"` extensibility point:
+To change the publisher name displayed in the Control Panel "Uninstall or change a program" menu, use the `"context"` extensibility point:
 
 ```json
 {
@@ -931,6 +931,22 @@ To change the publisher name in the Control Panel "Uninstall or change a program
             "args": {
                 "name": "UninstallPublisher",
                 "value": "My Company Name"
+            }
+        }
+    ]
+}
+```
+
+To change the icon displayed in the Control Panel "Uninstall or change a program" menu, use the `"context"` extensibility point:
+
+```json
+{
+    "context": [
+        {
+            "type": "setValue",
+            "args": {
+                "name": "UninstallDisplayIcon",
+                "value": "icon.ico"
             }
         }
     ]

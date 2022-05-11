@@ -1,5 +1,7 @@
 ## Overview
 
+*See the [Delphi 10](https://github.com/Glue42/native-examples/tree/main/glue-com/GlueDelphi) and [Delphi 7](https://github.com/Glue42/native-examples/tree/main/glue-com/GlueDelphi7) examples on GitHub which demonstrate various [**Glue42 Enterprise**](https://glue42.com/enterprise/) features.*
+
 The Glue42 COM library allows you to Glue42 enable your Delphi applications, integrate them with other Glue42 enabled applications in [**Glue42 Enterprise**](https://glue42.com/enterprise/) and use Glue42 functionality in them. To access Glue42 functionalities in your Delphi application, you have to reference and initialize the Glue42 COM library. Currently, the Glue42 COM library supports Delphi 7 and Delphi 10.
 
 ## Using the Glue42 COM Library
@@ -90,7 +92,7 @@ end;
 
 ## Application Configuration
 
-To add your Delphi application to [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with application configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder, where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
+To add your Delphi application to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with application configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder, where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
 
 The following is an example configuration for a Delphi app:
 
@@ -125,7 +127,7 @@ Once the Glue42 COM library has been initialized, your application has access to
 - [Interop](../../../../glue42-concepts/data-sharing-between-apps/interop/delphi/index.html)
 - [Window Management](../../../../glue42-concepts/windows/window-management/delphi/index.html)
 
-The sections below explains concepts related to using the Glue42 COM library.
+The following sections explain concepts related to using the Glue42 COM library.
 
 ### Glue42 Time
 

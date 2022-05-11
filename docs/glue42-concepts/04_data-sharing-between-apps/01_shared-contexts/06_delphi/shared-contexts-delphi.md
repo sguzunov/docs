@@ -1,5 +1,7 @@
 ## Using Shared Contexts
 
+*See the [Delphi 10](https://github.com/Glue42/native-examples/tree/main/glue-com/GlueDelphi) and [Delphi 7](https://github.com/Glue42/native-examples/tree/main/glue-com/GlueDelphi7) examples on GitHub.*
+
 In order to use shared contexts, you must implement the [`IGlueContextHandler`](../../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#interfaces-igluecontexthandler) interface:
 
 ```delphi

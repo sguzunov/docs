@@ -1,5 +1,7 @@
 ## Glue42 Windows
 
+*See the [Delphi 10](https://github.com/Glue42/native-examples/tree/main/glue-com/GlueDelphi) and [Delphi 7](https://github.com/Glue42/native-examples/tree/main/glue-com/GlueDelphi7) examples on GitHub.*
+
 In order for form windows of Delphi applications to become Glue42 Windows, they must be registered as Glue42 Windows after the Glue42 COM library has been initialized.
 
 ## Registering Delphi Forms

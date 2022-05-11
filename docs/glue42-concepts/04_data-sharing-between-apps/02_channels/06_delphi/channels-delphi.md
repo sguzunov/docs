@@ -1,5 +1,7 @@
 ## Overview
 
+*See the [Delphi 10](https://github.com/Glue42/native-examples/tree/main/glue-com/GlueDelphi) and [Delphi 7](https://github.com/Glue42/native-examples/tree/main/glue-com/GlueDelphi7) examples on GitHub.*
+
 The Glue42 Channels are enabled by default when registering a VBA window as a Glue42 Window. You have to provide handler implementations for the Channel related events that will be raised due to interaction with the Glue42 Window instance - [changing Channels](#handling_channel_change) and [handling Channel data updates](#subscribing_for_channel_updates). When the Glue42 Channels are enabled, a Channel Selector box is available in the window title bar.
 
 To check whether the Channel Selector is visible, use the [`GetChannelSupport`](../../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#interfaces-igluewindow-getchannelsupport) method of an [`IGlueWindow`](../../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#interfaces-igluewindow) instance. To hide or show the Channel Selector, use the [`SetChannelSupport`](../../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#interfaces-igluewindow-setchannelsupport).

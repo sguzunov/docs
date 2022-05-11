@@ -1,5 +1,7 @@
 ## Overview
 
+*See the [Delphi 10](https://github.com/Glue42/native-examples/tree/main/glue-com/GlueDelphi) and [Delphi 7](https://github.com/Glue42/native-examples/tree/main/glue-com/GlueDelphi7) examples on GitHub.*
+
 Individual forms in a multi-form application can be registered as separate Glue42 applications. The forms to be registered as Glue42 apps must implement the [`IGlueApp`](../../../getting-started/how-to/glue42-enable-your-app/delphi/index.html#interfaces-iglueapp) interface and the main form must be registered as a Glue42 application factory in order to create and register the forms.
 
 ## App Factories

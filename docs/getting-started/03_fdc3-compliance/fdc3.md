@@ -84,7 +84,7 @@ Below is an example configuration for an Intent:
 |----------|-------------|
 | `"name"` | **Required.** The name of the Intent. |
 | `"displayName"` | The human readable name of the Intent. Can be used in context menus, etc., to visualize the Intent. |
-| `"contexts"` | **Required.** The type of predefined data structures that the application can work with (see [FDC3 Contexts](https://fdc3.finos.org/docs/next/context/overview)). |
+| `"contexts"` | **Required.** The type of predefined data structures that the application can work with (see [FDC3 Contexts](https://fdc3.finos.org/docs/context/overview)). |
 
 *For more information on using Intents, see the [FDC3 Intents API](https://fdc3.finos.org/docs/intents/overview).*
 

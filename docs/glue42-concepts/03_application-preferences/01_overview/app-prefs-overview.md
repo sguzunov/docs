@@ -38,6 +38,6 @@ The `"type"` property accepts the following values:
 | `"rest"` | Application preferences will be saved using the REST service at the URL provided to the `"restURL"` property. |
 | `"server"` | Application preferences will be saved using the Glue42 Server (the Glue42 Server must be configured first). |
 
-*For more details, see the [Developers > Configuration](../../../developers/configuration/overview/index.html) section and the [system configuration schema](../../../assets/configuration/system.jsons).*
+*For more details, see the [Developers > Configuration](../../../developers/configuration/overview/index.html) section and the [system configuration schema](../../../assets/configuration/system.json).*
 
 For a reference implementation of a remote application preferences store, see the [Node.js REST Config](https://github.com/Glue42/rest-config-example-node-js) example. This basic implementation doesn't take the user into account and returns the same set of data for all requests. For instructions on running the sample server on your machine, see the README file in the repository.

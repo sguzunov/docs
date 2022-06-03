@@ -129,6 +129,21 @@ The following example demonstrates defining two preload scripts by providing the
 }
 ```
 
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.15">
+
+Preload scripts can be defined globally in the [system configuration](../../developers/configuration/system/index.html) of [**Glue42 Enterprise**](https://glue42.com/enterprise/). Use the `"preloadScripts"` property of the `"windows"` top-level key in the `system.json` file:
+
+```json
+{
+    "windows": {
+        "preloadScripts": [
+            "https://my-domain.com/my-script.js",
+            "https://my-domain.com/my-other-script.js"
+        ]
+    }
+}
+```
+
 ## Global Protocol Handler
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.12">

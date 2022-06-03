@@ -33,8 +33,8 @@ https://cdn.glue42.com/:package@:version/:file
 ```
 
 - Using the latest version: `https://cdn.glue42.com/desktop@latest`;
-- Using a fixed version: `https://cdn.glue42.com/desktop@5.6.1`
-- Using a specific file different from the one defined in the `package.json`: `https://cdn.glue42.com/browse/desktop@5.6.1/dist/web/@glue42/desktop.min.js`
+- Using a fixed version: `https://cdn.glue42.com/desktop@5.11.2`
+- Using a specific file different from the one defined in the `package.json`: `https://cdn.glue42.com/browse/desktop@5.11.2/dist/desktop.umd.min.js`
 - To see all available versions and files, append `/` to the URL: `https://cdn.glue42.com/desktop/`
 
 ### From an NPM Module
@@ -114,7 +114,7 @@ To enable auto injection on a system level, edit the `"autoInjectAPI"` property 
     "windows": {
         "autoInjectAPI":{
             "enabled": true,
-            "version": "5.6.1",
+            "version": "5.11.2",
             "autoInit": false
         }
     }
@@ -124,7 +124,7 @@ To enable auto injection on a system level, edit the `"autoInjectAPI"` property 
 | Property | Description |
 |----------|-------------|
 | `"enabled"` | **Required**. Whether to enable auto injecting the library. |
-| `"version"` | **Required**. Specify a version of the library to inject. It is recommended to use a specific version and avoid wildcard versions (e.g., `5.6.*` or `5.*.*`). |
+| `"version"` | **Required**. Specify a version of the library to inject. It is recommended to use a specific version and avoid wildcard versions (e.g., `5.11.*` or `5.*.*`). |
 | `"autoInit"` | *Optional*. Whether to initialize the library. Can accept either a `boolean` value or a [`Config`](../../../../reference/glue/latest/glue/index.html#Config) object with which to initialize the library. |
 
 You can see what versions of the Glue42 JavaScript library are available for auto injection in the `%LocalAppData%\Tick42\GlueDesktop\assets\glue42` folder. If you specify a version which isn't available, [**Glue42 Enterprise**](https://glue42.com/enterprise/) will continue working normally without injecting a library in the applications running in it.

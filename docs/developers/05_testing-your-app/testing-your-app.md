@@ -42,13 +42,14 @@ const waitForAppToLoad = (appName, electronApp) => {
 
                 // Compare the received app name with the actual app name and resolve on load if they match.
                 if (appName === glue42gd.application) {
-                    page.on("load", () => {
-                        resolve({
-                            app: glue42gd.application,
-                            instance: glue42gd.instance,
-                            glue42gd,
-                            page
-                        });
+
+                    await page.waitForLoadState();
+
+                    resolve({
+                        app: glue42gd.application,
+                        instance: glue42gd.instance,
+                        glue42gd,
+                        page
                     });
                 };
             } catch (error) {

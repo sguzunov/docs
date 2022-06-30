@@ -14,7 +14,7 @@ The Glue42 Outlook Connector API lets your app interact with Outlook, and enable
 
 ## Initialization
 
-As shown in the [Set Up Your App](../../set-up-your-app/javascript/index.html) section, you need to initialize the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) library and set the [`outlook`](../../../../reference/glue4office/latest/outlook/index.html#OutlookAPI) property of the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) configuration object to `true`:
+As shown in the [Set Up Your App](../../set-up-your-application/javascript/index.html) section, you need to initialize the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) library and set the [`outlook`](../../../../reference/glue4office/latest/outlook/index.html#OutlookAPI) property of the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) configuration object to `true`:
 
 ```javascript
 const config = {

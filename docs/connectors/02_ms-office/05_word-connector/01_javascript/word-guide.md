@@ -11,7 +11,7 @@ Summary of features:
 
 ## Initialization
 
-As shown in the [Set Up Your App](../../set-up-your-app/javascript/index.html) section, you need to initialize the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) library and set the [`word`](../../../../reference/glue4office/latest/word/index.html) property of the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) configuration object to `true`:
+As shown in the [Set Up Your App](../../set-up-your-application/javascript/index.html) section, you need to initialize the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) library and set the [`word`](../../../../reference/glue4office/latest/word/index.html) property of the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) configuration object to `true`:
 
 ```javascript
 const config = {

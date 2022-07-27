@@ -214,6 +214,15 @@
                 "launcherApp": {
                     "description": "Name of the application to be used to launch this app.",
                     "type": "string"
+                },
+                "allowRegisteringWorkspaceShortcuts": {
+                    "description": "Will allow registering shortcuts in any workspace.",
+                    "type": "boolean",
+                    "default": false
+                },
+                "allowCookiesManipulation": {
+                    "description": "If `true`, the app can query and modify the session cookies.",
+                    "type": "boolean"
                 }
             }
         },
@@ -2449,6 +2458,10 @@
             "description": "Defines a workspace config.",
             "additionalProperties": true,
             "properties": {
+                "default": {
+                    "type": "boolean",
+                    "description": "If true the application will act as default workspace application (will be used if no workspace app is specified or the specified one is missing)."
+                },
                 "saveWorkspaceApp": {
                     "type": "string"
                 },

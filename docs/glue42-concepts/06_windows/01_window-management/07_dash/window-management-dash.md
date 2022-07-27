@@ -124,7 +124,7 @@ The table below shows all available window settings:
 | `hasSizeAreas` | `boolean` | If `false`, the window can't be resized by dragging its borders, maximizing, etc. | `true` | Flat and HTML | Flat |
 | `height` | `number` | Window height (in pixels). | `400` | All | All |
 | `hidden` | `boolean` | If `true`, the window will be started as a hidden window. | `false` | All | All |
-| `historyNavigationEnabled` | `boolean` | If `true`, this will allow the users to navigate back (`CTRL + Left`) and forward (`CTRL + Right`) through the web page history. | `GLOBAL CONFIG` | All | None |
+| `historyNavigationEnabled` | `boolean` | If `true`, this will allow the users to navigate back (`CTRL + LEFT`) and forward (`CTRL + RIGHT`) through the web page history. | `GLOBAL CONFIG` | All | None |
 | `isChild` | `boolean` | If `true`, the window will open as a child window, sharing the lifetime and the environment of the opener. | `false` | All | None |
 | `isCollapsed` | `boolean` | If `true`, the window will start collapsed. | `false` | All | None |
 | `isSticky` | `boolean` | If `true`, the window will stick to other Glue42 Windows forming groups. | `true` | All | All |

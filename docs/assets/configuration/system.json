@@ -2836,7 +2836,8 @@
                                         "type": {
                                             "description": "Type of the action to execute.",
                                             "enum": [
-                                                "centerScreen"
+                                                "centerScreen",
+                                                "userDefined"
                                             ]
                                         },
                                         "icon": {

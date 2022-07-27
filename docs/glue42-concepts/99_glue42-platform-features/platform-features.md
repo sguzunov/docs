@@ -588,9 +588,9 @@ For a complete list of the available Hotkeys API methods and properties, see the
 
 You can zoom in and out of windows in several ways:
 
-- `CTRL` + `=/-`;
-- `CTRL` + mouse scroll;
-- `CTRL` + `0` - resets to the default zoom factor;
+- `CTRL + =` (zoom in) and `CTRL + -` (zoom out);
+- `CTRL + MOUSE SCROLL`;
+- `CTRL + 0` - resets to the default zoom factor;
 - mouse pad gestures;
 - using the right-click context menu (if enabled);
 
@@ -862,23 +862,19 @@ For a complete list of the available Displays API methods and properties, see th
 
 *Note that you can also customize the logging mechanism of [**Glue42 Enterprise**](https://glue42.com/enterprise/) through its [logging configuration](../../developers/configuration/system/index.html#logging).*
 
-### Logging to Files from Your JavaScript App
-
 Adding logging to files to your JavaScript apps can be helpful in a variety of ways. Having a well-designed and meaningful logging structure in your apps and their components can save a lot of time when debugging an app during development or troubleshooting problems with an app in production.
 
-### Logging Configuration
+### Configuration
 
-Logging for apps in [**Glue42 Enterprise**](https://glue42.com/enterprise/) is disabled by default. To allow it, add an `"allowLogging"` key to your app configuration file and set it to `true`:
+Logging for apps in [**Glue42 Enterprise**](https://glue42.com/enterprise/) is disabled by default. To allow it, use the `"allowLogging"` top-level key in the [app configuration](../../developers/configuration/application/index.html) file:
 
 ```json
 {
-    "name": "my-app",
-    "allowLogging": true,
-    "details": {}
+    "allowLogging": true
 }
 ```
 
-### Using a Logger
+### Logger API
 
 The Logger API is accessible through the [`glue.logger`](../../reference/glue/latest/logger/index.html) object.
 
@@ -932,9 +928,13 @@ For a complete list of the available Logger API methods and properties, see the 
 
 ## Cookies
 
-<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.14">
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.16">
 
-By default, Glue42 enabled web apps aren't allowed to manipulate cookies. To allow an app to manipulate cookies for the default web session, use the `"allowCookiesManipulation"` property of the `"details"` top-level key in the [app configuration](../../developers/configuration/application/index.html) file:
+Web apps can retrieve, filter, set and remove cookies programmatically by using the Glue42 Cookies API.
+
+### Configuration
+
+By default, Glue42 enabled web apps aren't allowed to manipulate cookies. To allow an app to manipulate cookies, use the `"allowCookiesManipulation"` property of the `"details"` top-level key in the [app configuration](../../developers/configuration/application/index.html) file:
 
 ```json
 {
@@ -944,25 +944,45 @@ By default, Glue42 enabled web apps aren't allowed to manipulate cookies. To all
 }
 ```
 
-When an app is allowed to manipulate cookies, the globally available `glue42gd` object is injected with a `cookies` object which offers methods for manipulating cookies.
+### Cookies API
 
-*Note that the available Glue42 methods for manipulating cookies mirror the methods of a `Cookies` instance as described in the Electron documentation. For more details on the method signatures, see the Electron documentation for the [Instance Methods](https://www.electronjs.org/docs/latest/api/cookies#instance-methods) of the `Cookies` class.*
+The Cookies API is accessible through the [`glue.cookies`](../../reference/glue/latest/cookies/index.html) object.
 
-To get a collection of all cookies for the default web session, use the `get()` method and pass an empty object as a filter:
+#### Get
 
-```javascript
-const allCookies = await glue42gd.cookies.get({});
-```
-
-To filter the cookies, pass a cookie name, URL, or other identifiers in the filter object:
+To retrieve all cookies, use the [`get()`](../../reference/glue/latest/cookies/index.html#API-get) method:
 
 ```javascript
-const filter = { name: "MyCookie" };
-
-const myCookie = (await glue42gd.cookies.get(filter))[0];
+const allCookies = await glue.cookies.get();
 ```
 
-To create a cookie for the default web session, use the `set()` method. It is required to pass an object with a valid `url` property:
+The [`get()`](../../reference/glue/latest/cookies/index.html#API-get) method returns a list of [`Cookie`](../../reference/glue/latest/cookies/index.html#Cookie) objects.
+
+To filter the cookies, pass a [`CookiesGetFilter`](../../reference/glue/latest/cookies/index.html#CookiesGetFilter) object with the properties which you want to use as a filter.
+
+The following example demonstrates filtering cookies by domain:
+
+```javascript
+const filter = { domain: "glue42.com" };
+
+// Get a list of cookies for the same domain.
+const filteredCookies = await glue.cookies.get(filter);
+```
+
+The [`CookiesGetFilter`](../../reference/glue/latest/cookies/index.html#CookiesGetFilter) object has the following optional properties, which you can use in any combination to filter the cookies:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `url` | `string` | Retrieves the cookies which are associated with the specified URL. If not specified, will retrieve the cookies for all URLs. |
+| `name` | `string` | Filters the cookies by name. |
+| `domain` | `string` | Retrieves the cookies whose domains match or are subdomains of the specified domain. |
+| `path` | `string` | Retrieves the cookies whose path matches the specified path. |
+| `secure` | `boolean` | Filters cookies by their `Secure` attribute. |
+| `session` | `boolean` | If `true`, will return only the session cookies. If `false`, will return only the persistent cookies. |
+
+#### Set
+
+To create a cookie, use the [`set()`](../../reference/glue/latest/cookies/index.html#API-set) method. It accepts as a required argument a [`CookiesSetDetails`](../../reference/glue/latest/cookies/index.html#CookiesSetDetails) object with a required `url` property:
 
 ```javascript
 const cookie = {
@@ -971,16 +991,32 @@ const cookie = {
     value: "42"
 };
 
-await glue42gd.cookies.set();
+await glue.cookies.set(cookie);
 ```
 
-To remove a cookie for the default web session, use the `remove()` method and pass the cookie URL and name:
+The [`CookiesSetDetails`](../../reference/glue/latest/cookies/index.html#CookiesSetDetails) object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `url` | `string` | **Required.** URL to associate with the cookie. |
+| `name` | `string` | Name for the cookie. |
+| `value` | `string` | Value for the cookie. |
+| `domain` | `string` | Domain for the cookie. Will be normalized with a preceding dot in order to be valid for subdomains too. |
+| `path` | `string` | Path for the cookie. |
+| `secure` | `boolean` | If `true`, the cookie will be marked with a `Secure` attribute. Default is `false`, unless the `SameSite` attribute has been set to `None`. |
+| `httpOnly` | `boolean` | If `true`, the cookie will be marked with an `HttpOnly` attribute. Default is `false`. |
+| `expirationDate` | `number` | The expiration date of the cookie as a number of seconds since the UNIX epoch. If not specified, the cookie will become a session cookie and won't be persisted between sessions. |
+| `sameSite` | `"unspecified"` \| `"no_restriction"` \| `"lax"` \| `"strict"` | The value to be applied to the `SameSite` attribute. If set to `"no_restriction"`, the `secure` property will be set automatically to `true`. Default is `"lax"`. |
+
+#### Remove
+
+To remove a cookie, use the [`remove()`](../../reference/glue/latest/cookies/index.html#API-remove) method and pass the cookie URL and name:
 
 ```javascript
 const url = "https://example.com";
 const name = "MyCookie";
 
-await glue42gd.cookies.remove(url, name);
+await glue.cookies.remove(url, name);
 ```
 
 ## Accessing OS Info

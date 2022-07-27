@@ -408,7 +408,7 @@ To set the zoom behavior of the Glue42 Windows, use the `"zoom"` property of the
 
 ### Printing
 
-Use the "CTRL + P" key combination to print a web page opened in a Glue42 Window. To enable or disable printing, or to configure the default print settings use the `"print"` property of the `"windows"` top-level key. The following example demonstrates configuring some of the available print settings:
+Use the `CTRL + P` key combination to print a web page opened in a Glue42 Window. To enable or disable printing, or to configure the default print settings use the `"print"` property of the `"windows"` top-level key. The following example demonstrates configuring some of the available print settings:
 
 ```json
 {
@@ -463,7 +463,7 @@ To enable or disable printing a web page as a PDF file, or to configure the defa
 | `"autoSave"` | Whether to auto save the PDF file. |
 | `"autoOpenPath"` | Whether to auto open the directory where the file was saved. |
 | `"fullPath"` | The default directory where PDF files will be saved. |
-| `"usePrintShortcutKey"` | Whether to use "CTRL + P" to print to a PDF file by default. |
+| `"usePrintShortcutKey"` | Whether to use `CTRL + P` to print to a PDF file by default. |
 | `"pageSize"` | The size of the printed page. |
 | `"printBackground"` | Whether to print the page background. |
 | `"printSelectionOnly"` | Whether to print only the currently selected section of the page. |

@@ -127,7 +127,7 @@ Register Hotkeys (keyboard shortcuts) from your apps for performing certain acti
 
 #### Zooming
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) supports window zooming through standard keyboard shortcuts ("CTRL + =" for zooming in, "CTRL + -" for zooming out and "CTRL + 0" for restoring the window to the default zoom factor) or by using the "CTRL" key and the mouse wheel:
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) supports window zooming through standard keyboard shortcuts (`CTRL + =` for zooming in, `CTRL + -` for zooming out and `CTRL + 0` for restoring the window to the default zoom factor) or by using the "CTRL" key and the mouse wheel:
 
 ![Zooming](../../../images/platform-features/zooming.gif)
 

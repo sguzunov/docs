@@ -200,25 +200,23 @@ await myWorkspace.refreshReference();
 
 ### Restoring Workspaces
 
-You can restore a Workspace by using the [`restoreWorkspace()`](../../../../reference/glue/latest/workspaces/index.html#API-restoreWorkspace) method which is available at top level of the API. It accepts an optional [`RestoreWorkspaceConfig`](../../../../reference/glue/latest/workspaces/index.html#RestoreWorkspaceConfig) object in which you can specify a title and a context for the restored Workspace, and also whether to restore it in a specific existing frame or in a new frame:
+You can restore a Workspace by using the [`restoreWorkspace()`](../../../../reference/glue/latest/workspaces/index.html#API-restoreWorkspace) method which is available at top level of the API. It accepts an optional [`RestoreWorkspaceConfig`](../../../../reference/glue/latest/workspaces/index.html#RestoreWorkspaceConfig) object in which you can specify a title and a context for the restored Workspace:
 
 ```javascript
-// Specify the Frame in which to restore the Workspace.
-const restoreOptions = {
-    frameId: "frame-id"
-};
+const restoreOptions = { title: "My Workspace" };
 
 const workspace = await glue.workspaces.restoreWorkspace("myWorkspace", restoreOptions);
 ```
 
-This method is also available on the frame instance:
+This method is also available on the [`Frame`](../../../../reference/glue/latest/workspaces/index.html#Frame) instance. Using [`restoreWorkspace()`](../../../../reference/glue/latest/workspaces/index.html#API-restoreWorkspace) from a Frame instance will restore the Workspace in that Frame:
 
 ```javascript
 const myFrame = await glue.workspaces.getMyFrame();
 
-// You don't have to specify a Frame in which to restore the Workspace.
 const workspace = await myFrame.restoreWorkspace("myWorkspace");
 ```
+
+*For more details on how to use new or existing Frames or target different Workspaces Apps when restoring a Workspace, see the [Targeting](#workspace-targeting) section.*
 
 ### Creating Workspaces
 
@@ -253,7 +251,20 @@ const definition = {
 const workspace = await glue.workspaces.createWorkspace(definition);
 ```
 
-*If you insert an empty [`Column`](../../../../reference/glue/latest/workspaces/index.html#Column), [`Row`](../../../../reference/glue/latest/workspaces/index.html#Row) or [`Group`](../../../../reference/glue/latest/workspaces/index.html#Group) element in a Workspace (without a window as its content), it will be visually represented in the Workspace as an empty space with a grey background and a button in the middle from which the user will be able to add an app. The user won't be able to move or close this empty element.*
+*Note that if you insert an empty [`Column`](../../../../reference/glue/latest/workspaces/index.html#Column), [`Row`](../../../../reference/glue/latest/workspaces/index.html#Row) or [`Group`](../../../../reference/glue/latest/workspaces/index.html#Group) element in a Workspace (without a window as its content), it will be visually represented in the Workspace as an empty space with a grey background and a button in the middle from which the user will be able to add an app. The user won't be able to move or close this empty element.*
+
+This method is also available on the [`Frame`](../../../../reference/glue/latest/workspaces/index.html#Frame) instance. Using [`createWorkspace()`](../../../../reference/glue/latest/workspaces/index.html#API-createWorkspace) from a Frame instance will create the Workspace in that Frame:
+
+```javascript
+// Define an empty Workspace.
+const definition = { children: [] };
+
+const myFrame = await glue.workspaces.getMyFrame();
+
+const workspace = await myFrame.createWorkspace(definition);
+```
+
+*For more details on how to use new or existing Frames or target different Workspaces Apps when creating a Workspace, see the [Targeting](#workspace-targeting) section.*
 
 #### Workspaces Builder API
 
@@ -286,6 +297,99 @@ builder.addColumn()
 
 // Finally, use the `create()` method of the builder instance to create the Workspace.
 const workspace = await builder.create();
+```
+
+### Targeting
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.16">
+
+When [creating](#workspace-creating_workspaces) or [restoring](#workspace-restoring_workspaces) a Workspace, you can target [different Workspaces Apps](../overview/index.html#extending_workspaces-workspaces_app_configuration-multiple_workspaces_apps) and their existing instances, or create a new [`Frame`](../../../../reference/glue/latest/workspaces/index.html#Frame) in which to load the Workspace.
+
+When opening an [empty Frame](#frame-empty_frame), you can associate it with a specific Workspaces app.
+
+#### Workspaces Apps
+
+If you are using [multiple Workspaces Apps](../overview/index.html#extending_workspaces-workspaces_app_configuration-multiple_workspaces_apps), you can target a specific Workspaces App when creating or restoring a Workspace or when opening an [empty Frame](#frame-empty_frame).
+
+To target a Workspaces App when creating or restoring a Workspace, use the `applicationName` property of the [`WorkspaceDefinition`](../../../../reference/glue/latest/workspaces/index.html#WorkspaceDefinition) or the [`RestoreWorkspaceConfig`](../../../../reference/glue/latest/workspaces/index.html#RestoreWorkspaceConfig) object respectively. As its value, pass the name of the Workspaces App as defined in its [configuration](../overview/index.html#extending_workspaces-workspaces_app_configuration):
+
+```javascript
+const targetAppName = "workspaces-one";
+
+// Target a Workspaces App which will create the Workspace.
+const definition = { children: [], frame: { applicationName: targetAppName } };
+
+await glue.workspaces.createWorkspace(definition);
+
+// Target a Workspaces App which will restore the Workspace.
+const restoreOptions = { applicationName: targetAppName };
+
+await glue.workspaces.restoreWorkspace("myWorkspace", restoreOptions);
+```
+
+*Note that when targeting a Workspaces App, the Workspace will always be created or restored in the last [`Frame`](../../../../reference/glue/latest/workspaces/index.html#Frame) instance of that Workspaces App.*
+
+To find out the name of the Workspaces App to which a [`Frame`](../../../../reference/glue/latest/workspaces/index.html#Frame) belongs, use the `id` property of the [`Frame`](../../../../reference/glue/latest/workspaces/index.html#Frame) object to find the [app instance](../../../application-management/javascript/index.html#listing_running_instances) of the Frame via the [App Management API](../../../../reference/glue/latest/appmanager/index.html):
+
+```javascript
+const frameID = myFrame.id;
+const frameInstance = glue.appManager.instances().find(instance => instance.id === frameID);
+const workspacesAppName = frameInstance.application.name;
+```
+
+To target a Workspaces App when opening an empty Frame, use the `applicationName` property of the [`EmptyFrameDefinition`](../../../../reference/glue/latest/workspaces/index.html#EmptyFrameDefinition) object:
+
+```javascript
+// Target a Workspaces App which will create the empty Frame.
+const definition = { applicationName: "workspaces-one" };
+
+const emptyFrame = await glue.workspaces.createEmptyFrame(definition);
+```
+
+#### Existing Frame
+
+To reuse an existing [`Frame`](../../../../reference/glue/latest/workspaces/index.html#Frame) instance when creating or restoring a Workspace, specify the ID of the Frame in the [`WorkspaceDefinition`](../../../../reference/glue/latest/workspaces/index.html#WorkspaceDefinition) or the [`RestoreWorkspaceConfig`](../../../../reference/glue/latest/workspaces/index.html#RestoreWorkspaceConfig) object respectively:
+
+```javascript
+const frameID = "frame-id";
+
+// Create a Workspace in an existing Frame.
+const definition = { children: [], frame: { reuseFrameId: frameID } };
+
+await glue.workspaces.createWorkspace(definition);
+
+// Restore a Workspace in an existing Frame.
+const restoreOptions = { frameId: frameID };
+
+await glue.workspaces.restoreWorkspace("myWorkspace", restoreOptions);
+```
+
+#### New Frame
+
+To open a new [`Frame`](../../../../reference/glue/latest/workspaces/index.html#Frame) when creating or restoring a Workspace, use the `newFrame` property of the [`WorkspaceDefinition`](../../../../reference/glue/latest/workspaces/index.html#WorkspaceDefinition) or the [`RestoreWorkspaceConfig`](../../../../reference/glue/latest/workspaces/index.html#RestoreWorkspaceConfig) object respectively. Set the `newFrame` property to `true` or pass a [`NewFrameConfig`](../../../../reference/glue/latest/workspaces/index.html#NewFrameConfig) object to it describing the options for the new Frame:
+
+```javascript
+// Create a Workspace in a new Frame.
+const definition = {
+    children: [],
+    frame: {
+        newFrame: {
+            bounds: {
+                top: 10,
+                left: 10,
+                height: 1000,
+                width: 1500
+            }
+        }
+    }
+};
+
+await glue.workspaces.createWorkspace(definition);
+
+// Restore a Workspace in a new Frame.
+const restoreOptions = { newFrame: true };
+
+await glue.workspaces.restoreWorkspace("myWorkspace", restoreOptions);
 ```
 
 ### Focusing a Workspace
@@ -793,13 +897,29 @@ await myWorkspace.addRow(rowDefinition);
 
 Workspace Layouts are JSON objects that describe the content and arrangement of a Workspace. Workspace Layouts can be saved ([locally or remotely](../../layouts/overview/index.html#layout_stores), depending on how your [**Glue42 Enterprise**](https://glue42.com/enterprise/) has been setup), deleted, exported and imported.
 
+The Workspaces Layouts API is accessible through the [`glue.workspaces.layouts`](../../../../reference/glue/latest/workspaces/index.html#WorkspaceLayoutsAPI) object.
+
 #### Workspace Layout Summaries
 
-You can get the summaries of all Workspace Layouts without the extensive JSON objects describing their structure. For example, you may need only the names of the available Layouts to list them in the UI:
+You can get the [`WorkspaceLayoutSummary`](../../../../reference/glue/latest/workspaces/index.html#WorkspaceLayoutSummary) objects for all Workspace Layouts without the extensive JSON data describing their structure. For example, you may need only the names of the available Layouts to list them in the UI:
 
 ```javascript
 const layoutSummaries = await glue.workspaces.layouts.getSummaries();
 const allLayoutNames = layoutSummaries.map(summary => summary.name);
+```
+
+Each [`WorkspaceLayoutSummary`](../../../../reference/glue/latest/workspaces/index.html#WorkspaceLayoutSummary) contains also the name of the Workspaces App with which the Workspace Layout is associated:
+
+```javascript
+const layoutSummaries = await glue.workspaces.layouts.getSummaries();
+
+layoutSummaries
+    .forEach((summary) => {
+        const layoutName = summary.name;
+        const frameAppName = summary.applicationName;
+
+        console.log(`Workspace Layout "${summary.name}" is associated with the ${frameAppName ? frameAppName : "default"} app.`)
+    });
 ```
 
 #### Saving Workspace Layouts
@@ -880,6 +1000,58 @@ const update = { instrument: "MSFT" };
 await myWorkspace.updateContext(update);
 // Result: `{ clientID: 1, instrument: "MSFT" }`.
 ```
+
+## Workspace Shortcuts
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.16">
+
+Glue42 enabled apps can register keyboard shortcuts for the [Workspaces App](../overview/index.html#workspaces_concepts-frame). There are also some [default shortcuts](#workspace_shortcuts-default_shortcuts) available to the user. Workspace shortcuts allow the users to control the Workspaces only through the keyboard.
+
+The following shows the user going through all open Workspace tabs in a sequential order using the `CTRL + TAB` shortcut:
+
+![Workspace Shortcut](../../../../images/workspaces/workspace-shortcut.gif)
+
+### Registering Shortcuts
+
+To allow a Glue42 enabled app to register a Workspace shortcut, use the `"allowRegisteringWorkspaceShortcuts"` top-level key of the [app configuration](../../../../developers/configuration/application/index.html) file:
+
+```json
+{
+    "allowRegisteringWorkspaceShortcuts": true
+}
+```
+
+To register a Workspace shortcut, use the [`registerShortcut()`](../../../../reference/glue/latest/workspaces/index.html#Frame-registerShortcut) method of the [`Frame`](../../../../reference/glue/latest/workspaces/index.html#Frame) object. It accepts a key combination as a string and a handler for the shortcut as arguments. When the Workspaces App is on focus and the user presses the registered key combination, the handler for it will be executed.
+
+The following example demonstrates how to register a Workspaces shortcut that, when used, will create a new empty Workspace:
+
+```javascript
+// Get the `Frame` object.
+const frame = await glue.workspaces.getMyFrame();
+// Define a key combination for the shortcut.
+const shortcut = "ctrl+w";
+// Define a handler for the shortcut.
+const handler = () => frame.createWorkspace({ children: [] });
+
+// Register the shortcut.
+const unregister = await frame.registerShortcut(shortcut, handler);
+
+// Unregister the shortcut.
+unregister();
+```
+
+*For a list of the supported keys and modifiers, see the [Electron documentation](https://www.electronjs.org/docs/latest/api/accelerator#available-modifiers).*
+
+### Default Shortcuts
+
+The following table lists the predefined Workspaces shortcuts:
+
+| Shortcut | Description |
+|----------|-------------|
+| `CTRL + TAB` | Go through the open Workspaces tabs in a sequential order. |
+| `CTRL + F4` | Close the Workspace tab on focus. |
+| `CTRL + 9` | Go to the last Workspace tab. |
+| `CTRL + 1-8` | Go to any of the first eight Workspace tabs. |
 
 ## Events
 

@@ -156,7 +156,7 @@ Hot module reloading is supported, but keep in mind that each refresh closes all
 
 ### Workspaces App Configuration
 
-Your custom Workspaces App, as every Glue42 enabled app, must have an [app configuration](../../../../developers/configuration/application/index.html) file. Note that [**Glue42 Enterprise**](https://glue42.com/enterprise/) expects only one app definition for a Workspaces App - i.e., one configuration file with `"type"` property set to `"workspaces"`. If multiple Workspaces App definitions are present, the first available one will be used. [**Glue42 Enterprise**](https://glue42.com/enterprise/) comes with a Workspaces UI app and a configuration file for it named `workspaces.json` and located in `%LocalAppData%\Tick42\GlueDesktop\config\apps`. Modify or replace this file with your own configuration file, or delete it, if your app configurations are stored at another location.
+Your custom Workspaces App, as every Glue42 enabled app, must have an [app configuration](../../../../developers/configuration/application/index.html) file. [**Glue42 Enterprise**](https://glue42.com/enterprise/) comes with a Workspaces UI app and a configuration file for it named `workspaces.json` and located in `%LocalAppData%\Tick42\GlueDesktop\config\apps`. Modify or replace this file with your own configuration file, or delete it, if your app configurations are stored at another location.
 
 The `"type"` property must be set to `"workspaces"`:
 
@@ -300,6 +300,46 @@ To control whether an app will be available in the Workspace "Add Application" m
 ```
 
 By default, this property is set to `false`.
+
+#### Multiple Workspaces Apps
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.16">
+
+It's possible to use more than one version of the Workspaces App when your various business use-cases demand different Workspaces App designs or functionalities.
+
+Each Workspaces App that you want to use must have a separate configuration file with its `"type"` property set to `"workspaces"`. You can use the `"default"` property of the `"details"` top-level key to specify a default Workspaces app that will handle all Workspaces whose Layouts don't contain information about which Workspaces App to target (or when the targeted Workspaces App is missing) when creating or restoring them.
+
+The following example shows sample configurations for two different Workspaces Apps, the first of which will be the default one:
+
+```json
+[
+    {
+        "title": "Workspaces One",
+        "type": "workspaces",
+        "name": "workspaces-one",
+        "details": {
+            "default": true,
+            "layouts": [],
+            "url": "http://localhost:3000"
+        },
+        "customProperties": {}
+    },
+    {
+        "title": "Workspaces Two",
+        "type": "workspaces",
+        "name": "workspaces-two",
+        "details": {
+            "layouts": [],
+            "url": "http://localhost:3001"
+        },
+        "customProperties": {}
+    }
+]
+```
+
+Workspaces created by or opened and saved in a specified Workspaces App will be restored by the same Workspaces App. When saving and restoring a [Global Layout](../../layouts/overview/index.html), all Workspaces participating in it will be saved and restored in their respective Workspaces Apps.
+
+*For details on how to target different Workspaces Apps programmatically when creating or restoring Workspaces, see the [Workspace > Targeting](../javascript/index.html#workspace-targeting) section.*
 
 ### Using Glue42 APIs in the Frame
 

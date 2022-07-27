@@ -240,7 +240,7 @@ The table below shows all available window settings:
 | `hasSizeAreas` | `boolean` | If `false`, the window can't be resized by dragging its borders, maximizing, etc. | `true` | Flat and HTML | Flat |
 | `height` | `number` | Window height (in pixels). | `400` | All | All |
 | `hidden` | `boolean` | If `true`, the window will be started as a hidden window. | `false` | All | All |
-| `historyNavigationEnabled` | `boolean` | If `true`, this will allow the users to navigate back (`CTRL + Left`) and forward (`CTRL + Right`) through the web page history. | `GLOBAL CONFIG` | All | None |
+| `historyNavigationEnabled` | `boolean` | If `true`, this will allow the users to navigate back (`CTRL + LEFT`) and forward (`CTRL + RIGHT`) through the web page history. | `GLOBAL CONFIG` | All | None |
 | `isChild` | `boolean` | If `true`, the window will open as a child window, sharing the lifetime and the environment of the opener. | `false` | All | None |
 | `isCollapsed` | `boolean` | If `true`, the window will start collapsed. | `false` | All | None |
 | `isSticky` | `boolean` | If `true`, the window will stick to other Glue42 Windows forming groups. | `true` | All | All |
@@ -463,6 +463,22 @@ const bounds = {
 
 await myWindow.moveResize(bounds);
 ```
+
+### Channel
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.16">
+
+To get the name of the [Channel](../../../data-sharing-between-apps/channels/overview/index.html) to which the window is currently joined, use the [`getChannel()`](../../../../reference/glue/latest/windows/index.html#GDWindow-getChannel) method of a [`GDWindow`](../../../../reference/glue/latest/windows/index.html#GDWindow) instance:
+
+```javascript
+const channelName = await myWindow.getChannel();
+
+if (channelName) {
+    // Use the Channels API to manipulate the Channel context.
+};
+```
+
+Once you have the name of the Channel to which the window is currently joined, you can use the [Channels API](../../../../reference/glue/latest/channels/index.html) to manipulate the Channel context.
 
 ### Placement
 
@@ -760,7 +776,7 @@ Methods for tracking Glue42 Window events are available at top-level of the Wind
 
 *Most of the window event methods return an unsubscribe function which you can use to stop tracking the respective event.*
 
-### Window Added/Removed
+### Window Added or Removed
 
 To track the opening and closing of Glue42 Windows, use the [`onWindowAdded()`](../../../../reference/glue/latest/windows/index.html#API-onWindowAdded) and [`onWindowRemoved()`](../../../../reference/glue/latest/windows/index.html#API-onWindowRemoved) methods of the Window Management API and pass handlers for the respective events:
 
@@ -902,6 +918,20 @@ const refreshHandler = (prevent) => {
 };
 
 myWindow.onRefreshing(refreshHandler);
+```
+
+### Navigating
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.16">
+
+To get notified when a Glue42 Window is about to navigate to a new address, use its [`onNavigating()`](../../../../reference/glue/latest/windows/index.html#GDWindow-onNavigating) method. Pass a handler for the event which will receive as an argument an object containing the new address in its `newUrl` property:
+
+```javascript
+const navigationHandler = (info) => {
+    console.log(`Navigating to: ${info.newUrl}`);
+};
+
+myWindow.onNavigating(navigationHandler);
 ```
 
 ## Window Groups

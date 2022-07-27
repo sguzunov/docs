@@ -122,15 +122,19 @@ const app = glue.appManager.application("ClientList");
 const appInstance = await app.start();
 ```
 
-The `start()` method accepts two optional parameters - a context object (object in which you can pass custom data to your app) and an [`ApplicationStartOptions`](../../../reference/glue/latest/appmanager/index.html#ApplicationStartOptions) object:
+The `start()` method accepts two optional parameters - a context object (object in which you can pass custom data to your app) and an [`ApplicationStartOptions`](../../../reference/glue/latest/appmanager/index.html#ApplicationStartOptions) object.
+
+The following example demonstrates how to start an app with context, enable the Glue42 [Channels](../../data-sharing-between-apps/channels/overview/index.html) for it and join it to a specific Channel:
 
 ```javascript
 const app = glue.appManager.application("ClientList");
 const context = { selectedUser: 2 };
-const startOptions = { hidden: true };
+const startOptions = { allowChannels: true, channelId: "Red" };
 
 const appInstance = await app.start(context, startOptions);
 ```
+
+*Note that all app options available under the `"details"` top level key of the [app configuration](../../../developers/configuration/application/index.html) can be passed as properties of the [`ApplicationStartOptions`](../../../reference/glue/latest/appmanager/index.html#ApplicationStartOptions) object. For more details on the available app configuration options, see the definition for the `"window"` app type under the `"details"` top-level of the [app configuration schema](../../../assets/configuration/application.json).*
 
 ## Listing Running Instances
 

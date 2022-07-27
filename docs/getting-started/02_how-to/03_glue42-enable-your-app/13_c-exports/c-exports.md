@@ -816,6 +816,7 @@ Registers an app factory.
 extern "C" GLUE_LIB_API const void* __cdecl glue_app_register_factory(
     const char* app_factory,
     app_callback_function callback,
+    const char* app_definition_json = nullptr,
     COOKIE cookie = nullptr
 );
 ```
@@ -826,6 +827,7 @@ extern "C" GLUE_LIB_API const void* __cdecl glue_app_register_factory(
 |------|------|-------------|
 | `app_factory` | `const char*` | The name of the app. |
 | `callback` | [`app_callback_function`](#types-appcallbackfunction) | Callback function for handling app instance events. Will be called when an instance of the app is created. |
+| `app_definition_json` | `const char*` | Optional JSON representation of the [app configuration](#app_configuration) to be used. |
 | `cookie` | `COOKIE` | Optional callback cookie. |
 
 *Return value:* Reference to the app factory. Call [`glue_destroy_resource()`](#functions-gluedestroyresource) to unregister the app factory.

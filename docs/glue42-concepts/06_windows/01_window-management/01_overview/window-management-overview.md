@@ -666,12 +666,9 @@ You should consider the following technical limitations when using the [`@glue42
 
 As the Glue42 [web groups](#window_groups-web_groups) are still an experimental feature, the [`@glue42/groups-ui-react`](https://www.npmjs.com/package/@glue42/groups-ui-react) library currently doesn't support the following:
 
-- React 18 (support is currently being developed);
 - expand and collapse programmatic commands and buttons;
-- flydown windows;
 - focus frames for windows on focus;
 - the `"sizingMode": "Single"` option for [resizing windows in a group](../../../../developers/configuration/glue42-windows/index.html#glue42_window_properties-resizing_windows_in_a_group);
-- lock/unlock button;
 - [jump list](../../../glue42-platform-features/index.html#jump_list);
 - HTML window button elements in the web groups aren't customizable;
 - loading animations aren't customizable;

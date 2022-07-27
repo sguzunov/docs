@@ -1,4 +1,4 @@
-## Raising Notifications from a Web App
+## Raising Notifications
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.10">
 
@@ -30,14 +30,16 @@ const notification = await glue.notifications.raise(options);
 
 The [`Glue42NotificationOptions`](../../../reference/glue/latest/notifications/index.html#Glue42NotificationOptions) object extends the standard web `NotificationOptions` object with several additional properties:
 
-| Property | Description |
-|----------|-------------|
-| `actions` | An array of [`Glue42NotificationAction`](../../../reference/glue/latest/notifications/index.html#Glue42NotificationAction) objects. |
-| `title` | The title of the notification. |
-| `clickInterop` | Accepts an [`InteropActionSettings`](../../../reference/glue/latest/notifications/index.html#InteropActionSettings) object as a value. Use this property to [invoke an Interop method](../../data-sharing-between-apps/interop/javascript/index.html#method_invocation) when the user clicks on the notification. You can specify arguments for the method and an [Interop target](../../data-sharing-between-apps/interop/javascript/index.html#method_invocation-targeting). |
-| `severity` | Defines the urgency of the notification which is represented visually by different colors in the notification UI. Can be `"Low"`, `"Medium"`, `"High"`, `"Critical"` or `"None"`. |
-| `source` | Overrides the source of the notification. Provide the name of the Glue42 app which you want to be displayed as a source of the notification. |
-| `type` | Accepts `"Notification"` or `"Alert"` as a value. This property is meant to be used only as a way to distinguish between notification types in case you want to create different visual representations for them - e.g., the `"Notification"` type may be considered a general notification, while the `"Alert"` type may be considered a more important or urgent notification. |
+| Property | Type | Description |
+|----------|------|-------------|
+| `actions` | `Glue42NotificationAction[]` | An array of [`Glue42NotificationAction`](../../../reference/glue/latest/notifications/index.html#Glue42NotificationAction) objects. |
+| `clickInterop` | `object` | Accepts an [`InteropActionSettings`](../../../reference/glue/latest/notifications/index.html#InteropActionSettings) object as a value. Use this property to [invoke an Interop method](../../data-sharing-between-apps/interop/javascript/index.html#method_invocation) when the user clicks on the notification. You can specify arguments for the method and an [Interop target](../../data-sharing-between-apps/interop/javascript/index.html#method_invocation-targeting). |
+| `panelExpiry` | `number` | Interval in seconds after which the notification will be removed from the Notification Panel. |
+| `severity` | `"Low"` \| `"Medium"` \| `"High"` \| `"Critical"` \| `"None"` | Defines the urgency of the notification which is represented visually by different colors in the notification UI. |
+| `source` | `string` | Overrides the source of the notification. Provide the name of the Glue42 app which you want to be displayed as a source of the notification. |
+| `title` | `string` | The title of the notification. |
+| `toastExpiry` | `number` | Interval in seconds after which the notification toast will be hidden. |
+| `type` | `"Notification"` \| `"Alert"` | This property is meant to be used only as a way to distinguish between notification types in case you want to create different visual representations for them - e.g., the `"Notification"` type may be considered a general notification, while the `"Alert"` type may be considered a more important or urgent notification. |
 
 ## Notification Click
 
@@ -281,6 +283,33 @@ To toggle the visibility of the Notification Panel, use the [`toggle()`](../../.
 
 ```javascript
 await glue.notifications.panel.toggle();
+```
+
+## Configuration
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.16">
+
+To turn off notification toasts or to disable the notifications completely, use the [`configure()`](../../../reference/glue/latest/notifications/index.html#API-configure) method. It accepts a [`Configuration`](../../../reference/glue/latest/notifications/index.html#Configuration) object as an argument with the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `enable` | `boolean` | If `true` (default), will enable notifications in the Notification Panel and notification toasts. Set to `false` to completely disable notifications. |
+| `enableToasts` | `boolean` | If `true` (default), will enable notification toasts. The `enable` property must be set to `true`, otherwise this will have no effect. |
+
+To disable all notifications:
+
+```javascript
+const config = { enable: false };
+
+await glue.notifications.configure(config);
+```
+
+To disable only toast notifications:
+
+```javascript
+const config = { enableToasts: false };
+
+await glue.notifications.configure(config);
 ```
 
 ## Advanced Usage

@@ -44,8 +44,7 @@
             },
             "additionalProperties": false,
             "required": [
-                "authController",
-                "options"
+                "authController"
             ]
         },
         {
@@ -126,9 +125,6 @@
                     "additionalProperties": false
                 }
             },
-            "required": [
-                "url"
-            ],
             "additionalProperties": false
         }
     }

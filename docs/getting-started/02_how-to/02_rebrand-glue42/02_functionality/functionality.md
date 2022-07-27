@@ -2,11 +2,80 @@
 
 [**Glue42 Enterprise**](https://glue42.com/enterprise/) allows showing a login screen before the first app is loaded. This is useful if you have shared authentication between your apps (SSO) and you want the user to log in just once.
 
-To enable using a login screen, you have to modify the system configuration of [**Glue42 Enterprise**](https://glue42.com/enterprise/). To complete the authentication process and allow the user access, you have to signal Glue42 that the user has logged in successfully.
+To enable using a login screen, you have to modify the system configuration of [**Glue42 Enterprise**](https://glue42.com/enterprise/) and create a [configuration file](../../../../developers/configuration/application/index.html) for your SSO app. To complete the authentication process and allow the user access, you have to signal Glue42 that the user has logged in successfully.
 
 ### Configuration
 
-To enable the login screen, use the `"ssoAuth"` top-level key of the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) located in `%LocalAppData%\Tick42\GlueDesktop\config` and set its `"authController"` property to `"sso"`. Use the `"options"` property to provide the location of the login screen and settings for the Glue42 Window in which it will be loaded:
+The SSO app is a special system app that is loaded on startup of [**Glue42 Enterprise**](https://glue42.com/enterprise/) and allows the user to authenticate. If authentication is successful, then all other app configurations are fetched and loaded based on user permissions.
+
+There are two ways you can define your SSO app:
+
+- By defining a standalone SSO app [configuration file](../../../../developers/configuration/application/index.html), adding it to a System App Store of [**Glue42 Enterprise**](https://glue42.com/enterprise/) and enabling SSO authentication from the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) (see [Standalone SSO App Definition](#login_screen-configuration-standalone_sso_app_definition)). This is the recommended approach, as it allows you more freedom in configuring your SSO app.
+
+- By defining your SSO app directly in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) (see [SSO Via System Configuration](#login_screen-configuration-sso_via_system_configuration)). Not recommended, as this way you can control only a very limited number of properties for the SSO app.
+
+*Note that no matter how you choose to define your SSO app, it will have [cookies manipulation](../../../../glue42-concepts/glue42-platform-features/index.html#cookies) and [access to OS info](../../../../glue42-concepts/glue42-platform-features/index.html#accessing_os_info) enabled by default, even if you don't set these properties in its configuration file. This is because SSO apps usually need such permissions in order to complete the authentication process.*
+
+#### Standalone SSO App Definition
+
+If you decide to use a standalone [configuration file](../../../../developers/configuration/application/index.html) for your SSO app, follow these steps:
+
+1. Enable the login screen using the `"ssoAuth"` top-level key of the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) located in `%LocalAppData%\Tick42\GlueDesktop\config` and set its `"authController"` property to `"sso"`:
+
+```json
+{
+    "ssoAuth": {
+        "authController": "sso"
+    }
+}
+```
+
+*See also the [authentication controller schema](../../../../assets/configuration/authController.json).*
+
+2. Create a [configuration file](../../../../developers/configuration/application/index.html) for your SSO app.
+
+*Note that it is mandatory to use `"sso-application"` as a name for your app in the definition. Otherwise, [**Glue42 Enterprise**](https://glue42.com/enterprise/) won't recognize your SSO app and will load the built-in login screen.*
+
+The following is an example configuration for an SSO app:
+
+```json
+{
+    "name":"sso-application",
+    "title":"My SSO App",
+    "icon": "https://example.com/icon.ico",
+    "type": "window",
+    "details":{
+        "url":"https://example.com",
+        "mode": "html",
+        "width": 400,
+        "height": 400,
+        "startLocation": "center"
+    }
+}
+```
+
+3. Add your SSO app configuration to a System App Store of [**Glue42 Enterprise**](https://glue42.com/enterprise/). A System App Store contains system app configurations that are loaded before all other app definitions. Use the `"systemAppStores"` top-level key of the `system.json` file to define a System App Store and provide the location of your SSO app configuration. The System App Store can be any [App Store](../../../../glue42-concepts/application-management/overview/index.html#app_stores) type supported by [**Glue42 Enterprise**](https://glue42.com/enterprise/) - local, remote or from a Glue42 Server.
+
+The following is an example configuration for a System App Store pointing to the location of the configuration files for the system apps:
+
+```json
+{
+    "systemAppStores": [
+        {
+            "type": "path",
+            "details": {
+                "path": "./config/system-apps"
+            }
+        }
+    ]
+}
+```
+
+#### SSO Via System Configuration
+
+*Note that this approach isn't recommended, because you can define only a very limited number of properties for your SSO app.*
+
+Enable the login screen using the `"ssoAuth"` top-level key of the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) located in `%LocalAppData%\Tick42\GlueDesktop\config` and set its `"authController"` property to `"sso"`. Use the `"options"` property to provide the location of the login screen and settings for the Glue42 Window in which it will be loaded:
 
 ```json
 {
@@ -28,11 +97,9 @@ The `"options"` object has the following properties:
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `"url"` | `string` | **Required.** Location of the login screen. |
+| `"url"` | `string` | Location of the login screen. If not provided, will default to the location of the built-in login screen of [**Glue42 Enterprise**](https://glue42.com/enterprise/). |
 | `"window"` | `object` | Settings for the Glue42 Window in which the login screen will be loaded. |
 | `"keepAlive"` | `boolean` | If `true`, [**Glue42 Enterprise**](https://glue42.com/enterprise/) won't close the login window. This way, you can hide it yourself and use it to refresh the authentication parameters (user, token and headers) when necessary. |
-
-The only required property of the `"options"` object is `"url"`, which must point to the location of the login screen.
 
 The `"window"` object has the following properties:
 
@@ -46,7 +113,7 @@ The `"window"` object has the following properties:
 
 ### Authentication
 
-To allow the user access after authenticating, you must signal [**Glue42 Enterprise**](https://glue42.com/enterprise/) that the authentication process is complete. Use the `authDone()` method of the `glue42gd` object which is injected in the global `window` object. It accepts an *optional* object as a parameter in which you can specify the name of the authenticated user, а token and headers:
+To allow the user access after authenticating, you must signal [**Glue42 Enterprise**](https://glue42.com/enterprise/) that the authentication process is complete. Use the `authDone()` method of the `glue42gd` object which is injected in the global `window` object. It accepts an optional object as a parameter in which you can specify the name of the authenticated user, а token and headers:
 
 ```javascript
 const options = {

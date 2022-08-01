@@ -74,14 +74,28 @@ The Java examples are shipped with the [**Glue42 Enterprise**](https://glue42.co
 - C++ Console Example
 - MFC Example
 
-### Other Examples
+### Electron
+
+- [Electron example](https://github.com/Glue42/electron-example) - an example demonstrating how to Glue42 enable your [Electron app](../../getting-started/how-to/glue42-enable-your-app/electron/index.html) and use Glue42 functionalities in it.
+
+### Glue42 Apps
+
+- [Templates](https://github.com/Glue42/templates) - templates for creating custom toolbars, launchpads and Workspaces apps based on the Glue42 Floating Toolbar, the Glue42 Launchpad and the [**Glue42 Enterprise**](https://glue42.com/enterprise/) Workspaces UI App.
+
+- [Workspace with Header](https://github.com/Glue42/workspace-with-header) - an example of how to add a custom header, popups and pinned tabs to the [Workspaces App](../../glue42-concepts/windows/workspaces/overview/index.html#workspaces_concepts-frame).
+
+- [Web Groups with Banners](https://github.com/Glue42/web-groups-with-banners) - an example of how to customize the Glue42 [Web Groups](../../glue42-concepts/windows/window-management/overview/index.html#window_groups-web_groups).
 
 - [Search Provider Example](https://github.com/Glue42/search-provider) - a basic search provider that can be used to return results for custom entities to the Global Search app.
 
-- [Node.js REST Config Example](https://github.com/Glue42/rest-config-example-node-js) - A simple Node.js REST server, which acts as a remote app, Layout, app preferences and system configuration store. You can use this example to test fetching apps, Layouts, app preferences and system configuration files to [**Glue42 Enterprise**](https://glue42.com/enterprise/) from a remote REST service.
+- [Glue42 Server example](https://github.com/glue42/server-example) - a complete [Glue42 Server](../../glue42-concepts/glue42-server/index.html) example.
 
-- [.NET REST Config Example](https://github.com/Tick42/rest-config-example-net) - A simple .NET REST server, which acts as a remote app and Layout store. You can use this example to test fetching apps and Layouts configuration files to [**Glue42 Enterprise**](https://glue42.com/enterprise/) from a remote REST service.
+- [Basic Server Example](https://github.com/Glue42/server-example-basic) - a basic [Glue42 Server](../../glue42-concepts/glue42-server/index.html) example demonstrating how to run the Glue42 Server and the Admin UI using NPM packages and basic authentication.
+
+### Other Examples
+
+- [Node.js REST Config Example](https://github.com/Glue42/rest-config-example-node-js) - a simple Node.js REST server, which acts as a remote app, Layout, app preferences and system configuration store. You can use this example to test fetching apps, Layouts, app preferences and system configuration files to [**Glue42 Enterprise**](https://glue42.com/enterprise/) from a remote REST service.
+
+- [.NET REST Config Example](https://github.com/Tick42/rest-config-example-net) - a simple .NET REST server, which acts as a remote app and Layout store. You can use this example to test fetching apps and Layouts configuration files to [**Glue42 Enterprise**](https://glue42.com/enterprise/) from a remote REST service.
 
 - [Playwright Example](https://github.com/Glue42/playwright-example) - a Glue42 end-to-end test example using Playwright.
-
-- [Templates](https://github.com/Glue42/templates) - templates for creating custom toolbars, launchpads and Workspaces apps based on the Glue42 Floating Toolbar, the Glue42 Launchpad and the [**Glue42 Enterprise**](https://glue42.com/enterprise/) Workspaces UI App.

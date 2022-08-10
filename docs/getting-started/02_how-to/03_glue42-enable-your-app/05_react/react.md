@@ -4,7 +4,7 @@ The [Glue42 React Hooks](https://www.npmjs.com/package/@glue42/react-hooks) pack
 
 ### Legacy React Wrapper
 
-If you are using the legacy Glue42 React wrapper, [`@glue42/glux`](https://www.npmjs.com/package/@glue42/glux), you can download the documentation for it from [here](../../../../assets/glue42-react-legacy.md). The documentation on this site is relevant only to the new light-weight Glue42 React wrapper - [`@glue42/react-hooks`](https://www.npmjs.com/package/@glue42/react-hooks).
+If you are using the legacy Glue42 React wrapper, [`@glue42/glux`](https://www.npmjs.com/package/@glue42/glux), you can download the documentation for it from [here](../../../../assets/glue42-react-legacy.md). The documentation on this site is relevant only to the new lightweight Glue42 React wrapper - [`@glue42/react-hooks`](https://www.npmjs.com/package/@glue42/react-hooks).
 
 ## Prerequisites
 

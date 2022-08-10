@@ -19,20 +19,22 @@ Default configuration settings:
     "clientIdPath": "",
     // By default, there is no limit to the reconnect attempts.
     // Set a number value to this property to define a limit.
-    // "maxReconnectAttempts": <infinity>
+    // "maxReconnectAttempts": 10
     "reconnectPeriod": "2000(5), 30000"
 }
 ```
 
-- `wsUrl` - WebSocket URL to which to connect;
-- `throttleMs` - the time to wait and aggregate Channel updates before sending them to Fidessa;
-- `serviceMethod` - the name of the method to use as a mapping service;
-- `fimPath` - path to the FIM representation of the instrument name inside the `instrument` key of the context object (see [Fidessa Tracking Groups](../fidessa-tracking-groups/index.html));
-- `instrumentIdPath` - path to the `id` property (holding the instrument ID) inside the `instrument` key of the context object (see [Fidessa Tracking Groups](../fidessa-tracking-groups/index.html));
-- `fidClientPath` - path to the Fidessa ID of the client inside the `client` key of the context object (see [Fidessa Tracking Groups](../fidessa-tracking-groups/index.html));
-- `clientIdPath` - path to the `id` property (holding the client ID) inside the `client` key of the context object (see [Fidessa Tracking Groups](../fidessa-tracking-groups/index.html));
-- `maxReconnectAttempts` - how many times to attempt to reconnect. By default, there is no set limit to the reconnect attempts;
-- `reconnectPeriod` - accepts a string in the format `"<number>(<number>), <number>"` which defines how the Fidessa Connector should attempt reconnection. The first number in the string represents an interval (in ms) at which to attempt reconnection, followed by the number of initial reconnection attempts (the second number in the brackets). The third number is also a reconnection interval (in ms) which the Connector should use after the initial reconnection attempts have failed;
+| Property | Type | Description |
+|----------|------|-------------|
+| `"wsUrl"` | `string` | WebSocket URL to which to connect. |
+| `"throttleMs"` | `number` | The time to wait and aggregate Channel updates before sending them to Fidessa. |
+| `"serviceMethod"` | `string` | The name of the method to use as a mapping service. |
+| `"fimPath"` | `string` | Path to the FIM representation of the instrument name inside the `instrument` key of the context object (see [Fidessa Tracking Groups](../fidessa-tracking-groups/index.html)). |
+| `"instrumentIdPath"` | `string` | Path to the `id` property (holding the instrument ID) inside the `instrument` key of the context object (see [Fidessa Tracking Groups](../fidessa-tracking-groups/index.html)). |
+| `"fidClientPath"` | `string` | Path to the Fidessa ID of the client inside the `client` key of the context object (see [Fidessa Tracking Groups](../fidessa-tracking-groups/index.html)). |
+| `"clientIdPath"` | `string` | Path to the `id` property (holding the client ID) inside the `client` key of the context object (see [Fidessa Tracking Groups](../fidessa-tracking-groups/index.html)). |
+| `"maxReconnectAttempts"` | `number` | How many times to attempt to reconnect. By default, there is no set limit to the reconnect attempts. |
+| `"reconnectPeriod"` | `string` | Accepts a string in the format `"<number>(<number>), <number>"` which defines how the Fidessa Connector should attempt reconnection. The first number in the string represents an interval in milliseconds at which to attempt reconnection, followed by the number of initial reconnection attempts (the second number in the brackets). The third number is also a reconnection interval in milliseconds which the Connector should use after the initial reconnection attempts have failed. |
 
 ### Custom
 

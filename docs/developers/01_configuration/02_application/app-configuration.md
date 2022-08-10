@@ -276,7 +276,7 @@ The following demonstrates a basic frameless window configuration:
     "icon": "https://example.com/icon.ico",
     "type": "window",
     "details":{
-        "url":"https://localhost:3000",
+        "url":"http://localhost:3000",
         "mode": "frameless",
         "width": 400,
         "height": 400
@@ -407,7 +407,7 @@ The `"type"` property must be set to `"webGroup"`:
     "type": "webGroup",
     "hidden": true,
     "details": {
-        "url": "https://localhost:3000/",
+        "url": "http://localhost:3000/",
         "autoOpenDevTools": true,
         "preloadScripts": ["https://example.com/my-script.js"],
         "pool": {

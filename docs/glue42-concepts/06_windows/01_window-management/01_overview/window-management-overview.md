@@ -16,7 +16,7 @@ Native apps, as opposed to web apps, can have more than one window. After you Gl
 Web and native windows are handled by [**Glue42 Enterprise**](https://glue42.com/enterprise/) as window abstractions, which means that:
 
 - You can use any technology adapter provided by Glue42 (JavaScript, .NET, Java, and many more) to control any window, web or native.
-- From an end-user perspective, there is no difference between web or native windows.
+- From an end user perspective, there is no difference between web or native windows.
 - Feature parity is provided by the different technology adapters.
 
 ## Window Modes
@@ -151,7 +151,7 @@ The `"type"` property must be set to `"webGroup"`:
     "type": "webGroup",
     "hidden": true,
     "details": {
-        "url": "https://localhost:3000/",
+        "url": "http://localhost:3000/",
         "autoOpenDevTools": true,
         "preloadScripts": ["https://example.com/my-script.js"],
         "pool": {

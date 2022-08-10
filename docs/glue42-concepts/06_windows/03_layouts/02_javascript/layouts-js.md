@@ -25,18 +25,6 @@ The `layouts` object has the following properties:
 | `mode` | `"full"` \| `"slim"` \| `"fullWaitSnapshot"` | In `"full"` mode, all Layout functionalities are available. In `"slim"` mode, Layout events aren't tracked and Layouts can't be manipulated. The `"fullWaitSnapshot"` mode is the same as the `"full"` mode, except that the Layouts library will notify that it is ready a little later - when a snapshot of the available Layouts has been received. |
 | `autoSaveWindowContext` | `boolean` \| [`LayoutType[]`](../../../../reference/glue/latest/layouts/index.html#LayoutType) | If `true`, window context will be saved for all Layout types. If an array of Layout types is passed instead, window context will be saved only for the specified Layout types. Possible Layout types are `"Global"`, `"ApplicationDefault"` and `"Workspace"`. |
 
-## Layout Types
-
-The Layouts library supports several [types of Layouts](../overview/index.html). To check the type of the Layout, use the `type` property of the [`Layout`](../../../../reference/glue/latest/layouts/index.html#Layout) object:
-
-```javascript
-// Get all available Layouts.
-const allLayouts = glue.layouts.list();
-
-// Get all Global Layouts.
-const globalLayouts = allLayouts.filter(layout => layout.type === "Global");
-```
-
 ## Layout Operations
 
 The Layouts API is accessible through the [`glue.layouts`](../../../../reference/glue/latest/layouts/index.html) object.
@@ -49,7 +37,7 @@ To get the currently restored Global Layout, use the [`getCurrentLayout()`](../.
 const currentLayout = await glue.layouts.getCurrentLayout();
 ```
 
-### Listing
+### Listing All Layouts
 
 To get a collection of all currently available [`Layout`](../../../../reference/glue/latest/layouts/index.html#Layout) objects, use the [`list()`](../../../../reference/glue/latest/layouts/index.html#API-list) method:
 
@@ -58,6 +46,25 @@ const layouts = glue.layouts.list();
 ```
 
 *The `list()` method isn't available in `"slim"` mode. Use [`export()`](#layout_operations-exporting_and_importing) instead.*
+
+### All Layouts by Type
+
+To get all Layouts by type, use the [`getAll()`](../../../../reference/glue/latest/layouts/index.html#API-getAll) method and pass a [`LayoutType`](../../../../reference/glue/latest/layouts/index.html#LayoutType). It returns a collection of [`LayoutSummary`](../../../../reference/glue/latest/layouts/index.html#LayoutSummary) objects, which don't contain the extensive objects describing the actual [`Layout`](../../../../reference/glue/latest/layouts/index.html#Layout) components:
+
+```javascript
+const allGlobalLayouts = await glue.layouts.getAll("Global");
+```
+
+### Specific Layout
+
+To get a specific Layout, use the [`get()`](../../../../reference/glue/latest/layouts/index.html#API-get) method and provide the name of the Layout and the [`LayoutType`](../../../../reference/glue/latest/layouts/index.html#LayoutType) as arguments. Returns the requested [`Layout`](../../../../reference/glue/latest/layouts/index.html#Layout) object or `undefined` if a Layout with the specified name and type doesn't exist:
+
+```javascript
+const name = "My Layout";
+const type = "Global";
+
+const myLayout = await glue.layouts.get(name, type);
+```
 
 ### Saving and Restoring
 
@@ -88,7 +95,7 @@ await glue.layouts.restore(restoreOptions);
 
 ### Removing
 
-To remove a Layout, use the [`remove()`](../../../../reference/glue/latest/layouts/index.html#API-remove) method. You must pass the type of the Layout and its name:
+To remove a Layout, use the [`remove()`](../../../../reference/glue/latest/layouts/index.html#API-remove) method. You must pass the [`LayoutType`](../../../../reference/glue/latest/layouts/index.html#LayoutType) and the name of the Layout as arguments:
 
 ```javascript
 await glue.layouts.remove("Global", "My Layout");
@@ -96,7 +103,7 @@ await glue.layouts.remove("Global", "My Layout");
 
 ### Exporting and Importing
 
-You can export all currently available Layouts with the [`export()`](../../../../reference/glue/latest/layouts/index.html#API-export) method. Exported Layouts can be stored to a database and then be used as restore points, or can be sent to another user and imported on their machine.
+You can export all currently available [`Layout`](../../../../reference/glue/latest/layouts/index.html#Layout) objects with the [`export()`](../../../../reference/glue/latest/layouts/index.html#API-export) method. Exported Layouts can be stored to a database and then be used as restore points, or can be sent to another user and imported on their machine.
 
 ```javascript
 const layouts = await glue.layouts.export();
@@ -104,7 +111,7 @@ const layouts = await glue.layouts.export();
 
 *The `export()` method (as opposed to `list()`) is available in all modes if you need to get a collection of all Layouts.*
 
-To import exported Layouts, use the [`import()`](../../../../reference/glue/latest/layouts/index.html#API-import) method. Pass the Layout collection to import and specify an import mode:
+To import exported Layouts, use the [`import()`](../../../../reference/glue/latest/layouts/index.html#API-import) method. Pass the collection of [`Layout`](../../../../reference/glue/latest/layouts/index.html#Layout) objects to import and specify an [`ImportMode`](../../../../reference/glue/latest/layouts/index.html#ImportMode):
 
 ```javascript
 const mode = "merge";
@@ -118,11 +125,15 @@ The [`ImportMode`](../../../../reference/glue/latest/layouts/index.html#ImportMo
 
 The Layouts API allows your app to react to Layout events - adding, removing, updating or renaming a Layout. Use the returned unsubscribe function to stop receiving notifications about the respective event.
 
+### Added
+
 To subscribe for the event which fires when a Layout is added, use the [`onAdded()`](../../../../reference/glue/latest/layouts/index.html#API-onAdded) method:
 
 ```javascript
 glue.layouts.onAdded(console.log);
 ```
+
+### Removed
 
 To subscribe for the event which fires when a Layout is removed, use the [`onRemoved()`](../../../../reference/glue/latest/layouts/index.html#API-onRemoved) method:
 
@@ -130,11 +141,15 @@ To subscribe for the event which fires when a Layout is removed, use the [`onRem
 glue.layouts.onRemoved(console.log);
 ```
 
+### Changed
+
 To subscribe for the event which fires when a Layout is changed, use the [`onChanged()`](../../../../reference/glue/latest/layouts/index.html#API-onChanged) method:
 
 ```javascript
 glue.layouts.onChanged(console.log);
 ```
+
+### Renamed
 
 To subscribe for the event which fires when a Layout is renamed, use the [`onRenamed()`](../../../../reference/glue/latest/layouts/index.html#API-onRenamed) method:
 
@@ -148,15 +163,13 @@ When a Layout is saved, apps can store context data in it. When the Layout is re
 
 *Note that saving large volumes of custom data as window context (e.g., thousands of lines of table data) can lead to significant delays when saving a Layout. A Layout usually contains several (in some cases - many) apps and/or Workspaces (which can also contain many apps) and if one or more of the apps saves large amounts of context data each time a Layout is saved, this will significantly slow down the saving process. The methods for saving custom context work best with smaller amounts of data. If your app needs to save large amounts of data, you have to think about how to design this process better - for instance, you may store IDs, indices, etc., as context data, save the actual data to a database and when you restore the Layout, fetch the data using the data IDs saved as window context.*
 
-Each window (app) can store window specific context. When restored, the window will have the saved context.
-
 ### Saving Context Data
 
 To save context data, apps can subscribe for Layout save requests using the [`onSaveRequested()`](../../../../reference/glue/latest/layouts/index.html#API-onSaveRequested) method. A Layout save request event is fired when the user attempts to save a Layout or close a window, Workspace, etc. The on `onSaveRequested()` method accepts a callback which will be invoked when a Layout save request is triggered. The callback will receive as an argument a [`SaveRequestContext`](../../../../reference/glue/latest/layouts/index.html#SaveRequestContext) object containing the Layout name, type and context. Use it to determine the type of the Layout and instruct your app to react accordingly:
 
 ```javascript
-glue.layouts.onSaveRequested((requestInfo) => {
-    // Determine the Layout type.
+const saveRequestHandler = (requestInfo) => {
+    // Get the Layout type.
     const layoutType = requestInfo.layoutType;
 
     // Return different context data depending on the Layout type.
@@ -170,7 +183,9 @@ glue.layouts.onSaveRequested((requestInfo) => {
         // Return if not interested in other Layout types.
         return;
     };
-});
+};
+
+glue.layouts.onSaveRequested(saveRequestHandler);
 ```
 
 The callback must return a [`SaveRequestResponse`](../../../../reference/glue/latest/layouts/index.html#SaveRequestResponse) object that has a [`windowContext`](../../../../reference/glue/latest/layouts/index.html#SaveRequestResponse-windowContext) property.

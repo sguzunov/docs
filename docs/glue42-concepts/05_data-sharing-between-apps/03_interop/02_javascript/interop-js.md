@@ -139,22 +139,13 @@ const options = {
 const result = await glue.interop.invoke(methodName, args, target, options);
 ```
 
-- `args` - as a second parameter, `invoke()` accepts an object containing arguments for the method invocation;
-- `target` - as a third parameter, `invoke()` accepts a value specifying which Interop servers offering the method to target (see [Targeting](#method_invocation-targeting)).
-- `options` - as a fourth parameter, `invoke()` accepts an [`InvokeOptions`](../../../../reference/glue/latest/interop/index.html#InvokeOptions) object with optional properties, described in the following table.
-
-| Value | Description |
-|-------|-------------|
-| `waitTimeoutMs` | In ms, default is 30 000. Timeout to discover the method if not immediately available. |
-| `methodResponseTimeoutMs` | In ms, default is 30 000. Timeout to wait for a reply from the method invocation. |
-
 ### Targeting
 
-If multiple apps offer the same Interop method, you can choose to invoke it on the "best" app instance (this is the default behavior, if no `target` is passed), on a specific Interop instance, on a set of instances, or on all instances.
+If multiple apps offer the same Interop method, you can choose to invoke it on the `"best"` app instance (default), on a specific Interop instance, on a set of instances, or on all instances.
 
 <glue42 name="diagram" image="../../../../images/interop/interop-targeting.gif">
 
-The following table describes the values accepted by the `target` property of the [`MethodDefinition`](../../../../reference/glue/latest/interop/index.html#MethodDefinition) object when invoking an Interop method:
+The following table describes the accepted target values when invoking an Interop method:
 
 | Value | Description |
 |-------|-------------|
@@ -164,17 +155,11 @@ The following table describes the values accepted by the `target` property of th
 | [`Instance`](../../../../reference/glue/latest/interop/index.html#Instance) | An object describing an Interop instance. It is also possible to provide only a subset of the Interop instance object properties as a filter - e.g., `{ application: "appName" }`. |
 | [Instance[]](../../../../reference/glue/latest/interop/index.html#Instance) | Array of Interop `Instance` objects (or subset filters). |
 
-*Note that the properties of an Interop [Instance](../../../../reference/glue/latest/interop/index.html#Instance) can have both a string or a regular expression as a value.*
+*Note that the properties of an Interop [Instance](../../../../reference/glue/latest/interop/index.html#Instance) object accept both a string or a regular expression as values.*
 
-App instances are ranked internally. The "best" instance is the first one running on the user's desktop and under the user's name. If there are multiple apps matching these criteria, the first instance is used.
+App instances are ranked internally. The `"best"` instance is the first one running on the user's desktop and under the user's name. If there are multiple apps matching these criteria, the first instance is used.
 
 To invoke a method on a preferred set of apps, pass a target as a third argument.
-
-If nothing is passed, `"best"` is default:
-
-```javascript
-await glue.interop.invoke("Addition", { a: 2, b: 3 });
-```
 
 To target all Interop instances offering the same method:
 
@@ -207,6 +192,12 @@ const targets = glue.interop.servers()
     .filter(server => server.application.startsWith("Calculator"));
 
 await glue.interop.invoke("Addition", { a: 2, b: 3 }, targets);
+```
+
+If nothing is passed, `"best"` is default:
+
+```javascript
+await glue.interop.invoke("Addition", { a: 2, b: 3 });
 ```
 
 ### Consuming Results

@@ -6,9 +6,9 @@
 
 See also our [**Glue42 Core**](https://glue42.com/core/) project - the world's first open source integration platform for web apps! The [**Glue42 Core**](https://glue42.com/core/) [source code](https://github.com/Glue42/core) is available on GitHub.
 
-### Why UI integration?
+### Why UI Integration?
 
-**The challenge faced by users**
+**The Challenge Faced by Users**
 
 Mobile and web apps have proven that user interface (UI) design is a vital component of software development. User experience (UX), however, isn't about how pretty an app is, but rather how easy it is to use in conjunction with other apps and data sources. Is the information a user needs at their fingertips? Is it easy to do everyday tasks or is the process lengthy, complex and cumbersome? The companies that have pioneered user experience centric design have had great success and everyone else is running to catch up.
 

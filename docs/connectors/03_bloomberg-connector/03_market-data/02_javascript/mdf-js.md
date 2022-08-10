@@ -17,8 +17,12 @@ GlueCoreFactory().then(glue => {
 });
 ```
 
-- `debug` - whether to enable debugging mode (`false` by default);
-- `connectionPeriodMsecs` - the interval at which to attempt reconnection to the Bloomberg Connector (in ms, `5000` by default);
+The configuration object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `debug` | `boolean` | Whether to enable debugging mode. The default is `false`. |
+| `connectionPeriodMsecs` | `number` | Interval in milliseconds at which to attempt reconnection to the Bloomberg Connector. The default is 5000. |
 
 ## Connection
 
@@ -73,8 +77,10 @@ request.open(requestOptions);
 
 The `open()` method accepts an optional `OpenRequestOptions` object with the following properties:
 
-- `session` - the type of session to use. The default for non-subscription requests is `DataRequests`, the default for subscription requests is `RealTime`;
-- `aggregateResponse` - whether to return an aggregated response. If `true` (default), `open()` returns a `Promise` which resolves with the aggregated response. If `false`, the `Promise` resolves immediately and the partial responses are passed to the callback attached to the `onData()` method of the request object.
+| Property | Type | Description |
+|----------|------|-------------|
+| `session` | `string` | The type of session to use. The default for non-subscription requests is `DataRequests`, the default for subscription requests is `RealTime`. |
+| `aggregateResponse` | `boolean` | Whether to return an aggregated response. If `true` (default), `open()` returns a `Promise` which resolves with the aggregated response. If `false`, the `Promise` resolves immediately and the partial responses are passed to the callback attached to the `onData()` method of the request object. |
 
 As opening a request is asynchronous, if any issue occurs (e.g., the Bloomberg Connector fails to open the Bloomberg core service), the error will be delivered asynchronously to the request `onError()` callback.
 

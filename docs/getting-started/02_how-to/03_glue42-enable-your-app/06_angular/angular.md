@@ -4,7 +4,7 @@ The Glue42 Angular wrapper, [`@glue42/ng`](https://www.npmjs.com/package/@glue42
 
 ### Legacy Angular Wrapper
 
-If you are using the legacy Glue42 Angular wrapper, [`@glue42/ng-glue`](https://www.npmjs.com/package/@glue42/ng-glue), you can download the documentation for it from [here](../../../../assets/glue42-angular-legacy.md). The documentation on this site is relevant only to the new light-weight Glue42 Angular wrapper - [`@glue42/ng`](https://www.npmjs.com/package/@glue42/ng).
+If you are using the legacy Glue42 Angular wrapper, [`@glue42/ng-glue`](https://www.npmjs.com/package/@glue42/ng-glue), you can download the documentation for it from [here](../../../../assets/glue42-angular-legacy.md). The documentation on this site is relevant only to the new lightweight Glue42 Angular wrapper - [`@glue42/ng`](https://www.npmjs.com/package/@glue42/ng).
 
 ## Prerequisites
 

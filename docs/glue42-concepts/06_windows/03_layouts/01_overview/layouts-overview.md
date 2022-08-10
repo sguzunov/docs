@@ -1,8 +1,14 @@
 ## Overview
 
-The Layouts API allows you to save the arrangement and context of any set of apps running in [**Glue42 Enterprise**](https://glue42.com/enterprise/) as a named Layout and later restore it. You can also choose a default Global Layout which [**Glue42 Enterprise**](https://glue42.com/enterprise/) will load upon startup.
+End users in large enterprises often have multi-monitor setups on which they arrange the necessary apps in the most convenient way for executing daily tasks. The [**Glue42 Enterprise**](https://glue42.com/enterprise/) Layouts feature allows them to save and later restore the exact arrangement and context of their environment - windows, apps, [Workspaces](../../workspaces/overview/index.html), and their bounds and context. Users can save multiple apps and Workspaces in different Layouts, each corresponding to a specific task or workflow. Restoring the saved Layout happens with a single click and saves time and effort for finding, launching and arranging the desired apps. It's also possible to choose a [default Global Layout](#default_global_layout) that [**Glue42 Enterprise**](https://glue42.com/enterprise/) will load upon startup.
 
-The Layouts library supports different types of Layouts:
+The Layouts library has the following capabilities:
+
+- importing, exporting, removing and getting Layouts;
+- saving and restoring Layouts;
+- events related to adding, removing, changing or saving Layouts;
+
+The [**Glue42 Enterprise**](https://glue42.com/enterprise/) Layouts library supports different types of Layouts:
 
 - **Global**
 
@@ -14,7 +20,7 @@ The default Layout of an app instance describes the last saved window bounds, th
 
 - **Workspace**
 
-The Layout of a [Workspace](../../workspaces/overview/index.html) instance describes the arrangement of the Workspace elements, its bounds and the context of the apps participating in it.
+The Layout of a [Workspace](../../workspaces/overview/index.html#workspaces_concepts-workspace) instance describes the arrangement of the Workspace elements, its bounds and the context of the apps participating in it.
 
 ## Default Global Layout
 

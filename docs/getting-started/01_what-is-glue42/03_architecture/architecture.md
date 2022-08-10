@@ -55,7 +55,7 @@ To add an app to [**Glue42 Enterprise**](https://glue42.com/enterprise/), you ne
 
 ### Notifications
 
-The [Glue42 Notification Service](../../../glue42-concepts/notifications/overview/index.html) (GNS) handles notifications from GNS servers and delivers them to the end-user via a notifications UI.
+The [Glue42 Notification Service](../../../glue42-concepts/notifications/overview/index.html) (GNS) handles notifications from GNS servers and delivers them to the end user via a notifications UI.
 
 ### Global Search
 

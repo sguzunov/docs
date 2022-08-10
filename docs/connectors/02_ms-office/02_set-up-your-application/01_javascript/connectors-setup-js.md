@@ -1,6 +1,6 @@
 ## Introduction
 
-This guide explains how to reference and initialize the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) library in your web app so it can interoperate with any of the MS Office products supported by Glue42 Enterprise.
+This guide explains how to reference and initialize the [`@glue42/office`](https://www.npmjs.com/package/@glue42/office) library in your web app so it can interoperate with any of the MS Office products supported by Glue42 Enterprise.
 
 After completing the steps in this guide, you can read the respective development guides to learn how your app can interact with specific MS Office products.
 
@@ -18,7 +18,7 @@ You can download the [**Glue42 Enterprise**](https://glue42.com/enterprise/) tri
 
 ## Referencing
 
-The [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) library is available both as an NPM module and as a standalone transpiled JavaScript file in `%LocalAppData%\Tick42\GlueSDK\Glue4OfficeJS\js\web-bundle`.
+The [`@glue42/office`](https://www.npmjs.com/package/@glue42/office) library is available both as an NPM module and as a standalone transpiled JavaScript file in `%LocalAppData%\Tick42\GlueSDK\Glue4OfficeJS\js\web-bundle`.
 
 You can reference the library in a `<script>` tag:
 
@@ -31,13 +31,13 @@ The browserified JavaScript file is also a CommonJS module, which you can `requi
 CommonJS:
 
 ```javascript
-const Glue4Office = require("glue4office");
+const Glue4Office = require("@glue42/office");
 ```
 
 ES6:
 
 ```javascript
-import Glue4Office from "glue4office";
+import Glue4Office from "@glue42/office";
 ```
 
 ## Initialization
@@ -59,14 +59,14 @@ const g4oConfig = {
 }
 Glue4Office(g4oConfig)
     .then(g4o => {
-        // g4o is a reference to the Glue4Office API
+        // g4o is a reference to the @glue42/office API
         window.g4o = g4o;    // expose g4o as a global variable
         // use g4o
     })
     .catch(console.error)
 ```
 
-If your app is already loading Glue42, you can initialize [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) by passing an [initialized Glue42 library instance](../../../../getting-started/how-to/glue42-enable-your-app/javascript/index.html) in the configuration object:
+If your app is already loading Glue42, you can initialize [`@glue42/office`](https://www.npmjs.com/package/@glue42/office) by passing an [initialized Glue42 library instance](../../../../getting-started/how-to/glue42-enable-your-app/javascript/index.html) in the configuration object:
 
 ```javascript
 const glueConfig = { application: "MS Office Interop" }
@@ -82,7 +82,7 @@ Glue(glueConfig)
         return Glue4Office(g4oConfig)
     })
     .then(g4o => {
-        // g4o is a reference to the Glue4Office API
+        // g4o is a reference to the @glue42/office API
         window.g4o = g4o;    // expose g4o as a global variable
         // use g4o
     })

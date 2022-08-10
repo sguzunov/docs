@@ -839,7 +839,7 @@ myWindow.onContextUpdated(contextUpdatedHandler);
 
 To track when a Glue42 Window is about to be refreshed or closed, use its [`onClosing()`](../../../../reference/glue/latest/windows/index.html#GDWindow-onClosing) and [`onRefreshing()`](../../../../reference/glue/latest/windows/index.html#GDWindow-onRefreshing) methods. The [`onRefreshing()`](../../../../reference/glue/latest/windows/index.html#GDWindow-onRefreshing) method can also be used to prevent page refresh if necessary.
 
-The close and refresh handlers can be enabled/disabled globally through the system configuration of [**Glue42 Enterprise**](https://glue42.com/enterprise/) or individually for each window in its respective app configuration file. You can also specify a timeout (in ms) for their execution.
+The close and refresh handlers can be enabled/disabled globally through the system configuration of [**Glue42 Enterprise**](https://glue42.com/enterprise/) or individually for each window in its respective app configuration file. You can also specify a timeout in milliseconds for their execution.
 
 #### Handlers Configuration
 
@@ -1082,7 +1082,7 @@ The Groups API offers several methods for tracking group events.
 
 *The group event methods return an unsubscribe function which you can use to stop tracking the respective event.*
 
-#### Window Added/Removed
+#### Window Added or Removed
 
 To track adding or removing windows to a Glue42 Window group, use the [`onWindowAdded()`](../../../../reference/glue/latest/windows/index.html#Group-onWindowAdded) and [`onWindowRemoved()`](../../../../reference/glue/latest/windows/index.html#Group-onWindowRemoved) methods of a [`Group`](../../../../reference/glue/latest/windows/index.html#Group) instance and pass handlers for the respective events:
 

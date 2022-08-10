@@ -306,6 +306,7 @@ To configure the jump list system-wide, use the `"jumpList"` property of the `"w
                     "title": "System",
                     "actions": [
                         {
+                            "icon": "%GDDIR%/assets/images/myIcon.ico",
                             "type": "centerScreen",
                             "singleInstanceTitle": "Center on Primary Screen",
                             "multiInstanceTitle": "Center all on Primary Screen"
@@ -336,6 +337,7 @@ Each object in the `"actions"` array has the following properties:
 
 | Property | Type | Description |
 |----------|------|-------------|
+| `"icon"` | `string` | Icon for the action to be displayed in the context menu. Must point to a local file. |
 | `"type"` | `string` | Type of the action to execute. |
 | `"singleInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there is a single instance with a single taskbar icon. |
 | `"multiInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there are multiple instances with grouped taskbar icons. |

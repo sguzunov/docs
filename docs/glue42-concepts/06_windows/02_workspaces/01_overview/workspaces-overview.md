@@ -178,7 +178,27 @@ The `"type"` property must be set to `"workspaces"`:
 
 The `"url"` and `"layouts"` properties are optional. Use `"url"` to specify where the app is hosted, otherwise it will default to the Workspaces App template distributed with [**Glue42 Enterprise**](https://glue42.com/enterprise/).
 
-Use the `"layouts"` property to define Workspace Layouts that will be loaded on startup of the Workspaces App (for more details on defining a Workspace Layout, see the [Workspace Layout](#workspaces_concepts-workspace-layout) section). Setting the `"layouts"` property to an empty array will open an empty [Frame](#workspaces_concepts-frame) with a constant loading animation and no Workspaces in it.
+Use the `"layouts"` property to define Workspace Layouts that will be loaded on startup of the Workspaces App (for more details on defining a Workspace Layout, see the [Workspace Layout](#workspaces_concepts-workspace-layout) section).
+
+To open an [empty Frame](../javascript/index.html#frame-empty_frame) with a constant loading animation and no Workspaces in it, set the `"layouts"` property to an empty array:
+
+```json
+{
+    "details": {
+        "layouts": []
+    }
+}
+```
+
+To start the Workspaces App with an empty untitled Workspace in it, either skip the `"layouts"` property, or pass an object with a `"children"` property set to an empty array:
+
+```json
+{
+    "details": {
+        "layouts": [{ "children": [] }]
+    }
+}
+```
 
 The `"updateFrameConstraints"` property by default is set to `true`, which means that the [Frame](#workspaces_concepts-frame) is restricted to the constraints of the Workspace and its elements inside it. Set to `false` if you don't want to prevent the user from resizing your custom Workspaces App beyond the constraints of its content.
 
@@ -428,6 +448,16 @@ The following example demonstrates the structure of the `<Workspaces />` compone
     components={{
         header: {
             LogoComponent: GlueLogo,
+            WorkspaceTabComponent: () => {
+                return (
+                    <>
+                        <WorkspaceIconButton />
+                        <WorkspaceSaveButton />
+                        <WorkspaceTitle />
+                        <WorkspaceTabCloseButton />
+                    </>
+                );
+            },
             AddWorkspaceComponent: AddWorkspaceButton,
             SystemButtonsComponent: () => {
                 return (
@@ -537,6 +567,58 @@ export default App;
 Using a custom button for the Add Workspace component:
 
 ![Button add workspace](../../../../images/workspaces/button-add-workspace.png)
+
+#### Workspace Tab
+
+The contents of the `<WorkspaceTab />` component can be modified by replacing the default `<WorkspaceIconButton />`, `<WorkspaceSaveButton />`, `<WorkspaceTitle />` and `<WorkspaceTabCloseButton />` components it contains. You can provide a custom icon to be used when the [Workspace is pinned](../javascript/index.html#workspace-pinning__unpinning_workspaces), a custom Save button for the Workspace tab, a custom Workspace title, and a custom Close button for the Workspace tab.
+
+The following example demonstrates composing a custom Workspace Tab component using the default `<WorkspaceSaveButton />` and `<WorkspaceIconButton />` components, as well as a custom title and a custom Close button for the Workspace tab. The example also shows how to hide and show conditionally the Workspace Tab contents based on whether the Workspace is pinned:
+
+```javascript
+import React, { useState } from "react";
+import { WorkspaceIconButton, WorkspaceSaveButton } from "@glue42/workspaces-ui-react";
+import CustomTitle from "./CustomTitle";
+import CustomCloseButton from "./CustomCloseButton";
+
+const CustomWorkspaceTab = ({ isPinned, title, onCloseClick, onSaveClick, icon, showSaveButton, showCloseButton }) => {
+    return (
+        <div className="my-custom-workspace-tab">
+            {isPinned ? <WorkspaceIconButton icon={icon} /> : showSaveButton && <SaveButton showSavePopup={onSaveClick} />}
+            {!isPinned && <CustomTitle title={title} />}
+            {(!isPinned && showCloseButton) && <CustomCloseButton close={onCloseClick} />}
+        </div>
+    );
+};
+
+export default CustomWorkspaceTab;
+```
+
+Use the props received by the `<WorkspaceTab />` component to:
+
+- preserve the default component behavior (closing the Workspace tab, saving the Workspace Layout) or define a custom behavior;
+- determine which components to show or hide based on whether the [Workspace is pinned](../javascript/index.html#workspace-pinning__unpinning_workspaces);
+
+The following example demonstrates replacing the default Workspace Tab component:
+
+```javascript
+import React from "react";
+import Workspaces from "@glue42/workspaces-ui-react";
+import CustomWorkspaceTab from "./CustomWorkspaceTab";
+
+const App = () => {
+    return (
+        <Workspaces
+            components={{
+                header: {
+                    WorkspaceTabComponent: CustomWorkspaceTab
+                }
+            }}
+        />
+    );
+};
+
+export default App;
+```
 
 #### System Buttons
 
@@ -912,6 +994,91 @@ Adding a custom toolbar as part of the Workspace content:
 ![Custom Workspace content](../../../../images/workspaces/custom-workspace-content.png)
 
 For a demonstration of using the `<WorkspaceContents />` component, see the [Pinned Workspace Tabs](https://github.com/Glue42/templates/tree/master/workspaces-react-pinned-tabs) example on GitHub. It shows how to render Workspace content conditionally using a button in the Workspaces header area.
+
+### Requesting Focus
+
+Some components in your custom Workspaces App may require keyboard focus when the user clicks on them (e.g., input fields) or when the component that contains them has been mounted. By default, the keyboard focus isn't on the Workspaces App (the web page itself), but rather on the apps participating in the Workspace. To move the keyboard focus to a component in the Workspaces App, use the `requestFocus()` method.
+
+The following examples demonstrate how to move the keyboard focus to a custom input input field located in a [custom Workspace tab](#extending_workspaces-header_area_components-workspace_tab). The input field is used for changing the Workspace tab title - when the user double clicks on the tab, the input will be shown, and when they double click again, the new title will be set.
+
+![Requesting Focus](../../../../images/workspaces/requesting-focus.gif)
+
+Create a custom input field and use the `requestFocus()` method to move the keyboard focus to it every time the component is mounted. You must also use a direct reference to the element and stop the propagation of the `"mousedown"` and `"onclick"` events in order to prevent the Workspaces framework from processing them:
+
+```javascript
+import React, { useState, useEffect, useRef } from "react";
+import { requestFocus } from "@glue42/workspaces-ui-react";
+
+const CustomInput = ({ setTabTitle }) => {
+    const [newTitle, setNewTitle] = useState("");
+    const ref = useRef(null);
+
+    useEffect(() => {
+        if (!ref.current) { return };
+
+        // Stop the propagation of the `"mousedown"` and `"click"` events,
+        // in order to prevent the Workspaces framework from processing them.
+        ref.current.onmousedown = e => e.stopPropagation();
+        ref.current.onclick = e => e.stopPropagation();
+        // Request keyboard focus every time the component is mounted.
+        requestFocus();
+    }, [ref]);
+
+    return <input ref={ref} onDoubleClick={() => setTabTitle(newTitle)} onChange={e => {setNewTitle(e.target.value)}} value={newTitle} />
+};
+
+export default CustomInput;
+```
+
+*Note that due to the nature of the Workspaces App and the fact that React event handlers are always executed after the native DOM event handlers, you must use a direct reference to the DOM elements instead of React events when handling the `"mousedown"` and `"click"` events.*
+
+*Note that you shouldn't use `requestFocus()` in the Workspace tab itself, but rather in an element it contains. If you use `requestFocus()` in the Workspace tab, you will have to prevent the propagation of the `"click"` and `"mousedown"` events there, which will prevent the Workspaces framework from processing them, leading to undesirable side effects - the user won't be able to move the Workspace tabs or even switch between them by clicking on them.*
+
+Compose a custom Workspace containing the custom input field that will render conditionally:
+
+```javascript
+import React, { useState } from "react";
+import { WorkspaceSaveButton, WorkspaceTitle, WorkspaceTabCloseButton } from "@glue42/workspaces-ui-react";
+import CustomInput from "./CustomInput";
+
+const CustomWorkspaceTab = ({ title, onSaveClick, onCloseClick}) => {
+    const [showInput, setShowInput] = useState(false);
+    const [tabTitle, setTabTitle] = useState(title);
+
+    return (
+        <div onDoubleClick={() => setShowInput(showInput ? false : true)}>
+            <WorkspaceSaveButton showSavePopup={onSaveClick} />
+            {!showInput && <WorkspaceTitle title={tabTitle} />}
+            {showInput && <CustomInput setTabTitle={setTabTitle} />}
+            <WorkspaceTabCloseButton close={onCloseClick} />
+        </div>
+    );
+};
+
+export default CustomWorkspaceTab;
+```
+
+Replace the default `<WorkspaceTab />` component with the custom one:
+
+```javascript
+import React from "react";
+import Workspaces from "@glue42/workspaces-ui-react";
+import CustomWorkspaceTab from "./CustomWorkspaceTab";
+
+const App = () => {
+    return (
+        <Workspaces
+            components={{
+                header: {
+                    WorkspaceTabComponent: CustomWorkspaceTab
+                }
+            }}
+        />
+    );
+};
+
+export default App;
+```
 
 ### Styles
 

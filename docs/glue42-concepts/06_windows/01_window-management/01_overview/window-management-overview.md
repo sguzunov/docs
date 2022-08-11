@@ -81,7 +81,7 @@ Popup windows appear when the user clicks on a predefined area in your app:
 
 Besides providing full control over individual windows, [**Glue42 Enterprise**](https://glue42.com/enterprise/) also enables you to arrange Glue42 Windows visually by sticking them together and forming window groups. Grouping separate Glue42 Windows in a single frame (window) allows the users to move, resize, minimize, maximize, restore and close all participating windows together using the standard buttons on the window group frame. Grouped windows have a single [customizable taskbar icon](../../../../developers/configuration/themes/index.html#theme_properties-window_groups), can be resized within the group frame and can be torn off from the group. Tab windows can be grouped in tab groups that in turn can be stuck to other Glue42 Windows or groups.
 
-![Window Groups](../../../../images/window-management/window-groups.gif)
+![Window Groups](../../../../images/groups/window-groups.gif)
 
 The standard buttons ("Minimize", "Maximize", "Restore", "Close") of the individual Glue42 Windows participating in the group can also be used which will result in the following behavior:
 
@@ -90,7 +90,7 @@ The standard buttons ("Minimize", "Maximize", "Restore", "Close") of the individ
 - "Restore" - restores a maximized window to its normal state, restoring also the window group, unless any of the other windows participating in it has been manipulated in any way (moved, resized or changed its state).
 - "Close" - will close only the window.
 
-![Group Window Buttons](../../../../images/window-management/group-window-buttons.gif)
+![Group Window Buttons](../../../../images/groups/group-window-buttons.gif)
 
 Groups can be saved and restored in [Layouts](../../layouts/overview/index.html), saving users time and effort to find and rearrange the necessary apps again after closing the group.
 
@@ -133,6 +133,16 @@ Glue42 web groups can be customized visually by supplying custom CSS styles for 
 *Note that as the Glue42 [web groups](#window_groups-web_groups) are still an experimental feature, the [`@glue42/groups-ui-react`](https://www.npmjs.com/package/@glue42/groups-ui-react) library doesn't support some of the features supported by the Glue42 [classic groups](#window_groups-classic_groups). For more details, see the [Limitations](#extending_web_groups-limitations) section.*
 
 The [`@glue42/groups-ui-react`](https://www.npmjs.com/package/@glue42/groups-ui-react) library provides all functionalities necessary for building a Web Group App as a single React component - `<Group />`. The `<Group />` component provides extensibility points for passing custom components to it (see [Group Component](#extending_web_groups-group_component)).
+
+See below an example of a Web Group App with the following customized elements:
+
+- [Group Caption Bar](#extending_web_groups-group_caption_bar_components) containing a custom button that shows and hides a custom [Group Overlay](#extending_web_groups-overlays);
+- [Caption Bar for flat windows](#extending_web_groups-flat_window_components) containing a custom caption;
+- [tab element for tab windows](#extending_web_groups-tab_window_components) containing a custom Close button;
+- [Before Tabs zone](#extending_web_groups-group_elements-tab_windows) containing a custom icon;
+- [Below Window zone](#extending_web_groups-common_window_components) containing custom content;
+
+![Custom Web Group App](../../../../images/groups/custom-web-group-app.gif)
 
 *Note that the [`@glue42/groups-ui-react`](https://www.npmjs.com/package/@glue42/groups-ui-react) library doesn't include a built Web Group App. A Web Group App is provided in [**Glue42 Enterprise**](https://glue42.com/enterprise/). You can also use and customize the [Web Group App template](https://github.com/Glue42/templates/tree/master/groups-react).*
 
@@ -179,7 +189,7 @@ It is possible to add your custom components to the Web Group App or customize t
 
 The Group Caption Bar element is located at the topmost part of the window group:
 
-![Group Caption Bar Zone](../../../../images/window-management/group-caption-bar.png)
+![Group Caption Bar Zone](../../../../images/groups/group-caption-bar.png)
 
 The Group Caption Bar element hosts the `<GroupCaptionBar />` component which contains the `<GroupMoveArea />`, `<GroupCaption />` and `<GroupButtons />` components. The following demonstrates the default structure of the `<GroupCaptionBar />` component:
 
@@ -203,7 +213,7 @@ For an example usage, see [Group Caption Bar Components](#extending_web_groups-g
 
 The Glue42 flat windows have a Flat Caption Bar element located at the topmost part of a flat window:
 
-![Flat Caption Bar Zone](../../../../images/window-management/flat-caption-bar.png)
+![Flat Caption Bar Zone](../../../../images/groups/flat-caption-bar.png)
 
 The Flat Caption Bar element hosts the `<FlatCaptionBar />` component which contains the `<FlatChannelSelector />`, `<FlatMoveArea />`, `<FlatCaption />` and `<FlatButtons />` components. The following demonstrates the default structure of the `<FlatCaptionBar />` component:
 
@@ -228,11 +238,11 @@ For an example usage, see [Flat Window Components](#extending_web_groups-flat_wi
 
 The Tab Header element of a tab group isn't available as a single customizable component, but contains several customizable zones and components. One or more Tab elements hold the individual tabs and the Tab Header Buttons element holds the standard system buttons:
 
-![Tab and Button Zones](../../../../images/window-management/tab-and-button-components.png)
+![Tab and Button Zones](../../../../images/groups/tab-and-button-components.png)
 
 There are four additional customizable zones that are located before and after the tabs, above and below the tab header - the Before Tabs, After Tabs, Above Tabs and Below Tabs zones:
 
-![Surrounding Tab Zones](../../../../images/window-management/surrounding-tab-zones.png)
+![Surrounding Tab Zones](../../../../images/groups/surrounding-tab-zones.png)
 
 Each Tab element hosts an individual `<Tab />` component. Each `<Tab />` component contains the `<TabChannelSelector />`, `<TabCaption />` and `<TabCloseButton />` components. The Tab Header Buttons element hosts the `<TabHeaderButtons />` component. The following demonstrates the default structure of the `<Tab />` and the `<TabHeaderButtons />` components:
 
@@ -411,6 +421,10 @@ const App = () => {
 export default App;
 ```
 
+Custom group caption bar with a custom button in it:
+
+![Custom Caption Bar](../../../../images/groups/custom-caption-bar.png)
+
 *See also the [Web Groups with Banners](https://github.com/Glue42/web-groups-with-banners) example on GitHub.*
 
 ### Flat Window Components
@@ -423,7 +437,7 @@ The following example demonstrates how to create a custom caption for flat windo
 import React from "react";
 
 const CustomCaption = ({ caption }) => {
-    return <div className="custom-caption"> Custom Caption: {caption} </div>
+    return <div className="custom-caption">Custom Caption: {caption}</div>
 };
 
 export default CustomCaption;
@@ -477,6 +491,10 @@ const App = () => {
 export default App;
 ```
 
+Custom caption bar for flat windows containing a custom caption:
+
+![Custom Flat Caption](../../../../images/groups/custom-flat-caption.png)
+
 *See also the [Web Groups with Banners](https://github.com/Glue42/web-groups-with-banners) example on GitHub.*
 
 ### Tab Window Components
@@ -489,23 +507,21 @@ The following example demonstrates how to create a custom "Close" button for tab
 import React, { useEffect, useRef } from "react";
 
 const CustomCloseButton = ({ close }) => {
-
-    const ref = useRef<HTMLButtonElement>(null);
+    const ref = useRef(null);
 
     useEffect(() => {
-        ref.current?.addEventListener("mousedown", (e) => {
-            e.stopPropagation();
-        });
+        if (!ref.current) { return };
+
+        ref.current.onmousedown = e => e.stopPropagation();
     }, [ref]);
 
-    return <button ref={ref} onMouseDown={() => close()}>x</button>
-
+    return <button ref={ref} onClick={() => close()}>x</button>
 };
 
 export default CustomCloseButton;
 ```
 
-In this example, the propagation of the `"mousedown"` event is stopped because otherwise the tab will enter draggable state.
+In this example, the propagation of the `"mousedown"` event is stopped, because otherwise the tab will enter draggable state. The `close()` handler is attached to the `"click"` event, because attaching it to the `"mousedown"` event won't work - the propagation of the `"mousedown"` event has been stopped using a direct DOM reference, which means that this event will never be fired as a React event.
 
 *Note that the final implementation of a Web Group App is a mixture of React and pure JavaScript. That's why when preventing the propagation of DOM events, it is strongly recommended to use direct references to the DOM elements. If you use React events, the event notifications may be received too late to stop the propagation.*
 
@@ -529,7 +545,7 @@ const CustomTab = ({ channels, caption, selected, close }) => {
 export default CustomTab;
 ```
 
-Using the custom tab element for tab windows in your Web Group App and defining a custom component for the Before Tab zone:
+Using the custom tab element for tab windows in your Web Group App and defining a custom component for the Before Tabs zone:
 
 ```javascript
 import React from "react";
@@ -543,7 +559,7 @@ const App = () => {
                 tabs: {
                     Element: CustomTab,
                     Before: () => {
-                        return <div className="custom-before-tab">Logo</div>
+                        return <div className="custom-before-tab">&#128269;</div>
                     }
                 }
             }}
@@ -553,6 +569,10 @@ const App = () => {
 
 export default App;
 ```
+
+Custom Before Tabs zone containing a custom icon and a custom tab element containing a custom Close button:
+
+![Custom Tab](../../../../images/groups/custom-tab.png)
 
 *See also the [Web Groups with Banners](https://github.com/Glue42/web-groups-with-banners) example on GitHub.*
 
@@ -572,7 +592,7 @@ const App = () => {
             components={{
                 frame: {
                     BelowWindow: () => {
-                        return <div className="custom-below-window">Custom Content</div>
+                        return <div className="custom-below-window">Custom Window Content</div>
                     }
                 }
             }}
@@ -585,34 +605,15 @@ export default App;
 
 *Note that showing content in a Below Window zone effectively reduces the height of the window area.*
 
+Custom Below Window zone:
+
+![Custom Below Window](../../../../images/groups/custom-below-window.png)
+
 *See also the [Web Groups with Banners](https://github.com/Glue42/web-groups-with-banners) example on GitHub.*
 
 ### Overlays
 
 The [`@glue42/groups-ui-react`](https://www.npmjs.com/package/@glue42/groups-ui-react) library allows you to show custom overlays on a group or on a window level. The bounds and lifetime of overlay components is determined by your custom styles and logic. The window-level overlays can be shown either in all windows simultaneously, or you can target a specific window.
-
-To define a group-level overlay, use the Overlay zone of the `group` property in the `<Group />` component:
-
-```javascript
-import React from "react";
-import Group from "@glue42/groups-ui-react";
-
-const App = () => {
-    return (
-        <Group
-            components={{
-                group: {
-                    Overlay: () => {
-                        return <div className="custom-group-overlay">Custom Content</div>
-                    }
-                }
-            }}
-        />
-    );
-};
-
-export default App;
-```
 
 To define a window-level overlay, use the Overlay zone of the `frame` property in the `<Group />` component:
 
@@ -628,6 +629,87 @@ const App = () => {
                     Overlay: () => {
                         return <div className="custom-window-overlay">Custom Content</div>
                     }
+                }
+            }}
+        />
+    );
+};
+
+export default App;
+```
+
+The following examples demonstrate how to create a group-level overlay that will show or hide when the user clicks a button in the group caption bar.
+
+![Custom Group Overlay](../../../../images/groups/custom-group-overlay.gif)
+
+Create a custom group overlay:
+
+```javascript
+import React from "react";
+
+const CustomGroupOverlay = () => {
+    return (
+        <div className="custom-group-overlay">
+            <input placeholder="Search instruments" />
+            <button>Load Portfolios</button>
+        </div>
+    );
+};
+
+export default CustomGroupOverlay;
+```
+
+Create a custom group caption bar and place a custom button in it that will show or hide the group overlay:
+
+```javascript
+import React from "react";
+import {
+    GroupMoveArea,
+    GroupCaption,
+    GroupButtons
+} from "@glue42/groups-ui-react";
+import CustomButton from "./CustomButton";
+
+const CustomGroupCaptionBar = ({ moveAreaId, caption, showOverlay, setShowOverlay, ...props }) => {
+    return (
+        <div className="custom-group-caption-bar">
+            <GroupMoveArea moveAreaId={moveAreaId}>
+                <GroupCaption caption={caption} />
+            </GroupMoveArea>
+            <button onClick={() => setShowOverlay(!showOverlay)}>Search Instruments</button>
+            <GroupButtons {...props} />
+        </div>
+    );
+};
+
+export default CustomGroupCaptionBar;
+```
+
+Pass the custom components to your custom Web Groups App and render the group overlay conditionally:
+
+```javascript
+import React, { useState } from "react";
+import Group from "@glue42/groups-ui-react";
+import CustomGroupCaptionBar from "./CustomGroupCaptionBar";
+import CustomGroupOverlay from "./CustomGroupOverlay";
+
+const App = () => {
+    const [showOverlay, setShowOverlay] = useState(false);
+
+    return (
+        <Group
+            components={{
+                group: {
+                    CaptionBar: props => {
+                                    return (
+                                        <CustomGroupCaptionBar
+                                            showOverlay={showOverlay}
+                                            setShowOverlay={setShowOverlay}
+                                            {...props}
+                                        />
+                                    );
+                                },
+                    Overlay: () => showOverlay ? <CustomGroupOverlay /> : <></>
                 }
             }}
         />

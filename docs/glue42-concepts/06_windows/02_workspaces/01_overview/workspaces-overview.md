@@ -1046,7 +1046,7 @@ const CustomWorkspaceTab = ({ title, onSaveClick, onCloseClick}) => {
     const [tabTitle, setTabTitle] = useState(title);
 
     return (
-        <div onDoubleClick={() => setShowInput(showInput ? false : true)}>
+        <div onDoubleClick={() => setShowInput(!showInput)}>
             <WorkspaceSaveButton showSavePopup={onSaveClick} />
             {!showInput && <WorkspaceTitle title={tabTitle} />}
             {showInput && <CustomInput setTabTitle={setTabTitle} />}

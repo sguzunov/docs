@@ -59,7 +59,7 @@ The Launchpad is a Windows style Toolbar that is hidden on startup and is activa
 - Move and resize windows or window groups.
 - Maximize, minimize and collapse windows or window groups.
 
-![Window Management](../../../images/window-management/window-groups.gif)
+![Window Management](../../../images/groups/window-groups.gif)
 
 ### Workspaces
 

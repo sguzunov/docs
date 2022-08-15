@@ -721,6 +721,97 @@ export default App;
 
 *See also the [Web Groups with Banners](https://github.com/Glue42/web-groups-with-banners) example on GitHub.*
 
+### Requesting Focus
+
+Some components in your custom Web Group App may require keyboard focus when the user clicks on them (e.g., input fields) or when the component that contains them has been mounted. By default, the keyboard focus isn't on the Web Group App (the web page itself), but rather on the apps participating in it. To move the keyboard focus to a component in the Web Group App, use the `requestPageFocus()` method.
+
+The following examples demonstrate how to move the keyboard focus to a custom input field located in a [custom window tab](#extending_web_groups-tab_window_components). The input field is used for changing the tab title - when the user double clicks on the tab, the input will be shown, and when they double click again, the new title will be set.
+
+![Requesting Focus](../../../../images/groups/groups-requesting-page-focus.gif)
+
+Create a custom input field and use the `requestPageFocus()` method to move the keyboard focus to it every time the component is mounted and when the user clicks on it. You must also use a direct reference to the element and stop the propagation of the `"mousedown"` and `"click"` events in order to prevent the Web Groups framework from processing them. Use the `requestPageFocus()` method in the `"click"` event in order to focus the element every time the user clicks on it, in case the element is already rendered, but loses focus, because the user has clicked somewhere else:
+
+```javascript
+import React, { useState, useEffect, useRef } from "react";
+import { requestPageFocus } from "@glue42/groups-ui-react";
+
+const CustomInput = ({ setTabTitle }) => {
+    const [newTitle, setNewTitle] = useState("");
+    const ref = useRef(null);
+
+    useEffect(() => {
+        if (!ref.current) { return };
+
+        // Stop the propagation of the `"mousedown"` and `"click"` events,
+        // in order to prevent the Web Groups framework from processing them.
+        ref.current.onmousedown = e => e.stopPropagation();
+        ref.current.onclick = (e) => {
+            e.stopPropagation();
+            // Request keyboard focus when the component is mounted and when the user clicks on it.
+            requestPageFocus();
+        };
+    }, [ref]);
+
+    return <input ref={ref} onDoubleClick={() => setTabTitle(newTitle)} onChange={e => {setNewTitle(e.target.value)}} value={newTitle} />
+};
+
+export default CustomInput;
+```
+
+*Note that due to the nature of the Web Group App and the fact that React event handlers are always executed after the native DOM event handlers, you must use a direct reference to the DOM elements instead of React events when handling the `"mousedown"` and `"click"` events.*
+
+*Note that you shouldn't use `requestPageFocus()` in the window tab itself, but rather in an element it contains. If you use `requestPageFocus()` in the window tab, you will have to prevent the propagation of the `"click"` and `"mousedown"` events there, which will prevent the Web Groups framework from processing them, leading to undesirable side effects - the user won't be able to move the window tabs or even switch between them by clicking on them.*
+
+Compose a custom window tab containing the custom input field that will render conditionally:
+
+```javascript
+import React, { useEffect, useState } from "react";
+import { TabChannelSelector, TabCaption, TabCloseButton } from "@glue42/groups-ui-react";
+import CustomInput from "./CustomInput";
+
+const CustomTab = ({ channels, caption, selected, close }) => {
+    const [showInput, setShowInput] = useState(false);
+    const [tabTitle, setTabTitle] = useState(caption);
+
+    useEffect(() => setTabTitle(caption), [caption]);
+
+    return (
+        <div className="t42-react-tab" onDoubleClick={() => setShowInput(!showInput)}>
+            {channels.visible && <TabChannelSelector {...channels} />}
+            {!showInput && <TabCaption caption={tabTitle} selected={selected} />}
+            {showInput && <CustomInput setTabTitle={setTabTitle} />}
+            <TabCloseButton selected={selected} close={close} />
+        </div>
+    );
+};
+
+export default CustomTab;
+```
+
+Replace the default `<Tab />` component with the custom one:
+
+```javascript
+import React from "react";
+import Group from "@glue42/groups-ui-react";
+import CustomTab from "./CustomTab";
+import "@glue42/theme";
+import "@glue42/groups-ui-react/dist/styles/styles.css";
+
+const App = () => {
+    return (
+        <Group
+            components={{
+                tabs: {
+                    Element: CustomTab
+                }
+            }}
+        />
+    );
+};
+
+export default App;
+```
+
 ### Styles
 
 To use the default styles for your custom Web Group App, import the following CSS file:

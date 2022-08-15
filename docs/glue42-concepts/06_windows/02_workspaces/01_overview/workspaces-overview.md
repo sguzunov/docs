@@ -999,11 +999,11 @@ For a demonstration of using the `<WorkspaceContents />` component, see the [Pin
 
 Some components in your custom Workspaces App may require keyboard focus when the user clicks on them (e.g., input fields) or when the component that contains them has been mounted. By default, the keyboard focus isn't on the Workspaces App (the web page itself), but rather on the apps participating in the Workspace. To move the keyboard focus to a component in the Workspaces App, use the `requestFocus()` method.
 
-The following examples demonstrate how to move the keyboard focus to a custom input input field located in a [custom Workspace tab](#extending_workspaces-header_area_components-workspace_tab). The input field is used for changing the Workspace tab title - when the user double clicks on the tab, the input will be shown, and when they double click again, the new title will be set.
+The following examples demonstrate how to move the keyboard focus to a custom input field located in a [custom Workspace tab](#extending_workspaces-header_area_components-workspace_tab). The input field is used for changing the Workspace tab title - when the user double clicks on the tab, the input will be shown, and when they double click again, the new title will be set.
 
 ![Requesting Focus](../../../../images/workspaces/requesting-focus.gif)
 
-Create a custom input field and use the `requestFocus()` method to move the keyboard focus to it every time the component is mounted. You must also use a direct reference to the element and stop the propagation of the `"mousedown"` and `"onclick"` events in order to prevent the Workspaces framework from processing them:
+Create a custom input field and use the `requestFocus()` method to move the keyboard focus to it every time the component is mounted and when the user clicks on it. You must also use a direct reference to the element and stop the propagation of the `"mousedown"` and `"click"` events in order to prevent the Workspaces framework from processing them. Use the `requestFocus()` method in the `"click"` event in order to focus the element every time the user clicks on it, in case the element is already rendered, but loses focus, because the user has clicked somewhere else:
 
 ```javascript
 import React, { useState, useEffect, useRef } from "react";
@@ -1019,9 +1019,11 @@ const CustomInput = ({ setTabTitle }) => {
         // Stop the propagation of the `"mousedown"` and `"click"` events,
         // in order to prevent the Workspaces framework from processing them.
         ref.current.onmousedown = e => e.stopPropagation();
-        ref.current.onclick = e => e.stopPropagation();
-        // Request keyboard focus every time the component is mounted.
-        requestFocus();
+        ref.current.onclick = (e) => {
+            e.stopPropagation();
+            // Request keyboard focus when the component is mounted and the user clicks on it.
+            requestFocus();
+        };
     }, [ref]);
 
     return <input ref={ref} onDoubleClick={() => setTabTitle(newTitle)} onChange={e => {setNewTitle(e.target.value)}} value={newTitle} />
@@ -1034,16 +1036,18 @@ export default CustomInput;
 
 *Note that you shouldn't use `requestFocus()` in the Workspace tab itself, but rather in an element it contains. If you use `requestFocus()` in the Workspace tab, you will have to prevent the propagation of the `"click"` and `"mousedown"` events there, which will prevent the Workspaces framework from processing them, leading to undesirable side effects - the user won't be able to move the Workspace tabs or even switch between them by clicking on them.*
 
-Compose a custom Workspace containing the custom input field that will render conditionally:
+Compose a custom Workspace tab containing the custom input field that will render conditionally:
 
 ```javascript
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { WorkspaceSaveButton, WorkspaceTitle, WorkspaceTabCloseButton } from "@glue42/workspaces-ui-react";
 import CustomInput from "./CustomInput";
 
 const CustomWorkspaceTab = ({ title, onSaveClick, onCloseClick}) => {
     const [showInput, setShowInput] = useState(false);
     const [tabTitle, setTabTitle] = useState(title);
+
+    useEffect(() => setTabTitle(title), [title]);
 
     return (
         <div onDoubleClick={() => setShowInput(!showInput)}>

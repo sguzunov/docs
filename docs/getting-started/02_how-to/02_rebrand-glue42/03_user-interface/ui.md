@@ -240,7 +240,7 @@ The icon for the [**Glue42 Enterprise**](https://glue42.com/enterprise/) executa
 
 ## Notifications
 
-The default apps for handling Glue42 [Notifications](../../../../glue42-concepts/notifications/overview/index.html) are the Glue42 Notification Panel and the notification toasts. They can be customized visually or altogether replaced with your own custom apps. It is also possible to filter notifications, enable or disable notification toasts and specify their size and duration through configuration. For more details on how to configure, customize or replace the default notification apps, see the [Notifications](./../../../glue42-concepts/notifications/overview/index.html) section.
+The default apps for handling Glue42 [Notifications](../../../../glue42-concepts/notifications/overview/index.html) are the Glue42 Notification Panel and the notification toasts. They can be customized visually or altogether replaced with your own custom apps. It is also possible to filter notifications, enable or disable notification toasts and specify their size and duration through configuration. For more details on how to configure, customize or replace the default notification apps, see the [Notifications](../../../../glue42-concepts/notifications/overview/index.html) section.
 
 ## Themes
 

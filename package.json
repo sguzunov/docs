@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "generate-docs-new-structure": "glue-js-documentation-builder build-with-new-structure -p enterprise -s ./docs -d ./dist -m getting-started,glue42-concepts,developers,tutorials,glue42-core",
+    "generate-docs-new-structure": "glue-js-documentation-builder build-with-new-structure -p enterprise -s ./docs -d ./dist -m getting-started,glue42-concepts,connectors,developers,tutorials,glue42-core",
     "generate-docs-new-structure-core": "glue-js-documentation-builder build-with-new-structure -p core -s ../core/docs -d ./dist/core-docs -m getting-started,capabilities,developers,glue42-enterprise"
   },
   "repository": {

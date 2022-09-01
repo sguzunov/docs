@@ -36,14 +36,16 @@ var initializeOptions = new InitializeOptions()
 // (default assembly name for ApplicationName and with all features included).
 
 Glue42 glue;
-Glue42.InitializeGlue(initializeOptions)
-                .ContinueWith(glueInit =>
-                    {
-                        glue = glueInit.Result;
-                        // Use Glue42 here.
-                    });
 
+Glue42.InitializeGlue(initializeOptions)
+    .ContinueWith(glueInit =>
+        {
+            glue = glueInit.Result;
+            // Use Glue42 here.
+        });
 ```
+
+*Note that after initializing the Glue42 library, you may want to register the windows of your .NET app as Glue42 Windows in order to be able to use Glue42 functionalities. For more details on how to do that correctly and the pitfalls to avoid during window registration, see the [Window Management > Glue42 Window](../../../../glue42-concepts/windows/window-management/net/index.html#glue42_windows) section.*
 
 ## App Configuration
 

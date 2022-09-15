@@ -780,7 +780,7 @@ The close and refresh handlers can be enabled/disabled globally through the syst
 
 #### Handlers Configuration
 
-To configure the close and refresh handlers globally for all windows, go to the `system.json` file located in `%LocalAppData%\Tick42\GlueDesktop\config` and edit the `refresheHandlers` and `closeHandlers` properties under the `windows` top-level key:
+To configure the close and refresh handlers globally for all windows, go to the `system.json` file located in `%LocalAppData%\Tick42\GlueDesktop\config` and edit the `"refreshHandlers"` and `"closeHandlers"` properties under the `"windows"` top-level key:
 
 ```json
 {
@@ -797,7 +797,7 @@ To configure the close and refresh handlers globally for all windows, go to the 
 }
 ```
 
-To configure close and refresh handlers only for specific windows, modify the `details` property in each respective app configuration file:
+To configure close and refresh handlers only for specific windows, modify the `"details"` property in each respective app configuration file:
 
 ```json
 {

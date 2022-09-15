@@ -24,8 +24,6 @@ A Workspaces contains one or more apps (windows) arranged in columns, rows or gr
 
 A Workspace Layout is a JSON object which describes the model of a Workspace. It contains the name of the Workspace, the structure of its children and how they are arranged, the names of each app present in the Workspace, context and other settings. This Layout is the blueprint used by the API to build the Workspace and its components. Workspace Layouts can be defined both programmatically - when creating or restoring Workspaces at runtime, and through configuration - when defining default Workspaces to be loaded by the Workspaces App (see [Workspaces App Configuration](#extending_workspaces-workspaces_app_configuration)).
 
-The Workspace Layouts are defined using
-
 The following example demonstrates a basic Layout definition of a Workspace containing two apps:
 
 ```json

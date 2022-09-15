@@ -78,7 +78,7 @@ type = "bool" | "int" | "double" | "long" | "string" | "datetime" | "tuple: {<sc
 Examples:
 
 - `"string name, string[]? titles"` - `name` is required, `titles` is an optional string array;
-- `tuple: { string name, int age } personalDetails` - `personalDetails` is a required tuple value containing two required values - `name` as a string and `age` as an integer;
+- `"tuple: { string name, int age } personalDetails"` - `personalDetails` is a required tuple value containing two required values - `name` as a string and `age` as an integer;
 - `"composite: { string first, string? middle, string last } name"` - `name` is a composite parameter and its schema is defined by 2 required string fields - `first` and `last`, and an optional string field - `middle`;
 
 ### Returning Results

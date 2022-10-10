@@ -123,7 +123,7 @@ If your users need to message data to Excel, but aren't allowed to save it local
 
 ### Custom Workbook, Sheet and Range
 
-If your app needs to create (or re-open and re-use) a specific workbook, or place data in a specific spreadsheet and location in the spreadsheet, you can use the [`workbook`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-workbook), [`worksheet`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-worksheet) and [`namedRange`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-namedRange) options:
+If your app needs to create (or re-open and re-use) a specific workbook, or place data in a specific spreadsheet and location in the spreadsheet, you can use the [`workbook`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-workbook), [`worksheet`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-worksheet) and [`topLeft`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-topLeft) options:
 
 ```javascript
 const config = {
@@ -132,7 +132,7 @@ const config = {
     options: {
         workbook: "ClientData.xls",
         worksheet: "John Doe",
-        namedRange: "B2",
+        topLeft: "B2",
         dataRangeName: "ClientData",
         clearGrid: true
     }

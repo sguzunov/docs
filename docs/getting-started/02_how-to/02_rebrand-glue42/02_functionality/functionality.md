@@ -458,7 +458,7 @@ The configuration for attaching files when submitting a Feedback Form is found u
 | `"filter"` | `string` | **Required.** Regex filter that will be applied to each file in the folder - e.g., `"*.log"`. |
 | `"category"` | `string` | **Required.** Category for the attached item. |
 | `"selected"` | `boolean` | If `true`, the category (or all files under this category) in the Feedback Form will be selected by default. |
-| `"recursive"` | `string` | If `true`, will collect and attach all files from all folders located inside the specified folder. Set to `false` to collect the files only in the specified folder. |
+| `"recursive"` | `boolean` | If `true`, will collect and attach all files from all folders located inside the specified folder. Set to `false` to collect the files only in the specified folder. |
 
 ## Other System Configurations
 

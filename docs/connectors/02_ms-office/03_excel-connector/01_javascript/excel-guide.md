@@ -139,7 +139,7 @@ const config = {
 }
 ```
 
-Note that all these settings are optional. If the workbook doesn't exist, it is going to be created, otherwise re-opened. If there is data in the specified spreadsheet, it's going to be wiped, unless you've set [`clearGrid`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-clearGrid) to `false`. In the example above the data will be placed in the `John Doe` spreadsheet, starting on the 2nd row and column (B2). You can use also use Row/Column references, e.g., `R2C2` (row 2 column 2). Specifying [`dataRangeName`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-dataRangeName) names the range of cells which starts at `B2` and spans your data to `ClientData`.
+Note that all settings except the `columnConfig` property are optional. If the workbook doesn't exist, it is going to be created, otherwise re-opened. If there is data in the specified spreadsheet, it's going to be wiped, unless you've set [`clearGrid`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-clearGrid) to `false`. In the example above the data will be placed in the `John Doe` spreadsheet, starting on the 2nd row and column (B2). You can use also use Row/Column references, e.g., `R2C2` (row 2 column 2). Specifying [`dataRangeName`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-dataRangeName) names the range of cells which starts at `B2` and spans your data to `ClientData`.
 
 ### Using Templates
 

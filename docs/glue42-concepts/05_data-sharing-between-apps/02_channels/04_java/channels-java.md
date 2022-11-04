@@ -6,6 +6,14 @@ To add the Channel Selector to your window, you need to enable the `channel` win
 glue.windows().register(handle, options -> options.channel())
 ```
 
+## All Channels
+
+To get a collection of all available Channel names, use the `all()` method:
+
+```java
+CompletionStage<Collection<String>> allChannelNames = glue.channels.all();
+```
+
 ## Creating Channel Context
 
 A context data object can contain different types of data, e.g. `RIC` symbol, `ClientID`, `AccountID`:

@@ -75,6 +75,8 @@ The Bloomberg Terminal has built-in functions which execute various kinds of dat
 
 ## Bloomberg Simulator
 
+The simulator mode of the Bloomberg Connector enables you to use the provided APIs when developing or testing without the need for an actual Bloomberg Terminal installed.
+
 To start the Bloomberg Connector in simulator mode, use the `--terminalType=sim` command line argument when starting the Bloomberg Connector from its executable file.
 
 Alternatively, you can use the following [app configuration](../../../developers/configuration/application/index.html), which will allow the Bloomberg Connector app to appear in the [Glue42 Toolbar](../../../glue42-concepts/glue42-toolbar/index.html) and start in simulator mode:

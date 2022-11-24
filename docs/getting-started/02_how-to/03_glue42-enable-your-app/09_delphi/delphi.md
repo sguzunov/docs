@@ -92,7 +92,7 @@ end;
 
 ## App Configuration
 
-To add your Delphi app to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with app configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder, where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
+To add your Delphi app to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with app configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\apps` folder, where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
 
 The following is an example configuration for a Delphi app:
 
@@ -2600,6 +2600,6 @@ The `StandardButtons` property specifies which command buttons will be available
 | `'Extract'` | Show the "Extract" button. |
 | `'Collapse'` | Show the "Collapse" button. |
 | `'Minimize'` | Show the "Minimize" button. Works in conjunction with the `Minimizable` property which must also be set to `True` for the button to be visible. |
-| `'Maximize'` | Show the "Maximize". Works in conjunction with the `Maximizable` property which must also be set to `True` for the button to be visible. |
+| `'Maximize'` | Show the "Maximize" button. Works in conjunction with the `Maximizable` property which must also be set to `True` for the button to be visible. |
 | `'Close'` | Show the "Close" button. |
 | `'Default'` \| `''` | Equivalent to `'Collapse,Minimize,Maximize,Close'`. |

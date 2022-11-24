@@ -80,7 +80,7 @@ The Java examples are shipped with the [**Glue42 Enterprise**](https://glue42.co
 
 ### Glue42 Apps
 
-- [Templates](https://github.com/Glue42/templates) - templates for creating custom toolbars, launchpads and Workspaces apps based on the Glue42 Floating Toolbar, the Glue42 Launchpad and the [**Glue42 Enterprise**](https://glue42.com/enterprise/) Workspaces UI App.
+- [Templates](https://github.com/Glue42/templates) - templates for creating custom toolbars, launchpads, Workspaces apps and Notification apps based on the Glue42 Floating Toolbar, the Glue42 Launchpad and the [**Glue42 Enterprise**](https://glue42.com/enterprise/) Workspaces UI App and Notifications App.
 
 - [Workspace with Header](https://github.com/Glue42/workspace-with-header) - an example of how to add a custom header, popups and pinned tabs to the [Workspaces App](../../glue42-concepts/windows/workspaces/overview/index.html#workspaces_concepts-frame).
 
@@ -91,6 +91,12 @@ The Java examples are shipped with the [**Glue42 Enterprise**](https://glue42.co
 - [Glue42 Server example](https://github.com/glue42/server-example) - a complete [Glue42 Server](../../glue42-concepts/glue42-server/index.html) example.
 
 - [Basic Server Example](https://github.com/Glue42/server-example-basic) - a basic [Glue42 Server](../../glue42-concepts/glue42-server/index.html) example demonstrating how to run the Glue42 Server and the Admin UI using NPM packages and basic authentication.
+
+### Glue42 Connectors
+
+- [BBG Market Data example](https://github.com/Tick42/bbg-market-data-example) - demonstrates using the [`@glue42/bbg-market-data`](https://www.npmjs.com/package/@glue42/bbg-market-data) library.
+
+- [BBG Connector Mock](https://github.com/Glue42/bbg-connector-mock) - this mock can be used to write end-to-end tests for your apps without the need for a real Bloomberg Terminal, and to see how to implement your own [Interop methods](../../glue42-concepts/data-sharing-between-apps/interop/overview/index.html) for creating data requests and controlling the data returned in your tests.
 
 ### Other Examples
 

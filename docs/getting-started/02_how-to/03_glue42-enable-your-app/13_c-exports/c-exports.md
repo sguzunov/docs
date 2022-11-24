@@ -39,7 +39,7 @@ glue_init("my_cpp_app", &connection_status_callback);
 
 ## App Configuration
 
-To add your C++ app (or any EXE app) to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with app configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder, where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
+To add your C++ app (or any EXE app) to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with app configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\apps` folder, where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
 
 The following is an example configuration for a C++ app:
 
@@ -519,7 +519,7 @@ enum class glue_state {
 | `connecting` | Connecting to Glue42. |
 | `disconnected` | Disconnected from Glue42. |
 | `initialized` | The Glue42 library has been initialized. |
-| `none` | Information about the connection to Glue42 is not yet available. |
+| `none` | Information about the connection to Glue42 isn't available yet. |
 
 ### glue_type
 

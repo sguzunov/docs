@@ -31,8 +31,8 @@ def open_window(_):
         # Each Glue42 Window must have a unique name.
         "name": "glue42-docs",
         "url": "https://docs.glue42.com",
-        "title": "Glue42 Docs",
         "options": {
+            "title": "Glue42 Docs",
             "width": 400,
             "height": 500,
         }
@@ -89,7 +89,6 @@ def open_window(_):
     return {
         "name": "glue42-docs",
         "url": "https://docs.glue42.com",
-        "title": "Glue42 Docs",
         "options": options
     }
 ```

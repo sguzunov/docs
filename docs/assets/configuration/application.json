@@ -191,6 +191,13 @@
                     "description": "These name/value pairs are sent to the Glue42 Desktop clients. The Application Manager API exposes them as well, allowing custom UIs to interpret and use the values.",
                     "type": "object"
                 },
+                "keywords": {
+                    "description": "An array of keywords that can help discovering the application easier",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "noDelayedRestore": {
                     "description": "If `true`, the application will always be restored directly when restoring workspaces (no delayed or lazy restore for this app).",
                     "type": "boolean",
@@ -223,6 +230,24 @@
                 "allowCookiesManipulation": {
                     "description": "If `true`, the app can query and modify the session cookies.",
                     "type": "boolean"
+                },
+                "allowWorkspaceDrop": {
+                    "description": "If `false`, the user won't be able to drop the app in a Workspace.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "reuseInLayouts": {
+                    "description": "If `true` and the app is part of a hibernated Layout, one or more of its available instances will be reused when resuming another Layout that contains the same app.",
+                    "type": "boolean",
+                    "default": false
+                },
+                "supportEmails": {
+                    "description": "Emails of the owners of the application",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "Single email address."
+                    }
                 }
             }
         },
@@ -232,6 +257,49 @@
             "description": "Single window application.",
             "additionalProperties": true,
             "properties": {
+                "urlLoadOptions": {
+                    "description": "Describes the options for loading a window URL.",
+                    "type": "object",
+                    "properties": {
+                        "baseURLForDataURL": {
+                            "description": "Base URL for files loaded by a data URL. Must end with a trailing path separator. This property is necessary only when the loaded URL is a data URL.",
+                            "type": "string"
+                        },
+                        "extraHeaders": {
+                            "description": "A string with extra headers for the request. Separate the headers with a `\\n`.",
+                            "type": "string"
+                        },
+                        "httpReferrer": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/referrer"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ],
+                            "description": "URL for the `Referer` request header or a `Referrer` object specifying a URL and a policy for the `Referrer-Policy` request header."
+                        },
+                        "postData": {
+                            "description": "Data for the POST request. Either an `UploadFile` object describing the location and other properties of the file to upload, or an `UploadBase64Data` object containing data encoded as a Base64 string.",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/definitions/uploadFile"
+                                    },
+                                    {
+                                        "$ref": "#/definitions/uploadBase64Data"
+                                    }
+                                ]
+                            },
+                            "type": "array"
+                        },
+                        "userAgent": {
+                            "description": "A user agent originating the request.",
+                            "type": "string"
+                        }
+                    }
+                },
                 "url": {
                     "description": "Required. URL pointing to the location of the window application.",
                     "type": "string"
@@ -327,6 +395,10 @@
                 },
                 "showStickyButton": {
                     "description": "If `false`, the window will not contain a sticky button.",
+                    "type": "boolean"
+                },
+                "showFeedbackButton": {
+                    "description": "If `false`, the window will not contain a feedback button.",
                     "type": "boolean"
                 },
                 "maximizable": {
@@ -1075,6 +1147,16 @@
                             "description": "Index of the icon specified in `iconPath`. Ignored when `iconPath` is not set. Defaults to 0.",
                             "type": "number",
                             "default": 0
+                        },
+                        "combineIcons": {
+                            "description": "Determines how the taskbar icons of the app instances will be combined with each other and with icons of other Glue42 apps when the Windows taskbar is set to combine icons. Can be `sameIcon`, `sameApp` or `never`. Set to `sameIcon` to combine the icons of the app instances with each other and with all other Glue42 apps that use the same icon. Set to `sameApp` to combine the icons only of the app instances. Set to `never` to prevent the icons of the app instances from combining with each other or with other Glue42 apps that use the same icon. Defaults to `sameIcon`.",
+                            "type": "string",
+                            "default": "sameIcon",
+                            "enum": [
+                                "sameIcon",
+                                "sameApp",
+                                "never"
+                            ]
                         }
                     },
                     "additionalProperties": false
@@ -1084,6 +1166,11 @@
                 },
                 "allowOSInfo": {
                     "description": "If `true`, the app can retrieve OS information.",
+                    "type": "boolean",
+                    "default": false
+                },
+                "allowClearingCache": {
+                    "description": "If `true`, the application can clear session and host cache.",
                     "type": "boolean",
                     "default": false
                 },
@@ -1328,6 +1415,10 @@
                 },
                 "showStickyButton": {
                     "description": "If `false`, the window will not contain a sticky button.",
+                    "type": "boolean"
+                },
+                "showFeedbackButton": {
+                    "description": "If `false`, the window will not contain a feedback button.",
                     "type": "boolean"
                 },
                 "allowUnstick": {
@@ -1598,6 +1689,10 @@
                     "description": "If `false`, the window will not contain a sticky button.",
                     "type": "boolean"
                 },
+                "showFeedbackButton": {
+                    "description": "If `false`, the window will not contain a feedback button.",
+                    "type": "boolean"
+                },
                 "allowUnstick": {
                     "description": "If `false`, the window will remain stuck to other windows.",
                     "type": "boolean",
@@ -1822,6 +1917,10 @@
                 },
                 "showStickyButton": {
                     "description": "If `false`, the window will not contain a sticky button.",
+                    "type": "boolean"
+                },
+                "showFeedbackButton": {
+                    "description": "If `false`, the window will not contain a feedback button.",
                     "type": "boolean"
                 },
                 "allowUnstick": {
@@ -2163,6 +2262,10 @@
                 },
                 "showStickyButton": {
                     "description": "If `false`, the window will not contain a sticky button.",
+                    "type": "boolean"
+                },
+                "showFeedbackButton": {
+                    "description": "If `false`, the window will not contain a feedback button.",
                     "type": "boolean"
                 },
                 "allowUnstick": {
@@ -2551,7 +2654,7 @@
                 "framePool": {
                     "type": "number",
                     "description": "Controls the count of cached frames, which will be used for workspace extract. The higher the number the higher the consumed memory, the lower the number the chance for workspace extract rejection, because the pool is empty will be higher.",
-                    "default": 3
+                    "default": 2
                 },
                 "allowOSInfo": {
                     "description": "If `true`, the app can retrieve OS information.",
@@ -2566,6 +2669,67 @@
                     "description": "If `true` only applications opened in the workspace will be allowed to be dropped inside of it and all other apps won't be",
                     "type": "boolean",
                     "default": false
+                },
+                "allowWorkspaceTabExtract": {
+                    "description": "If `false`, the user won't be able to extract any of the Workspace tabs in the Workspaces App. This will override the Workspaces API locking configuration.",
+                    "type": "boolean"
+                },
+                "security": {
+                    "$ref": "system.json#/definitions/securityConfig"
+                },
+                "minWidth": {
+                    "description": "Specifies the minimum width in pixels for the Workspaces App.",
+                    "default": 380,
+                    "type": "number"
+                },
+                "minHeight": {
+                    "description": "Specifies the minimum height in pixels for the Workspaces App.",
+                    "default": 85,
+                    "type": "number"
+                },
+                "maxWidth": {
+                    "description": "Specifies the maximum width in pixels for the Workspaces App.",
+                    "type": "number"
+                },
+                "maxHeight": {
+                    "description": "Specifies the maximum height in pixels for the Workspaces App.",
+                    "type": "number"
+                },
+                "workspaceLoadingAnimation": {
+                    "description": "Configuration for the Workspace loading animation.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "default": {},
+                    "properties": {
+                        "enabled": {
+                            "description": "If `true`, will enable showing a loading animation while a Workspace is being loaded.",
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "hideOnLoad": {
+                            "description": "If `true` (default), will hide the Workspace loader once all visible windows in the Workspace have been loaded.",
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                },
+                "autoInjectAPI": {
+                    "description": "Specifies if the Glue42 JavaScript API will be auto injected in the window context. The `Glue()` factory function becomes available without referencing a `desktop.js` file.",
+                    "type": "object",
+                    "required": [
+                        "enabled"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "enabled": {
+                            "description": "If `true`, will enable auto injection of the Glue42 JavaScript library.",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                },
+                "jumpList": {
+                    "$ref": "system.json#/definitions/jumpListConfig"
                 }
             },
             "required": []
@@ -2595,6 +2759,28 @@
                 },
                 "pool": {
                     "$ref": "#/definitions/webGroupPoolConfig"
+                },
+                "timeout": {
+                    "description": "In seconds to load the page.",
+                    "type": "number",
+                    "default": 10
+                },
+                "retryCount": {
+                    "description": "Incremental intervals. The application waits a short time before the first retry, and then incrementally increasing time between each subsequent retry. For example, it may retry the operation after 1*500, 2*500, 3*500, and so on.",
+                    "type": "number",
+                    "default": 3
+                },
+                "retryInterval": {
+                    "description": "retryAfter",
+                    "type": "number",
+                    "default": 500
+                },
+                "retryFailedMessage": {
+                    "description": "retryFailedMessage",
+                    "type": "string"
+                },
+                "security": {
+                    "$ref": "system.json#/definitions/securityConfig"
                 }
             },
             "required": [
@@ -2857,8 +3043,7 @@
             "description": "Intent definition",
             "additionalProperties": false,
             "required": [
-                "name",
-                "contexts"
+                "name"
             ],
             "properties": {
                 "name": {
@@ -2870,14 +3055,15 @@
                     "type": "string"
                 },
                 "contexts": {
-                    "description": "If `true`, the console of the Node.js script will be visible",
+                    "description": "The type of predefined data structures with which the app can work",
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
-                "customConfig": {
-                    "type": "object"
+                "resultType": {
+                    "description": "Metadata describing the return type of the callback which handles the intent",
+                    "type": "string"
                 }
             }
         },
@@ -3068,6 +3254,89 @@
                 }
             },
             "additionalProperties": false
+        },
+        "referrer": {
+            "description": "Describes the values that will be used for the `Referer` and the `Referrer-Policy` request headers. ",
+            "properties": {
+                "policy": {
+                    "description": " Value for the `Referrer-Policy` request header. For more details, see the [`Referrer-Policy` request header documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy).",
+                    "enum": [
+                        "default",
+                        "no-referrer",
+                        "no-referrer-when-downgrade",
+                        "origin",
+                        "same-origin",
+                        "strict-origin",
+                        "strict-origin-when-cross-origin",
+                        "unsafe-url"
+                    ],
+                    "type": "string"
+                },
+                "url": {
+                    "description": "URL for the `Referer` request header.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "policy",
+                "url"
+            ],
+            "type": "object"
+        },
+        "uploadFile": {
+            "description": "Describes a file to upload.",
+            "properties": {
+                "filePath": {
+                    "description": "Path to the file to upload.",
+                    "type": "string"
+                },
+                "length": {
+                    "description": "Number of bytes to read starting from the value set in `offset`.",
+                    "default": 0,
+                    "type": "number"
+                },
+                "modificationTime": {
+                    "description": "The time the file was last modified expressed as a number of seconds since the UNIX epoch.",
+                    "type": "number"
+                },
+                "offset": {
+                    "description": "Position of the first byte to read.",
+                    "default": 0,
+                    "type": "number"
+                },
+                "type": {
+                    "description": "Type of the uploaded data. Must be set to `file`.",
+                    "enum": [
+                        "file"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "filePath",
+                "length",
+                "modificationTime",
+                "offset",
+                "type"
+            ],
+            "type": "object"
+        },
+        "uploadBase64Data": {
+            "description": "Describes data to upload encoded as a Base64 string.",
+            "properties": {
+                "data": {
+                    "description": "The data to upload encoded as a Base64 string.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Type of the uploaded data. Must be set to `base64`.",
+                    "enum": [
+                        "base64"
+                    ],
+                    "type": "string"
+                }
+            },
+            "type": "object"
         }
     }
 }

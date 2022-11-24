@@ -77,6 +77,55 @@ Popup windows appear when the user clicks on a predefined area in your app:
 
 ![Popup](../../../../images/window-management/popup.gif)
 
+## Renaming Window & Group Captions
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+Users can manually change the caption titles of [classic groups](#window_groups-classic_groups), as well as the captions of flat and tab Glue42 Windows. The user-defined names of groups and windows saved in a [Layout](../../layouts/overview/index.html) will be preserved when the Layout is restored.
+
+*Note that this functionality is currently available only for the Glue42 [classic groups](#window_groups-classic_groups).*
+
+![Renaming Groups](../../../../images/groups/renaming-captions.gif)
+
+To allow the users to manually modify the caption titles of Glue42 Windows and groups, set the `"enableWindowGroupsCaptionEdit"` and `"enableWindowsCaptionEdit"` properties in the `stickywindows.json` [configuration file](../../../../developers/configuration/glue42-windows/index.html) of [**Glue42 Enterprise**](https://glue42.com/enterprise/) to `true`:
+
+```json
+{
+    "enableWindowGroupsCaptionEdit": true,
+    "enableWindowsCaptionEdit": true
+}
+```
+
+## Sticky Button
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.11">
+
+The "Sticky" button (disabled by default) in the window header allows the users to toggle the stickiness of individual windows from the UI:
+
+![Stickiness](../../../../images/window-management/stickiness.gif)
+
+The "Sticky" button can be enabled globally from the [system configuration](../../../../developers/configuration/system/index.html#window_settings-sticky_button) of [**Glue42 Enterprise**](https://glue42.com/enterprise/), or per app from the [app configuration](../../../../developers/configuration/application/index.html#sticky_button) file. The app configuration will override the global system configuration.
+
+Enable the "Sticky" button globally for all apps from the `system.json` configuration file using the `"windows"` top-level key:
+
+```json
+{
+    "windows": {
+        "showStickyButton": true
+    }
+}
+```
+
+Disable the "Sticky" button for an app from its configuration:
+
+```json
+{
+    "details": {
+        "showStickyButton": false
+    }
+}
+```
+
 ## Window Groups
 
 Besides providing full control over individual windows, [**Glue42 Enterprise**](https://glue42.com/enterprise/) also enables you to arrange Glue42 Windows visually by sticking them together and forming window groups. Grouping separate Glue42 Windows in a single frame (window) allows the users to move, resize, minimize, maximize, restore and close all participating windows together using the standard buttons on the window group frame. Grouped windows have a single [customizable taskbar icon](../../../../developers/configuration/themes/index.html#theme_properties-window_groups), can be resized within the group frame and can be torn off from the group. Tab windows can be grouped in tab groups that in turn can be stuck to other Glue42 Windows or groups.
@@ -91,6 +140,10 @@ The standard buttons ("Minimize", "Maximize", "Restore", "Close") of the individ
 - "Close" - will close only the window.
 
 ![Group Window Buttons](../../../../images/groups/group-window-buttons.gif)
+
+The titles of the app windows participating the group are visible when right clicking on the group taskbar icon. When restoring a minimized group, the selected app is focused.
+
+![Group Apps Taskbar Menu](../../../../images/groups/group-apps-taskbar-menu.gif)
 
 Groups can be saved and restored in [Layouts](../../layouts/overview/index.html), saving users time and effort to find and rearrange the necessary apps again after closing the group.
 
@@ -138,11 +191,13 @@ See below an example of a Web Group App with the following customized elements:
 
 - [Group Caption Bar](#extending_web_groups-group_caption_bar_components) containing a custom button that shows and hides a custom [Group Overlay](#extending_web_groups-overlays);
 - [Caption Bar for flat windows](#extending_web_groups-flat_window_components) containing a custom caption;
-- [tab element for tab windows](#extending_web_groups-tab_window_components) containing a custom Close button;
+- [tab element for tab windows](#extending_web_groups-tab_window_components) containing a custom "Close" button;
 - [Before Tabs zone](#extending_web_groups-group_elements-tab_windows) containing a custom icon;
 - [Below Window zone](#extending_web_groups-common_window_components) containing custom content;
 
 ![Custom Web Group App](../../../../images/groups/custom-web-group-app.gif)
+
+*To open a console window for the Web Group App when testing or debugging, press `SHIFT + F12`.*
 
 *Note that the [`@glue42/groups-ui-react`](https://www.npmjs.com/package/@glue42/groups-ui-react) library doesn't include a built Web Group App. A Web Group App is provided in [**Glue42 Enterprise**](https://glue42.com/enterprise/). You can also use and customize the [Web Group App template](https://github.com/Glue42/templates/tree/master/groups-react).*
 
@@ -570,7 +625,7 @@ const App = () => {
 export default App;
 ```
 
-Custom Before Tabs zone containing a custom icon and a custom tab element containing a custom Close button:
+Custom Before Tabs zone containing a custom icon and a custom tab element containing a custom "Close" button:
 
 ![Custom Tab](../../../../images/groups/custom-tab.png)
 
@@ -839,6 +894,9 @@ You should consider the following technical limitations when using the [`@glue42
 
 As the Glue42 [web groups](#window_groups-web_groups) are still an experimental feature, the [`@glue42/groups-ui-react`](https://www.npmjs.com/package/@glue42/groups-ui-react) library currently doesn't support the following:
 
+- [renaming window and group captions](#renaming_window__group_captions);
+- ["Feedback button"](../../../../getting-started/how-to/rebrand-glue42/functionality/index.html#issue_reporting-feedback_button);
+- maximizing a window participating in a group and returning it to the group on restore;
 - expand and collapse programmatic commands and buttons;
 - focus frames for windows on focus;
 - the `"sizingMode": "Single"` option for [resizing windows in a group](../../../../developers/configuration/glue42-windows/index.html#glue42_window_properties-resizing_windows_in_a_group);

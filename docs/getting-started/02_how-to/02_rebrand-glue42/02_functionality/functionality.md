@@ -141,7 +141,7 @@ In the standard [**Glue42 Enterprise**](https://glue42.com/enterprise/) deployme
 
 The settings for the app and Layout stores are defined in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) located in `%LocalAppData%\Tick42\GlueDesktop\config`. The app store settings are under the `"appStores"` top-level key, the Layout store settings are under the `"layouts"` top-level key.
 
-*Note that [**Glue42 Enterprise**](https://glue42.com/enterprise/) respects the FDC3 standards and can retrieve standard Glue42, as well as FDC3-compliant app definitions. For more details on working with FDC3-compliant apps, see the [FDC3 Compliance](../../../fdc3-compliance/index.html) section, the [FDC3 App Directory documentation](https://fdc3.finos.org/docs/app-directory/overview) and the [FDC3 Application](https://fdc3.finos.org/schemas/1.2/app-directory#tag/Application) schema.*
+*Note that [**Glue42 Enterprise**](https://glue42.com/enterprise/) respects the FDC3 standards and can retrieve standard Glue42, as well as FDC3-compliant app definitions. For more details on working with FDC3-compliant apps, see the [FDC3 Compliance](../../../fdc3-compliance/index.html) section, the [FDC3 App Directory documentation](https://fdc3.finos.org/docs/app-directory/overview) and the [FDC3 Application](https://fdc3.finos.org/schemas/2.0/app-directory#tag/Application) schema.*
 
 ### Glue42 Server
 
@@ -259,6 +259,46 @@ For a reference implementation of a remote Layout definitions store, see the [No
 
 For a .NET implementation of a remote Layout definitions store, see the [.NET REST Config](https://github.com/Tick42/rest-config-example-net) example.
 
+## Remote Configurations
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+The configuration of [**Glue42 Enterprise**](https://glue42.com/enterprise/) can be extended with [configuration files](../../../../developers/configuration/overview/index.html) hosted on the [Glue42 Server](../../../../glue42-concepts/glue42-server/index.html) or on another REST service. The configurations from the remote location will be fetched on startup of [**Glue42 Enterprise**](https://glue42.com/enterprise/) and will be merged with the locally available ones.
+
+The following minimal conditions must be met in order for [**Glue42 Enterprise**](https://glue42.com/enterprise/) to function properly when extending its configuration with files from a remote location:
+
+- There must be a locally available `system.json` file and the `"region"`, `"env"`, `"folders"`, `"registerHtmlContainer"`, `"switches"`, `"flash"`, `"protocolHandler"`, `"allowMultipleInstances"` and `"build"` properties must be defined in it. All other properties of the `system.json` file can be defined in a remote location file.
+
+- The `stickywindows.json`, `channels.json` and `themes.json` files must be present locally at least as empty files. The `logger.json` file must be present locally and must not be empty - there must be some configuration settings present in it.
+
+To enable [**Glue42 Enterprise**](https://glue42.com/enterprise/) to fetch configurations from a remote location, use the `"remoteConfigs"` top-level key of the `gilding.json` configuration file located in the `%LocalAppData%\Tick42\GlueDesktop\config` folder. This file contains settings for the so called "gilding" executable file, which is a thin wrapper around the actual [**Glue42 Enterprise**](https://glue42.com/enterprise/) executable. One of its goals is to allow [**Glue42 Enterprise**](https://glue42.com/enterprise/) to fetch its configurations from a remote location before initialization.
+
+The following example demonstrates how to enable [**Glue42 Enterprise**](https://glue42.com/enterprise/) to fetch configuration files from a [Glue42 Server](../../../../glue42-concepts/glue42-server/index.html):
+
+```json
+{
+    "remoteConfig": {
+        "enabled": true,
+        "url": "https://<URL-to-my-glue42-server>/api/systemConfig/get",
+        "folder": "./config/remote-configs",
+        "wipeFolder": true
+    }
+}
+```
+
+The `"remoteConfig"` object has the following properties, all of which are optional:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"enabled"` | `boolean` | If `true`, will enable fetching [**Glue42 Enterprise**](https://glue42.com/enterprise/) configurations from a remote location. |
+| `"url"` | `string` | URL pointing to a [Glue42 Server](../../../../glue42-concepts/glue42-server/index.html) or to another REST service hosting the configuration files.  |
+| `"folder"` | `string` | Location relative the `%LocalAppData&\Tick42\GlueDesktop` folder where the configuration files will be downloaded. Defaults to the `Local\Tick42\UserData\<ENV>-<REG>\configOverrides` folder, where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy - e.g., `T42-DEMO`. |
+| `"wipeFolder"` | `boolean` | If `true`, will delete previously fetched configuration files from the specified folder before downloading. |
+| `"fileSuffix"` | `string` | Suffix that will be added to the name of the configuration files - e.g., if set to `"-dev"`, the `system.json` file will be downloaded and saved as `system-dev.json`. |
+| `"insecureSSL"` | `boolean` | If `true`, will allow insecure connections. |
+| `"impersonation"` | `object` | Object with `"user"` and `"version"` properties that accept strings as values. Use to override the default OS user and [**Glue42 Enterprise**](https://glue42.com/enterprise/) version for which to fetch configurations. |
+| `"continueOnError"` | `boolean` | If `true`, [**Glue42 Enterprise**](https://glue42.com/enterprise/) will initialize even if fetching the remote configurations fails. |
+
 ## Environments & Regions
 
 [**Glue42 Enterprise**](https://glue42.com/enterprise/) allows running it in different environments and regions. Environments usually include development, testing, quality assurance, production environments, etc., in which [**Glue42 Enterprise**](https://glue42.com/enterprise/) is tested or integrated. Regions can be any semantic groups - geographic regions, user groups, product categories, etc., defined by the client adopting [**Glue42 Enterprise**](https://glue42.com/enterprise/).
@@ -346,9 +386,45 @@ tick42-glue-desktop.exe -- config=config/system.json configOverrides config0=con
 
 ## Issue Reporting
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) has a built-in Feedback Form that allows users to send feedback with improvement suggestions or bug reports. To report a problem or submit a suggestion, describe it in the "Description" field and optionally attach logs and configs to the report. The form can be configured to send an email with the report to the Glue42 team and/or to automatically create a Jira ticket with the issue reported by the user. Both on-premise and cloud-based Jira solutions are supported. The Feedback Form is an HTML app and can be re-designed to suit specific client needs and requirements.
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) has a built-in Feedback Form that allows users to send feedback with improvement suggestions or bug reports. To report a problem or submit a suggestion, describe it in the "Description" field and optionally attach logs and configs to the report. The form can be configured to send an email with the report to the Glue42 team and/or to automatically create a Jira ticket with the issue reported by the user. Both on-premise and cloud-based Jira solutions are supported. The Feedback Form is a web app and its HTML file located in the `%LocalAppData%\Tick42\GlueDesktop\assets\issue-reporting` folder can be modified to suit your custom requirements.
 
 ![Feedback Form](../../../../images/rebrand-glue42/feedback-form.png)
+
+### Feedback Button
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+The Feedback Form can be opened directly from an app instance by using the "Feedback" button in the app window header. The "Feedback" button is disabled by default and can be enabled globally from the [system configuration](../../../../developers/configuration/system/index.html) of [**Glue42 Enterprise**](https://glue42.com/enterprise/) or per app from the [app configuration](../../../../developers/configuration/application/index.html) file. The app configuration will override the global system configuration.
+
+![Feedback Button](../../../../images/rebrand-glue42/feedback-button.gif)
+
+Enable the "Feedback" button globally for all apps from the `system.json` configuration file using the `"windows"` top-level key:
+
+```json
+{
+    "windows": {
+        "showFeedbackButton": true
+    }
+}
+```
+
+Disable the "Feedback" button for an app from its configuration:
+
+```json
+{
+    "details": {
+        "showFeedbackButton": false
+    }
+}
+```
+
+Use the `"supportEmails"` top-level key of the [app configuration](../../../../developers/configuration/application/index.html) to specify the emails of the app owners. The email addresses defined in this property will be added to the Feedback Form if it has been triggered from that app:
+
+```json
+{
+    "supportEmails": ["app.owner1@example.com", "app.owner2@example.com"]
+}
+```
 
 ### System Configuration
 

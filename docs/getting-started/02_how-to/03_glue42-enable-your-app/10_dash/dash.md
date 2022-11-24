@@ -80,7 +80,7 @@ The table below describes the properties of the optional settings object:
 
 ## App Configuration
 
-To add your Dash app to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with app configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder, where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
+To add your Dash app to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with app configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\apps` folder, where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
 
 *Note that this step isn't necessary if your app is running in a [**Glue42 Core**](https://glue42.com/core/) project. For more details, see the [App Management > App Definitions](https://core-docs.glue42.com/capabilities/application-management/index.html#app_definitions) section in the [**Glue42 Core**](https://glue42.com/core/) documentation.*
 

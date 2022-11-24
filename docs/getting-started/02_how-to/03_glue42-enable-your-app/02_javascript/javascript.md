@@ -64,7 +64,7 @@ When included, the JavaScript library will register a global factory function ca
 Initialization in a Glue42 window:
 
 ```javascript
-import Glue from "@glue42/desktop"
+import Glue from "@glue42/desktop";
 
 // You don't need to specify any configuration.
 const initializeGlue42 = async () => {
@@ -244,7 +244,7 @@ Below is an example configuration that will auto initialize an app with [Channel
 
 ## App Configuration
 
-To add your JavaScript app to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with app configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder, where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
+To add your JavaScript app to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with app configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\apps` folder, where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
 
 The following is an example configuration for a JavaScript app:
 

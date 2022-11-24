@@ -109,7 +109,7 @@ You can also set the app name runtime when initializing the Glue42 Java library,
 Glue.builder().withApplicationName("My Java App").build();
 ```
 
-JSON app configuration files must be placed in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder, where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
+JSON app configuration files must be placed in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\apps` folder, where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`).
 
 The following is an example JSON configuration for a Java app:
 

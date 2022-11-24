@@ -6,7 +6,7 @@ The App Preferences API provides methods for updating, replacing and clearing us
 
 ## Storage
 
-App preferences can be stored locally in a file, or remotely - using a REST service or the [Glue42 Server](../../glue42-server/index.html). By default, app preferences are stored locally in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\prefs` folder where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) where to store app preferences, use the `"store"` property of the `"applicationPreferences"` top-level key in the `system.json` file located in the `%LocalAppData%\Tick42\GlueDesktop\config` folder:
+App preferences can be stored locally in a file, or remotely - using a REST service or the [Glue42 Server](../../glue42-server/index.html). By default, app preferences are stored locally in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\prefs` folder where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) where to store app preferences, use the `"store"` property of the `"applicationPreferences"` top-level key in the `system.json` file located in the `%LocalAppData%\Tick42\GlueDesktop\config` folder:
 
 ```json
 {

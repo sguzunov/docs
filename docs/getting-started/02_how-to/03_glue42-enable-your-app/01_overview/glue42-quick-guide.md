@@ -52,7 +52,7 @@ Your `index.html` should now look something like this:
 
 3. Create an app definition.
 
-To add your app to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with app configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder, where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). If you are using the provided test app, you can simply copy the provided `js-test-app.json` configuration file to that location. Otherwise, see below how to create a quick and simple app definition:
+To add your app to the [Glue42 Toolbar](../../../../glue42-concepts/glue42-toolbar/index.html), you must create a JSON file with app configuration. Place this file in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\apps` folder, where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). If you are using the provided test app, you can simply copy the provided `js-test-app.json` configuration file to that location. Otherwise, see below how to create a quick and simple app definition:
 
 ```json
 {

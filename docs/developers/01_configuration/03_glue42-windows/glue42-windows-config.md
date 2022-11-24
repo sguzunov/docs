@@ -30,6 +30,34 @@ To specify how to handle the transparency of the HTML elements that determine th
 
 *Note that it is strongly recommended for any popup windows in your custom Workspaces App or Web Group App to use shadows or transparency only if `"rendererTransparencyMode"` is set to `"Transparent"`. Otherwise, the shadow or the transparency will blend with the color specified in the `"rendererTransparencyKeyColor"` property which will result in an undesirable visual effect. Also, the color specified in `"rendererTransparencyKeyColor"` shouldn't be used individually or in a gradient, because it will always be rendered as transparent.*
 
+### Renaming Group & Window Captions
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+Allow the users to manually modify the caption titles of Glue42 tab and flat windows, as well as the captions titles of window groups:
+
+```json
+{
+    "enableWindowGroupsCaptionEdit": true,
+    "enableWindowsCaptionEdit": true
+}
+```
+
+*Note that this functionality is currently available only for the Glue42 [classic groups](../../../glue42-concepts/windows/window-management/overview/index.html#window_groups-classic_groups).*
+
+![Renaming Groups](../../../images/groups/renaming-captions.gif)
+
+### Window Stickiness
+
+Disable the stickiness of Glue42 Windows:
+
+```json
+// Disabling Glue42 Window stickiness (valid for both classic and web groups).
+{
+    "enableStickiness": false
+}
+```
+
 ### Edge Distance
 
 Configure the distance between the edges of neighboring Glue42 Windows:

@@ -34,7 +34,7 @@
             "default": false
         },
         "flash": {
-            "description": "Enable Flash Plugin",
+            "description": "Obsolete. Enable Flash Plugin",
             "default": false,
             "oneOf": [
                 {
@@ -1022,6 +1022,62 @@
                 }
             },
             "additionalProperties": false
+        },
+        "telemetry": {
+            "default": {
+                "enabled": true
+            },
+            "$ref": "#/definitions/telemetryConfig"
+        },
+        "notifications": {
+            "description": "Settings for the Glue42 notifications.",
+            "default": {
+                "enabled": true,
+                "sourceFilter": {
+                    "allowed": [
+                        "*"
+                    ]
+                },
+                "toastExpiry": 15000
+            },
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If `true`, will enable the Glue42 notifications."
+                },
+                "sourceFilter": {
+                    "description": "Specify lists of allowed and/or forbidden URLs.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "allowed": {
+                            "type": "array",
+                            "default": [],
+                            "description": "List of allowed application names.",
+                            "items": {
+                                "type": "string",
+                                "description": "Application name."
+                            }
+                        },
+                        "blocked": {
+                            "type": "array",
+                            "default": [],
+                            "description": "List of forbidden application names.",
+                            "items": {
+                                "type": "string",
+                                "description": "Application name.."
+                            }
+                        }
+                    }
+                },
+                "toastExpiry": {
+                    "description": "Amount of time in milliseconds specifying how long the notification toast will be shown.",
+                    "type": "number",
+                    "default": 15000
+                }
+            },
+            "additionalProperties": false
         }
     },
     "required": [
@@ -1520,6 +1576,11 @@
                 },
                 "showStickyButton": {
                     "description": "If `true`, the window will contain a sticky button.",
+                    "type": "boolean",
+                    "default": false
+                },
+                "showFeedbackButton": {
+                    "description": "If `true`, the window will contain a feedback button.",
                     "type": "boolean",
                     "default": false
                 },
@@ -2307,6 +2368,11 @@
                     "descriptions": "Where to store Electron's cache. You can use environment variables to configure the path to it.",
                     "type": "string",
                     "default": "%LocalAppData%/Tick42/Cache/%GLUE-ENV%-%GLUE-REGION%/"
+                },
+                "remoteConfig": {
+                    "descriptions": "Where to store configuration files downloaded from remote configuration.",
+                    "type": "string",
+                    "default": "%LocalAppData%/Tick42/UserData/%GLUE-ENV%-%GLUE-REGION%/remoteConfig"
                 }
             }
         },
@@ -2837,7 +2903,9 @@
                                             "description": "Type of the action to execute.",
                                             "enum": [
                                                 "centerScreen",
-                                                "userDefined"
+                                                "userDefined",
+                                                "focusApplication",
+                                                "newWorkspace"
                                             ]
                                         },
                                         "icon": {
@@ -2865,7 +2933,7 @@
                     "type": "array",
                     "default": [
                         {
-                            "title": "System",
+                            "title": "Tasks",
                             "actions": [
                                 {
                                     "type": "centerScreen",
@@ -2876,6 +2944,17 @@
                             ]
                         }
                     ]
+                }
+            }
+        },
+        "telemetryConfig": {
+            "description": "Configuration for telemetry data published by Glue42.",
+            "additionalProperties": false,
+            "properties": {
+                "enabled": {
+                    "description": "If `true` (default), will enable telemetry data published by Glue42. If `false`, telemetry data won't be gathered or published.",
+                    "type": "boolean",
+                    "default": true
                 }
             }
         }

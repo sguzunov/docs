@@ -2,7 +2,7 @@
 
 With the Glue42 Bloomberg Connector you can bring various Bloomberg services to your Glue42 enabled apps. The Bloomberg Connector is a .NET app which is part of [**Glue42 Enterprise**](https://glue42.com/enterprise/) and is auto started with [**Glue42 Enterprise**](https://glue42.com/enterprise/) as a hidden app. It offers sets of protocols based on [Interop methods](../../../glue42-concepts/data-sharing-between-apps/interop/javascript/index.html) for connecting to the [Bloomberg Market Data service](https://www.bloomberg.com/professional/product/market-data/), as well as to the [Bloomberg Terminal](https://www.bloomberg.com/professional/solution/bloomberg-terminal/). Currently, a more convenient JavaScript (TypeScript) wrapping API is offered only for connecting to the Market Data service. With the provided API protocols, however, you can access the Bloomberg Market Data service and control the Bloomberg Terminal features with any JavaScript, .NET, Java or COM technology.
 
-The Bloomberg Connector also offers a Bloomberg Simulator where the API can be used without having an actual Bloomberg Terminal installed.
+The Bloomberg Connector can also run in [simulator mode](#bloomberg_simulator) where the API can be used without having an actual Bloomberg Terminal installed.
 
 ## Available Bloomberg Functionalities
 
@@ -72,3 +72,29 @@ The Bloomberg Components are Bloomberg apps (windows) providing Bloomberg Termin
 ### Bloomberg Functions
 
 The Bloomberg Terminal has built-in functions which execute various kinds of data analyses on markets or securities. The Glue42 Bloomberg Connector API allows you to invoke Bloomberg functions with a custom set of arguments.
+
+## Bloomberg Simulator
+
+To start the Bloomberg Connector in simulator mode, use the `--terminalType=sim` command line argument when starting the Bloomberg Connector from its executable file.
+
+Alternatively, you can use the following [app configuration](../../../developers/configuration/application/index.html), which will allow the Bloomberg Connector app to appear in the [Glue42 Toolbar](../../../glue42-concepts/glue42-toolbar/index.html) and start in simulator mode:
+
+```json
+{
+    "title": "Glue42 Bloomberg Simulator (DEV)",
+    "type": "exe",
+    "name": "bbg-simulator",
+    "icon": "http://localhost:22080/resources/icons/wpf.ico",
+    "autoStart": false,
+    "hidden": false,
+    "service": false,
+    "details": {
+        "useShellExecute": true,
+        "path": "%GDDIR%/../GlueBloombergBridge/",
+        "command": "Glue42.Bloomberg.Bridge.exe",
+        "parameters": "--terminalType=sim",
+        "left": 100,
+        "top": 75
+    }
+}
+```

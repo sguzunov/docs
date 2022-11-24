@@ -78,7 +78,7 @@ To pass initial context to the Intent handler, use the [`context`](../../../refe
 ```javascript
 const intentRequest = {
     intent: "ShowChart",
-    target: "startNew"
+    target: "startNew",
     context: {
         type: "Instrument",
         data: {

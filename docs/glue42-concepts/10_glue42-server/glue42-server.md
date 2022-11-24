@@ -22,6 +22,10 @@ The Glue42 Server is a [Layout store](../windows/layouts/overview/index.html#lay
 
 The Glue42 Server is an [app preferences](../app-preferences/overview/index.html) store where any app running in [**Glue42 Enterprise**](https://glue42.com/enterprise/) can store custom data per user and retrieve it later.
 
+#### Configurations Store
+
+The Glue42 Server can host and supply all [configuration files](../../developers/configuration/overview/index.html) for [**Glue42 Enterprise**](https://glue42.com/enterprise/). Different versions of the configuration files can be provided for different versions of [**Glue42 Enterprise**](https://glue42.com/enterprise/).
+
 #### Diagnostics
 
 The Glue42 Server comes with an Admin UI which offers the following functionalities:
@@ -34,15 +38,15 @@ The Glue42 Server comes with an Admin UI which offers the following functionalit
 
 The Admin UI enables you to manage the data stored in the Glue42 Server more easily.
 
-#### Dashboard
+### Dashboard
 
-The Dashboard is the entry page that allows quick access to other pages.
+The "Dashboard" is the entry page that allows quick access to other pages.
 
 ![Dashboard](../../images/server/admin-ui-dashboard.png)
 
-#### Applications
+### Applications
 
-The Applications section allows you to:
+The "Applications" section allows you to:
 
 - see a list of all apps:
 
@@ -60,9 +64,9 @@ The Applications section allows you to:
 
 ![Apps Import](../../images/server/admin-ui-apps-import.png)
 
-#### Layouts
+### Layouts
 
-The Layouts section allows you to:
+The "Layouts" section allows you to:
 
 - see a list of all Layouts:
 
@@ -76,33 +80,51 @@ The Layouts section allows you to:
 
 ![Layouts Import](../../images/server/admin-ui-layouts-import.png)
 
-#### Users
+### Desktop Configs
 
-The Users section allows you to see all users that have connected to the server:
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+The "Desktop Configs" section allows you to add, edit and remove different versions of the [configuration files](../../developers/configuration/overview/index.html) for [**Glue42 Enterprise**](https://glue42.com/enterprise/). The remote configurations provided here will be merged with the locally available ones when [**Glue42 Enterprise**](https://glue42.com/enterprise/) is initialized.
+
+![Desktop Configs](../../images/server/admin-ui-configs.png)
+
+*For more details on how to enable [**Glue42 Enterprise**](https://glue42.com/enterprise/) to fetch configurations from a remote location, see the [How to Rebrand Glue42 Enterprise > Functionality > Remote Configurations](../../getting-started/how-to/rebrand-glue42/functionality/index.html#remote_configurations) section.*
+
+Use the "Select Version and Config" panel on the left to add different [**Glue42 Enterprise**](https://glue42.com/enterprise/) versions. When you add a version, it appears on the list below the "Add new version" input field. When you click on a newly added version, empty templates for all configuration files of [**Glue42 Enterprise**](https://glue42.com/enterprise/) will appear automatically. You can also add other files manually by using the "Add new config" input field. Click on a file to edit it. The left editor section shows the currently edited file, while the right editor section shows the final merged version of the file (e.g., the files from a specific version named `3.17` will be merged with the same files from a base version named `*`).
+
+*Note that merging is available only for top-level file properties. If you provide different values for the same top-level key in different file versions, the value in the most specific version will be taken into account when merging the files.*
+
+The following demonstrates creating a specific version of the `system.json` file which contains a setting for disabling the [hotkeys](../glue42-platform-features/index.html#hotkeys) functionality of [**Glue42 Enterprise**](https://glue42.com/enterprise/). This version is automatically merged with the `system.json` file from an already existing version named `*`, in which there is a setting for disabling the "Restart" entry in the tray icon menu:
+
+![Adding Configs](../../images/server/admin-ui-adding-configs.gif)
+
+### Users
+
+The "Users" section allows you to see all users that have connected to the server:
 
 ![Users](../../images/server/admin-ui-users.png)
 
-#### Sessions
+### Sessions
 
-The Sessions section allows you to monitor all user sessions:
+The "Sessions" section allows you to monitor all user sessions:
 
 ![Sessions](../../images/server/admin-ui-sessions.png)
 
-#### Commands
+### Commands
 
-The Commands section allows you to send commands to a specific user session:
+The "Commands" section allows you to send commands to a specific user session:
 
 ![Commands](../../images/server/admin-ui-commands.png)
 
-#### Feedback
+### Feedback
 
-The Feedback section allows you to see a list of all feedback items submitted by the users:
+The "Feedback" section allows you to see a list of all feedback items submitted by the users:
 
 ![Feedback](../../images/server/admin-ui-feedback.png)
 
 ## Deployment
 
-The Glue42 Server can be deployed on-premise and can run inside your organization's network.
+The Glue42 Server can be deployed on-premise and can run inside your organization network.
 
 The deployment consists of the following:
 
@@ -114,7 +136,7 @@ Docker images are available for the stock implementation. The Docker images allo
 
 If any customization is necessary, NPM packages exposing the Glue42 Server and the Glue42 Server Admin UI as modules are available. The modules provide extension points for different customizations like authentication and storage.
 
-We recommend using the NPM packages as this approach is much more flexible.
+It is recommended to use the NPM packages as this approach is much more flexible.
 
 ### Using NPM Packages
 
@@ -174,11 +196,11 @@ If you want to send client crashes to the server, edit the `"output"` property o
 }
 ```
 
-If you want to support different environments and regions that connect to different Glue42 Server instances, see the [Environments & Regions](../../getting-started/how-to/rebrand-glue42/functionality/index.html#environments__regions) section.
+If you want to support different environments and regions that connect to different Glue42 Server instances, see the [How to Rebrand Glue42 Enterprise > Functionality > Environments & Regions](../../getting-started/how-to/rebrand-glue42/functionality/index.html#environments__regions) section.
 
 ### Add a Custom Authenticator
 
-If your organization has an authentication mechanism that is not supported by the Glue42 Server, you can implement plugins and build a custom version of the Glue42 Server and the Glue42 Server Admin UI that work with it.
+If your organization has an authentication mechanism that isn't supported by the Glue42 Server, you can implement plugins and build a custom version of the Glue42 Server and the Glue42 Server Admin UI that work with it.
 
 The following steps must be executed in order to allow the Glue42 Server to work with your custom authentication mechanism:
 
@@ -208,7 +230,7 @@ To add a custom login screen that will appear on [**Glue42 Enterprise**](https:/
 }
 ```
 
-*For more details on setting up a custom login page and managing custom authentication, see the  [Login Screen](../../getting-started/how-to/rebrand-glue42/functionality/index.html#login_screen) section.*
+*For more details on setting up a custom login page and managing custom authentication, see the  [How to Rebrand Glue42 Enterprise > Functionality > Login Screen](../../getting-started/how-to/rebrand-glue42/functionality/index.html#login_screen) section.*
 
 #### Custom Authenticator in the Glue42 Server
 

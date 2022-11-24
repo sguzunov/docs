@@ -573,7 +573,7 @@ To change the text of the initial screen of the installer, use the `"context"` e
 
 ### Custom Install Button
 
-To disable the Custom Install button in the installer, use the `"context"` extensibility point:
+To disable the "Custom Install" button in the installer, use the `"context"` extensibility point:
 
 ```json
 {
@@ -761,7 +761,7 @@ To change the default installation location, use the `"context"` extensibility p
 }
 ```
 
-In an interactive installation, the user can select a custom path using the Custom Install button. To reference the final installation location in your custom scripts, use the `%INSTALL_PATH%` environment variable.
+In an interactive installation, the user can select a custom path using the "Custom Install" button. To reference the final installation location in your custom scripts, use the `%INSTALL_PATH%` environment variable.
 
 *Note that specific permission or filesystem virtualization setups may cause permission or performance issues if you try to install in a protected location, network drive, etc.*
 
@@ -1051,7 +1051,7 @@ To run a custom script at any installation stage, use the `"run"` extensibility 
 }
 ```
 
-In an interactive installation, the user can select a custom path using the Custom Install button. To reference the final installation location in your custom scripts, use the `%INSTALL_PATH%` environment variable. The following example demonstrates how to copy an entire custom `\splash` directory to the respective `\splash` directory in the [**Glue42 Enterprise**](https://glue42.com/enterprise/) installation folder (e.g., `%LocalAppData%\Tick42\GlueDesktop\assets\splash`) using the `xcopy` command:
+In an interactive installation, the user can select a custom path using the "Custom Install" button. To reference the final installation location in your custom scripts, use the `%INSTALL_PATH%` environment variable. The following example demonstrates how to copy an entire custom `\splash` directory to the respective `\splash` directory in the [**Glue42 Enterprise**](https://glue42.com/enterprise/) installation folder (e.g., `%LocalAppData%\Tick42\GlueDesktop\assets\splash`) using the `xcopy` command:
 
 ```cmd
 xcopy /E splash %INSTALL_PATH%\GlueDesktop\assets\splash
@@ -1290,7 +1290,7 @@ To make some of the [Glue42 Artifacts](#artifacts) required or to remove them fr
 }
 ```
 
-*To check that this configuration is in effect, click on the Custom Install button during the installation and look for the specified artifacts.*
+*To check that this configuration is in effect, click on the "Custom Install" button during the installation and look for the specified artifacts.*
 
 5. **Changing the installation window title and text**
 

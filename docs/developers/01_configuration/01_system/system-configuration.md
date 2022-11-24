@@ -28,6 +28,53 @@ To configure the Glue42 Gateway to use a random free port, go to the `"configura
 
 *For more details on configuring the Glue42 Gateway, see the [Glue42 Gateway configuration schema](../../../assets/configuration/gw.json).*
 
+## Gateway Memory Diagnostics
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+The Glue42 Gateway can be configured to take heap memory snapshots when the heap memory exceeds a predefined limit. You can also set limits for the maximum client connections to the Glue42 Gateway and a maximum size of messages sent by apps to the Glue42 Gateway. If the maximum message size is exceeded, a warning in the logs will be triggered, which can help you identify the responsible apps. Use the `"memory"` and `"limits"` properties of the `"configuration"` object under the `"gw"` top-level key to specify the desired settings.
+
+Sample configuration:
+
+```json
+{
+    "gw": {
+        "configuration": {
+            "memory": {
+                "report_interval": 300000,
+                "max_backups": 5,
+                "memory_limit": 1073741824,
+                "dump_location": "%GLUE-USER-DATA%/heapsnapshots",
+                "dump_prefix": "gw"
+            },
+            "limits": {
+                "max_connections": 1000,
+                "large_msg_threshold": 524288
+            }
+        }
+    }
+}
+```
+
+The `"memory"` object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `report_interval` | `number` | Interval in milliseconds at which the heap memory size will be checked and logged. Defaults to `300000`. |
+| `max_backups` | `number` | Maximum number of heap memory snapshots that will be saved. Defaults to `10`. |
+| `memory_limit` | `number` | Limit for the heap memory size that will trigger heap memory snapshot. Defaults to `1073741824` (1GB). |
+| `dump_locaton` | `string` | Location for dumping the heap memory snapshots. Defaults to `"%GLUE-USER-DATA%/heapsnapshots"`. |
+| `dump_prefix` | `string` | Prefix for the file containing the heap memory snapshots. Files will be named in the format `<dump-prefix>.<backup-number>.heapsnapshot`. Defaults to `"gw"`. |
+
+The `"limits"` object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `max_connections` | `number` | Limit for the number of simultaneous client (app) connections to the Glue42 Gateway. Unlimited by default. |
+| `large_msg_threshold` | `number` | Maximum size in bytes of messages sent to the Glue42 Gateway that, if exceeded, will trigger a warning in the logs. Useful for detecting apps sending excessively large messages causing the Glue42 Gateway to crash. Defaults to `20000`. |
+
+*For more details on configuring the Glue42 Gateway, see the [Glue42 Gateway configuration schema](../../../assets/configuration/gw.json).*
+
 ## App Stores
 
 The settings for the app configuration stores are defined under the `"appStores"` top-level key, which accepts an array of objects defining one or more app stores.
@@ -238,7 +285,7 @@ To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) to fetch La
 
 ## App Preferences Store
 
-App preferences can be stored locally in a file, or remotely - using a REST service or a [Glue42 Server](../../../glue42-concepts/glue42-server/index.html). By default, app preferences are stored locally in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\prefs` folder where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) where to store app preferences, use the `"store"` property of the `"applicationPreferences"` top-level key:
+App preferences can be stored locally in a file, or remotely - using a REST service or a [Glue42 Server](../../../glue42-concepts/glue42-server/index.html). By default, app preferences are stored locally in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\prefs` folder where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). To configure [**Glue42 Enterprise**](https://glue42.com/enterprise/) where to store app preferences, use the `"store"` property of the `"applicationPreferences"` top-level key:
 
 ```json
 {
@@ -302,7 +349,7 @@ Global Glue42 Window settings are found under the `"windows"` top-level key of t
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.11">
 
-To show the Sticky button on all Glue42 Windows:
+To show the ["Sticky" button](../../../glue42-concepts/windows/window-management/overview/index.html#sticky_button) on all Glue42 Windows, set the `"showStickyButton"` property to `true`:
 
 ```json
 {
@@ -314,11 +361,29 @@ To show the Sticky button on all Glue42 Windows:
 
 ![Sticky button](../../../images/system-configuration/sticky-button.png)
 
+### Feedback Button
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+To enable the ["Feedback" button](../../../getting-started/how-to/rebrand-glue42/functionality/index.html#issue_reporting-feedback_button) globally for all Glue42 Windows, set the `"showFeedbackButton"` property to `true`:
+
+```json
+{
+    "windows": {
+        "showFeedbackButton": true
+    }
+}
+```
+
+![Feedback Button](../../../images/rebrand-glue42/feedback-button.gif)
+
+*The "Feedback" button can also be enabled or disabled per app from the [app configuration](../application/index.html#feedback_button).*
+
 ### Jump List
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.15">
 
-To configure the jump list globally for all Glue42 Windows:
+To configure the jump list globally for all Glue42 Windows, use the `"jumpList"` property:
 
 ```json
 {
@@ -327,9 +392,10 @@ To configure the jump list globally for all Glue42 Windows:
             "enabled": true,
             "categories": [
                 {
-                    "title": "System",
+                    "title": "Tasks",
                     "actions": [
                         {
+                            "icon": "%GDDIR%/assets/images/center.ico",
                             "type": "centerScreen",
                             "singleInstanceTitle": "Center on Primary Screen",
                             "multiInstanceTitle": "Center all on Primary Screen"
@@ -360,7 +426,8 @@ Each object in the `"actions"` array has the following properties:
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `"type"` | `string` | Type of the action to execute. |
+| `"icon"` | `string` | Icon for the action to be displayed in the context menu. Must point to a local file. |
+| `"type"` | `string` | Type of the [predefined action](../../../glue42-concepts/glue42-platform-features/index.html#jump_list-predefined_actions) to execute. |
 | `"singleInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there is a single instance with a single taskbar icon. |
 | `"multiInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there are multiple instances with grouped taskbar icons. |
 
@@ -368,7 +435,7 @@ Each object in the `"actions"` array has the following properties:
 
 ### Downloading Files
 
-To configure the global behavior of the Glue42 Windows when downloading files, use the `"downloadSettings"` property of the `"windows"` top-level key:
+To configure the global behavior of the Glue42 Windows when downloading files, use the `"downloadSettings"` property:
 
 ```json
 {
@@ -389,7 +456,7 @@ To configure the global behavior of the Glue42 Windows when downloading files, u
 
 ### Zooming
 
-To set the zoom behavior of the Glue42 Windows, use the `"zoom"` property of the `"windows"` top-level key:
+To set the zoom behavior of the Glue42 Windows, use the `"zoom"` property:
 
 ```json
 {
@@ -408,7 +475,7 @@ To set the zoom behavior of the Glue42 Windows, use the `"zoom"` property of the
 
 ### Printing
 
-Use the `CTRL + P` key combination to print a web page opened in a Glue42 Window. To enable or disable printing, or to configure the default print settings use the `"print"` property of the `"windows"` top-level key. The following example demonstrates configuring some of the available print settings:
+Use the `CTRL + P` key combination to print a web page opened in a Glue42 Window. To enable or disable printing, or to configure the default print settings use the `"print"` property. The following example demonstrates configuring some of the available print settings:
 
 ```json
 {
@@ -474,7 +541,7 @@ The `"print"` and `"printToPdfSettings"` properties are also available under the
 
 ### User Agent
 
-To specify a custom `User-Agent` request header to be sent when connecting to a server, use the `"userAgent"` property of the `"windows"` top-level key:
+To specify a custom `User-Agent` request header to be sent when connecting to a server, use the `"userAgent"` property:
 
 ```json
 {

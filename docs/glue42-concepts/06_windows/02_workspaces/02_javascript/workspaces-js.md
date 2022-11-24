@@ -442,7 +442,7 @@ await glue.workspaces.restoreWorkspace("myWorkspace", restoreOptions);
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.14">
 
-Workspaces can be pinned or unpinned programmatically in the [Workspaces App](../overview/index.html#workspaces_concepts-frame). Pinned Workspace tabs are placed before the regular Workspace tabs and are represented only by their icon - they don't have a title, nor Close and Save Workspace buttons, therefore they can't be closed and their initial Layout can't be overwritten by the end user.
+Workspaces can be pinned or unpinned programmatically in the [Workspaces App](../overview/index.html#workspaces_concepts-frame). Pinned Workspace tabs are placed before the regular Workspace tabs and are represented only by their icon - they don't have a title, nor "Close" and "Save Workspace" buttons, therefore they can't be closed and their initial Layout can't be overwritten by the end user.
 
 The following image shows a pinned Workspace with a custom icon followed by two regular unpinned Workspaces:
 
@@ -474,7 +474,7 @@ To get the icon of a Workspace, use the [`getIcon()`](../../../../reference/glue
 const icon = await myWorkspace.getIcon();
 ```
 
-To pin a Workspace, use the [`pin()`](../../../../reference/glue/latest/workspaces/index.html#Workspace-pin) method and optionally pass an icon. The title and the Close and Save Workspace buttons of the Workspace tab will be removed and the icon of the Workspace will be shown as the last item in the pinned Workspaces group:
+To pin a Workspace, use the [`pin()`](../../../../reference/glue/latest/workspaces/index.html#Workspace-pin) method and optionally pass an icon. The title and the "Close" and "Save Workspace" buttons of the Workspace tab will be removed and the icon of the Workspace will be shown as the last item in the pinned Workspaces group:
 
 ```javascript
 const options = {
@@ -484,7 +484,7 @@ const options = {
 await myWorkspace.pin(options);
 ```
 
-To unpin a Workspace, use the [`unpin()`](../../../../reference/glue/latest/workspaces/index.html#Workspace-unpin) method. The title and the Close and Save Workspace buttons will be returned, the Workspace icon will be hidden and the Workspace will be added as the first tab in the unpinned Workspaces group:
+To unpin a Workspace, use the [`unpin()`](../../../../reference/glue/latest/workspaces/index.html#Workspace-unpin) method. The title and the "Close" and "Save Workspace" buttons will be returned, the Workspace icon will be hidden and the Workspace will be added as the first tab in the unpinned Workspaces group:
 
 ```javascript
 await myWorkspace.unpin();
@@ -731,9 +731,11 @@ const workspace = await glue.workspaces.restoreWorkspace("My Workspace", options
 
 *For more details on how to configure Workspace loading strategies, see [Loading Strategies](../overview/index.html#extending_workspaces-workspaces_app_configuration-loading_strategies) in the Overview section.*
 
-### Lockdown
+### Lock Settings
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.12">
+
+*See also how to provide [Lock Settings](../overview/index.html#workspaces_concepts-workspace_layout-lock_settings) in the Workspace Layout definition.*
 
 [`Workspace`](../../../../reference/glue/latest/workspaces/index.html#Workspace) instances, [`Group`](../../../../reference/glue/latest/workspaces/index.html#Group), [`Row`](../../../../reference/glue/latest/workspaces/index.html#Row), [`Column`](../../../../reference/glue/latest/workspaces/index.html#Column) and [`WorkspaceWindow`](../../../../reference/glue/latest/workspaces/index.html#WorkspaceWindow) elements can be locked using the [`lock()`](../../../../reference/glue/latest/workspaces/index.html#Workspace-lock) method of the respective instance. Locking a Workspace or any of its elements allows you to control the extent to which the user can modify it. For instance, you may want to prevent the user from removing or extracting a window from the Workspace, but at the same time allow them to resize the Workspace contents, or you may want to disable any Workspace modifications whatsoever.
 
@@ -777,32 +779,36 @@ Locking properties for a [`Workspace`](../../../../reference/glue/latest/workspa
 | Property | Description |
 |----------|-------------|
 | `allowDrop` | If `false`, will prevent the user from adding windows by dropping them in the Workspace. |
-| `allowDropLeft` | If `false`, will prevent the user from adding windows by dropping them in the leftmost area of the Workspace. |
-| `allowDropTop` | If `false`, will prevent the user from adding windows by dropping them in the topmost area of the Workspace. |
-| `allowDropRight` | If `false`, will prevent the user from adding windows by dropping them in the rightmost area of the Workspace. |
 | `allowDropBottom` | If `false`, will prevent the user from adding windows by dropping them in the bottommost area of the Workspace. |
-| `allowSplitters` | If `false`, will prevent the splitters from being draggable, so the Workspace elements can't be resized . |
+| `allowDropLeft` | If `false`, will prevent the user from adding windows by dropping them in the leftmost area of the Workspace. |
+| `allowDropRight` | If `false`, will prevent the user from adding windows by dropping them in the rightmost area of the Workspace. |
+| `allowDropTop` | If `false`, will prevent the user from adding windows by dropping them in the topmost area of the Workspace. |
 | `allowExtract` | If `false`, will prevent the user from extracting (or rearranging) windows inside the Workspace. |
-| `showCloseButton` | If `false`, will hide the Close button on the Workspace tab. |
-| `showSaveButton` | If `false`, will hide the Save Workspace button on the Workspace tab. |
-| `showAddWindowButtons` | If `false`, will hide all Add Window buttons (the "+" buttons) in the headers of window groups. |
-| `showEjectButtons` | If `false`, will hide all Eject buttons in the headers of window groups. |
-| `showWindowCloseButtons` | If `false`, will hide all Close buttons on the window tabs. |
+| `allowSplitters` | If `false`, will prevent the splitters from being draggable, so the Workspace elements can't be resized. |
+| `allowWindowReorder` | If `false`, will prevent the user from reordering windows in the Workspace. *Available since Glue42 Enterprise 3.17.* |
+| `allowWorkspaceTabExtract` | If `false`, will prevent the user from extracting the Workspace tab from the Workspaces App. *Available since Glue42 Enterprise 3.17.* |
+| `allowWorkspaceTabReorder` | If `false`, will prevent the user from reordering the Workspace tab in the Workspaces App. *Available since Glue42 Enterprise 3.17.* |
+| `showAddWindowButtons` | If `false`, will hide all "Add Window" buttons (the "+" buttons) in the headers of window groups. |
+| `showCloseButton` | If `false`, will hide the "Close" button on the Workspace tab. |
+| `showEjectButtons` | If `false`, will hide all "Eject" buttons in the headers of window groups. |
+| `showSaveButton` | If `false`, will hide the "Save Workspace" button on the Workspace tab. |
+| `showWindowCloseButtons` | If `false`, will hide all "Close" buttons on the window tabs. |
 
 Locking properties for a [`Group`](../../../../reference/glue/latest/workspaces/index.html#Group):
 
 | Property | Description |
 |----------|-------------|
-| `allowExtract` | If `false`, will prevent the user from extracting windows from the window group. |
 | `allowDrop` | If `false`, will prevent the user from adding windows by dropping them in the window group. |
-| `allowDropLeft` | If `false`, will prevent the user from adding windows by dropping them in the leftmost area of the window group. |
-| `allowDropTop` | If `false`, will prevent the user from adding windows by dropping them in the topmost area of the window group. |
-| `allowDropRight` | If `false`, will prevent the user from adding windows by dropping them in the rightmost area of the window group. |
 | `allowDropBottom` | If `false`, will prevent the user from adding windows by dropping them in the bottommost area of the window group. |
 | `allowDropHeader` | If `false`, will prevent the user from adding windows by dropping them in the header area of the window group. |
-| `showMaximizeButton` | If `false`, will hide the Maximize button in the header of the window group. |
-| `showEjectButton` | If `false`, will hide the Eject button in the header of the window group. |
-| `showAddWindowButton` | If `false`, will hide the Add Window button (the "+" button) in the header of the window group. |
+| `allowDropLeft` | If `false`, will prevent the user from adding windows by dropping them in the leftmost area of the window group. |
+| `allowDropRight` | If `false`, will prevent the user from adding windows by dropping them in the rightmost area of the window group. |
+| `allowDropTop` | If `false`, will prevent the user from adding windows by dropping them in the topmost area of the window group. |
+| `allowExtract` | If `false`, will prevent the user from extracting windows from the window group. |
+| `allowReorder` | If `false`, will prevent the user from reordering the windows in the window group. *Available since Glue42 Enterprise 3.17.* |
+| `showAddWindowButton` | If `false`, will hide the "Add Window" button (the "+" button) in the header of the window group. |
+| `showEjectButton` | If `false`, will hide the "Eject" button in the header of the window group. |
+| `showMaximizeButton` | If `false`, will hide the "Maximize" button in the header of the window group. |
 
 Locking properties for a [`Row`](../../../../reference/glue/latest/workspaces/index.html#Row):
 
@@ -823,7 +829,8 @@ Locking properties for a [`WorkspaceWindow`](../../../../reference/glue/latest/w
 | Property | Description |
 |----------|-------------|
 | `allowExtract` | If `false`, will prevent the user from extracting the window from the Workspace. |
-| `showCloseButton` | If `false`, will hide the Close button on the window tab. |
+| `allowReorder` | If `false`, will prevent the user from reordering the window in the window group. *Available since Glue42 Enterprise 3.17.* |
+| `showCloseButton` | If `false`, will hide the "Close" button on the window tab. |
 
 To set the locking properties of a Workspace and any of its elements when creating it, use the `config` property of the [`WorkspaceDefinition`](../../../../reference/glue/latest/workspaces/index.html#WorkspaceDefinition) object. The locking configuration of a Workspace element will override the locking configuration of the Workspace:
 

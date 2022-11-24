@@ -6,15 +6,15 @@ The BBG Market Data library is available as an NPM package - [`@glue42/bbg-marke
 npm install @glue42/bbg-market-data
 ```
 
-The BBG Market Data API depends on Glue42 [Interop](../../../../glue42-concepts/data-sharing-between-apps/interop/overview/index.html), an instance of which must be passed to the `BBGMarketData()` factory function. The function also accepts as a second parameter a configuration object that controls logging behavior and can also provide an optional custom logger implementation. The configuration object can also specify the interval at which to attempt reconnection to the Bloomberg Connector if a connection doesn't exist or is interrupted.
+The BBG Market Data API depends on the Glue42 [Interop](../../../../glue42-concepts/data-sharing-between-apps/interop/overview/index.html) object, an instance of which must be passed to the `BBGMarketData()` factory function. The function also accepts as a second parameter a configuration object that controls logging behavior and can also provide an optional custom logger implementation. The configuration object can also specify the interval at which to attempt reconnection to the Bloomberg Connector if a connection doesn't exist or is interrupted.
+
+*Note that if you already have an initialized `glue` object in your app, you must reuse it and not create a new instance.*
 
 ```typescript
-import BBGMarketData from "@glue42/bbg-market-data";
-import GlueCoreFactory from "@glue42/core";
+import BBGMarketData, { BBGMarketDataAPI } from "@glue42/bbg-market-data";
 
-GlueCoreFactory().then(glue => {
-    const bbgMarketData: BBGMarketDataAPI = BBGMarketData(glue.interop, { debug: true, connectionPeriodMsecs: 7000 });
-});
+const glue = await Glue();
+const bbgMarketData: BBGMarketDataAPI = BBGMarketData(glue.interop, { connectionPeriodMsecs: 7000 });
 ```
 
 The configuration object has the following properties:

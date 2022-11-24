@@ -234,7 +234,7 @@ Setting the hover foreground color of tab header buttons and the hover backgroun
 
 ![Header buttons](../../../images/themes/header-buttons.gif)
 
-Setting the tooltips of the Sticky button and its foreground color when pressed and when hovered over in a pressed state:
+Setting the tooltips of the "Sticky" button and its foreground color when pressed and when hovered over in a pressed state:
 
 ```json
 {

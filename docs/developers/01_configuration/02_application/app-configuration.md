@@ -2,7 +2,7 @@
 
 The configuration of an app is a JSON file which allows the app to be accessible to the user from the [Glue42 Toolbar](../../../glue42-concepts/glue42-toolbar/index.html). It consists of base properties which are common for all types of apps, and type-specific properties located under the `"details"` top-level key. The required properties for all types of apps are `"name"`, `"type"` and `"details"`.
 
-The custom user app configurations should be stored in the `%LocalAppData%\Tick42\UserData\<ENV-REG>\apps` folder where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). The files at this location won't be erased or overwritten in case you upgrade your version of [**Glue42 Enterprise**](https://glue42.com/enterprise/).
+The custom user app configurations should be stored in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\apps` folder where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). The files at this location won't be erased or overwritten in case you upgrade your version of [**Glue42 Enterprise**](https://glue42.com/enterprise/).
 
 The configuration files of the apps that come with the [**Glue42 Enterprise**](https://glue42.com/enterprise/) installer are located in the `%LocalAppData%\Tick42\GlueDesktop\config\apps` folder. For more details, see the [app configuration schema](../../../assets/configuration/application.json).
 
@@ -483,6 +483,170 @@ The configuration below shows how to group apps in a subfolder:
     }
 }
 ```
+
+## Excluding & Including Apps in Workspaces
+
+To control whether an app will be available in the [Workspace](../../../glue42-concepts/windows/workspaces/overview/index.html) "Add Application" menu (the dropdown that appears when you click the "+" button to add an app), use the `"includeInWorkspaces"` property of the `"customProperties"` top-level key in your app configuration:
+
+```json
+{
+    "customProperties": {
+        "includeInWorkspaces": true
+    }
+}
+```
+
+By default, this property is set to `false`, which means that by default apps aren't visible in the "Add Application" dropdown menu of the [Workspaces App](../../../glue42-concepts/windows/workspaces/overview/index.html#workspaces_concepts-frame).
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+To prevent an app from participating in Workspaces, set the `"allowWorkspaceDrop"` top-level key in the app configuration to `false`:
+
+```json
+{
+    "allowWorkspaceDrop": false
+}
+```
+
+By default, this property is set to `true`, which means that by default users are able to drag and drop apps in a Workspace.
+
+## Sticky Button
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.11">
+
+To enable the ["Sticky" button](../../../glue42-concepts/windows/window-management/overview/index.html#sticky_button) for an app, set the `"showStickyButton"` property of the `"details"` top-level key to `true`:
+
+```json
+{
+    "details": {
+        "showStickyButton": true
+    }
+}
+```
+
+![Sticky button](../../../images/system-configuration/sticky-button.png)
+
+## Feedback Button
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+To enable the ["Feedback" button](../../../getting-started/how-to/rebrand-glue42/functionality/index.html#issue_reporting-feedback_button) for an app, set the `"showFeedbackButton"` property of the `"details"` top-level key to `true`:
+
+```json
+{
+    "details": {
+        "showFeedbackButton": true
+    }
+}
+```
+
+![Feedback Button](../../../images/rebrand-glue42/feedback-button.gif)
+
+Use the `"supportEmails"` top-level key to specify the emails of the app owners. The email addresses defined in this property will be added to the [Feedback Form](../../../getting-started/how-to/rebrand-glue42/functionality/index.html#issue_reporting) if it has been triggered from that app:
+
+```json
+{
+    "supportEmails": ["app.owner1@example.com", "app.owner2@example.com"]
+}
+```
+
+*The "Feedback" button can also be enabled or disabled globally from the [system configuration](../system/index.html#window_settings-feedback_button).*
+
+## Jump List
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.15">
+
+To configure the jump list for an app, use the `"jumpList"` property of the `"details"` top-level key:
+
+```json
+{
+    "details": {
+        "jumpList": {
+            "enabled": true,
+            "categories": [
+                {
+                    "title": "Tasks",
+                    "actions": [
+                        {
+                            "icon": "%GDDIR%/assets/images/center.ico",
+                            "type": "centerScreen",
+                            "singleInstanceTitle": "Center on Primary Screen",
+                            "multiInstanceTitle": "Center all on Primary Screen"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
+```
+
+The `"jumpList"` object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"enabled"` | `boolean` | If `true` (default), will enable the jump list. |
+| `"categories"` | `object[]` | Categorized lists with actions to execute when the user clicks on them. |
+
+Each object in the `"categories"` array has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"title"` | `string` | Title of the category to be displayed in the context menu. |
+| `"actions"` | `object[]` | List of actions contained in the category. |
+
+Each object in the `"actions"` array has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"icon"` | `string` | Icon for the action to be displayed in the context menu. Must point to a local file. |
+| `"type"` | `string` | Type of the [predefined action](../../../glue42-concepts/glue42-platform-features/index.html#jump_list-predefined_actions) to execute. |
+| `"singleInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there is a single instance with a single taskbar icon. |
+| `"multiInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there are multiple instances with grouped taskbar icons. |
+
+*For more information, see [Glue42 Platform Features > Jump List](../../../glue42-concepts/glue42-platform-features/index.html#jump_list).*
+
+## Keywords
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+Use the `"keywords"` top-level key to specify a list of keywords for the app, which can be accessed through the [JavaScript App Management API](../../../glue42-concepts/application-management/javascript/index.html) and used for filtering and searching for apps:
+
+```json
+{
+    "keywords": ["keyword1", "keyword2"]
+}
+```
+
+Accessing the list of app keywords:
+
+```javascript
+const keywords = glue.appManager.application("MyApp").keywords;
+```
+
+## Sending POST Data & Uploading Files
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+To upload files or send POST data from web apps, use the `"urlLoadOptions"` property of the `"details"` top-level key:
+
+```json
+{
+    "details": {
+        "urlLoadOptions": {
+            "extraHeaders": "Content-Type: application/x-www-form-urlencoded",
+            "postData": [
+                {
+                    "type": "base64",
+                    "data": "base64-encoded-string"
+                }
+            ]
+        }
+    }
+}
+```
+
+*For more details on the available options, see the `"urlLoadOptions"` property in the [`application.json`](../../../assets/configuration/application.json) schema.*
 
 ## Configuration Validator
 

@@ -240,7 +240,9 @@ The icon for the [**Glue42 Enterprise**](https://glue42.com/enterprise/) executa
 
 ## Notifications
 
-The default apps for handling Glue42 [Notifications](../../../../glue42-concepts/notifications/overview/index.html) are the Glue42 Notification Panel and the notification toasts. They can be customized visually or altogether replaced with your own custom apps. It is also possible to filter notifications, enable or disable notification toasts and specify their size and duration through configuration. For more details on how to configure, customize or replace the default notification apps, see the [Notifications](../../../../glue42-concepts/notifications/overview/index.html) section.
+The default app for handling Glue42 [Notifications](../../../../glue42-concepts/notifications/overview/index.html) can be customized visually or altogether replaced with your own [custom Notifications App](../../../../glue42-concepts/notifications/overview/index.html#extending_notifications). It is also possible to filter notifications, enable or disable notification toasts and specify their size and duration through [configuration](../../../../glue42-concepts/notifications/overview/index.html#configuration). For more details on how to configure, customize or replace the default notification apps, see the [Notifications](../../../../glue42-concepts/notifications/overview/index.html) section.
+
+*Note that since [**Glue42 Enterprise**](https://glue42.com/enterprise/) 3.17, the system notification apps have been replaced with more easily customizable React web apps. Legacy Glue42 notifications are still supported. For more details on configuring and customizing the legacy Glue42 notifications, see the [Legacy Notifications](../../../../glue42-concepts/notifications/overview/index.html#legacy_notifications) section.*
 
 ## Themes
 

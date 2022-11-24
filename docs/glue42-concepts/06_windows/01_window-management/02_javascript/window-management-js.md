@@ -122,8 +122,8 @@ The `configure()` method accepts a [`WindowsConfiguration`](../../../../referenc
 | Property | Type | Description |
 |----------|------|-------------|
 | `hideGroupCaption` | `boolean` | Whether to show or hide the caption of Glue42 Window groups. |
-| `showStickyButton` | `boolean` | Whether to show or hide the Sticky button. |
-| `showExtractButton` | `boolean` | Whether to show or hide the Extract button. |
+| `showStickyButton` | `boolean` | Whether to show or hide the "Sticky" button. |
+| `showExtractButton` | `boolean` | Whether to show or hide the "Extract" button. |
 | `sticky` | `boolean` | Whether to allow Glue42 Windows to stick together and form groups. |
 
 *For more details on configuring Glue42 Windows, see the [Configuration](../../../../developers/configuration/glue42-windows/index.html) section.*
@@ -309,16 +309,10 @@ The Glue42 Window stickiness enables users to easily organize the windows on the
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.11">
 
-The [Sticky button](../../../../developers/configuration/system/index.html#window_settings-sticky_button) (disabled by default) in the window header allows the users to toggle the stickiness of individual windows from the UI:
-
-![Stickiness](../../../../images/window-management/stickiness.gif)
-
-*For details on how to enable the Sticky button through system configuration, see the [Developers > Configuration > System](../../../../developers/configuration/system/index.html#window_settings-sticky_button) section.*
-
-To set the stickiness or the visibility of the Sticky button programmatically on a global level, use the [`configure()`](../../../../reference/glue/latest/windows/index.html#API-configure) method. Pass a [`WindowsConfiguration`](../../../../reference/glue/latest/windows/index.html#WindowsConfiguration) object with a `sticky` and `showStickyButton` properties set to Boolean values:
+To set the stickiness or the visibility of the ["Sticky" button](../overview/index.html#sticky_button) programmatically on a global level, use the [`configure()`](../../../../reference/glue/latest/windows/index.html#API-configure) method. Pass a [`WindowsConfiguration`](../../../../reference/glue/latest/windows/index.html#WindowsConfiguration) object with a `sticky` and `showStickyButton` properties set to Boolean values:
 
 ```javascript
-// Turn off the stickiness and hide the Sticky button globally.
+// Turn off the stickiness and hide the "Sticky" button globally.
 const windowsConfig = {
     sticky: false,
     showStickyButton: false

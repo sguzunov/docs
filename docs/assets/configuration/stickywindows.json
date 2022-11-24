@@ -19,16 +19,17 @@
             "type": "string"
         },
         "snapDistance": {
-            "description": "Distance at which windows should snap (stick) together.",
+            "description": "Distance at which windows should snap (stick) together. The snap distance value should be in the range of 5 to 20.",
             "type": "integer",
             "default": 5
         },
         "approachingDistance": {
-            "description": "Distance at which approaching edges will be highlighted.",
-            "type": "integer"
+            "description": "Distance at which approaching edges will be highlighted. The minimum approaching distance should be three times higher than the snap distance.",
+            "type": "integer",
+            "default": 50
         },
         "edgeDistance": {
-            "description": "Distance between the edges of snapped windows.",
+            "description": "Distance between the edges of snapped windows. The edge distance value should be in the range of 0 to 10.",
             "type": "integer",
             "default": 4
         },
@@ -136,6 +137,16 @@
             "description": "Enables drop shadow borders for Glue42 Window groups.",
             "type": "boolean",
             "default": false
+        },
+        "enableWindowGroupsCaptionEdit": {
+            "description": "Enables caption editing for Glue42 Window groups.",
+            "type": "boolean",
+            "default": true
+        },
+        "enableWindowsCaptionEdit": {
+            "description": "Enables caption editing for Glue42 Windows (tab and flat window types only).",
+            "type": "boolean",
+            "default": true
         },
         "rendererTransparencyMode": {
             "description": "Specifies how to handle the transparency of the HTML elements that determine the bounds of app windows in Glue42 Window groups and Workspaces. These HTML elements are placed over the app windows and must be transparent in order for the app windows to be visible and for the mouse clicks to reach the app windows. For Windows 7 use `Regions`, for Windows 8+ use `KeyColor` (selects a color that will always be transparent) or `Transparent` (enables true transparency). `Auto` will select `KeyColor` or `Regions` depending on your OS.",

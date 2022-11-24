@@ -66,14 +66,15 @@ If an already existing Workspace Layout has been saved under a specific name, yo
 }
 ```
 
-Use the `"config"` property of the standard Workspace Layout object or the `"restoreConfig"` property of the simpler object to pass context to the Workspace or to hide/show its tab header:
+#### Context
+
+Use the `"config"` property of the standard Workspace Layout object or the `"restoreConfig"` property of the simpler object to pass context to the Workspace:
 
 ```json
 // Standard Workspace Layout definition.
 {
     "children": [],
     "config": {
-        "noTabHeader": true,
         "context": { "glue" : 42 }
     }
 },
@@ -82,13 +83,110 @@ Use the `"config"` property of the standard Workspace Layout object or the `"res
 {
     "layoutName": "My Workspace",
     "restoreConfig": {
-        "noTabHeader": true,
         "context": { "glue" : 42 }
     }
 }
 ```
 
+*For more details on how to use Workspace context programmatically, see the [Workspace Context](../javascript/index.html#workspace_context) section.*
+
+#### Tab Header
+
+Use the `"config"` property of the standard Workspace Layout object or the `"restoreConfig"` property of the simpler object to hide and show its tab header:
+
+```json
+// Standard Workspace Layout definition.
+{
+    "children": [],
+    "config": {
+        "noTabHeader": true
+    }
+},
+
+// Or a simpler Workspace Layout definition for an already existing Layout.
+{
+    "layoutName": "My Workspace",
+    "restoreConfig": {
+        "noTabHeader": true
+    }
+}
+```
+
 Hiding the Workspace tab header with the `"noTabHeader"` property prevents the user from manipulating the Workspace through the UI and allows for the Workspace to be controlled entirely through API calls. For instance, a Workspace may be tied programmatically to certain logic, a button, etc., designed to manage its state without any user interaction.
+
+*For more details on how to pass configuration when creating and restoring Workspaces, see the [Workspace > Creating Workspaces](../javascript/index.html#workspace-creating_workspaces) and [Workspace > Restoring Workspaces](../javascript/index.html#workspace-restoring_workspaces) sections.*
+
+#### Pinning & Unpinning
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.14">
+
+[Pinned Workspaces](../javascript/index.html#workspace-pinning__unpinning_workspaces) tabs are placed before the regular Workspace tabs and are represented only by their icon - they don't have a title, nor "Close" and "Save Workspace" buttons, therefore they can't be closed and their initial Layout can't be overwritten by the end user.
+
+Use the `"config"` property of the standard Workspace Layout object or the `"restoreConfig"` property of the simpler object to pin or unpin a Workspace and provide an icon to be used when pinned:
+
+```json
+// Standard Workspace Layout definition.
+{
+    "children": [],
+    "config": {
+        "icon": "base64-icon",
+        "isPinned": true
+    }
+},
+
+// Or a simpler Workspace Layout definition for an already existing Layout.
+{
+    "layoutName": "My Workspace",
+    "restoreConfig": {
+        "icon": "base64-icon",
+        "isPinned": true
+    }
+}
+```
+
+*For more details on pinning and unpinning Workspaces programmatically, see the [Workspace > Pinning & Unpinning Workspaces](../javascript/index.html#workspace-pinning__unpinning_workspaces) section.*
+
+#### Lock Settings
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.12">
+
+Use the `"config"` property of the standard Workspace Layout object to provide [lock settings](../javascript/index.html#workspace-lock_settings) for the Workspace in order to prevent the user from modifying it. You can also specify lock settings for individual Workspace [Box Elements](../javascript/index.html#workspace-finding_workspace_elements-box_elements) and Workspace windows by using the `"config"` property of the respective Box or Workspace window definition object.
+
+The following example demonstrates how to disable dropping apps in the Workspace, hide the Workspace tab "Close" button, and prevent the user from extracting Workspace windows from one of the Workspace [`Group`](../../../../reference/glue/latest/workspaces/index.html#Group) elements:
+
+```json
+{
+    "children": [
+        {
+            "type": "group",
+            "children": [
+                {
+                    "type": "window",
+                    "appName": "clientlist"
+                }
+            ],
+            "config": {
+                "allowExtract": false
+            }
+        },
+        {
+            "type": "group",
+            "children": [
+                {
+                    "type": "window",
+                    "appName": "clientportfolio"
+                }
+            ]
+        }
+    ],
+    "config": {
+        "allowDrop": false,
+        "showCloseButton": false
+    }
+}
+```
+
+*For more details on how to lock Workspaces programmatically and on all available lock settings for Workspaces and their elements, see the [Workspace > Lock Settings](../javascript/index.html#workspace-lock_settings) section. For details on using the Lock Settings UI in the Workspaces App, see the [Using Workspaces > Locking Workspaces](#using_workspaces-locking_workspaces) section.*
 
 ## Using Workspaces
 
@@ -106,7 +204,11 @@ Continue adding apps from the "+" button in the tab header of an already opened 
 
 ![Add More Apps](../../../../images/workspaces/add-more-apps.gif)
 
-### Extracting Windows
+### Extracting Workspaces & Apps
+
+Extract or add entire Workspaces by dragging and dropping their tabs in the Workspace tab area:
+
+![Extract Drop Workspace](../../../../images/workspaces/extract-drop-workspace.gif)
 
 Extract apps from a Workspace by dragging and dropping them outside the Workspace, or by using the "Eject" button in the window tab header:
 
@@ -118,13 +220,13 @@ Arrange the apps in a Workspace by dragging and dropping them at the desired loc
 
 ![Arranging](../../../../images/workspaces/arranging.gif)
 
-Maximize and restore an app window within a Workspace with the "Maximize/Restore" button in the window tab header:
-
-![Maximize](../../../../images/workspaces/maximize.gif)
-
-Rearrange the tab order in a tab group by dragging and dropping the tabs at the desired position:
+Rearrange the order of Workspace tabs or the order of window tabs in a tab group by dragging and dropping the tabs at the desired position:
 
 ![Tab Order](../../../../images/workspaces/tab-order.gif)
+
+Maximize and restore an app window within a Workspace with the "Maximize/Restore" button in the window tab header:
+
+![Maximize](../../../../images/workspaces/maximizing.gif)
 
 ### Creating, Saving and Restoring
 
@@ -140,6 +242,37 @@ To restore a Workspace Layout, use the "+" button on the Workspace tab and selec
 
 ![Restoring](../../../../images/workspaces/restoring.gif)
 
+### Locking Workspaces
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+Using the "Lock Settings" section of the menu available on each Workspace tab, you can manually suspend various Workspace functionalities or hide different Workspace buttons in order to prevent the Workspace from being modified. The following demonstrates how to hide the Workspace tab "Close" button and all "Eject" buttons of the Workspace windows:
+
+![Locking UI](../../../../images/workspaces/lock-settings-ui.gif)
+
+When one or more features of a Workspace have been locked, a "Lock" icon appears on the Workspace tab.
+
+The following table describes all available Workspace lock settings:
+
+| Setting | Description |
+|---------|-------------|
+| Lock All | Locks all Workspace functionalities preventing the user from modifying the Workspace or the windows participating in it.  |
+| Disable Drop | Will prevent the user from adding windows by dropping them in the Workspace. |
+| Disable Drop Bottom | Will prevent the user from adding windows by dropping them in the bottommost area of the Workspace. |
+| Disable Drop Left | Will prevent the user from adding windows by dropping them in the leftmost area of the Workspace. |
+| Disable Drop Right | Will prevent the user from adding windows by dropping them in the rightmost area of the Workspace. |
+| Disable Drop Top | Will prevent the user from adding windows by dropping them in the topmost area of the Workspace. |
+| Disable Extract | Will prevent the user from extracting (or rearranging) windows inside the Workspace. |
+| Disable Splitters | Will prevent the splitters from being draggable, so the Workspace elements can't be resized. |
+| Disable Window Reorder | Will prevent the user from reordering windows in the Workspace. |
+| Disable Workspace Tab Extract | Will prevent the user from extracting the Workspace tab from the Workspaces App. |
+| Disable Workspace Tab Reorder | Will prevent the user from reordering the Workspace tab in the Workspaces App. |
+| Hide Add Window | Will hide all "Add Window" buttons (the "+" buttons) in the headers of window groups. |
+| Hide Close | Will hide the "Close" button on the Workspace tab. |
+| Hide Eject | Will hide all "Eject" buttons in the headers of window groups. |
+| Hide Save | Will hide the "Save Workspace" button on the Workspace tab. |
+| Hide Window Close | Will hide all "Close" buttons on the window tabs. |
+
 ## Extending Workspaces
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.11">
@@ -147,6 +280,8 @@ To restore a Workspace Layout, use the "+" button on the Workspace tab and selec
 The [`@glue42/workspaces-ui-react`](https://www.npmjs.com/package/@glue42/workspaces-ui-react) library provides all functionalities necessary for building a Workspaces App as a single React component - `<Workspaces />`. The `<Workspaces />` component provides extensibility points for passing custom components to it and can also be wrapped in other components (see [Workspaces Component](#extending_workspaces-workspaces_component)). The library enables you to use custom system popups, create your own popups from HTML elements (see [Custom Popups](#extending_workspaces-custom_popups)) and compose the content of a Workspace (see [Composing Workspace Content](#extending_workspaces-composing_workspace_content)). The [`@glue42/workspaces-ui-react`](https://www.npmjs.com/package/@glue42/workspaces-ui-react) library also provides mechanisms ensuring the correct usage of the [Workspaces API](../../../../reference/glue/latest/workspaces/index.html) in a Workspaces App (see [Using Glue42 APIs in the Frame](#extending_workspaces-using_glue42_apis_in_the_frame)).
 
 Hot module reloading is supported, but keep in mind that each refresh closes all apps and Workspaces in the Frame.
+
+*To open a console window for the Workspaces App when testing or debugging, press `SHIFT + F12`.*
 
 *Note that the `@glue42/workspaces-ui-react` library doesn't include a built Workspaces App. A Workspaces App is provided in [**Glue42 Enterprise**](https://glue42.com/enterprise/). You can also use and customize the [Workspaces App template](https://github.com/Glue42/templates/tree/master/workspaces-react).*
 
@@ -201,6 +336,48 @@ To start the Workspaces App with an empty untitled Workspace in it, either skip 
 The `"updateFrameConstraints"` property by default is set to `true`, which means that the [Frame](#workspaces_concepts-frame) is restricted to the constraints of the Workspace and its elements inside it. Set to `false` if you don't want to prevent the user from resizing your custom Workspaces App beyond the constraints of its content.
 
 The `"framePool"` property can be used to specify how many semi-initialized Frames (3 by default) will be cached in order to provide a smoother experience when dragging out a Workspace from an existing Frame. The higher the number, the higher the memory consumption; the lower the number, the higher the risk of rejection due to an empty pool when dragging out a Workspace.
+
+#### Excluding & Including Apps in Workspaces
+
+To control whether an app will be available in the Workspace "Add Application" menu (the dropdown that appears when you click the "+" button to add an app), use the `"includeInWorkspaces"` property of the `"customProperties"` top-level key in your [app configuration](../../../../developers/configuration/application/index.html):
+
+```json
+{
+    "customProperties": {
+        "includeInWorkspaces": true
+    }
+}
+```
+
+By default, this property is set to `false`, which means that by default apps aren't visible in the "Add Application" dropdown menu of the Workspaces App.
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+To prevent an app from participating in Workspaces, set the `"allowWorkspaceDrop"` top-level key in the [app configuration](../../../../developers/configuration/application/index.html) to `false`:
+
+```json
+{
+    "allowWorkspaceDrop": false
+}
+```
+
+By default, this property is set to `true`, which means that by default users are able to drag and drop apps in a Workspace.
+
+#### Workspace Tab Extract
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+To prevent users from extracting Workspace tabs from the Workspaces App, set the `"allowWorkspaceTabExtract"` property of the `"details"` top-level key to `false` in the Workspaces App definition:
+
+```json
+{
+    "details": {
+        "allowWorkspaceTabExtract": false
+    }
+}
+```
+
+*See also how to set this property programmatically using the Workspace [Lock Settings](../javascript/index.html#workspace-lock_settings).*
 
 #### Hibernation
 
@@ -305,20 +482,6 @@ The `"loading"` key has the following properties:
 
 *For programmatic control of Workspace loading strategies, see the [Loading Strategies](../javascript/index.html#workspace-loading_strategies) section.*
 
-#### Allowing Apps in the "Add Application" Menu
-
-To control whether an app will be available in the Workspace "Add Application" menu (the dropdown that appears when you click the "+" button to add an app), use the `"includeInWorkspaces"` property of the `"customProperties"` top-level key in your [app configuration](../../../../developers/configuration/application/index.html):
-
-```json
-{
-    "customProperties": {
-        "includeInWorkspaces": true
-    }
-}
-```
-
-By default, this property is set to `false`.
-
 #### Multiple Workspaces Apps
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.16">
@@ -392,7 +555,7 @@ const App = () => {
 	return (
 		<Workspaces />
 	);
-}
+};
 
 export default App;
 ```
@@ -417,7 +580,7 @@ The Add Workspace zone is located between the Workspace tabs and the move area a
 
 ![Add Workspace Zone](../../../../images/workspaces/component-add-workspace.png)
 
-The System Buttons zone is located at the rightmost part of the header area, after the move area, and hosts the `<MinimizeFrameButton />`, `<MaximizeFrameButton />` and `<CloseFrameButton />` components. By default, they render the Minimize, Maximize and Close buttons:
+The System Buttons zone is located at the rightmost part of the header area, after the move area, and hosts the `<MinimizeFrameButton />`, `<MaximizeFrameButton />` and `<CloseFrameButton />` components. By default, they render the "Minimize", "Maximize" and "Close" buttons:
 
 ![System Buttons Zone](../../../../images/workspaces/component-system-buttons.png)
 
@@ -435,7 +598,7 @@ There are several prerequisites when creating a custom Workspaces App:
 
 ### Workspaces Component
 
-The `<Workspaces />` component has two props - `glue` and `components`. The `glue` prop expects the `glue` object returned by the initialized Glue42 library. The `components` prop is used to define the header area components (see [Header Area Components](#extending_workspaces-header_area_components)), the system popup components or apps (see [Replacing the System Popups](#extending_workspaces-custom_popups-replacing_the_system_popups)) and the Workspace content to be rendered (see [Composing Workspace Content](#extending_workspaces-composing_workspace_content)).
+The `<Workspaces />` component has two props - `glue` and `components`. The `glue` prop expects the `glue` object returned by the initialized Glue42 library. The `components` prop is used to define the header area components (see [Header Area Components](#extending_workspaces-header_area_components)), the system popup components or apps (see [Replacing the System Popups](#extending_workspaces-custom_popups-replacing_the_system_popups)), the Workspace content to be rendered (see [Composing Workspace Content](#extending_workspaces-composing_workspace_content)) and the loading animation to be used when loading a Workspace (see [Loading Animation](#extending_workspaces-loading_animation)).
 
 *It is important to note that the `<Workspaces>` component isn't meant to be used as a typical React component. Besides its rendering responsibilities, it also contains heavy logic. This component is meant to allow you to create a dedicated Workspaces App which must function as a standalone window - you must never use it as part of another app, as this will lead to malfunctioning. The Workspaces App should be customized only using the available extensibility points.*
 
@@ -471,6 +634,9 @@ The following example demonstrates the structure of the `<Workspaces />` compone
             SaveWorkspaceComponent: SaveWorkspacePopup,
             AddApplicationComponent: AddApplicationPopup,
             AddWorkspaceComponent: AddWorkspacePopup
+        },
+        loadingAnimation: {
+            Workspace: <WorkspaceLoadingAnimation />
         },
         WorkspaceContents: WorkspaceContents
     }}
@@ -568,9 +734,11 @@ Using a custom button for the Add Workspace component:
 
 #### Workspace Tab
 
-The contents of the `<WorkspaceTab />` component can be modified by replacing the default `<WorkspaceIconButton />`, `<WorkspaceSaveButton />`, `<WorkspaceTitle />` and `<WorkspaceTabCloseButton />` components it contains. You can provide a custom icon to be used when the [Workspace is pinned](../javascript/index.html#workspace-pinning__unpinning_workspaces), a custom Save button for the Workspace tab, a custom Workspace title, and a custom Close button for the Workspace tab.
+*Note that the examples in this section use the [`<WorkspaceTab />`](https://github.com/Glue42/core/blob/master/packages/workspaces-ui-react/src/defaultComponents/workspace/WorkspaceTab.tsx) component. A [`<WorkspaceTabV2 />`](https://github.com/Glue42/core/blob/master/packages/workspaces-ui-react/src/defaultComponents/workspace/tabV2/WorkspaceTabV2.tsx) component is also available - its structure differs from the `<WorkspaceTab />` component, as it contains a [Lock Settings UI](#using_workspaces-locking_workspaces) for the Workspace. Both components are supported.*
 
-The following example demonstrates composing a custom Workspace Tab component using the default `<WorkspaceSaveButton />` and `<WorkspaceIconButton />` components, as well as a custom title and a custom Close button for the Workspace tab. The example also shows how to hide and show conditionally the Workspace Tab contents based on whether the Workspace is pinned:
+The contents of the `<WorkspaceTab />` component can be modified by replacing the default `<WorkspaceIconButton />`, `<WorkspaceSaveButton />`, `<WorkspaceTitle />` and `<WorkspaceTabCloseButton />` components it contains. You can provide a custom icon to be used when the [Workspace is pinned](../javascript/index.html#workspace-pinning__unpinning_workspaces), a custom Save button for the Workspace tab, a custom Workspace title, and a custom "Close" button for the Workspace tab.
+
+The following example demonstrates composing a custom Workspace Tab component using the default `<WorkspaceSaveButton />` and `<WorkspaceIconButton />` components, as well as a custom title and a custom "Close" button for the Workspace tab. The example also shows how to hide and show conditionally the Workspace Tab contents based on whether the Workspace is pinned:
 
 ```javascript
 import React, { useState } from "react";
@@ -620,7 +788,7 @@ export default App;
 
 #### System Buttons
 
-The following example demonstrates adding a custom button to the System Buttons zone and using the default Minimize, Maximize and Close buttons:
+The following example demonstrates adding a custom button to the System Buttons zone and using the default "Minimize", "Maximize" and "Close" buttons:
 
 ```javascript
 import React from "react";
@@ -955,7 +1123,7 @@ const App = () => {
                     <CustomWorkspaceContent workspaceId={props.workspaceId} />
             }}
         />
-    )
+    );
 };
 
 export default App;
@@ -1024,7 +1192,7 @@ const CustomInput = ({ setTabTitle }) => {
         };
     }, [ref]);
 
-    return <input ref={ref} onDoubleClick={() => setTabTitle(newTitle)} onChange={e => {setNewTitle(e.target.value)}} value={newTitle} />
+    return <input ref={ref} onDoubleClick={() => setTabTitle(newTitle)} onChange={e => {setNewTitle(e.target.value)}} value={newTitle} />;
 };
 
 export default CustomInput;
@@ -1081,6 +1249,36 @@ const App = () => {
 
 export default App;
 ```
+
+### Loading Animation
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+To replace the default loading animation for the Workspaces App, use the `loadingAnimation` property of the `components` object to provide your own custom component containing a loader:
+
+```javascript
+import React from "react";
+import Workspaces from "@glue42/workspaces-ui-react";
+import MyCustomLoader from "./MyCustomLoader";
+
+const App = () => {
+    return (
+        <div className="App">
+            <Workspaces
+                components={{
+                    loadingAnimation: {
+                        Workspace: MyCustomLoader
+                    }
+                }}
+            />
+        </div>
+    );
+};
+
+export default App;
+```
+
+*Note that you should consider a proper value for the Z-order of your custom loader, so that it won't be hidden behind other Workspace elements.*
 
 ### Styles
 

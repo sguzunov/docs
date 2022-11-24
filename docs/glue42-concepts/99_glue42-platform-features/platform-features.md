@@ -278,88 +278,6 @@ To pass arguments and/or target when invoking an Interop method, use `args` and 
 glue42://invoke/ShowClient?args.clientId=1&target=best
 ```
 
-## Jump List
-
-<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.15">
-
-The jump list is a configurable categorized list of actions that can be shown in the context menu when the user right-clicks on a taskbar icon of a Glue42 enabled app or a group of such icons:
-
-![Jump List](../../images/platform-features/jump-list.png)
-
-Currently, only one predefined action is supported - centering an app or a group of app instances on the primary screen. This action is extremely useful when you have many windows open on multiple displays and can't find the app you need. Use this action to find an app that: you may have moved to another screen or outside the screen bounds altogether; may be hidden behind other windows; may have been resized and become too small to notice; or may have simply blended visually with other apps:
-
-![Center on Primary](../../images/platform-features/center-on-primary.gif)
-
-**Configuration**
-
-The jump list can be enabled, disabled and configured globally and per app. The [app configuration](../../developers/configuration/application/index.html) will override the global [system configuration](../../developers/configuration/system/index.html).
-
-To configure the jump list system-wide, use the `"jumpList"` property of the `"windows"` top-level key in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/). The following is the default system jump list configuration:
-
-```json
-{
-    "windows": {
-        "jumpList": {
-            "enabled": true,
-            "categories": [
-                {
-                    "title": "System",
-                    "actions": [
-                        {
-                            "icon": "%GDDIR%/assets/images/myIcon.ico",
-                            "type": "centerScreen",
-                            "singleInstanceTitle": "Center on Primary Screen",
-                            "multiInstanceTitle": "Center all on Primary Screen"
-                        }
-                    ]
-                }
-            ]
-        }
-    }
-}
-```
-
-The `"jumpList"` object has the following properties:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `"enabled"` | `boolean` | If `true` (default), will enable the jump list. |
-| `"categories"` | `object[]` | Categorized lists with actions to execute when the user clicks on them. |
-
-Each object in the `"categories"` array has the following properties:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `"title"` | `string` | Title of the category to be displayed in the context menu. |
-| `"actions"` | `object[]` | List of actions contained in the category. |
-
-Each object in the `"actions"` array has the following properties:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `"icon"` | `string` | Icon for the action to be displayed in the context menu. Must point to a local file. |
-| `"type"` | `string` | Type of the action to execute. |
-| `"singleInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there is a single instance with a single taskbar icon. |
-| `"multiInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there are multiple instances with grouped taskbar icons. |
-
-To override the system configuration per app, use the `"jumpList"` property of the `"details"` top-level key in the [app configuration](../../developers/configuration/application/index.html) file. The following example demonstrates how to disable the jump list for an app:
-
-```json
-{
-    "title": "My App",
-    "type": "window",
-    "name": "my-app",
-    "details": {
-        "url": "https://downloadtestfiles.com/",
-        "jumpList": {
-            "enabled": false
-        }
-    }
-}
-```
-
-*Note that currently the jump list isn't available for Java apps, [Workspaces](../windows/workspaces/overview/index.html) and apps in [web groups](../windows/window-management/overview/index.html#window_groups-web_groups).*
-
 ## Downloading Files
 
 [**Glue42 Enterprise**](https://glue42.com/enterprise/) allows for files to be downloaded by clicking on a link in the web page or by invoking an [Interop](../data-sharing-between-apps/interop/javascript/index.html#method_invocation) method.
@@ -374,7 +292,7 @@ System configuration example:
 
 ```json
 {
-    "windows" {
+    "windows": {
         "downloadSettings": {
             "autoSave": true,
             "autoOpenPath": false,
@@ -504,6 +422,428 @@ Enable the context menu:
         }
     }
 ]
+```
+
+## Telemetry Data
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) exposes telemetry data containing info related to the system environment and the running web apps.
+
+On a system level, you can gather data about:
+
+- Focus duration, start and stop events for apps.
+- Step-by-step system startup flow events. Can be used to investigate slow startups.
+- All system log entries.
+- System CPU and memory usage.
+
+
+For web apps, you can gather data about:
+
+- All network request per app.
+- All app console logs.
+- Web page exceptions caught by the window [`"error"`](https://developer.mozilla.org/en-US/docs/Web/API/Window/error_event) event.
+- CPU and memory usage per process.
+
+Telemetry data events can also be cleared. To [get](#telemetry_data-getting_data) or [clear](#telemetry_data-clearing_data) telemetry data, you must [invoke](../data-sharing-between-apps/interop/javascript/index.html#method_invocation) the `"T42.Telemetry"` [Interop](../data-sharing-between-apps/interop/overview/index.html) method passing the respective command and configuration for getting or clearing telemetry data entries.
+
+### Configuration
+
+To enable or disable telemetry data, use the `"telemetry"` top-level key of the `system.json` [configuration file](../../../developers/configuration/system/index.html) of [**Glue42 Enterprise**](https://glue42.com/enterprise/):
+
+```json
+{
+    "telemetry": {
+        "enabled": false
+    }
+}
+```
+
+### Getting Data
+
+To get telemetry data, [invoke](../data-sharing-between-apps/interop/javascript/index.html#method_invocation) the `"T42.Telemetry"` [Interop](../data-sharing-between-apps/interop/overview/index.html) method. As a second argument for the invocation, pass an object with `command` and `config` properties. For the `command` property, use `"GetEvents"` as a value to specify that the method should get telemetry data. Use the `config` property to specify what type of telemetry data you want to receive - for the system environment, for the running web apps, or for both:
+
+```javascript
+// Name of the Interop method.
+const methodName = "T42.Telemetry";
+// Settings for the method invocation.
+const args = {
+    command: "GetEvents",
+    config: { system: true, apps: true }
+};
+// Invoking the "T42.Telemetry" method to get telemetry data.
+const result = await glue.interop.invoke(methodName, args);
+// Extracting the returned data object.
+const data = result.returned;
+
+console.log(data);
+```
+
+The object passed as an argument for the method invocation has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `command` | `"GetEvents"` \| `"ClearEvents"` | Specifies the action to execute - get or clear telemetry data. |
+| `config` | `object` | Specifies what type of telemetry data to get or clear. |
+
+The `config` object for requesting telemetry data has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `system` | `boolean` \| `object` | Specifies whether to get system data. Pass an object to refine the data request (see [Refining Telemetry Requests](#telemetry_data-refining_telemetry_requests)). |
+| `apps` | `boolean` \| `object` | Specifies whether to get web app data. Pass an object to refine the data request (see [Refining Telemetry Requests](#telemetry_data-refining_telemetry_requests)). |
+
+### Data Shape
+
+The object returned from the invocation of the `"T42.Telemetry"` Interop method when requesting telemetry data, has the following shape:
+
+```javascript
+const data = {
+    type: "gd",
+    data: {
+        system: {},
+        apps: [],
+        stores : {}
+    }
+};
+```
+
+The `system` object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `logErrors` | `object[]` | Each item of the array holds an error entry from the system logs. |
+| `startupEvents` | `object[]` | Each item of the array holds information about a single startup flow event. |
+| `journeyEvents` | `object[]` | Each item of the array holds information about focus duration, start and stop events for a specific web app. |
+| `perfData` | `object` | Holds information about overall and per app CPU and memory usage. |
+
+The `apps` property is an array of objects with the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `app` | `string` | The app name as defined in its configuration file. |
+| `instance` | `string` | Unique ID within the Glue42 environment. |
+| `info` | `object` | Contains specific data about the app - instance ID, API version, window type, URL and more. |
+| `requests` | `object[]` | Each item of the array holds information about a specific network request made by the app. |
+| `console` | `object[]` | Each item of the array holds information about a message logged to the console. |
+| `errors` | `object[]` | Each item of the array holds information about a web page exception caught by the window `"error"` event. |
+
+
+The `stores` object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `logs` | `object` | Contains information about the number of items in the store, the total store size and the time of the last update. |
+| `journeyEvents` | `object` | Contains information about the number of items in the store, the total store size and the time of the last update. |
+| `requests` | `object` | Contains information about the number of items in the store, the total store size and the time of the last update. |
+| `console` | `object` | Contains information about the number of items in the store, the total store size and the time of the last update. |
+
+### Refining Telemetry Requests
+
+When requesting telemetry data, you can specify what type of system and web app data entries you want to receive. Use the `system` and `apps` properties of the `config` object refine your telemetry request:
+
+```javascript
+const methodName = "T42.Telemetry";
+const args = {
+    command: "GetEvents",
+    config: {
+        // Omit data about startup flow events and CPU and memory usage.
+        system: { withStartupEvents: false, withPerfData: false },
+        // Omit data about console messages logged by web apps.
+        apps: { withConsole: false }
+    }
+};
+const result = await glue.interop.invoke(methodName, args);
+const data = result.returned;
+
+console.log(data);
+```
+
+The `system` property of the `config` object accepts an object with the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `withStartupEvents` | `boolean` | Whether to receive data about the system startup flow events. |
+| `withPerfData` | `boolean` | Whether to receive data about system CPU and memory usage. |
+| `withJourneyEvents` | `boolean` | Whether to receive data about focus duration, start and stop events for web apps. |
+| `withLog` | `boolean` | Whether to receive data about system log entries. |
+
+The `apps` property of the `config` object accepts an object with the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `withConsole` | `boolean` | Whether to receive data about console messages logged by web apps. |
+| `withRequests` | `boolean` | Whether to receive data about network requests made by web apps. |
+| `withErrors` | `boolean` | Whether to receive data about web page exceptions caught by the window `"error"` event.  |
+
+### Clearing Data
+
+To clear telemetry data, invoke the `"T42.Telemetry"` Interop method and pass `"ClearEvents"` as a value to the `command` property of the argument object for the method invocation. Use the `config` object to specify what type of telemetry data entries to clear:
+
+```javascript
+// Name of the Interop method.
+const methodName = "T42.Telemetry";
+// Settings for the method invocation.
+const args = {
+    command: "ClearEvents",
+    config: {
+        requests: true,
+        journeyEvents: true,
+        logs: true,
+        console: true
+    };
+};
+// Invoking the "T42.Telemetry" method to clear telemetry data.
+const result = await glue.interop.invoke(methodName, args);
+// Extracting the returned data object.
+const data = result.returned;
+
+// Will print an empty object, as all entries have been cleared.
+console.log(data);
+```
+
+The `config` object for clearing telemetry data has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `requests` | `boolean` | Whether to clear data about network requests made by web apps. |
+| `journeyEvents` | `boolean` | Whether to clear data about focus duration, start and stop events for web apps. |
+| `logs` | `boolean` | Whether to clear data about system log entries. |
+| `console` | `boolean` | Whether to clear data about console messages logged by web apps. |
+
+## Jump List
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.15">
+
+The jump list is a configurable categorized list of actions that can be shown in the context menu when the user right-clicks on a taskbar icon of a Glue42 enabled app or a group of such icons:
+
+![Jump List](../../images/platform-features/jump-list.png)
+
+*Note that currently the jump list isn't available for [web groups](../windows/window-management/overview/index.html#window_groups-web_groups).*
+
+### Configuration
+
+The jump list can be enabled, disabled and configured globally and per app. The [app configuration](../../developers/configuration/application/index.html#jump_list) will override the global [system configuration](../../developers/configuration/system/index.html#window_settings-jump_list).
+
+*Note that the jump list configuration allows you to enable or disable the jump list and configure the [predefined actions](#jump_list-predefined_actions) (e.g., change their names or icons), but in order to add custom jump list categories and actions for your apps, you must use the [jump list API](#jump_list-jump_list_api).*
+
+To configure the jump list system-wide, use the `"jumpList"` property of the `"windows"` top-level key in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/). The following is the default system jump list configuration:
+
+```json
+{
+    "windows": {
+        "jumpList": {
+            "enabled": true,
+            "categories": [
+                {
+                    "title": "Tasks",
+                    "actions": [
+                        {
+                            "icon": "%GDDIR%/assets/images/center.ico",
+                            "type": "centerScreen",
+                            "singleInstanceTitle": "Center on Primary Screen",
+                            "multiInstanceTitle": "Center all on Primary Screen"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
+```
+
+The `"jumpList"` object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"enabled"` | `boolean` | If `true` (default), will enable the jump list. |
+| `"categories"` | `object[]` | Categorized lists with actions to execute when the user clicks on them. |
+
+Each object in the `"categories"` array has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"title"` | `string` | Title of the category to be displayed in the context menu. |
+| `"actions"` | `object[]` | List of actions contained in the category. |
+
+Each object in the `"actions"` array has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"icon"` | `string` | Icon for the action to be displayed in the context menu. Must point to a local file. |
+| `"type"` | `string` | Type of the [predefined action](#jump_list-predefined_actions) to execute. |
+| `"singleInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there is a single instance with a single taskbar icon. |
+| `"multiInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there are multiple instances with grouped taskbar icons. |
+
+To override the system configuration per app, use the `"jumpList"` property of the `"details"` top-level key in the [app configuration](../../developers/configuration/application/index.html) file. The following example demonstrates how to disable the jump list for an app:
+
+```json
+{
+    "title": "My App",
+    "type": "window",
+    "name": "my-app",
+    "details": {
+        "url": "https://downloadtestfiles.com/",
+        "jumpList": {
+            "enabled": false
+        }
+    }
+}
+```
+
+### Predefined Actions
+
+To use a predefined action, set the `"type"` property of the action object to the respective value (see [Jump List > Configuration](#jump_list-configuration)). The following are the currently supported predefined actions:
+
+- `"centerScreen"` - centers an app or a group of app instances on the primary screen. This action is extremely useful when you have many windows open on multiple displays and can't find the app you need. Use this action to find an app that: you may have moved to another screen or outside the screen bounds altogether; may be hidden behind other windows; may have been resized and become too small to notice; or may have simply blended visually with other apps:
+
+![Center on Primary](../../images/platform-features/jump-list-center.gif)
+
+- `"newWorkspace"` - opens a new [Workspace](../../glue42-concepts/windows/workspaces/overview/index.html). This action by default is part of the jump list for the Workspaces App. Clicking on the action opens a new empty Workspace in the last opened instance of the Workspaces App. If this action is part of the jump list for another app and the Workspaces App isn't currently open when the user clicks on the action, it will be started:
+
+![New Workspace](../../images/platform-features/jump-list-new-workspace.gif)
+
+### Jump List API
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+The jump list API is accessible through the [`GDWindow`](../../reference/glue/latest/windows/index.html#GDWindow) object which describes an instance of a Glue42 Window:
+
+```javascript
+const myWindow = glue.windows.my();
+// Check whether the jump list is enabled for the current window.
+const isJumpListEnabled = await myWindow.jumpList.isEnabled();
+```
+
+#### Enable or Disable the Jump List
+
+To enable or disable the jump list dynamically, use the [`setEnabled()`](../../reference/glue/latest/windows/index.html#JumpList-setEnabled) method and pass a Boolean value as an argument:
+
+```javascript
+const myWindow = glue.windows.my();
+
+// Checking whether the jump list is enabled for the current window.
+const isJumpListEnabled = await myWindow.jumpList.isEnabled();
+
+if (!isJumpListEnabled) {
+    // Enabling the jump list.
+    await myWindow.jumpList.setEnabled(true);
+};
+```
+
+#### Categories
+
+Jump list categories are used for grouping actions in a section under a common name. You can find a category by name, get a list of all available categories, create a new category or remove an existing one. The categories API is accessible through the `jumpList.categories` object.
+
+To find a category by name, use the [`find()`](../../reference/glue/latest/windows/index.html#JumpListCategoriesAPI-find) method:
+
+```javascript
+const myCategory = await myWindow.jumpList.categories.find("My Category");
+```
+
+To get a list of all available categories, use the [`list()`](../../reference/glue/latest/windows/index.html#JumpListCategoriesAPI-list) method:
+
+```javascript
+const categoryList = await myWindow.jumpList.categories.list();
+```
+
+To create a category, use the [`create()`](../../reference/glue/latest/windows/index.html#JumpListCategoriesAPI-create) method. Pass a title for the category and a list of [`JumpListActionSettings`](../../reference/glue/latest/windows/index.html#JumpListActionSettings) objects describing the actions in the category:
+
+```javascript
+// Category settings.
+const title = "My Category";
+const actions = [
+   {
+        // Icon for the action. Must point to a local file.
+        icon: "../images/action-one.ico",
+        // Callback that will be executed when the user clicks on the action.
+        callback: () => console.log("Action 1"),
+        // Title of the action when there is a single instance with a single taskbar icon.
+        singleInstanceTitle: "Execute Action 1",
+        // Title of the action when there are multiple instances with grouped taskbar icons.
+        multiInstanceTitle: "Execute Action 1 for All"
+    },
+    {
+        icon: "../images/action-two.ico",
+        callback: () => console.log("Action 2"),
+        singleInstanceTitle: "Execute Action 2",
+        multiInstanceTitle: "Execute Action 2 for All"
+    }
+];
+
+// Creating a category.
+await myWindow.jumpList.categories.create(title, actions);
+```
+
+To remove a category, use the [`remove()`](../../reference/glue/latest/windows/index.html#JumpListCategoriesAPI-remove) method and pass the category title as an argument:
+
+```javascript
+await myWindow.jumpList.categories.remove("My Category");
+```
+
+#### Actions
+
+Each [`JumpListCategory`](../../reference/glue/latest/windows/index.html#JumpListCategory) object has an `actions` property through which you can access the actions API. You can create, remove or list all available actions in the current category.
+
+To get a list of all available actions in a category, use the [`list()`](../../reference/glue/latest/windows/index.html#JumpListActionsAPI-list) method:
+
+```javascript
+const myCategory = await myWindow.jumpList.categories.find("My Category");
+
+const actions = await myCategory.actions.list();
+```
+
+To create an action in a category, use the [`create()`](../../reference/glue/latest/windows/index.html#JumpListActionsAPI-create) method. Pass a list of [`JumpListActionSettings`](../../reference/glue/latest/windows/index.html#JumpListActionSettings) objects describing the actions.
+
+The following example demonstrates creating an action in the "Tasks" category that will toggle the Glue42 theme:
+
+```javascript
+// Finding a category.
+const category = await myWindow.jumpList.categories.find("Tasks");
+// Action settings.
+const actions = [
+    {
+        icon: "../images/toggle-theme.ico",
+        // This action will toggle the Glue42 theme.
+        callback: async () => {
+            const currentTheme = await glue.themes.getCurrent();
+            if (currentTheme.name === "dark") {
+                glue.themes.select("light");
+            } else {
+                glue.themes.select("dark");
+            };
+        },
+        singleInstanceTitle: "Toggle Theme",
+        multiInstanceTitle: "Toggle Theme"
+    }
+];
+
+// Creating actions for an existing category.
+await category.actions.create(actions);
+```
+
+![Jump List Action](../../images/platform-features/jump-list-action.gif)
+
+To remove one or more actions from a category, use the [`remove()`](../../reference/glue/latest/windows/index.html#JumpListActionsAPI-remove) method and pass a list of [`JumpListActionSettings`](../../reference/glue/latest/windows/index.html#JumpListActionSettings) objects to remove:
+
+```javascript
+const actions = [
+   {
+        icon: "../images/action-one.ico",
+        callback: () => console.log("Action 1"),
+        singleInstanceTitle: "Execute Action 1",
+        multiInstanceTitle: "Execute Action 1 for All"
+    },
+    {
+        icon: "../images/action-two.ico",
+        callback: () => console.log("Action 2"),
+        singleInstanceTitle: "Execute Action 2",
+        multiInstanceTitle: "Execute Action 2 for All"
+    }
+];
+
+// Removing actions from a category.
+await category.actions.remove(actions);
 ```
 
 ## Hotkeys
@@ -900,17 +1240,17 @@ To log messages, either use the [`log()`](../../reference/glue/latest/logger/ind
 
 ```javascript
 // The log() method accepts a message and logging level as arguments.
-logger.log("Could not load component!", "error");
+logger.log("Couldn't load component!", "error");
 
 // or
 
 // Each logging level method accepts only a message as an argument.
-logger.error("Could not load component!");
+logger.error("Couldn't load component!");
 ```
 
 ### Location and Output
 
-User app log files are located in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\logs\applications` folder, where `<ENV-REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). A separate log file is created for each app that has logging enabled. The file is named after the app and is created after the app starts to output log entries. All instances of an app log to the same file.
+User app log files are located in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\logs\applications` folder, where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). A separate log file is created for each app that has logging enabled. The file is named after the app and is created after the app starts to output log entries. All instances of an app log to the same file.
 
 The log file entries are in the following format:
 
@@ -1055,6 +1395,29 @@ const version = glue42gd.os.getVersion();
 
 // Returns the Glue42 start time as a string - e.g., "2021-10-20T06:54:49.411Z".
 const startTime = glue42gd.glue42StartTime;
+```
+
+## Clearing DNS & HTTP Cache
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+To allow an app to clear the DNS or HTTP cache, use the `"allowClearingCache"` top-level key of the [app configuration](../../../developers/configuration/application/index.html) file. Methods for clearing the cache are available on the `glue42gd` object attached to the global `window` object.
+
+Allowing an app to clear cache:
+
+```json
+{
+    "allowClearingCache": true
+}
+```
+
+Clearing HTTP and DNS cache:
+
+```javascript
+// Clearing the HTTP cache.
+await glue42gd.clearCache();
+// Clearing the DNS cache.
+await glue42gd.clearHostResolverCache();
 ```
 
 ## Adding DevTools Extensions

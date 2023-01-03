@@ -1,10 +1,10 @@
 ## Introduction
 
-The Glue42 Excel Connector allows applications to use Excel as a local data editor. The application uploads tabular data into Excel, so that the user may view it and edit it in a familiar environment. Any changes can then be transmitted back to the application for validation, processing, auditing and/or long-term storage. 
+The Glue42 Excel Connector allows apps to use Excel as a local data editor. The app uploads tabular data into Excel, so that the user may view it and edit it in a familiar environment. Any changes can then be transmitted back to the app for validation, processing, auditing and/or long-term storage.
 
 ## Initialization
 
-As shown in the [Set Up Your Application](../../set-up-your-application/javascript/index.html) section, you need to initialize the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) library and set the [`excel`](../../../../reference/glue4office/latest/excel/index.html) property of the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) configuration object to `true`: 
+As shown in the [Set Up Your App](../../set-up-your-application/javascript/index.html) section, you need to initialize the [`@glue42/office`](https://www.npmjs.com/package/@glue42/office) library and set the [`excel`](../../../../reference/glue4office/latest/excel/index.html) property of the configuration object to `true`:
 
 ```javascript
 const config = {
@@ -93,13 +93,13 @@ Note that the `Promise` returned by the [`openSheet()`](../../../../reference/gl
 
 ## Customization Options
 
-By default, when your application sends data to Excel, the Glue42 Connector will create a new workbook, a new spreadsheet in the workbook, and place the unformatted data in the 1st row and column (A1).
+By default, when your app sends data to Excel, the Glue42 Connector will create a new workbook, a new spreadsheet in the workbook, and place the unformatted data in the 1st row and column (A1).
 
 There are certain customizations you can apply by specifying the [`options`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetConfig-options) property in the [`OpenSheetConfig`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetConfig) object.
 
 ### Column Customization
 
-If you are planning to take updates from the user into your app, you should not rely on the ordering of the rows when accepting the data because the user might have filtered or sorted the data before returning it to your application. This means that:
+If you are planning to take updates from the user into your app, you shouldn't rely on the ordering of the rows when accepting the data because the user might have filtered or sorted the data before returning it to your app. This means that:
 
 - all your rows must be keyed somehow, so you can track what has changed
 - you must not accept changes to columns containing keys
@@ -109,8 +109,8 @@ You can also specify a background and/or a foreground color and a column width:
 ```javascript
 const columns = [
     {
-        header: "Symbol", 
-        fieldName: "symbol", 
+        header: "Symbol",
+        fieldName: "symbol",
         width: 80
     }
     // ...
@@ -119,11 +119,11 @@ const columns = [
 
 ### Preventing Saving Temporary Workbooks
 
-If your users need to message data to Excel, but are not allowed to save it locally, and should instead return the data to be saved in your application, you can set the [`inhibitLocalSave`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-inhibitLocalSave) flag to `true` to prevent the users from saving temporary workbooks.
+If your users need to message data to Excel, but aren't allowed to save it locally, and should instead return the data to be saved in your app, you can set the [`inhibitLocalSave`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-inhibitLocalSave) flag to `true` to prevent the users from saving temporary workbooks.
 
 ### Custom Workbook, Sheet and Range
 
-If your app needs to create (or re-open and re-use) a specific workbook, or place data in a specific spreadsheet and location in the spreadsheet, you can use the [`workbook`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-workbook), [`worksheet`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-worksheet) and [`namedRange`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-namedRange) options:
+If your app needs to create (or re-open and re-use) a specific workbook, or place data in a specific spreadsheet and location in the spreadsheet, you can use the [`workbook`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-workbook), [`worksheet`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-worksheet) and [`topLeft`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-topLeft) options:
 
 ```javascript
 const config = {
@@ -132,18 +132,18 @@ const config = {
     options: {
         workbook: "ClientData.xls",
         worksheet: "John Doe",
-        namedRange: "B2",
+        topLeft: "B2",
         dataRangeName: "ClientData",
         clearGrid: true
     }
 }
 ```
 
-Note that all these settings are optional. If the workbook does not exist, it is going to be created, otherwise re-opened. If there is data in the specified spreadsheet, it's going to be wiped, unless you've set [`clearGrid`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-clearGrid) to `false`. In the example above the data will be placed in the `John Doe` spreadsheet, starting on the 2nd row and column (B2). You can use also use Row/Column references, e.g., `R2C2` (row 2 column 2). Specifying [`dataRangeName`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-dataRangeName) names the range of cells which starts at `B2` and spans your data to `ClientData`.
+Note that all settings except the `columnConfig` property are optional. If the workbook doesn't exist, it is going to be created, otherwise re-opened. If there is data in the specified spreadsheet, it's going to be wiped, unless you've set [`clearGrid`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-clearGrid) to `false`. In the example above the data will be placed in the `John Doe` spreadsheet, starting on the 2nd row and column (B2). You can use also use Row/Column references, e.g., `R2C2` (row 2 column 2). Specifying [`dataRangeName`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-dataRangeName) names the range of cells which starts at `B2` and spans your data to `ClientData`.
 
 ### Using Templates
 
-Excel Templates are workbooks that can be used to create a framework that the Glue42 Excel Connector should use when displaying a new set of data to the user. When the application invokes a Glue42 Excel API method, it may request that the data be added to a copy of an existing workbook (the template) that has been formatted to present the data correctly for the user. The Glue42 Excel Connector will then make a copy of the workbook and paste the data into it, instead of using a new blank workbook.
+Excel Templates are workbooks that can be used to create a framework that the Glue42 Excel Connector should use when displaying a new set of data to the user. When the app invokes a Glue42 Excel API method, it may request that the data be added to a copy of an existing workbook (the template) that has been formatted to present the data correctly for the user. The Glue42 Excel Connector will then make a copy of the workbook and paste the data into it, instead of using a new blank workbook.
 
 If you want to send formatted data to Excel or you want to include more than just the data (e.g. headers, footers, charts and maps), you can use [`templateWorkbook`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-templateWorkbook) and [`templateSheet`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-templateWorksheet):
 
@@ -160,7 +160,7 @@ const config = {
 
 ## Receiving Updates from Excel
 
-Once you have obtained a reference to the opened spreadsheet, you can subscribe for and start tracking updates made by the user, receive and validate them in your application, using the [`onChanged()`](../../../../reference/glue4office/latest/excel/index.html#Sheet-onChanged) method on the [`Sheet`](../../../../reference/glue4office/latest/excel/index.html#Sheet) object:
+Once you have obtained a reference to the opened spreadsheet, you can subscribe for and start tracking updates made by the user, receive and validate them in your app, using the [`onChanged()`](../../../../reference/glue4office/latest/excel/index.html#Sheet-onChanged) method on the [`Sheet`](../../../../reference/glue4office/latest/excel/index.html#Sheet) object:
 
 ```javascript
 const config = {
@@ -173,10 +173,10 @@ const config = {
         { quantity: 200, symbol: "GOOG" },
     ],
     options: {
-        // Configure Excel to trigger sheet change events when the user changes 
+        // Configure Excel to trigger sheet change events when the user changes
         // one or more cells in a given row and then selects a cell in a different row.
         // By default, sheet change events will be triggered when the user clicks a predefined button in Excel.
-        updateTrigger: ["row"] 
+        updateTrigger: ["row"]
     }
 };
 
@@ -191,7 +191,6 @@ excel.openSheet(config)
             doneCallback();
         });
     });
-});
 ```
 
 The function passed to [`onChanged()`](../../../../reference/glue4office/latest/excel/index.html#Sheet-onChanged) will be called with the data sent from Excel. The `data` parameter holds an array of objects where each object corresponds to a row in Excel. Each object will have a number of properties populated with data, where each property will correspond to the [`fieldName`](../../../../reference/glue4office/latest/excel/index.html#ColumnConfig-fieldName) property you have passed in the respective column definition when calling [`openSheet()`](../../../../reference/glue4office/latest/excel/index.html#API-openSheet).
@@ -211,8 +210,8 @@ unsubscribe()   // sheet no longer tracked for changes
 
 There are 2 types of validation you can perform before you accept data from Excel:
 
-- preventing users from typing incompatible data (e.g., column is numeric but the user types in some text), which you can do using **Declarative Validation**;
-- preventing users from breaking the integrity of your data (which can span all data), which you can do using **Programmatic Validation**;
+- preventing users from typing incompatible data (e.g., column is numeric but the user types in some text), which you can do using Declarative Validation;
+- preventing users from breaking the integrity of your data (which can span all data), which you can do using Programmatic Validation;
 
 ### Declarative Validation
 
@@ -220,7 +219,7 @@ You can specify what kind of data the user is allowed to type in a given column 
 
 ```javascript
 const quantityColumn = {
-    header: "Quantity", 
+    header: "Quantity",
     fieldName: "quantity",
     // whole numbers only
     validation: {
@@ -253,7 +252,7 @@ The [`list`](../../../../reference/glue4office/latest/excel/index.html#Validatio
 
 ```javascript
 const stateColumn = {
-    header: "State", 
+    header: "State",
     fieldName: "state",
     validation: {
         alert: "Stop",
@@ -263,11 +262,11 @@ const stateColumn = {
 }
 ```
 
-When your application has set the [`validation`](../../../../reference/glue4office/latest/excel/index.html#ColumnConfig-validation) property and the [`alert`](../../../../reference/glue4office/latest/excel/index.html#Validation-alert) is `Stop`, Excel will not even attempt to return data back to your application if the user input is invalid.
+When your app has set the [`validation`](../../../../reference/glue4office/latest/excel/index.html#ColumnConfig-validation) property and the [`alert`](../../../../reference/glue4office/latest/excel/index.html#Validation-alert) is `Stop`, Excel won't even attempt to return data back to your app if the user input is invalid.
 
 ### Programmatic Validation
 
-When your app needs a more sophisticated validation than what the [`validation`](../../../../reference/glue4office/latest/excel/index.html#ColumnConfig-validation) property can offer, you can write code to completely control the validation of the data sent from Excel to your application.
+When your app needs a more sophisticated validation than what the [`validation`](../../../../reference/glue4office/latest/excel/index.html#ColumnConfig-validation) property can offer, you can write code to completely control the validation of the data sent from Excel to your app.
 
 Here is again how subscribing for user updates looks like:
 
@@ -277,7 +276,7 @@ sheet.onChanged((data, errorCallback, doneCallback, delta) => {
 })
 ```
 
-When your app receives an update from Excel, you can signal Excel back by calling the `errorCallback` and let Excel know that there were errors in the user's input which need to be corrected in Excel before the data is accepted by your web application. 
+When your app receives an update from Excel, you can signal Excel back by calling the `errorCallback` and let Excel know that there were errors in the user's input which need to be corrected in Excel before the data is accepted by your web app.
 
 The `errorCallback` accepts a list of [validation errors](../../../../reference/glue4office/latest/excel/index.html#ValidationError), where a validation error specifies which cell (row and column) is in error and what the problem is. Here is an example of handling multiple validation errors:
 
@@ -302,8 +301,8 @@ sheet.onChanged((data, errorCallback, doneCallback, delta) => {
                 })
             }
         }, [])
-        
-    // if during the validation there are any errors accumulated 
+
+    // if during the validation there are any errors accumulated
     // you need to call the errorCallback, otherwise the doneCallback
     if (errors.length > 0) {
         errorCallback(errors)
@@ -326,11 +325,11 @@ The possible values are:
 
 |Trigger Type|Description|
 |---|---|
-|`button`|When the user clicks the **Return Data** button on the **Glue42** ribbon|
+|`button`|When the user clicks the Return Data button on the Glue42 ribbon|
 |`row`|When the user changes one or more cells in a given row and then selects a cell in a different row|
 |`save`|When the user tries to save the worksheet|
 
-The `row` options is the most interactive, since your application gets updated as the user moves through the spreadsheet.
+The `row` options is the most interactive, since your app gets updated as the user moves through the spreadsheet.
 
 When using the `button` option, you can also customize the caption of the button and where it is placed by using the [`buttonText`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-buttonText) and [`buttonRange`](../../../../reference/glue4office/latest/excel/index.html#OpenSheetOptions-buttonRange) properties:
 
@@ -350,30 +349,37 @@ excel.openSheet(config).then(sheet => ...)
 
 ## Excel Scripting
 
-Upon launching, the Glue42 Excel Connector registers the following streams and methods:
+Upon launching, the Glue42 Excel Connector registers the following Interop methods and streams:
 
-|Method|Description|
-|------|-----------|
-|T42.ExcelScript.Grid.AddRow|Method: Add Row to Sheet|
-|T42.ExcelScript.Table.AddRow|Method: Add Row to Table|
-|T42.ExcelScript.Workbook.Create|Method: Create Workbook|
-|T42.ExcelScript.Workbook.Open|Method: Open Workbook/Get Sheets|
-|T42.ExcelScript.Worksheet.Write|Method: Update/Insert Row in Grid/Table|
-|T42.ExcelScript.Grid.OnRowAdded|Stream: Row Added to Sheet|
-|T42.ExcelScript.Table.OnRowAdded|Stream: Row Added to Table|
-|T42.ExcelScript.Grid.OnRowUpdated|Stream: Row Updated in Sheet|
-|T42.ExcelScript.Table.OnRowUpdated|Stream: Row Updated in Table|
-|T42.ExcelScript.Worksheet.OnAdded|Stream: Worksheet Added|
-|T42.ExcelScript.Grid.FindRow|Method: Find Row in Sheet|
-|T42.ExcelScript.Table.FindRow|Method: Find Row in Table|
-|T42.ExcelScript.Workbook.IsOpen|Method: Find Workbook|
-|T42.ExcelScript.Workbook.GetFolders|Method: Get Folders|
-|T42.ExcelScript.Workbook.GetFiles|Method: Get Files|
-|T42.ExcelScript.Workbook.Open|Method: Get Sheets|
-|T42.ExcelScript.Grid.ReadRow|Method: Get Columns in Sheet|
-|T42.ExcelScript.Table.ReadRow|Method: Get Columns in Table|
-|T42.ExcelScript.Table.GetInformation|Method: Get Tables|
-|T42.ExcelScript.Workbook.GetTemplates|Method: Get Templates|		
+| Method | Description |
+|--------|-------------|
+| `"T42.ExcelPad.ShowGrid"` | Displays a grid of data in Excel for the user to edit. |
+| `"T42.ExcelPad.ShowTable"` | Displays a table of data in Excel for the user to edit. |
+| `"T42.ExcelScript.GetState"` | Returns the state of Excel - workbooks and worksheets. |
+| `"T42.ExcelScript.Grid.AddRow"` |	Adds a new row with data to the end of a grid. |
+| `"T42.ExcelScript.Grid.FindRow"` | Searches a grid for a row that contains a given column value. |
+| `"T42.ExcelScript.Grid.GetInformation"` | Gets Excel grid information. |
+| `"T42.ExcelScript.Grid.OnRowAdded"` |	Subscribes for the event which fires when one or more new rows have been added to a grid. |
+| `"T42.ExcelScript.Grid.OnRowUpdated"` | Subscribes for the event which fires when one or more rows have been changed in a grid. |
+| `"T42.ExcelScript.Grid.ReadRow"` | Reads a row of data from a grid. |
+| `"T42.ExcelScript.Table.AddRow"` | Adds a new row with data to the end of a table. |
+| `"T42.ExcelScript.Table.FindRow"` | Searches a table for a row that contains a given column value. |
+| `"T42.ExcelScript.Table.GetInformation"` | Gets Excel table information. |
+| `"T42.ExcelScript.Table.OnRowAdded"` | Subscribes for the event which fires when one or more rows have been added to a table. |
+| `"T42.ExcelScript.Table.OnRowUpdated"` | Subscribes for the event which fires when one or more rows have been changed in a table. |
+| `"T42.ExcelScript.Table.ReadRow"` | Reads a row of data from a table. |
+| `"T42.ExcelScript.Workbook.Create"` |	Creates a new blank workbook and returns the list of worksheets in it. |
+| `"T42.ExcelScript.Workbook.GetFiles"` | Gets the workbooks in a whitelisted folder. |
+| `"T42.ExcelScript.Workbook.GetFolders"` |	Gets a list of folders that may be searched according to the configuration. |
+| `"T42.ExcelScript.Workbook.GetTemplates"` | Gets the templates in a whitelisted folder. |
+| `"T42.ExcelScript.Workbook.IsOpen"` |	Indicates whether a workbook is open. |
+| `"T42.ExcelScript.Workbook.OnAdded"` | Subscribes for the event which fires when a new workbook has been created. |
+| `"T42.ExcelScript.Workbook.OnOpened"` | Subscribes for the event which fires when a workbook has been opened. |
+| `"T42.ExcelScript.Workbook.Open"` | Opens a workbook and returns the list of worksheets in it. |
+| `"T42.ExcelScript.Workbook.SetWindowState"` |	Sets the Excel window state - normal, maximized, minimized, focused, etc. |
+| `"T42.ExcelScript.Worksheet.Create"` | Creates a new worksheet in the current workbook. |
+| `"T42.ExcelScript.Worksheet.OnAdded"` | Subscribes for the event which fires when a new worksheets has been added in a workbook. |
+| `"T42.ExcelScript.Worksheet.Write"` |	Updates a worksheet with new data. |
 
 ## Reference
 

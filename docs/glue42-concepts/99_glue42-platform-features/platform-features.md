@@ -1,24 +1,64 @@
-## Running Multiple Instances
-
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) supports running multiple instances in different environments/regions and any combination of these. Environments usually include development, testing, quality assurance, production environments in which [**Glue42 Enterprise**](https://glue42.com/enterprise/) is developed, tested or integrated. Regions can be any semantic groups, defined by the clients - geographic regions, user groups, product categories, etc. This allows running multiple instances of [**Glue42 Enterprise**](https://glue42.com/enterprise/) simultaneously on a single machine with different settings and configurations which is useful when testing application integration in various environments. Environment/region can be set in the `system.json` configuration file located in `%LocalAppData%\Tick42\GlueDesktop\config`. You can run multiple instances of [**Glue42 Enterprise**](https://glue42.com/enterprise/) by defining different system configuration files for the respective environments/regions.
-
 ## Service Windows
 
-Service windows are hidden windows which perform a specific supporting role for your applications. They can be configured as any normal window (name, URL, etc.), the difference being that a UI configuration is not necessary as it is assumed that the purpose of these windows is to provide some "behind-the-scenes" (hidden) service to your applications. Therefore, the user doesn't need to see them or interact with them.
+Service windows are hidden windows which perform a specific supporting role for your apps. They can be configured as any normal window (name, URL, etc.), the difference being that UI configuration isn't necessary, as it is assumed that the purpose of these windows is to provide some background service to your apps. Therefore, the user doesn't need to see them or interact with them.
 
-Service windows may be useful in many scenarios. For instance, you may have a number of applications that need to receive and process data from several different providers. Instead of setting up each application to receive and then process the data from every provider, you can create a hidden service window which will communicate with the providers, collect the data, pre-process it and route it to the respective applications. This way, your applications have to handle communication with only one end point, all the necessary data is consolidated, processed, filtered, etc., at one central data hub from where it can be sent to any window needing it. Depending on your needs or goals, you can configure your service windows to auto start on system startup, or to start when an application requests that service. The service windows approach offers you additional flexibility and versatility in designing solutions for the application services you need.
+Service windows may be useful in many scenarios. For instance, you may have a number of apps that will receive and process data from several different providers. Instead of setting up each app to receive and then process the data from every provider, you can create a hidden service window which will communicate with the providers, collect the data, pre-process it and route it to the respective apps. This way, your apps will handle communication with only one end point, all the necessary data is consolidated, processed and filtered at one central data hub from where it can be sent to any window. Depending on your needs and goals, you can configure your service windows to auto start on system startup, or to start when an app requests that service. The service windows approach offers you additional flexibility and versatility in designing solutions for the app services you need.
 
-![Service Window](../../images/platform-features/service-windows.png)
+<glue42 name="diagram" image="../../images/platform-features/service-windows.png">
 
-## Citrix Applications
+There are different ways to configure a service window, depending on whether you want the window to be automatically started when [**Glue42 Enterprise**](https://glue42.com/enterprise/) is initiated. Use a combination of the following [app configuration](../../developers/configuration/application/index.html) properties to specify whether the window should be automatically started, invisible, or hidden from the [Glue42 Toolbar](../glue42-toolbar/index.html):
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"service"` | `boolean` | If `true`, both the `"autoStart"` top-level key and the `"hidden"` property of the `"details"` object will be overridden and set to `true`. The window will be invisible and will start automatically on [**Glue42 Enterprise**](https://glue42.com/enterprise/) startup. |
+| `"hidden"` | `boolean` | If `true`, the app won't be available in the [Glue42 Toolbar](../glue42-toolbar/index.html). |
+| `"autoStart"` | `boolean` | If `true`, the window will be started automatically on [**Glue42 Enterprise**](https://glue42.com/enterprise/) startup. |
+| `"details"` | `object` | Use the `"hidden"` Boolean property of the `"details"` object to set the window visibility. If `true`, the window will be invisible. |
+
+*Note that when using the `"service"` property, it's pointless to use the `"autoStart"` top-level key and the `"hidden"` property of the `"details"` object, because the `"service"` key will override any values you may set for them.*
+
+The following example demonstrates how to use the `"service"` and `"hidden"` top-level keys to configure a service window that will start automatically, will be invisible and hidden from the [Glue42 Toolbar](../glue42-toolbar/index.html):
+
+```json
+{
+    "name": "service-window",
+    "type": "window",
+    "service": true,
+    "hidden": true,
+    "details": {
+        "url": "https://example.com/my-service-window",
+    }
+}
+```
+
+The following example demonstrates how to use the `"hidden"` and `"autoStart"` top-level keys and the `"hidden"` property of the `"details"` top-level key to configure a service window that will be hidden from the [Glue42 Toolbar](../glue42-toolbar/index.html), won't start automatically and will be invisible:
+
+```json
+{
+    "name": "service-window",
+    "type": "window",
+    "hidden": true,
+    "autoStart": false,
+    "details": {
+        "url": "https://example.com/my-service-window",
+        "hidden": true
+    }
+}
+```
+
+*Note that service windows aren't closed when restoring a [Layout](../windows/layouts/overview/index.html).*
+
+*For more details, see the [Developers > Configuration > Application](../../developers/configuration/application/index.html#app_configuration-service_window) section and the [app configuration schema](../../assets/configuration/application.json).*
+
+## Citrix Apps
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.12">
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) provides *experimental* support for Citrix Virtual Apps. Citrix applications can participate in the Glue42 environment as first-class citizens - they can be configured and added to the Glue42 Toolbar, saved in Layouts and Workspaces, and can use all Glue42 functionalities like Interop, Channels, etc.
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) provides *experimental* support for Citrix Virtual Apps. Citrix apps can participate in the Glue42 environment as first-class citizens - they can be configured and added to the Glue42 Toolbar, saved in Layouts and Workspaces, and can use all Glue42 functionalities like Interop, Channels, etc.
 
-Additionally, [**Glue42 Enterprise**](https://glue42.com/enterprise/) can be run as a Citrix Virtual App itself, in which case any other Virtual Apps from the same VDA can be configured as normal applications. See [Dynamic Gateway Port](../../developers/configuration/system/index.html#dynamic_gateway_port) for configuration specifics.
+Additionally, [**Glue42 Enterprise**](https://glue42.com/enterprise/) can be run as a Citrix Virtual App itself, in which case any other Virtual Apps from the same VDA can be configured as normal apps. See [Dynamic Gateway Port](../../developers/configuration/system/index.html#dynamic_gateway_port) for configuration specifics.
 
-For more details on configuring a Citrix application, see the [Application Configuration](../../developers/configuration/application/index.html#application_configuration-citrix_app) section. For details on configuring the system-wide Citrix Virtual Apps support, see the [System Configuration](../../developers/configuration/system/index.html#citrix_apps) section.
+For more details on configuring a Citrix app, see the [Developers > Configuration > Application](../../developers/configuration/application/index.html#app_configuration-citrix_app) section. For details on configuring the system-wide Citrix Virtual Apps support, see the [System Configuration](../../developers/configuration/system/index.html#citrix_apps) section.
 
 *Note that this feature is experimental – although it has been properly tested, additional tests and adjustments might be necessary for your specific Citrix environment.*
 
@@ -30,105 +70,77 @@ To Glue42 enable a .NET Citrix app:
 
 1. In your Visual Studio project, reference the `Glue42.dll` available in the [Glue42 NuGet package](https://www.nuget.org/packages/Glue42/).
 
-2. Follow the standard procedure for [Glue42 enabling .NET applications](../../getting-started/how-to/glue42-enable-your-app/net/index.html). 
+2. Follow the standard procedure for [Glue42 enabling .NET apps](../../getting-started/how-to/glue42-enable-your-app/net/index.html).
 
-3. After initializing Glue42, you can check whether your application is connected to Glue42 in the following manner: 
+3. After initializing Glue42, you can check whether your app is connected to Glue42 in the following manner:
 
-```csharp 
-using Tick42.StartingContext; 
-if (InitializeOptions.IsCitrixGD) 
+```csharp
+using Tick42.StartingContext;
+if (InitializeOptions.IsCitrixGD)
 {
-    // Running in Citrix, connected to Glue42 Enterprise. 
-} 
-else if (InitializeOptions.IsCitrixVirtualApp) 
+    // Running in Citrix, connected to Glue42 Enterprise.
+}
+else if (InitializeOptions.IsCitrixVirtualApp)
 {
     // Running in Citrix, not connected to Glue42 Enterprise.
 }
 ```
 
-When your Citrix app is connected to [**Glue42 Enterprise**](https://glue42.com/enterprise/), you may want to remove any custom window decorations, since the top-level window chrome will be handled by [**Glue42 Enterprise**](https://glue42.com/enterprise/). 
+When your Citrix app is connected to [**Glue42 Enterprise**](https://glue42.com/enterprise/), you may want to remove any custom window decorations, since the top-level window chrome will be handled by [**Glue42 Enterprise**](https://glue42.com/enterprise/).
 
-4. Add `%**` to the application arguments in the Citrix Application Settings:
+4. Add `%**` to the app arguments in the Citrix Application Settings:
 
 ![Citrix Application Settings](../../images/citrix/citrix-settings-net.png)
 
-5. Configure your application as a [Glue42 Citrix app](../../developers/configuration/application/index.html#application_configuration-citrix_app).
+5. Configure your app as a [Glue42 Citrix app](../../developers/configuration/application/index.html#app_configuration-citrix_app).
 
-You will now be able to run your .NET Citrix application from [**Glue42 Enterprise**](https://glue42.com/enterprise/) and interoperate with it using the various Glue42 APIs.
+You will now be able to run your .NET Citrix app from [**Glue42 Enterprise**](https://glue42.com/enterprise/) and interoperate with it using the various Glue42 APIs.
 
 ### Java Citrix Apps
 
 To Glue42 enable a Java Citrix app:
 
-1. Follow the standard procedure for [Glue42 enabling Java applications](../../getting-started/how-to/glue42-enable-your-app/java/index.html).  
+1. Follow the standard procedure for [Glue42 enabling Java apps](../../getting-started/how-to/glue42-enable-your-app/java/index.html).
 
-2. In the Citrix Application Settings, set the path to a `javaw.exe` or `java.exe` file, use standard VM arguments to launch your Java app, and add `%**` at the end of the application arguments:
+2. In the Citrix Application Settings, set the path to a `javaw.exe` or `java.exe` file, use standard VM arguments to launch your Java app, and add `%**` at the end of the app arguments:
 
 ![Citrix Application Settings](../../images/citrix/citrix-settings-java.png)
 
-3. Configure your application as a [Glue42 Citrix app](../../developers/configuration/application/index.html#application_configuration-citrix_app).
+3. Configure your app as a [Glue42 Citrix app](../../developers/configuration/application/index.html#app_configuration-citrix_app).
 
-You will now be able to run your Java Citrix application from [**Glue42 Enterprise**](https://glue42.com/enterprise/) and interoperate with it using the various Glue42 APIs.
-
-## Splash Screen
-
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) has a built-in splash screen, but also supports showing a custom splash screen. Your custom splash screen is loaded from a local file. 
-
-You can replace the splash screen HTML file in `%LocalAppData%\Tick42\GlueDesktop\assets\splash` with your own custom file. You can also set the size of the splash screen - the splash screen configuration can be set in the `system.json` file under the `"splash"` key:
-
-```json
-"splash": {
-        "width": 350,
-        "height": 233
-    }
-```
-
-![Splash](../../images/platform-features/splash.png)
-
-For the splash screen setup to work, you need to handle the following events: 
-
-```javascript
-// updateStatus event
-ipcRenderer.on("updateStatus", (event, arg) => {
-    console.log(`updating status to ${arg.text}`);
-    var status = document.getElementById("status");    
-    status.innerHTML = arg.text + "...";
-});
-
-// setVersion event
-ipcRenderer.on("setVersion", (event, arg) => {
-    var status = document.getElementById("version");
-    status.innerHTML = arg.text;
-});
-
-// setEdition event
-ipcRenderer.on("setEdition", (event, arg) => {
-    var edition = document.getElementById("version");
-    edition.innerHTML += ` (${arg.text})`;
-});
-
-// setEnvRegion event
-ipcRenderer.on("setEnvRegion", (event, arg) => {
-    var edition = document.getElementById("version");
-    edition.innerHTML += ` -${arg.text}`;
-});
-```
+You will now be able to run your Java Citrix app from [**Glue42 Enterprise**](https://glue42.com/enterprise/) and interoperate with it using the various Glue42 APIs.
 
 ## Preload Scripts
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.13">
 
-The [application configuration](../../developers/configuration/application/index.html) file allows you to specify preload scripts for an application. The preload scripts will be executed before the actual web app is loaded. Use the `"preloadScripts"` array of the `"details"` top-level key in the application configuration file to define the scripts and they will be executed in the specified order. This allows for easily injecting Glue42 functionality into third-party web applications over which you have little to no control.
+The [app configuration](../../developers/configuration/application/index.html) file allows you to specify preload scripts for an app. The preload scripts will be executed before the actual web app is loaded and before each `<iframe>` on the page. Use the `"preloadScripts"` array of the `"details"` top-level key in the app configuration file to define the scripts and they will be executed in the specified order. This allows for easily injecting Glue42 functionality into third-party web apps over which you have little to no control.
 
 The following example demonstrates defining two preload scripts by providing their respective URLs:
 
 ```json
-"details": {
-    ...
-    "preloadScripts": [
-        "https://my-domain.com/my-script.js",
-        "https://my-domain.com/my-other-script.js"
-    ]
+{
+    "details": {
+        "preloadScripts": [
+            "https://my-domain.com/my-script.js",
+            "https://my-domain.com/my-other-script.js"
+        ]
+    }
+}
+```
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.15">
+
+Preload scripts can be defined globally in the [system configuration](../../developers/configuration/system/index.html) of [**Glue42 Enterprise**](https://glue42.com/enterprise/). Use the `"preloadScripts"` property of the `"windows"` top-level key in the `system.json` file:
+
+```json
+{
+    "windows": {
+        "preloadScripts": [
+            "https://my-domain.com/my-script.js",
+            "https://my-domain.com/my-other-script.js"
+        ]
+    }
 }
 ```
 
@@ -139,8 +151,10 @@ The following example demonstrates defining two preload scripts by providing the
 When you install [**Glue42 Enterprise**](https://glue42.com/enterprise/), it is registered as the default handler of the Glue42 global protocol. The protocol is in the following format:
 
 ```cmd
-glue42://<option>/<identifier>[&args]
+glue42://<option>/<identifier>[?args&args]
 ```
+
+*To pass arguments when employing the different options of the Glue42 global protocol, use a single `?` after the identifier, except with `url` - use double `??` when passing arguments for the `url` protocol option. Use `&` between the arguments when specifying more than one argument.*
 
 The Glue42 global protocol allows you to create and send links which will open a URL in a Glue42 Window. You can also create links that will start a Glue42 enabled app, load a specified Workspace or Layout and even invoke Interop methods with custom arguments.
 
@@ -153,11 +167,13 @@ When the link is clicked, [**Glue42 Enterprise**](https://glue42.com/enterprise/
 The Glue42 global protocol can be configured from the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) using the `"potocolHandler"` top-level key:
 
 ```json
-"protocolHandler": { 
-    "enabled": true,
-    "allowOpeningURLs": { 
-        "allowed": ["https://glue42.com"], 
-        "forbidden": ["https://youtube.com/.*", "https://facebook.com/.*"]
+{
+    "protocolHandler": {
+        "enabled": true,
+        "allowOpeningURLs": {
+            "allowed": ["https://glue42.com"],
+            "forbidden": ["https://youtube.com/.*", "https://facebook.com/.*"]
+        }
     }
 }
 ```
@@ -166,9 +182,18 @@ The `"protocolHandler"` key has the following properties:
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `"enabled"` | `bolean` | If `true` (default), will enable the Glue42 global protocol handler. |
-| `"defaultExecutable"` | `string` | Path to an executable file that will be started if no other Glue42 instance is running. Defaults to the Glue42 executable file. |
-| `"allowOpeningURLs"` | `boolean` \| `object` | Specify allowed and forbidden URLs for the Glue42 global protocol handler. Can be set to a `boolean` value or to an `object` containing a list of allowed or forbidden URLs. If `true`, will allow handling of all URLs. |
+| `"enabled"` | `boolean` | If `true` (default), will enable the Glue42 global protocol handler. |
+| `"protocol"` | `string` | Custom name for the protocol prefix. Defaults to `"glue42"`. |
+| `"startNewInstance"` | `object` | If enabled, a new instance of Glue42 will be started when opening links with the Glue42 protocol handler. |
+| `"allowOpeningURLs"` | `boolean` \| `object` | If `true`, will allow handling all URLs. Can also be set to an object containing a list of allowed or forbidden URLs for the Glue42 global protocol handler. |
+
+The `"startNewInstance"` object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"enabled"` | `boolean` | If `true` (default), will allow starting a new instance of Glue42 when opening links with the Glue42 protocol handler. |
+| `"defaultExecutable"` | `object` | An object with two properties - `"path"` and `"args"`. The `"path"` property accepts a string path to an executable file that will be started if no other Glue42 instance is running. Defaults to the Glue42 executable file. The `"args"` property accepts a string array with items, each item representing a command line argument. Defaults to an empty array. Note that if you point the `"path"` property to a script file that in turn will launch [**Glue42 Enterprise**](https://glue42.com/enterprise/), then you must pass the startup arguments from the script to [**Glue42 Enterprise**](https://glue42.com/enterprise/). |
+| `"errorMessage"` | `string` | Message that will override the default error message displayed when starting a new Glue42 instance is disabled. |
 
 The `"allowOpeningURLs"` property can be set to an object with the following properties:
 
@@ -183,21 +208,21 @@ You can use exact URL values or regular expressions to specify allowed and forbi
 
 The Glue42 global protocol can be used in different formats depending on what you want to do.
 
-#### Applications
+#### Apps
 
-To start a Glue42 enabled application, use the `app` protocol option and pass the application name: 
+To start a Glue42 enabled app, use the `app` protocol option and pass the app name:
 
 ```cmd
 glue42://app/clientlist
 ```
 
-To pass startup options for a Glue42 enabled application, use `&` before each setting. The following example demonstrates passing a location and context for the started app:
+To pass startup options for a Glue42 enabled app, use `?` after the app identifier and `&` before each settings. The following example demonstrates passing a location and context for the started app:
 
 ```cmd
-glue42://app/clientlist&left=100&context.clientID=1
+glue42://app/clientlist?left=100&context.clientID=1
 ```
 
-*To specify a property of an object as an option, use the standard dot notation - e.g., `&context.clientID=42`.*
+*To specify a property of an object as an option, use the standard dot notation - e.g., `context.clientID=42`.*
 
 #### Layouts
 
@@ -215,13 +240,13 @@ To open a Workspace, use the `workspace` protocol option and pass the Workspace 
 glue42://workspace/StartOfDay
 ```
 
-To pass context for the Workspace, use `&context`:
+To pass context for the Workspace, use `context`:
 
 ```cmd
-glue42://workspace/StartOfDay&context.clientID=1
+glue42://workspace/StartOfDay?context.clientID=1
 ```
 
-*To specify a property of an object as an option, use the standard dot notation - e.g., `&context.clientID=42`.*
+*To specify a property of an object as an option, use the standard dot notation - e.g., `context.clientID=42`.*
 
 #### Glue42 Windows
 
@@ -231,13 +256,13 @@ To open a URL in a Glue42 Window, use the `url` protocol option and pass the URL
 glue42://url/https://google.com 
 ```
 
-To specify [Glue42 Window settings](../../reference/glue/latest/windows/index.html#WindowSettings) when opening a URL, use `&&` after the URL and `&` before each setting. The following example demonstrates passing a location for the newly opened window: 
+To specify [Glue42 Window settings](../../reference/glue/latest/windows/index.html#WindowSettings) when opening a URL, use `??` after the URL and `&` before each setting. The following example demonstrates passing a location for the newly opened window:
 
 ```cmd
-glue42://url/https://google.com&&left=100&top=200
+glue42://url/https://google.com??left=100&top=200
 ```
 
-*To specify a property of an object as a setting, use the standard dot notation - e.g., `&downloadSettings.autoSave=false`.*
+*To specify a property of an object as a setting, use the standard dot notation - e.g., `downloadSettings.autoSave=false`.*
 
 #### Interop Methods
 
@@ -247,10 +272,10 @@ To invoke an Interop method, use the `invoke` protocol option and pass the metho
 glue42://invoke/Shutdown
 ```
 
-To pass arguments and/or target when invoking an Interop method, use `&args` and `&target`:
+To pass arguments and/or target when invoking an Interop method, use `args` and `target`:
 
 ```cmd
-glue42://invoke/ShowClient&args.clientId=1&target=best
+glue42://invoke/ShowClient?args.clientId=1&target=best
 ```
 
 ## Downloading Files
@@ -261,22 +286,26 @@ glue42://invoke/ShowClient&args.clientId=1&target=best
 
 **Configuration**
 
-The file download behavior is controlled by the system configuration. It can be alternatively overridden by the application configuration. The system download behavior configuration can be set in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) from the `"downloadSettings"` property of the `"windows"` top-level key:
+The file download behavior is controlled by the system configuration. It can be alternatively overridden by the app configuration. The system download behavior configuration can be set in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) from the `"downloadSettings"` property of the `"windows"` top-level key:
 
 System configuration example:
 
 ```json
-"windows" {
-    "downloadSettings": {
-        "autoSave": true,
-        "autoOpenPath": false,
-        "autoOpenDownload": false,
-        "enable": true,
-        "enableDownloadBar": true,
-        "path": "%DownloadsFolder%"
+{
+    "windows": {
+        "downloadSettings": {
+            "autoSave": true,
+            "autoOpenPath": false,
+            "autoOpenDownload": false,
+            "enable": true,
+            "enableDownloadBar": true,
+            "path": "%DownloadsFolder%"
+        }
     }
 }
 ```
+
+The `"downloadSettings"` object has the following properties:
 
 | Property | Type | Description |
 |----------|------|-------------|
@@ -287,7 +316,7 @@ System configuration example:
 | `"enableDownloadBar"` | `boolean` | If `true`, a download bar tracking the progress will appear at the bottom of the window when downloading. If `false`, the download process will be invisible. |
 | `"path"` | `string` | Path where the downloaded file will be saved. Due to security reasons, it is only possible to provide two download paths: the Windows "Temp" or "Downloads" folder. |
 
-You can also override the default system download behavior in the application configuration JSON file:
+You can also override the default system download behavior in the app configuration JSON file:
 
 ```json
 {
@@ -315,8 +344,8 @@ When a user clicks on a download link in the website, the download will start an
 
 The user has options to:
 
-- cancel the download; 
-- pause and later resume the download; 
+- cancel the download;
+- pause and later resume the download;
 - open the downloaded file in the containing folder;
 
 **Invoking an Interop Method**
@@ -343,7 +372,7 @@ Download settings can also be specified using the [Window Management](../windows
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.13">
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) comes with a predefined application which can be used to open a URL in the default browser using the [Application Management API](../application-management/overview/index.html). The following example shows how to open a URL in the default browser by using the [JavaScript Application Management API](../application-management/javascript/index.html).
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) comes with a predefined app which can be used to open a URL in the default browser using the [App Management API](../application-management/overview/index.html). The following example shows how to open a URL in the default browser by using the [JavaScript App Management API](../application-management/javascript/index.html).
 
 Get the [`Application`](../../reference/glue/latest/appmanager/index.html#Application) instance by passing the name of the app - `"open-browser"`, invoke the [`start`](../../reference/glue/latest/appmanager/index.html#Application-start) method to start the app and pass a starting context with a `url` property holding the URL:
 
@@ -363,11 +392,11 @@ Search in web apps opened in Glue42 Windows just like in a browser with the `CTR
 
 ![Search](../../images/platform-features/search-document.gif)
 
-Use `ENTER` and `SHIFT + ENTER` to scroll through the results. Click `ESC` to close the search bar. 
+Use `ENTER` and `SHIFT + ENTER` to scroll through the results. Click `ESC` to close the search bar.
 
 ## Context Menu
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) has a right-click context menu available in all Glue42 apps for which it has been enabled. It offers standard cut/copy/paste actions, zoom and spelling controls: 
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) has a right-click context menu available in all Glue42 apps for which it has been enabled. It offers standard cut/copy/paste actions, zoom and spelling controls:
 
 ![Context menu](../../images/platform-features/context-menu.png)
 
@@ -378,29 +407,448 @@ Enable the context menu:
 ```json
 {
     "windows": {
-        ...
-        "contextMenu": true
+        "contextMenuEnabled": true
     }
 }
 ```
 
-- per application, under the `"details"` top-level key of the application configuration file:
+- per app, under the `"details"` top-level key of the app configuration file:
 
 ```json
 [
     {
-       ...
         "details": {
-            ...
             "contextMenuEnabled": true
         }
     }
 ]
 ```
 
+## Telemetry Data
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) exposes telemetry data containing info related to the system environment and the running web apps.
+
+On a system level, you can gather data about:
+
+- Focus duration, start and stop events for apps.
+- Step-by-step system startup flow events. Can be used to investigate slow startups.
+- All system log entries.
+- System CPU and memory usage.
+
+
+For web apps, you can gather data about:
+
+- All network request per app.
+- All app console logs.
+- Web page exceptions caught by the window [`"error"`](https://developer.mozilla.org/en-US/docs/Web/API/Window/error_event) event.
+- CPU and memory usage per process.
+
+Telemetry data events can also be cleared. To [get](#telemetry_data-getting_data) or [clear](#telemetry_data-clearing_data) telemetry data, you must [invoke](../data-sharing-between-apps/interop/javascript/index.html#method_invocation) the `"T42.Telemetry"` [Interop](../data-sharing-between-apps/interop/overview/index.html) method passing the respective command and configuration for getting or clearing telemetry data entries.
+
+### Configuration
+
+To enable or disable telemetry data, use the `"telemetry"` top-level key of the `system.json` [configuration file](../../../developers/configuration/system/index.html) of [**Glue42 Enterprise**](https://glue42.com/enterprise/):
+
+```json
+{
+    "telemetry": {
+        "enabled": false
+    }
+}
+```
+
+### Getting Data
+
+To get telemetry data, [invoke](../data-sharing-between-apps/interop/javascript/index.html#method_invocation) the `"T42.Telemetry"` [Interop](../data-sharing-between-apps/interop/overview/index.html) method. As a second argument for the invocation, pass an object with `command` and `config` properties. For the `command` property, use `"GetEvents"` as a value to specify that the method should get telemetry data. Use the `config` property to specify what type of telemetry data you want to receive - for the system environment, for the running web apps, or for both:
+
+```javascript
+// Name of the Interop method.
+const methodName = "T42.Telemetry";
+// Settings for the method invocation.
+const args = {
+    command: "GetEvents",
+    config: { system: true, apps: true }
+};
+// Invoking the "T42.Telemetry" method to get telemetry data.
+const result = await glue.interop.invoke(methodName, args);
+// Extracting the returned data object.
+const data = result.returned;
+
+console.log(data);
+```
+
+The object passed as an argument for the method invocation has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `command` | `"GetEvents"` \| `"ClearEvents"` | Specifies the action to execute - get or clear telemetry data. |
+| `config` | `object` | Specifies what type of telemetry data to get or clear. |
+
+The `config` object for requesting telemetry data has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `system` | `boolean` \| `object` | Specifies whether to get system data. Pass an object to refine the data request (see [Refining Telemetry Requests](#telemetry_data-refining_telemetry_requests)). |
+| `apps` | `boolean` \| `object` | Specifies whether to get web app data. Pass an object to refine the data request (see [Refining Telemetry Requests](#telemetry_data-refining_telemetry_requests)). |
+
+### Data Shape
+
+The object returned from the invocation of the `"T42.Telemetry"` Interop method when requesting telemetry data, has the following shape:
+
+```javascript
+const data = {
+    type: "gd",
+    data: {
+        system: {},
+        apps: [],
+        stores : {}
+    }
+};
+```
+
+The `system` object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `logErrors` | `object[]` | Each item of the array holds an error entry from the system logs. |
+| `startupEvents` | `object[]` | Each item of the array holds information about a single startup flow event. |
+| `journeyEvents` | `object[]` | Each item of the array holds information about focus duration, start and stop events for a specific web app. |
+| `perfData` | `object` | Holds information about overall and per app CPU and memory usage. |
+
+The `apps` property is an array of objects with the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `app` | `string` | The app name as defined in its configuration file. |
+| `instance` | `string` | Unique ID within the Glue42 environment. |
+| `info` | `object` | Contains specific data about the app - instance ID, API version, window type, URL and more. |
+| `requests` | `object[]` | Each item of the array holds information about a specific network request made by the app. |
+| `console` | `object[]` | Each item of the array holds information about a message logged to the console. |
+| `errors` | `object[]` | Each item of the array holds information about a web page exception caught by the window `"error"` event. |
+
+
+The `stores` object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `logs` | `object` | Contains information about the number of items in the store, the total store size and the time of the last update. |
+| `journeyEvents` | `object` | Contains information about the number of items in the store, the total store size and the time of the last update. |
+| `requests` | `object` | Contains information about the number of items in the store, the total store size and the time of the last update. |
+| `console` | `object` | Contains information about the number of items in the store, the total store size and the time of the last update. |
+
+### Refining Telemetry Requests
+
+When requesting telemetry data, you can specify what type of system and web app data entries you want to receive. Use the `system` and `apps` properties of the `config` object refine your telemetry request:
+
+```javascript
+const methodName = "T42.Telemetry";
+const args = {
+    command: "GetEvents",
+    config: {
+        // Omit data about startup flow events and CPU and memory usage.
+        system: { withStartupEvents: false, withPerfData: false },
+        // Omit data about console messages logged by web apps.
+        apps: { withConsole: false }
+    }
+};
+const result = await glue.interop.invoke(methodName, args);
+const data = result.returned;
+
+console.log(data);
+```
+
+The `system` property of the `config` object accepts an object with the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `withStartupEvents` | `boolean` | Whether to receive data about the system startup flow events. |
+| `withPerfData` | `boolean` | Whether to receive data about system CPU and memory usage. |
+| `withJourneyEvents` | `boolean` | Whether to receive data about focus duration, start and stop events for web apps. |
+| `withLog` | `boolean` | Whether to receive data about system log entries. |
+
+The `apps` property of the `config` object accepts an object with the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `withConsole` | `boolean` | Whether to receive data about console messages logged by web apps. |
+| `withRequests` | `boolean` | Whether to receive data about network requests made by web apps. |
+| `withErrors` | `boolean` | Whether to receive data about web page exceptions caught by the window `"error"` event.  |
+
+### Clearing Data
+
+To clear telemetry data, invoke the `"T42.Telemetry"` Interop method and pass `"ClearEvents"` as a value to the `command` property of the argument object for the method invocation. Use the `config` object to specify what type of telemetry data entries to clear:
+
+```javascript
+// Name of the Interop method.
+const methodName = "T42.Telemetry";
+// Settings for the method invocation.
+const args = {
+    command: "ClearEvents",
+    config: {
+        requests: true,
+        journeyEvents: true,
+        logs: true,
+        console: true
+    };
+};
+// Invoking the "T42.Telemetry" method to clear telemetry data.
+const result = await glue.interop.invoke(methodName, args);
+// Extracting the returned data object.
+const data = result.returned;
+
+// Will print an empty object, as all entries have been cleared.
+console.log(data);
+```
+
+The `config` object for clearing telemetry data has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `requests` | `boolean` | Whether to clear data about network requests made by web apps. |
+| `journeyEvents` | `boolean` | Whether to clear data about focus duration, start and stop events for web apps. |
+| `logs` | `boolean` | Whether to clear data about system log entries. |
+| `console` | `boolean` | Whether to clear data about console messages logged by web apps. |
+
+## Jump List
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.15">
+
+The jump list is a configurable categorized list of actions that can be shown in the context menu when the user right-clicks on a taskbar icon of a Glue42 enabled app or a group of such icons:
+
+![Jump List](../../images/platform-features/jump-list.png)
+
+*Note that currently the jump list isn't available for [web groups](../windows/window-management/overview/index.html#window_groups-web_groups).*
+
+### Configuration
+
+The jump list can be enabled, disabled and configured globally and per app. The [app configuration](../../developers/configuration/application/index.html#jump_list) will override the global [system configuration](../../developers/configuration/system/index.html#window_settings-jump_list).
+
+*Note that the jump list configuration allows you to enable or disable the jump list and configure the [predefined actions](#jump_list-predefined_actions) (e.g., change their names or icons), but in order to add custom jump list categories and actions for your apps, you must use the [jump list API](#jump_list-jump_list_api).*
+
+To configure the jump list system-wide, use the `"jumpList"` property of the `"windows"` top-level key in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/). The following is the default system jump list configuration:
+
+```json
+{
+    "windows": {
+        "jumpList": {
+            "enabled": true,
+            "categories": [
+                {
+                    "title": "Tasks",
+                    "actions": [
+                        {
+                            "icon": "%GDDIR%/assets/images/center.ico",
+                            "type": "centerScreen",
+                            "singleInstanceTitle": "Center on Primary Screen",
+                            "multiInstanceTitle": "Center all on Primary Screen"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
+```
+
+The `"jumpList"` object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"enabled"` | `boolean` | If `true` (default), will enable the jump list. |
+| `"categories"` | `object[]` | Categorized lists with actions to execute when the user clicks on them. |
+
+Each object in the `"categories"` array has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"title"` | `string` | Title of the category to be displayed in the context menu. |
+| `"actions"` | `object[]` | List of actions contained in the category. |
+
+Each object in the `"actions"` array has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `"icon"` | `string` | Icon for the action to be displayed in the context menu. Must point to a local file. |
+| `"type"` | `string` | Type of the [predefined action](#jump_list-predefined_actions) to execute. |
+| `"singleInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there is a single instance with a single taskbar icon. |
+| `"multiInstanceTitle"` | `string` | Title of the action to be displayed in the context menu when there are multiple instances with grouped taskbar icons. |
+
+To override the system configuration per app, use the `"jumpList"` property of the `"details"` top-level key in the [app configuration](../../developers/configuration/application/index.html) file. The following example demonstrates how to disable the jump list for an app:
+
+```json
+{
+    "title": "My App",
+    "type": "window",
+    "name": "my-app",
+    "details": {
+        "url": "https://downloadtestfiles.com/",
+        "jumpList": {
+            "enabled": false
+        }
+    }
+}
+```
+
+### Predefined Actions
+
+To use a predefined action, set the `"type"` property of the action object to the respective value (see [Jump List > Configuration](#jump_list-configuration)). The following are the currently supported predefined actions:
+
+- `"centerScreen"` - centers an app or a group of app instances on the primary screen. This action is extremely useful when you have many windows open on multiple displays and can't find the app you need. Use this action to find an app that: you may have moved to another screen or outside the screen bounds altogether; may be hidden behind other windows; may have been resized and become too small to notice; or may have simply blended visually with other apps:
+
+![Center on Primary](../../images/platform-features/jump-list-center.gif)
+
+- `"newWorkspace"` - opens a new [Workspace](../../glue42-concepts/windows/workspaces/overview/index.html). This action by default is part of the jump list for the Workspaces App. Clicking on the action opens a new empty Workspace in the last opened instance of the Workspaces App. If this action is part of the jump list for another app and the Workspaces App isn't currently open when the user clicks on the action, it will be started:
+
+![New Workspace](../../images/platform-features/jump-list-new-workspace.gif)
+
+### Jump List API
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
+
+The jump list API is accessible through the [`GDWindow`](../../reference/glue/latest/windows/index.html#GDWindow) object which describes an instance of a Glue42 Window:
+
+```javascript
+const myWindow = glue.windows.my();
+// Check whether the jump list is enabled for the current window.
+const isJumpListEnabled = await myWindow.jumpList.isEnabled();
+```
+
+#### Enable or Disable the Jump List
+
+To enable or disable the jump list dynamically, use the [`setEnabled()`](../../reference/glue/latest/windows/index.html#JumpList-setEnabled) method and pass a Boolean value as an argument:
+
+```javascript
+const myWindow = glue.windows.my();
+
+// Checking whether the jump list is enabled for the current window.
+const isJumpListEnabled = await myWindow.jumpList.isEnabled();
+
+if (!isJumpListEnabled) {
+    // Enabling the jump list.
+    await myWindow.jumpList.setEnabled(true);
+};
+```
+
+#### Categories
+
+Jump list categories are used for grouping actions in a section under a common name. You can find a category by name, get a list of all available categories, create a new category or remove an existing one. The categories API is accessible through the `jumpList.categories` object.
+
+To find a category by name, use the [`find()`](../../reference/glue/latest/windows/index.html#JumpListCategoriesAPI-find) method:
+
+```javascript
+const myCategory = await myWindow.jumpList.categories.find("My Category");
+```
+
+To get a list of all available categories, use the [`list()`](../../reference/glue/latest/windows/index.html#JumpListCategoriesAPI-list) method:
+
+```javascript
+const categoryList = await myWindow.jumpList.categories.list();
+```
+
+To create a category, use the [`create()`](../../reference/glue/latest/windows/index.html#JumpListCategoriesAPI-create) method. Pass a title for the category and a list of [`JumpListActionSettings`](../../reference/glue/latest/windows/index.html#JumpListActionSettings) objects describing the actions in the category:
+
+```javascript
+// Category settings.
+const title = "My Category";
+const actions = [
+   {
+        // Icon for the action. Must point to a local file.
+        icon: "../images/action-one.ico",
+        // Callback that will be executed when the user clicks on the action.
+        callback: () => console.log("Action 1"),
+        // Title of the action when there is a single instance with a single taskbar icon.
+        singleInstanceTitle: "Execute Action 1",
+        // Title of the action when there are multiple instances with grouped taskbar icons.
+        multiInstanceTitle: "Execute Action 1 for All"
+    },
+    {
+        icon: "../images/action-two.ico",
+        callback: () => console.log("Action 2"),
+        singleInstanceTitle: "Execute Action 2",
+        multiInstanceTitle: "Execute Action 2 for All"
+    }
+];
+
+// Creating a category.
+await myWindow.jumpList.categories.create(title, actions);
+```
+
+To remove a category, use the [`remove()`](../../reference/glue/latest/windows/index.html#JumpListCategoriesAPI-remove) method and pass the category title as an argument:
+
+```javascript
+await myWindow.jumpList.categories.remove("My Category");
+```
+
+#### Actions
+
+Each [`JumpListCategory`](../../reference/glue/latest/windows/index.html#JumpListCategory) object has an `actions` property through which you can access the actions API. You can create, remove or list all available actions in the current category.
+
+To get a list of all available actions in a category, use the [`list()`](../../reference/glue/latest/windows/index.html#JumpListActionsAPI-list) method:
+
+```javascript
+const myCategory = await myWindow.jumpList.categories.find("My Category");
+
+const actions = await myCategory.actions.list();
+```
+
+To create an action in a category, use the [`create()`](../../reference/glue/latest/windows/index.html#JumpListActionsAPI-create) method. Pass a list of [`JumpListActionSettings`](../../reference/glue/latest/windows/index.html#JumpListActionSettings) objects describing the actions.
+
+The following example demonstrates creating an action in the "Tasks" category that will toggle the Glue42 theme:
+
+```javascript
+// Finding a category.
+const category = await myWindow.jumpList.categories.find("Tasks");
+// Action settings.
+const actions = [
+    {
+        icon: "../images/toggle-theme.ico",
+        // This action will toggle the Glue42 theme.
+        callback: async () => {
+            const currentTheme = await glue.themes.getCurrent();
+            if (currentTheme.name === "dark") {
+                glue.themes.select("light");
+            } else {
+                glue.themes.select("dark");
+            };
+        },
+        singleInstanceTitle: "Toggle Theme",
+        multiInstanceTitle: "Toggle Theme"
+    }
+];
+
+// Creating actions for an existing category.
+await category.actions.create(actions);
+```
+
+![Jump List Action](../../images/platform-features/jump-list-action.gif)
+
+To remove one or more actions from a category, use the [`remove()`](../../reference/glue/latest/windows/index.html#JumpListActionsAPI-remove) method and pass a list of [`JumpListActionSettings`](../../reference/glue/latest/windows/index.html#JumpListActionSettings) objects to remove:
+
+```javascript
+const actions = [
+   {
+        icon: "../images/action-one.ico",
+        callback: () => console.log("Action 1"),
+        singleInstanceTitle: "Execute Action 1",
+        multiInstanceTitle: "Execute Action 1 for All"
+    },
+    {
+        icon: "../images/action-two.ico",
+        callback: () => console.log("Action 2"),
+        singleInstanceTitle: "Execute Action 2",
+        multiInstanceTitle: "Execute Action 2 for All"
+    }
+];
+
+// Removing actions from a category.
+await category.actions.remove(actions);
+```
+
 ## Hotkeys
 
-The Hotkeys API allows applications to register key combinations and receive notifications when a key combination is pressed by the user irrespective of whether the application is on focus or not. Hotkeys is useful for web applications that do not have access to system resources and cannot register global shortcuts.
+The Hotkeys API allows apps to register key combinations and receive notifications when a key combination is pressed by the user irrespective of whether the app is on focus or not. Hotkeys is useful for web apps that don't have access to system resources and can't register global shortcuts.
 
 ### Configuration
 
@@ -423,13 +871,13 @@ The hotkeys object has the following properties:
 | Property | Type | Description |
 |----------|------|-------------|
 | `"enabled"` | `boolean` | If `true`, hotkeys will be enabled. |
-| `"whitelist"` | `string[]` | List of applications that can register hotkeys. Any app not on the list won't be able to register hotkeys. |
-| `"blacklist"` | `string[]` | List of applications that can't register hotkeys. Any app not on the list will be able to register hotkeys. |
-| `"reservedHotkeys"` | `string[]` | List of reserved (system or other) hotkeys that can't be overridden by other applications. |
+| `"whitelist"` | `string[]` | List of apps that can register hotkeys. Any app not on the list won't be able to register hotkeys. |
+| `"blacklist"` | `string[]` | List of apps that can't register hotkeys. Any app not on the list will be able to register hotkeys. |
+| `"reservedHotkeys"` | `string[]` | List of reserved (system or other) hotkeys that can't be overridden by other apps. |
 
 ### Hotkeys API
 
-The Hotkeys API is accessible through the [`glue.hotkeys`](../../reference/glue/latest/hotkeys/index.html) object. To register a hotkey, your application must be using a Glue42 JavaScript version newer than 4.3.5.
+The Hotkeys API is accessible through the [`glue.hotkeys`](../../reference/glue/latest/hotkeys/index.html) object. To register a hotkey, your app must be using a Glue42 JavaScript version newer than 4.3.5.
 
 To register a hotkey, use the [`register()`](../../reference/glue/latest/hotkeys/index.html#API-register) method:
 
@@ -464,13 +912,13 @@ await glue.hotkeys.unregisterAll();
 To check if your app has registered a specific hotkey, use the [`isRegistered()`](../../reference/glue/latest/hotkeys/index.html#API-isRegistered) method:
 
 ```javascript
-// Returns a boolean value.
+// Returns a Boolean value.
 const isRegistered = glue.hotkeys.isRegistered("shift+alt+c");
 ```
 
 ### Hotkeys View
 
-There is a utility view that allows you to see all hotkeys registered by different applications. You can open it from the [**Glue42 Enterprise**](https://glue42.com/enterprise/) tray icon menu - right-click on the tray icon to display the menu. When you click on the Hotkeys item you will see a list of the hotkeys registered by your app:
+There is a utility view that allows you to see all hotkeys registered by different apps. You can open it from the [**Glue42 Enterprise**](https://glue42.com/enterprise/) tray icon menu - right-click on the tray icon to display the menu. When you click on the Hotkeys item you will see a list of the hotkeys registered by your app:
 
 ![Hotkeys](../../images/platform-features/hotkeys.gif)
 
@@ -478,17 +926,17 @@ For a complete list of the available Hotkeys API methods and properties, see the
 
 ## Zooming
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) supports zooming in and out of windows of JavaScript applications. Zooming can be controlled via configuration (system-wide or per application) or programmatically via the available methods/properties of a window instance.
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) supports zooming in and out of windows of JavaScript apps. Zooming can be controlled via configuration (system-wide or per app) or programmatically via the available methods/properties of a window instance.
 
 You can zoom in and out of windows in several ways:
 
-- `CTRL` + `=/-`;
-- `CTRL` + mouse scroll;
-- `CTRL` + `0` - resets to the default zoom factor;
+- `CTRL + =` (zoom in) and `CTRL + -` (zoom out);
+- `CTRL + MOUSE SCROLL`;
+- `CTRL + 0` - resets to the default zoom factor;
 - mouse pad gestures;
 - using the right-click context menu (if enabled);
 
-*Note that zooming is based on domain - i.e., if you open two applications with the same domain and change the zoom factor of one of them, the zoom factor of the other will change accordingly.*
+*Note that zooming is based on domain - i.e., if you open two apps with the same domain and change the zoom factor of one of them, the zoom factor of the other will change accordingly.*
 
 ![Zooming](../../images/platform-features/zooming.gif)
 
@@ -497,12 +945,14 @@ You can zoom in and out of windows in several ways:
 You can configure window zooming system-wide from the `system.json` file in the `%LocalAppData%\Tick42\GlueDesktop\config` folder. Use the `"zoom"` property under the `"windows"` top-level key:
 
 ```json
-"windows": {
-    "zoom": {
-        "enabled": true,
-        "mouseWheelZoom": true,
-        "factors": [25, 33, 50, 67, 75, 80, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500],
-        "defaultFactor": 100
+{
+    "windows": {
+        "zoom": {
+            "enabled": true,
+            "mouseWheelZoom": true,
+            "factors": [25, 33, 50, 67, 75, 80, 90, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500],
+            "defaultFactor": 100
+        }
     }
 }
 ```
@@ -514,7 +964,7 @@ You can configure window zooming system-wide from the `system.json` file in the 
 | `"factors"` | `number[]` | List of zoom factors to be used when the user zooms in or out of the window. The factors must be in ascending order and may have integer or floating point values. Zooming will only work with factor values within the range of 25 to 500. Avoid passing negative values when setting the zoom factor (via configuration or programmatically), as this will cause unexpected behavior.|
 | `"defaultFactor"` | `number` | Default zoom factor within the range of 25 to 500. Avoid negative values. |
 
-You can also enable zooming per application which will override the system-wide zoom configuration. Use the `"zoom"` property under the `"details"` top-level key of the application configuration file:
+You can also enable zooming per app which will override the system-wide zoom configuration. Use the `"zoom"` property under the `"details"` top-level key of the app configuration file:
 
 ```json
 [
@@ -551,23 +1001,23 @@ Zoom in:
 
 ```javascript
 // Will zoom in the window to the next factor in the "factors" array.
-await win.zoomIn(); 
+await win.zoomIn();
 ```
 
 Zoom out:
 
 ```javascript
 // Will zoom out the window to the previous factor in the "factors" array
-await win.zoomOut();  
+await win.zoomOut();
 ```
 
 Set a desired zoom factor:
 
 ```javascript
-await win.setZoomFactor(number); 
+await win.setZoomFactor(number);
 ```
 
-Carefully consider all cases if you intend to pass a zoom factor value based on a logic in your app. Negative values will cause unexpected behavior. Passing positive values lower than 25 will cause zoom out with a factor of 25, positive values higher than 500 will cause zoom in with a factor of 500 and passing zero as a factor will preserve the previous zoom factor. 
+Carefully consider all cases if you intend to pass a zoom factor value based on a logic in your app. Negative values will cause unexpected behavior. Passing positive values lower than 25 will cause zoom out with a factor of 25, positive values higher than 500 will cause zoom in with a factor of 500 and passing zero as a factor will preserve the previous zoom factor.
 
 Listening for zoom factor changes:
 
@@ -584,21 +1034,19 @@ unsubscribe();
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.9">
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) provides a way for applications to programmatically capture screenshots of the available monitors. Based on custom logic you can capture one or all monitors in order to save a snapshot of the visual state at a given moment.
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) provides a way for apps to programmatically capture screenshots of the available monitors. Based on custom logic you can capture one or all monitors in order to save a snapshot of the visual state at a given moment.
 
 ### Configuration
 
-To enable display capturing you must add the `"allowCapture"` property to your application configuration file and set it to `true`.
+To enable display capturing you must add the `"allowCapture"` property to your app configuration file and set it to `true`.
 
 ```json
 {
     "name": "MyApp",
     "type": "window",
-    ...
     "allowCapture": true,
     "details": {
         "url": "http://localhost:3000"
-        ...
     }
 }
 ```
@@ -621,7 +1069,7 @@ You can get the primary display with the [`getPrimary()`](../../reference/glue/l
 
 ```javascript
 // Returns the primary display.
-const primaryDisplay =  await glue.displays.getPrimary(); 
+const primaryDisplay =  await glue.displays.getPrimary();
 ```
 
 Example of finding and capturing the primary display:
@@ -639,7 +1087,7 @@ To get a specific display, use the [`get()`](../../reference/glue/latest/display
 const displayID = 2528732444;
 
 // returns a display by ID
-const display = await glue.displays.get(displayID); 
+const display = await glue.displays.get(displayID);
 ```
 
 #### The Display Object
@@ -660,7 +1108,7 @@ The [`Display`](../../reference/glue/latest/displays/index.html#Display) object 
 
 #### Capturing All Displays
 
-To capture all displays, use the [`captureAll()`](../../reference/glue/latest/displays/index.html#API-captureAll) method. It accepts a [`CaptureAllOptions`](../../reference/glue/latest/displays/index.html#CaptureAllOptions) object and returns a `base64` encoded string or an array of `base64` encoded strings depending on the specified [`combined`](../../reference/glue/latest/displays/index.html#CaptureAllOptions-combined) option.
+To capture all displays, use the [`captureAll()`](../../reference/glue/latest/displays/index.html#API-captureAll) method. It accepts a [`CaptureAllOptions`](../../reference/glue/latest/displays/index.html#CaptureAllOptions) object and returns a Base64 encoded string or an array of Base64 encoded strings depending on the specified [`combined`](../../reference/glue/latest/displays/index.html#CaptureAllOptions-combined) option.
 
 The following example demonstrates how to capture all available displays and combine the screenshots into a single image with `width` set to 2000 pixels. The aspect ratio of the combined images will be preserved (the omitted [`keepAspectRatio`](../../reference/glue/latest/displays/index.html#AbsoluteSizeOptions-keepAspectRatio) property in the `size` object defaults to `true`) and the images will be arranged the way you have arranged your displays from your operating system settings:
 
@@ -677,9 +1125,9 @@ The [`CaptureAllOptions`](../../reference/glue/latest/displays/index.html#Captur
 
 #### Capturing a Single Display
 
-To capture a single display, use the `capture()` method at top level of the API or on a [`Display`](../../reference/glue/latest/displays/index.html#Display) instance. 
+To capture a single display, use the `capture()` method at top level of the API or on a [`Display`](../../reference/glue/latest/displays/index.html#Display) instance.
 
-When you use the [`capture()`](../../reference/glue/latest/displays/index.html#API-capture) method at top level of the API, pass a [`CaptureOptions`](../../reference/glue/latest/displays/index.html#CaptureOptions) object. The following example demonstrates how to use the display ID to find and capture the desired display and also how to specify capturing options. The `width` and `height` of the output image will be half the width and height of the captured monitor. The captured image is returned as a `base64` encoded string: 
+When you use the [`capture()`](../../reference/glue/latest/displays/index.html#API-capture) method at top level of the API, pass a [`CaptureOptions`](../../reference/glue/latest/displays/index.html#CaptureOptions) object. The following example demonstrates how to use the display ID to find and capture the desired display and also how to specify capturing options. The `width` and `height` of the output image will be half the width and height of the captured monitor. The captured image is returned as a Base64 encoded string:
 
 ```javascript
 const displayID = 2528732444;
@@ -698,7 +1146,7 @@ The [`CaptureOptions`](../../reference/glue/latest/displays/index.html#CaptureOp
 | `id` | `number` | **Required**. ID of the targeted display. |
 | `size` | `object` | *Optional*. Accepts either a [`ScaleOptions`](../../reference/glue/latest/displays/index.html#ScaleOptions) or an [`AbsoluteSizeOptions`](../../reference/glue/latest/displays/index.html#AbsoluteSizeOptions) object, specifying the size of the output image. |
 
-The [`ScaleOptions`](../../reference/glue/latest/displays/index.html#ScaleOptions) object has only one property - `scale`, which accepts a number. The value you pass to it specifies the size of the output image relative to the actual screen size. For instance, if you use `scale: 0.5` the height and width of the output image will be half the height and width of the captured screen. 
+The [`ScaleOptions`](../../reference/glue/latest/displays/index.html#ScaleOptions) object has only one property - `scale`, which accepts a number. The value you pass to it specifies the size of the output image relative to the actual screen size. For instance, if you use `scale: 0.5` the height and width of the output image will be half the height and width of the captured screen.
 
 The [`AbsoluteSizeOptions`](../../reference/glue/latest/displays/index.html#AbsoluteSizeOptions) object has the following properties, all of which are optional:
 
@@ -752,36 +1200,29 @@ For a complete list of the available Displays API methods and properties, see th
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.9">
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) offers a [Logger](../../reference/glue/latest/logger/index.html) API which enables JavaScript applications to create a hierarchy of sub-loggers mapped to application components where you can control the level of logging for each component. You can also route the output of log messages (depending on the logging level) to a variety of targets - the developer console or an external output (usually a rolling file on the desktop, but actually any target the `log4net` library supports).
+[**Glue42 Enterprise**](https://glue42.com/enterprise/) offers a [Logger](../../reference/glue/latest/logger/index.html) API which enables JavaScript apps to create a hierarchy of sub-loggers mapped to app components where you can control the level of logging for each component. You can also route the output of log messages (depending on the logging level) to a variety of targets - the developer console or an external output (usually a rolling file on the desktop, but actually any target the `log4net` library supports).
 
-### Logging to Files from Your JavaScript Application
+*Note that you can also customize the logging mechanism of [**Glue42 Enterprise**](https://glue42.com/enterprise/) through its [logging configuration](../../developers/configuration/system/index.html#logging).*
 
-Adding logging to files to your JavaScript apps can be helpful in a variety of ways. Having a well-designed and meaningful logging structure in your apps and their components can save a lot of time when debugging an app during development or troubleshooting problems with an app in production. 
+Adding logging to files to your JavaScript apps can be helpful in a variety of ways. Having a well-designed and meaningful logging structure in your apps and their components can save a lot of time when debugging an app during development or troubleshooting problems with an app in production.
 
-*Logging to files for JavaScript applications is available from Glue42 JavaScript version 4.8.0 or later and [**Glue42 Enterprise**](https://glue42.com/enterprise/) 3.9 or later.*
+### Configuration
 
-### Logging Configuration
-
-Logging for applications in [**Glue42 Enterprise**](https://glue42.com/enterprise/) is disabled by default. To allow it, add an `"allowLogging"` key to your application configuration file and set it to `true`:
+Logging for apps in [**Glue42 Enterprise**](https://glue42.com/enterprise/) is disabled by default. To allow it, use the `"allowLogging"` top-level key in the [app configuration](../../developers/configuration/application/index.html) file:
 
 ```json
 {
-    "name": "my-app",
-    ...
-    "allowLogging": true,
-    "details": {
-        ...
-    }
+    "allowLogging": true
 }
 ```
 
-### Using a Logger
+### Logger API
 
 The Logger API is accessible through the [`glue.logger`](../../reference/glue/latest/logger/index.html) object.
 
-Logger instances have a [`subLogger()`](../../reference/glue/latest/logger/index.html#API-subLogger) method that creates a new sub-logger of the current logger. The name of each logger instance is a dot delimited string containing all names of the loggers constituting an hierarchy line from the base logger (the application name) down to the current logger. This allows an effective and intuitive logging structure which can be easily adjusted to the component hierarchy in your app. For instance, a structure like `app-name.main-component.sub-component` gives you a clear idea from where the respective log entry originates and helps you find the necessary information much faster in a log file that may (and usually does) contain thousands of entries.
+Logger instances have a [`subLogger()`](../../reference/glue/latest/logger/index.html#API-subLogger) method that creates a new sub-logger of the current logger. The name of each logger instance is a dot delimited string containing all names of the loggers constituting an hierarchy line from the base logger (the app name) down to the current logger. This allows an effective and intuitive logging structure which can be easily adjusted to the component hierarchy in your app. For instance, a structure like `app-name.main-component.sub-component` gives you a clear idea from where the respective log entry originates and helps you find the necessary information much faster in a log file that may (and usually does) contain thousands of entries.
 
-To use a logger in your Glue42 enabled applications, create a logger instance with the `subLogger()` method and assign the logger a name:
+To use a logger in your Glue42 enabled apps, create a logger instance with the `subLogger()` method and assign the logger a name:
 
 ```javascript
 const logger = glue.logger.subLogger("main-component");
@@ -799,17 +1240,17 @@ To log messages, either use the [`log()`](../../reference/glue/latest/logger/ind
 
 ```javascript
 // The log() method accepts a message and logging level as arguments.
-logger.log("Could not load component!", "error");
+logger.log("Couldn't load component!", "error");
 
 // or
 
 // Each logging level method accepts only a message as an argument.
-logger.error("Could not load component!");
+logger.error("Couldn't load component!");
 ```
 
 ### Location and Output
 
-User application log files are located in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\logs\applications` folder, where `<ENV-REG>` should be replaced by the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). A separate log file is created for each application that has logging enabled. The file is named after the application and is created after the app starts to output log entries. All instances of an application log to the same file.
+User app log files are located in the `%LocalAppData%\Tick42\UserData\<ENV>-<REG>\logs\applications` folder, where `<ENV>-<REG>` must be replaced with the environment and region of your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy (e.g., `T42-DEMO`). A separate log file is created for each app that has logging enabled. The file is named after the app and is created after the app starts to output log entries. All instances of an app log to the same file.
 
 The log file entries are in the following format:
 
@@ -827,20 +1268,114 @@ Here is how an actual entry in a log file looks like:
 
 For a complete list of the available Logger API methods and properties, see the [Logger API Reference Documentation](../../reference/glue/latest/logger/index.html).
 
+## Cookies
+
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.16">
+
+Web apps can retrieve, filter, set and remove cookies programmatically by using the Glue42 Cookies API.
+
+### Configuration
+
+By default, Glue42 enabled web apps aren't allowed to manipulate cookies. To allow an app to manipulate cookies, use the `"allowCookiesManipulation"` property of the `"details"` top-level key in the [app configuration](../../developers/configuration/application/index.html) file:
+
+```json
+{
+    "details": {
+        "allowCookiesManipulation": true
+    }
+}
+```
+
+### Cookies API
+
+The Cookies API is accessible through the [`glue.cookies`](../../reference/glue/latest/cookies/index.html) object.
+
+#### Get
+
+To retrieve all cookies, use the [`get()`](../../reference/glue/latest/cookies/index.html#API-get) method:
+
+```javascript
+const allCookies = await glue.cookies.get();
+```
+
+The [`get()`](../../reference/glue/latest/cookies/index.html#API-get) method returns a list of [`Cookie`](../../reference/glue/latest/cookies/index.html#Cookie) objects.
+
+To filter the cookies, pass a [`CookiesGetFilter`](../../reference/glue/latest/cookies/index.html#CookiesGetFilter) object with the properties which you want to use as a filter.
+
+The following example demonstrates filtering cookies by domain:
+
+```javascript
+const filter = { domain: "glue42.com" };
+
+// Get a list of cookies for the same domain.
+const filteredCookies = await glue.cookies.get(filter);
+```
+
+The [`CookiesGetFilter`](../../reference/glue/latest/cookies/index.html#CookiesGetFilter) object has the following optional properties, which you can use in any combination to filter the cookies:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `url` | `string` | Retrieves the cookies which are associated with the specified URL. If not specified, will retrieve the cookies for all URLs. |
+| `name` | `string` | Filters the cookies by name. |
+| `domain` | `string` | Retrieves the cookies whose domains match or are subdomains of the specified domain. |
+| `path` | `string` | Retrieves the cookies whose path matches the specified path. |
+| `secure` | `boolean` | Filters cookies by their `Secure` attribute. |
+| `session` | `boolean` | If `true`, will return only the session cookies. If `false`, will return only the persistent cookies. |
+
+#### Set
+
+To create a cookie, use the [`set()`](../../reference/glue/latest/cookies/index.html#API-set) method. It accepts as a required argument a [`CookiesSetDetails`](../../reference/glue/latest/cookies/index.html#CookiesSetDetails) object with a required `url` property:
+
+```javascript
+const cookie = {
+    url: "https://example.com",
+    name: "MyCookie",
+    value: "42"
+};
+
+await glue.cookies.set(cookie);
+```
+
+The [`CookiesSetDetails`](../../reference/glue/latest/cookies/index.html#CookiesSetDetails) object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `url` | `string` | **Required.** URL to associate with the cookie. |
+| `name` | `string` | Name for the cookie. |
+| `value` | `string` | Value for the cookie. |
+| `domain` | `string` | Domain for the cookie. Will be normalized with a preceding dot in order to be valid for subdomains too. |
+| `path` | `string` | Path for the cookie. |
+| `secure` | `boolean` | If `true`, the cookie will be marked with a `Secure` attribute. Default is `false`, unless the `SameSite` attribute has been set to `None`. |
+| `httpOnly` | `boolean` | If `true`, the cookie will be marked with an `HttpOnly` attribute. Default is `false`. |
+| `expirationDate` | `number` | The expiration date of the cookie as a number of seconds since the UNIX epoch. If not specified, the cookie will become a session cookie and won't be persisted between sessions. |
+| `sameSite` | `"unspecified"` \| `"no_restriction"` \| `"lax"` \| `"strict"` | The value to be applied to the `SameSite` attribute. If set to `"no_restriction"`, the `secure` property will be set automatically to `true`. Default is `"lax"`. |
+
+#### Remove
+
+To remove a cookie, use the [`remove()`](../../reference/glue/latest/cookies/index.html#API-remove) method and pass the cookie URL and name:
+
+```javascript
+const url = "https://example.com";
+const name = "MyCookie";
+
+await glue.cookies.remove(url, name);
+```
+
 ## Accessing OS Info
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.13">
 
-You can allow applications to access OS information (list of running processes, OS version, Glue42 start time) through their [application configuration](../../developers/configuration/application/index.html). The information can then be retrieved through the `glue42gd` object injected in the global `window` object when the application is started.
+You can allow apps to access OS information (list of running processes, OS version, Glue42 start time) through their [app configuration](../../developers/configuration/application/index.html). The information can then be retrieved through the `glue42gd` object injected in the global `window` object when the app is started.
 
 ### Configuration
 
 Set the `"allowOSInfo"` property to `true` in the `"details"` top-level key to allow an app to access OS information:
 
 ```json
-"details": {
-    ...
-    "allowOSInfo": true
+{
+    "details": {
+        "allowOSInfo": true
+    }
 }
 ```
 
@@ -862,156 +1397,32 @@ const version = glue42gd.os.getVersion();
 const startTime = glue42gd.glue42StartTime;
 ```
 
-## Process Reuse
+## Clearing DNS & HTTP Cache
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) is an Electron based application and as such uses the built-in [process management](https://electronjs.org/docs/tutorial/application-architecture#main-and-renderer-processes) mechanisms of Electron - each window has a separate renderer process. This, however, may lead to a large memory footprint. The concept of process reuse helps you achieve balance between performance and consumption of system resources.
+<glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.17">
 
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) offers configurable grouping of application instances in a single process. Process reuse can be configured both on a system from the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) or on an application level from the respective application configuration file. 
+To allow an app to clear the DNS or HTTP cache, use the `"allowClearingCache"` top-level key of the [app configuration](../../../developers/configuration/application/index.html) file. Methods for clearing the cache are available on the `glue42gd` object attached to the global `window` object.
 
-Below are described some basic use-cases and the configurations needed for them. Use the [Applications View](../../getting-started/how-to/use-glue42/index.html#applications_view) to monitor how applications are grouped in the processes:
-
-- If you want every instance of your app to go into a dedicated process, go to the `"details"` top-level key of your application configuration and set the `"dedicatedProcess"` property of the `"processAffinity"` key to `true`:
+Allowing an app to clear cache:
 
 ```json
-"details": {
-    ...
-    "processAffinity": {
-        "dedicatedProcess": true
-    }
+{
+    "allowClearingCache": true
 }
 ```
 
-![Process Reuse](../../images/platform-features/dedicated-process.png)
+Clearing HTTP and DNS cache:
 
-- If you want to group all instances of your application into a single process, assign a unique string value to the `"affinity"` property of the `"processAffinity"` key in your application configuration file:
-
-```json
-"details": {
-    ...
-    "processAffinity": {
-        "affinity": "XYZ"
-    }
-}
+```javascript
+// Clearing the HTTP cache.
+await glue42gd.clearCache();
+// Clearing the DNS cache.
+await glue42gd.clearHostResolverCache();
 ```
-
-*Note that the number of instances that can be grouped into a single process is restricted by the value of the `"maxAppsInProcess"` property in the global process reuse configuration in the `system.json` file. Set it to a high number (e.g. `"maxAppsInProcess": 1000`) in order to be able to group all instances of your app in a single process with the `"affinity"` property.*
-
-![Process Reuse](../../images/platform-features/same-app-affinity.png)
-
-- If you want to group several apps into a single process, assign the same string value to the `"affinity"` property of the `"processAffinity"` key in the application configuration file of each app:
-
-Client List app:
-
-```json
-"name": "clientlist",
-...
-"details": {
-    ...
-    "processAffinity": {
-        "affinity": "XYZ"
-    }
-}
-```
-
-Portfolio app:
-
-```json
-"name": "portfolio",
-...
-"details": {
-    ...
-    "processAffinity": {
-        "affinity": "XYZ"
-    }
-}
-```
-
-*Again, consider setting the global process reuse configuration in the `system.json` file in order to achieve the desired results when grouping applications and application instances in a process. The `"maxAppsInProcess"` defines the maximum number of (any) instances that can go in the process and the `appSlotSize` property defines how many slots in that process are reserved for instances of the same application.*
-
-![Process Reuse](../../images/platform-features/two-apps-affinity.png)
-
-- If you want to increase the number of apps in a single process, use the `"maxAppsInPocess"` property of the global process reuse configuration in the `system.json` file:
-
-```json
-"processReuse": {
-        "enabled": true,
-        "visibleApps": {
-            "maxAppsInProcess": 50,
-            "appSlotSize": 2
-        },
-        "hiddenApps": {
-            "maxAppsInProcess": 20,
-            "appSlotSize": 1
-        }
-    }
-```
-
-### System Configuration
-
-Configure process reuse on a system level for both visible and hidden apps using the `"processReuse"` top-level key of the `system.json` file:
-
-```json
-"processReuse": {
-    "enabled": true,
-    "visibleApps": {
-        "maxAppsInProcess": 12,
-        "appSlotSize": 3
-    },
-    "hiddenApps": {
-        "maxAppsInProcess": 20,
-        "appSlotSize": 1
-    }
-}
-```
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `"enabled"` | `boolean` | If `true`, will enable process reuse. |
-| `"maxAppsInProcess"` | `number` | The maximum number of application instances in a process (maximum slots in a process). |
-| `"appSlotSize"` | `number` | Sets the number of slots reserved for instances of the same application within a process. The total number of slots in the process is defined by the `"maxAppsInProcess"`. |
-
-If you want more apps to use the same process, increase the `"maxAppsInProcess"` value or decrease the `"appSlotSize"` value. If you set `"maxAppsInProcess"` to 1, then all apps and their instances will be in separate processes.
-
-The settings for visible apps in the example above (`{ "maxAppsInProcess": 12, "appSlotSize": 3 }`) show that a maximum of 12 slots per process will be available and that 3 slots will be reserved for instances of the same app in that process. This translates to the following:
-
-- If you start four instances of different apps and then start more instances of any of these apps, the fourth instance of any of the apps will be in another process, because there are only three slots per process available for instances of the same app:
-
-![Process Reuse](../../images/platform-features/process-slots.png)
-
-- If you start two different app instances and then start only instances of any of these two apps, their instances will run in the same process until the remaining two sets of three slots in the process are filled too:
-
-![Process Reuse](../../images/platform-features/slots-fill.png)
-
-### Application Configuration
-
-To set the process reuse behavior on an application level, use the `"processAffinity"` property under the `"details"` top-level key in the application configuration file: 
-
-```json
-"details": {
-    ...
-    "processAffinity": {
-        "dedicatedProcess": false,
-        "affinity": "XYZ"
-    }
-}
-```
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `"dedicatedProcess"` | `boolean` | If `true`, each instance of the app will be started in a separate dedicated process. This property is useful if you have an important application and you want each instance of it to start in a dedicated process. |
-| `"affinity"` | `string` | All apps with the same affinity values will be grouped in the same process until the maximum number of slots (defined globally in the `"maxAppsInProcess"` property) in the process is reached. When `"affinity"` is set, the global `"appSlotSize"` property is ignored. This means that you can group different app instances with the same `"affinity"` however you like within the limits of the `"maxAppsInProcess"` property. Use this property if you want to group several apps in a process. |
-
-## Issue Reporting
-
-[**Glue42 Enterprise**](https://glue42.com/enterprise/) has a built-in feedback form that allows users to send feedback with improvement suggestions or bug reports. The user can describe the problem/suggestion in the "Description" field and can optionally attach logs/configs to the report. The form can be configured to send an email with the report to our team and/or to automatically create a Jira ticket with the issue reported by the user. Both on-premise and cloud based Jira solutions are supported.
-
-The feedback form is an HTML app, which can be re-designed and re-configured to suit specific client needs and requirements. For more details, see the [system configuration schema](../../assets/configuration/system.json).
-
-![Feedback form](../../images/platform-features/feedback-form.png)
 
 ## Adding DevTools Extensions
 
-You can extend the Chrome DevTools in [**Glue42 Enterprise**](https://glue42.com/enterprise/) with additional extensions. To add a [DevTools Extension supported by Electron](https://electronjs.org/docs/tutorial/devtools-extension#supported-devtools-extensions), you need to have the extension installed and add a configuration for it in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) and in the configuration file of your application. The example below demonstrates adding the React DevTools Extension to [**Glue42 Enterprise**](https://glue42.com/enterprise/):
+You can extend the Chrome DevTools in [**Glue42 Enterprise**](https://glue42.com/enterprise/) with additional extensions. To add a [DevTools Extension supported by Electron](https://www.electronjs.org/docs/latest/tutorial/devtools-extension#devtools-extension-support), you need to have the extension installed and add a configuration for it in the `system.json` file of [**Glue42 Enterprise**](https://glue42.com/enterprise/) and in the configuration file of your app. The example below demonstrates adding the React DevTools Extension to [**Glue42 Enterprise**](https://glue42.com/enterprise/):
 
 1. Install the [React DevTools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) Chrome extension.
 
@@ -1022,18 +1433,20 @@ You can extend the Chrome DevTools in [**Glue42 Enterprise**](https://glue42.com
 ```json
 {
     "devToolsExtensions": [
-        "C:\\Users\\<username>\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\fmkadmapgofadopljbjfkapdkoienihi"
+        "C:\\Users\\<username>\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\fmkadmapgofadopljbjfkapdkoienihi\\4.23.0_0"
     ]
 }
 ```
 
-*Replace `<username>` with your local username. Remember to escape the backslash characters.*
+*Replace `<username>` with your local username. The path must point to the version folder of the extension containing the `manifest.json` file. Remember to escape the backslash characters.*
 
-4. Open the JSON configuration file of your application and add the following configuration under the `"details"` top-level key:
+4. Open the JSON configuration file of your app and add the following configuration under the `"details"` top-level key:
 
 ```json
-"security": {
-    "sandbox": false
+{
+    "security": {
+        "sandbox": false
+    }
 }
 ```
 
@@ -1042,10 +1455,8 @@ For instance:
 ```json
 {
     "name": "My App",
-    ...
     "details": {
         "url": "http://localhost:3000",
-        ...
         "security": {
             "sandbox": false
         }
@@ -1054,261 +1465,3 @@ For instance:
 ```
 
 5. Start [**Glue42 Enterprise**](https://glue42.com/enterprise/), open your [Glue42 enabled](../../getting-started/how-to/glue42-enable-your-app/javascript/index.html) app and you should be able to see the added extension to the Chrome DevTools when you open the developer console. In this case, you will need a React app in order to be able to see the React DevTools Extension.
-
-## Extensible Installer Guide
-
-The [**Glue42 Enterprise**](https://glue42.com/enterprise/) installer supports extensibility mode, meaning you can repackage the installer with custom resources and installation settings. Some of the customizable features include replacing the icons, the installation screen, adding/removing or setting default install options or features of Glue42 Enterprise, adding other programs to be installed together with [**Glue42 Enterprise**](https://glue42.com/enterprise/).
-
-### Extensibility Mode
-
-The [**Glue42 Enterprise**](https://glue42.com/enterprise/) installer can be run with an argument `/ext:path\to\extensibility-file.json`, which defines the path to a file that allows the operation of the installer to be controlled.
-
-The installer defines a number of extensibility points, representing stages of the installation flow, each of which can be populated with one or more extensibility items, representing tasks to perform or settings to change. These items are listed in the extensibility file with the following structure:
-
-```json
-{
-    "<extensibility point 1>": [
-      { "type": "<extensibility item type>", "args": { "<arg>": <value>, ... }},
-      { "type": "<extensibility item type>", "args": { "<arg>": <value>, ... }},
-    ],
-    "<extensibility point 2>": [
-      { "type": "<extensibility item type>", "args": { "<arg>": <value>, ... }},
-      { "type": "<extensibility item type>", "args": { "<arg>": <value>, ... }},
-    ],
-}
-```
-In case of no arguments, an extensibility item can be shortened to just a string with its type: `{ "type": "unattended", "args": {} }` is shortened to `"unattended"`.
-
-Here is an example extensibility file content, listing most of the available extensibility points and items:
-
-*Note that this is just for illustrative purposes. Some of the following settings don't make sense together.*
-
-```json
-{
-    "startup": [
-        // uninstall Glue42 Enterprise
-        "uninstall",
-
-        // unattended installation
-        "unattended",
-
-        // NB: the installation cannot run while certain applications are running,
-        // e.g. a previous installation of Glue42 Enterprise, or Excel/Word/Outlook
-        // (unless the corresponding plugin is disabled in the artifacts extensibility point)
-
-        // By default, an unattended installer will exit with a non-zero exit code,
-        // but you can make it retry by adding the following arguments:
-
-        // - pop a message box for the user to dismiss (NB: this might cause
-        // the installation to stall if there is no user present)
-        // "args": { "conflictHandling": "ask" }
-
-        // - retry 10 times, with an interval of 1 second
-        // "args": { "conflictHandling": "retry", "waitMs": 1000, "retries": 10 }
-
-        // hidden installation: similar to "unattended", but without showing a window
-        "hidden",
-
-        // use a predefined license file
-        {
-            "type": "license",
-            "args": {
-                // either path or url
-                "file": "license.json",
-                "url": "https://example.com/license.json"
-            }
-        },
-
-        // logo to display in top-left corner
-        {
-            "type": "logo",
-            "args": {
-                // either path or url
-                "file": "logo.png",
-                "url": "https://example.com/logo.png",
-                "onClick": "https://example.com/example"
-            }
-        },
-
-        // large banner during installation
-        {
-            "type": "banner",
-            "args": {
-                // either path or url
-                "file": "banner.png",
-                "url": "https://example.com/banner.png",
-                "onClick": "https://example.com/example"
-            }
-        }
-    ],
-    "artifacts": [
-
-        // disable GlueXL artifact
-        {
-            "type": "GlueXL",
-            "args": {
-                "remove": true
-            }
-        },
-
-        // make GlueOutlook not selected by default;
-        // in unattended installations, this is the same as "remove"
-        {
-            "type": "GlueOutlook",
-            "args": {
-                "checkedByDefault": false
-            }
-        },
-
-        // make GlueWord required
-        {
-            "type": "GlueWord",
-            "args": {
-                "required": true
-            }
-        },
-    ],
-
-    // welcome screen
-    "welcome": [
-        {
-            "type": "run",
-            "args": {
-                "filename": "cmd.exe",
-                "args": "/c somebatchfile.bat",
-                // by default, exit code 0 is success,
-                // while any other means error message, followed by installer exiting
-                // you can override with "success" for success, any other string for error message
-                // (error messages are not shown in unattended installation to avoid stalling)
-                "exitCode1": "There was an error validating your installation",
-                "exitCode2": "There was an error contacting server",
-                "exitCode3": "success",
-                //other exit codes
-
-                // whether to hide the started process
-                "hide": true,
-
-                // whether to hide the installer while the process is running
-                "hideInstaller": false
-            }
-        }
-    ],
-
-    // ... other screens: downloadProgress, packages, previewAndConfirm, uninstall, ...
-
-    // package the Glue42 Enterprise installer with custom configuration files
-    "finalizing": [ 
-        {
-            "type": "gdConfig",
-            "args": {
-                // archive with custom config files for Glue42 Enterprise
-                "file": "custom-config.zip",
-                // If `false` (default), will merge the custom config files with the default ones from the installer
-                // by replacing any default file with the respective custom config file with the same name.
-                // If `true`, the default config files will be deleted and replaced by the specified custom config files.
-                // This means that you must provide all required configuration files for Glue42 Enterprise to function properly.
-                "wipe": false
-            }
-        }
-    ],
-
-    // final screen
-    "done": [
-        // show Glue42 Enterprise shortcut location - like the current "Launch" button behavior
-        "showGD",
-
-        // launch the Glue42 Enterprise executable - like the old "Launch" button behavior
-        "launchGD",
-
-        // shows a message box
-        {
-            "type": "message",
-            "args": {
-                "text": "Don't forget to be awesome!",
-                "title": "Reminder"
-            }
-        },
-
-        // this is a good place to use a "run" item if something else needs to
-        // happen after the installer is finished, e.g., run another installer
-
-        // exit from final screen without user having to click "Done"
-        {
-            "type": "exit",
-            "args": {
-                "exitCode": 0
-            }
-        }
-    ]
-}
-```
-
-Some types of extensibility items are only applicable to some extensibility points, e.g., `"unattended"` (which enables an unattended installation) is only applicable to the `"startup"` extensibility point. Others can be used anywhere - such as `"run"`, which executes an external program and waits for it to finish; or `"message"`, which shows a message to the user.
-
-Extensibility items are executed in the order they are specified. Multiple items of the same type can be present in the same extensibility point.
-
-### Step-By-Step Example
-
-Download an [extensible installer example](../../assets/sfx-installer-example.zip) to get you started. Use it to test how the extensible installer works, to tweak the setting, add your own files and, ultimately, create your own extensible installer.
-
-In this step-by-step guide you will be creating a custom [**Glue42 Enterprise**](https://glue42.com/enterprise/) extensible installer with the following additions and changes:
-
-- adding custom logos;
-
-- installing [**Glue42 Enterprise**](https://glue42.com/enterprise/) with custom `system.json` properties, in order to setup [**Glue42 Enterprise**](https://glue42.com/enterprise/) to retrieve application configuration settings from a REST service;
-
-It is assumed that you have your icon and install screen banner files ready, and also - you have set up your REST service and have it up and running.
-
-*Note that if you have your own [**Glue42 Enterprise**](https://glue42.com/enterprise/) installer file, then rename your installer to `GlueInstaller.exe` and in the `installer-and-other-files` folder replace the existing `GlueInstaller.exe` file with your own installer file.*
-
-1. Navigate to the directory where you have downloaded the `sfx-installer-example.zip` and extract the files in it.
-
-2. Open the `installer-and-other-files` folder and replace the provided `logo.png` and `banner.png` example files with your own logo and banner files.
-
-3. Open the `example-extensibility.json` in your preferred text editor and under the `startup` top key array edit the `arguments` object of the respective extensibility items for the installation banner and logo:
-
-- replace the `"file"` property values with the respective names of your logo and banner files;
-- if you want clicking on the logo or the banner during installation to open your site, replace the URL in the `"onClick"` property with a link to your site. Otherwise, remove it altogether;
-
-```json
-"startup": [
-    {
-        "type": "logo",
-        "args": {
-            "file": "MyCustomLogo.png",
-            "onClick": "https://www.my-site.com"
-        }
-    },
-    {
-        "type": "banner",
-        "args": {
-            "file": "MyCustomBanner.png",
-            "onClick": "https://my-site.com"
-        }
-    }
-]
-```
-
-4. The provided `system.json` file in `sfx-installer-example.zip` may not be the latest one, so you have to replace it with the `system.json` file from your [**Glue42 Enterprise**](https://glue42.com/enterprise/) copy located in `%LocalAppData%\Tick42\GlueDesktop\config`. Open the `system.json` file in your text editor and add the following configuration in order to enable [**Glue42 Enterprise**](https://glue42.com/enterprise/) to retrieve the application configuration settings directly from a REST service:
-
-```json
-"appStores": [
-    {
-        "type": "rest",
-        "details": {
-            // URL to your remote application store
-            "url": "http://localhost:3000/appd/v1/apps/search",
-            "auth": "no-auth",
-            "pollInterval": 30000,
-            "enablePersistentCache": true,
-            "cacheFolder": "%LocalAppData%/Tick42/UserData/%GLUE-ENV%-%GLUE-REGION%/gcsCache/"
-        }
-    }
-]
-```
-
-5. Go back to the folder where you extracted the files and double click on the `produce-sfx-installer.bat` file to produce the installer file. The output installer file is named `sfx-installer.exe`.
-
-6. Run `sfx-installer.exe` to install the product.
-
-*Note that the SFX installer should be Authenticode signed to avoid antivirus software raising false alerts. Also, to change its icon or file properties, you can use a resource editor, e.g. Resource Hacker. It is best to use a multi-size icon to support various resolutions and Windows Explorer view modes. The example used the Greenfish icon editor for this purpose.*

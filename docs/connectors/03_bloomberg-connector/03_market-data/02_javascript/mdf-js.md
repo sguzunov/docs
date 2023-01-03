@@ -1,32 +1,36 @@
 ## Initialization
 
-The **BBG Market Data** library is available as an `npm` package - [`@glue42/bbg-market-data`](https://www.npmjs.com/package/@glue42/bbg-market-data). To install it, run the following command in your project directory:
+The BBG Market Data library is available as an NPM package - [`@glue42/bbg-market-data`](https://www.npmjs.com/package/@glue42/bbg-market-data). To install it, run the following command in your project directory:
 
 ```cmd
 npm install @glue42/bbg-market-data
 ```
 
-The **BBG Market Data** API depends on Glue42 [Interop](../../../../glue42-concepts/data-sharing-between-apps/interop/overview/index.html), an instance of which must be passed to the `BBGMarketData()` factory function. The function also accepts as a second parameter a configuration object that controls logging behavior and can also provide an optional custom logger implementation. The configuration object can also specify the interval at which to attempt reconnection to the Bloomberg Connector if a connection does not exist or is interrupted.
+The BBG Market Data API depends on the Glue42 [Interop](../../../../glue42-concepts/data-sharing-between-apps/interop/overview/index.html) object, an instance of which must be passed to the `BBGMarketData()` factory function. The function also accepts as a second parameter a configuration object that controls logging behavior and can also provide an optional custom logger implementation. The configuration object can also specify the interval at which to attempt reconnection to the Bloomberg Connector if a connection doesn't exist or is interrupted.
+
+*Note that if you already have an initialized `glue` object in your app, you must reuse it and not create a new instance.*
 
 ```typescript
-import BBGMarketData from "@glue42/bbg-market-data";
-import GlueCoreFactory from "@glue42/core";
+import BBGMarketData, { BBGMarketDataAPI } from "@glue42/bbg-market-data";
 
-GlueCoreFactory().then(glue => {
-    const bbgMarketData: BBGMarketDataAPI = BBGMarketData(glue.interop, { debug: true, connectionPeriodMsecs: 7000 });
-});
+const glue = await Glue();
+const bbgMarketData: BBGMarketDataAPI = BBGMarketData(glue.interop, { connectionPeriodMsecs: 7000 });
 ```
 
-- `debug` - whether to enable debugging mode (`false` by default);
-- `connectionPeriodMsecs` - the interval at which to attempt reconnection to the Bloomberg Connector (in ms, `5000` by default);
+The configuration object has the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `debug` | `boolean` | Whether to enable debugging mode. The default is `false`. |
+| `connectionPeriodMsecs` | `number` | Interval in milliseconds at which to attempt reconnection to the Bloomberg Connector. The default is 5000. |
 
 ## Connection
 
-To receive updates about changes in the connection between the **BBG Market Data** API and the Bloomberg Connector, you can use the `onConnectionStatusChanged()` method. It accepts a callback with which you can handle changes in the connection status and returns an unsubscribe function that you can invoke to stop receiving updates about the connection status:
+To receive updates about changes in the connection between the BBG Market Data API and the Bloomberg Connector, you can use the `onConnectionStatusChanged()` method. It accepts a callback with which you can handle changes in the connection status and returns an unsubscribe function that you can invoke to stop receiving updates about the connection status:
 
 ```typescript
 function handleConnectionChanges (status: ConnectionStatus): void {
-    
+
     if (status === ConnectionStatus.Connected) {
         // Connected.
     } else {
@@ -61,7 +65,7 @@ const request: HistoricalDataRequest = bbgMarketData.createHistoricalDataRequest
 To actually send the request to the Bloomberg service, invoke the `open()` method of the request instance. Requests can be opened/reopened when they have a `Created`, `Closed`, `Failed` or `Completed` status. When the request is pending (its status is `Opened` or `Active`), `open()` will immediately throw an error.
 
 ```typescript
-// Request options. 
+// Request options.
 const requestOptions: OpenRequestOptions = {
     session: Session.LargeHistoricalRequests,
     aggregateResponse: false
@@ -73,8 +77,10 @@ request.open(requestOptions);
 
 The `open()` method accepts an optional `OpenRequestOptions` object with the following properties:
 
-- `session` - the type of session to use. The default for non-subscription requests is `DataRequests`, the default for subscription requests is `RealTime`;
-- `aggregateResponse` - whether to return an aggregated response. If `true` (default), `open()` returns a `Promise` which resolves with the aggregated response. If `false`, the `Promise` resolves immediately and the partial responses are passed to the callback attached to the `onData()` method of the request object.
+| Property | Type | Description |
+|----------|------|-------------|
+| `session` | `string` | The type of session to use. The default for non-subscription requests is `DataRequests`, the default for subscription requests is `RealTime`. |
+| `aggregateResponse` | `boolean` | Whether to return an aggregated response. If `true` (default), `open()` returns a `Promise` which resolves with the aggregated response. If `false`, the `Promise` resolves immediately and the partial responses are passed to the callback attached to the `onData()` method of the request object. |
 
 As opening a request is asynchronous, if any issue occurs (e.g., the Bloomberg Connector fails to open the Bloomberg core service), the error will be delivered asynchronously to the request `onError()` callback.
 
@@ -97,7 +103,7 @@ request
 
 To handle response data, attach a callback to the `onData()` method of the request instance. The method returns an `UnsubscribeFunction`. The `onData()` method handles data from real-time subscriptions and data from partial responses from static reference data requests.
 
-When handling data from a non-subscription request, the data is wrapped in a `ResponseData` object. The boolean property `isLast` is set to `false` when the response contains a Bloomberg `PARTIAL_RESPONSE` event and is set to `true` when the response contains a Bloomberg `RESPONSE` event. After a `RESPONSE` event, no more events will be received and the application can now process the returned data accordingly.
+When handling data from a non-subscription request, the data is wrapped in a `ResponseData` object. The Boolean property `isLast` is set to `false` when the response contains a Bloomberg `PARTIAL_RESPONSE` event and is set to `true` when the response contains a Bloomberg `RESPONSE` event. After a `RESPONSE` event, no more events will be received and the app can now process the returned data accordingly.
 
 Handling partial response data from static reference data requests:
 
@@ -113,7 +119,7 @@ request.onData(function handleResponse(
 });
 ```
 
-If you want to directly get the final aggregated response from a static reference data request, you can await the `Promise` returned from the `open()` method of the request instance. (This applies only if you have not explicitly set the `aggregateResponse` property of the optional object passed to `open()` to `false`):
+If you want to directly get the final aggregated response from a static reference data request, you can await the `Promise` returned from the `open()` method of the request instance. (This applies only if you haven't explicitly set the `aggregateResponse` property of the optional object passed to `open()` to `false`):
 
 ```typescript
 const response: HistoricalData[] | undefined = await request.open();
@@ -141,7 +147,7 @@ To handle errors in a response, attach a callback to the `onError()` method of t
 
 - Unable to invoke the Bloomberg Connector.
 - The Bloomberg Connector has thrown an exception.
-- The Bloomberg Connector was not able to create the request to the Bloomberg service and returns an unsuccessful result.
+- The Bloomberg Connector wasn't able to create the request to the Bloomberg service and returns an unsuccessful result.
 - An active request to a Bloomberg service has failed (e.g., a "RequestFailure" message was received for a non-subscription request).
 
 ### Request Status
@@ -151,7 +157,7 @@ To track the current request status, attach a callback to the `onStatus()` metho
 There are six statuses:
 
 - `Created` - The request has been created but not sent to a Bloomberg service.
-- `Opened` - The actual request has been sent to a Bloomberg service, but is not active yet. Response still not available.
+- `Opened` - The actual request has been sent to a Bloomberg service, but isn't active yet. Response still not available.
 - `Active` - The request has been sent to a Bloomberg service successfully. Responses may be received.
 - `Failed` - The request has failed to open or an error is received from a Bloomberg service.
 - `Closed` - The request was closed before completing. No more responses will be received.
@@ -171,7 +177,7 @@ request.onEvent(function handleBloombergEvent(event: BloombergEvent) {
 
 ### Market Data Subscription
 
-A Market Data Subscription request enables retrieval of streaming data for securities that are priced intraday by using the Bloomberg API Subscription paradigm. It uses the Bloomberg API core service `//blp/mktdata`. The subscriber receives updates once a field value changes at the source. Desired fields must explicitly be listed in the subscription to receive updates for them. It is **required** for each subscription to have a `security` property and at least one field in the `fileds` property. A full range of options (like `subscriptionId`, `intervalInSeconds`, `delayed`) can be specified in the `Subscription`.
+A Market Data Subscription request enables retrieval of streaming data for securities that are priced intraday by using the Bloomberg API Subscription paradigm. It uses the Bloomberg API core service `//blp/mktdata`. The subscriber receives updates once a field value changes at the source. Desired fields must explicitly be listed in the subscription to receive updates for them. It is required for each subscription to have a `security` property and at least one field in the `fileds` property. A full range of options (like `subscriptionId`, `intervalInSeconds`, `delayed`) can be specified in the `Subscription`.
 
 Below is an example of creating and opening a Market Data Subscription request:
 
@@ -196,7 +202,7 @@ request.onData(function handleSubscriptionsData(
     // Handle subscription updates.
 });
 
-// The callback in the `onFail()` method will be invoked when a subscription for a security 
+// The callback in the `onFail()` method will be invoked when a subscription for a security
 // fails on the Bloomberg side. E.g., you may have sent a request with
 // five subscriptions for five different securities and two of the subscriptions fail.
 request.onFail(function handleSubscriptionsError(
@@ -240,7 +246,7 @@ const subscriptions: Subscription[] = [
 
 A Historical Data request enables the retrieval of end-of-day data for a set of securities and fields over a specified period, which can be set to daily, monthly, quarterly, semi-annually or annually by using the Bloomberg Request/Response paradigm. It uses the Bloomberg API core service `//blp/refdata`.
 
-At least one value in the `securities` and in the `fields` properties is **required** along with a `startDate` and an `endDate`. A range of other options can be specified in the `HistoricalDataRequestArguments` object. To create a Historical Data request, use the `createHistoricalDataRequest()` method:
+At least one value in the `securities` and in the `fields` properties is required along with a `startDate` and an `endDate`. A range of other options can be specified in the `HistoricalDataRequestArguments` object. To create a Historical Data request, use the `createHistoricalDataRequest()` method:
 
 ```typescript
 const requestArgs: HistoricalDataRequestArguments = {
@@ -272,7 +278,7 @@ request.open();
 A Reference Data request retrieves the current data available for a security/field pair by using the Bloomberg Request/Response paradigm.
 It uses the Bloomberg API core service `//blp/refdata`.
 
-At least one value in the `securities` and in the `fields` properties is **required**. A range of other options can be specified in the `ReferenceDataRequestArguments` object. To create a Reference Data request, use the `createReferenceDataRequest()` method.
+At least one value in the `securities` and in the `fields` properties is required. A range of other options can be specified in the `ReferenceDataRequestArguments` object. To create a Reference Data request, use the `createReferenceDataRequest()` method.
 
 ```typescript
 const requestArgs: ReferenceDataRequestArguments = {
@@ -301,7 +307,7 @@ request.open();
 
 The Instrument List request performs a search for securities based on a specified search string. This functionality resembles the `SECF <GO>` function of the Bloomberg Professional Service. It uses the Bloomberg API core service `//blp/instruments`.
 
-Specifying a search string and a maximum number of results is **required**. A range of other options can be specified in the `InstrumentListRequestArguments` object. To create an Instrument List request, use the `createInstrumentListRequest()` method:
+Specifying a search string and a maximum number of results is required. A range of other options can be specified in the `InstrumentListRequestArguments` object. To create an Instrument List request, use the `createInstrumentListRequest()` method:
 
 ```typescript
 const requestArgs: InstrumentListRequestArguments = {
@@ -330,7 +336,7 @@ request.open();
 
 The Intraday Bar request enables retrieval of summary intervals for intraday data covering five event types: `TRADE`, `BID`, `ASK`, `BEST BID` and `BEST ASK`, over a period of time by using the Bloomberg Request/Response paradigm. It uses the Bloomberg API core service `//blp/refdata`.
 
-It is **required** to specify a `security` and `eventType`. Also, `startDateTime` and `endDateTime` points in UTC must be specified. A range of other options can be specified in the `IntraDayBarRequestArguments` object. To create an Intraday Bar request, use the `createIntraDayBarRequest()` method:
+It is required to specify a `security` and `eventType`. Also, `startDateTime` and `endDateTime` points in UTC must be specified. A range of other options can be specified in the `IntraDayBarRequestArguments` object. To create an Intraday Bar request, use the `createIntraDayBarRequest()` method:
 
 ```typescript
 const requestArgs: IntraDayBarRequestArguments = {
@@ -361,7 +367,7 @@ request.open();
 
 The Snapshot request enables retrieval of static market list snapshot data by using the Bloomberg Request/Response paradigm. It uses the Bloomberg API core service `//blp/mktlist`.
 
-It is **required** to specify a `security`. To create a Snapshot request, use the `createSnapshotRequest()` method:
+It is required to specify a `security`. To create a Snapshot request, use the `createSnapshotRequest()` method:
 
 ```typescript
 const requestArgs: SnapshotRequestArguments = {
@@ -482,13 +488,13 @@ For advanced scenarios, however, you can pass an optional object parameter to th
 There are five `Session` types:
 
 - `RealTime` - Session for real-time subscriptions. Default for subscription requests.
-  
+
 - `DataRequests` - Session for static reference data. Default for non-subscription requests.
- 
+
 - `LargeHistoricalRequests` - Dedicated session for a large volume data request.
-  
+
 - `CreateNew` - Creates a new session which closes immediately after the request is completed.
-  
+
 - `Default` - Explicitly states that the default session should be used.
 
 If you need to use a session different from the default one, you need to pass an options object to the `open()` call, specifying the session type.
@@ -522,4 +528,4 @@ request.open(requestOptions);
 
 // Note that you must explicitly close a custom session.
 bbgMarketData.sessions.close("MyCustomSession");
-``` 
+```

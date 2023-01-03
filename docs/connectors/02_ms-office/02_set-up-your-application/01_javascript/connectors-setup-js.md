@@ -1,6 +1,6 @@
 ## Introduction
 
-This guide explains how to reference and initialize the [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) library in your web application so it can interoperate with any of the MS Office products supported by Glue42 Enterprise.
+This guide explains how to reference and initialize the [`@glue42/office`](https://www.npmjs.com/package/@glue42/office) library in your web app so it can interoperate with any of the MS Office products supported by Glue42 Enterprise.
 
 After completing the steps in this guide, you can read the respective development guides to learn how your app can interact with specific MS Office products.
 
@@ -8,33 +8,22 @@ After completing the steps in this guide, you can read the respective developmen
 
 ### Programming Experience with JavaScript
 
-We assume you are a front-end JavaScript developer, or a full-stack developer with sufficient JavaScript knowledge. This guide uses ECMAScript 6 (ES6) in the examples, but ES6 knowledge is not required to use the API. 
+We assume you are a front-end JavaScript developer, or a full-stack developer with sufficient JavaScript knowledge. This guide uses ECMAScript 6 (ES6) in the examples, but ES6 knowledge isn't required to use the API.
 
-All APIs return [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). If you are not comfortable using `Promise`s and prefer `Node.js`-style callbacks, you can use [nodeify](https://github.com/then/nodeify) to convert `Promise`s to `Node.js`-style callbacks.
+All APIs return [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). If you aren't comfortable using `Promise`s and prefer Node.js-style callbacks, you can use [nodeify](https://github.com/then/nodeify) to convert `Promise`s to Node.js-style callbacks.
 
 ### Glue42 Enterprise Installation
 
-You can download the [**Glue42 Enterprise**](https://glue42.com/enterprise/) trial version from [here](https://glue42.com/).
+You can download the [**Glue42 Enterprise**](https://glue42.com/enterprise/) trial version from [here](https://glue42.com/free-trial/).
 
 ## Referencing
 
-The [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) library is available both as an `npm` module and as a standalone transpiled JavaScript file in `%LocalAppData%\Tick42\GlueSDK\Glue4OfficeJS\js\web`.
-
-Because the API evolves, we have chosen the following semantic version model:
-
-`BreakingChangesVersion.FeatureVersion.FixVersion`
-
+The [`@glue42/office`](https://www.npmjs.com/package/@glue42/office) library is available both as an NPM module and as a standalone transpiled JavaScript file in `%LocalAppData%\Tick42\GlueSDK\Glue4OfficeJS\js\web-bundle`.
 
 You can reference the library in a `<script>` tag:
 
 ```html
-<script type="text/javascript" src="glue4office-1.1.0.js"></script>
-```
-
-When deploying your application in production, we recommend that you always reference a specific minified version:
-
-```html
-<script type="text/javascript" src="glue4office-1.1.0.min.js"></script>
+<script type="text/javascript" src="office.min.js"></script>
 ```
 
 The browserified JavaScript file is also a CommonJS module, which you can `require`/`import`.
@@ -42,13 +31,13 @@ The browserified JavaScript file is also a CommonJS module, which you can `requi
 CommonJS:
 
 ```javascript
-const Glue4Office = require("glue4office");
+const Glue4Office = require("@glue42/office");
 ```
 
 ES6:
 
 ```javascript
-import Glue4Office from "glue4office";
+import Glue4Office from "@glue42/office";
 ```
 
 ## Initialization
@@ -70,14 +59,14 @@ const g4oConfig = {
 }
 Glue4Office(g4oConfig)
     .then(g4o => {
-        // g4o is a reference to the Glue4Office API
+        // g4o is a reference to the @glue42/office API
         window.g4o = g4o;    // expose g4o as a global variable
         // use g4o
     })
     .catch(console.error)
 ```
 
-If your application is already loading Glue42, you can initialize [`glue4office`](../../../../reference/glue4office/latest/glue4office/index.html) by passing an [initialized Glue42 library instance](../../../../getting-started/how-to/glue42-enable-your-app/javascript/index.html) in the configuration object:
+If your app is already loading Glue42, you can initialize [`@glue42/office`](https://www.npmjs.com/package/@glue42/office) by passing an [initialized Glue42 library instance](../../../../getting-started/how-to/glue42-enable-your-app/javascript/index.html) in the configuration object:
 
 ```javascript
 const glueConfig = { application: "MS Office Interop" }
@@ -85,7 +74,7 @@ Glue(glueConfig)
     .then(glue => {
         window.glue = glue;          // expose glue as a global variable
         const g4oConfig = {
-            glue, 
+            glue,
             excel: true,            // enable Excel interop
             word: true,             // enable Word interop
             outlook: false          // disable Outlook interop
@@ -93,7 +82,7 @@ Glue(glueConfig)
         return Glue4Office(g4oConfig)
     })
     .then(g4o => {
-        // g4o is a reference to the Glue4Office API
+        // g4o is a reference to the @glue42/office API
         window.g4o = g4o;    // expose g4o as a global variable
         // use g4o
     })
@@ -110,7 +99,7 @@ g4o.word.openDocument(...);
 g4o.outlook.newEmail(...);
 ```
 
-The best place to render your application is when the `Promise` is resolved (in the `then` clause above). You would typically expose a global reference to the library and then render your application.
+The best place to render your app is when the `Promise` is resolved (in the `then` clause above). You would typically expose a global reference to the library and then render your app.
 
 ## React Example
 
@@ -134,4 +123,4 @@ Glue4Office(g4oConfig)
         // or
         platformBrowser().bootstrapModuleFactory(AppModuleNgFactory);
     });
-``` 
+```

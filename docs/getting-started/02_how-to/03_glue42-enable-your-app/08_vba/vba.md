@@ -1,24 +1,26 @@
 ## Overview
 
-The Glue42 COM library allows you to Glue42 enable your MS Office VBA applications and integrate them with other Glue42 enabled applications in [**Glue42 Enterprise**](https://glue42.com/enterprise/). You can use Glue42 functionality in your VBA applications for Excel, Outlook, Word, etc. The Glue42 COM library support the 32-bit and 64-bit versions of MS Office 2013 and up.
+The Glue42 COM library allows you to Glue42 enable your MS Office VBA apps and integrate them with other Glue42 enabled apps in [**Glue42 Enterprise**](https://glue42.com/enterprise/). You can use Glue42 functionality in your VBA apps for Excel, Outlook, Word, etc. The Glue42 COM library support the 32-bit and 64-bit versions of MS Office 2013 and up.
 
-To access Glue42 functionalities in your VBA application, you have to reference and initialize the Glue42 COM library. The Glue42 COM library is distributed as a DLL file which is a part of the SDK bundle of [**Glue42 Enterprise**](https://glue42.com/enterprise/) located in the `%LocalAppData%\Tick42\GlueSDK\GlueCOM` folder.
+To access Glue42 functionalities in your VBA app, you have to reference and initialize the Glue42 COM library. The Glue42 COM library is distributed as a DLL file which is a part of the SDK bundle of [**Glue42 Enterprise**](https://glue42.com/enterprise/) located in the `%LocalAppData%\Tick42\GlueSDK\GlueCOM` folder.
 
-In the [Glue42 VBA Concepts](#glue42_vba_concepts) section below you will find general concepts that apply when using the Glue42 COM library in VBA. The [COM/VBA Reference](#comvba_reference) section provides reference documentation specific to using the Glue42 COM library in VBA applications.
+In the [Glue42 VBA Concepts](#glue42_vba_concepts) section below you will find general concepts that apply when using the Glue42 COM library in VBA. The [COM/VBA Reference](#comvba_reference) section provides reference documentation specific to using the Glue42 COM library in VBA apps.
 
 ## Using the Glue42 COM Library
 
 ### Referencing
 
-Open the Microsoft VBA Editor and go to `Tools > References`. Click "Browse" find and select the `GlueCOM.dll` file, usually located in the `%LocalAppData%\Tick42\GlueSDK\GlueCOM` folder. In the list of available references you should now see "Tick42 Glue for COM":
+The [Glue42 COM](https://www.nuget.org/packages/GlueCOM/) library is available as a package in NuGet which you can include in your projects. The Glue42 COM library is also distributed with [**Glue42 Enterprise**](https://glue42.com/enterprise/) and is usually located in the `%LocalAppData%\Tick42\GlueSDK\GlueCOMv2` folder.
+
+To reference the Glue42 COM library, open the Microsoft VBA Editor and go to `Tools > References`. Click "Browse" find and select the `GlueCOM.dll` file. In the list of available references you should now see "Tick42 Glue for COM":
 
 ![Reference](../../../../images/com/reference.png)
 
 ### Initialization
 
-To initialize the Glue42 COM library, import the library and create an instance of the `Glue42` class. You can use this instance to access all Glue42 functionality. Finally, register your application.
+To initialize the Glue42 COM library, import the library and create an instance of the `Glue42` class. You can use this instance to access all Glue42 functionality. Finally, register your app.
 
-Below is an example of a subroutine which initializes Glue42, exposing the application instance under the name "My VBA Application":
+Below is an example of a subroutine which initializes Glue42, exposing the app instance under the name "My VBA App":
 
 ```vbnet
 Dim Glue As Glue42
@@ -26,22 +28,22 @@ Dim Glue As Glue42
 Public Sub InitializeGlue()
     If Glue Is Nothing Then
         Set Glue = New Glue42
-        ' Connecting to Glue42 and registering the application instance.
-        Glue.StartWithAppName ("My VBA Application")
+        ' Connecting to Glue42 and registering the app instance.
+        Glue.StartWithAppName ("My VBA App")
     End If
 End Sub
 ```
 
 ## Glue42 VBA Concepts
 
-Once the Glue42 COM library has been initialized, your application has access to all Glue42 functionalities. For more detailed information on the different Glue42 concepts and APIs, see:
+Once the Glue42 COM library has been initialized, your app has access to all Glue42 functionalities. For more detailed information on the different Glue42 concepts and APIs, see:
 
 - [Shared Contexts](../../../../glue42-concepts/data-sharing-between-apps/shared-contexts/vba/index.html)
 - [Channels](../../../../glue42-concepts/data-sharing-between-apps/channels/vba/index.html)
 - [Interop](../../../../glue42-concepts/data-sharing-between-apps/interop/vba/index.html)
 - [Window Management](../../../../glue42-concepts/windows/window-management/vba/index.html)
 
-The sections below explain several concepts related to using the Glue42 COM library.
+The following sections explain concepts related to using the Glue42 COM library.
 
 ### Composite Values
 
@@ -97,7 +99,7 @@ MyValue = DynamicValue("ChildNodeName")
 
 Depending on whether `"ChildNodeName"` exists and its type, the return value from the named indexing can be:
 
-- `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue) if `"ChildNodeName"` represents a composite value. If `"ChildNodeName"` does not exist, it will be automatically created as an empty composite value.
+- `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue) if `"ChildNodeName"` represents a composite value. If `"ChildNodeName"` doesn't exist, it will be automatically created as an empty composite value.
 - `Variant`/`<some native type>` if `"ChildNodeName"` represents an elementary field.
 
 As indexing can return another instance of `GlueDynamicValue`, this allows for chained indexing to access nested composite values:
@@ -106,13 +108,13 @@ As indexing can return another instance of `GlueDynamicValue`, this allows for c
 Dim MyDoubleValue as Double
 MyDoubleValue = DynamicValue("CompositeLevel_0")("CompositeLevel_1")("ElementaryDoubleField")
 ```
-  
+
 *Note that using indexing is recommended only when accessing fields within a composite value with a known structure.*
 
 #### Accessing Composite Value Fields
 
 - use the `GetReflectData` method of a data provider instance passing an empty string as an argument to get the root of the composite value;
-- the data provider is typically passed as an argument to callback/event handler subroutines which are invoked when Glue42 sends data to the application;
+- the data provider is typically passed as an argument to callback/event handler subroutines which are invoked when Glue42 sends data to the app;
 
 The example below uses the same data structure from the previous example and shows how to access fields in a composite value. The `invocationRequest` data provider is passed as an argument to the handler subroutine:
 
@@ -136,10 +138,10 @@ Operand1 = Args("operands")(0)
 Operand2 = Args("operands")(1)
 ' Access a string value inside a composite value.
 Reason = Args("metadata")("reason")
-' This will raise a "Type Mismatch" exception: "metadata" is a composite value which cannot be cast to "Integer".
-Error = Args("metadata")            
+' This will raise a "Type Mismatch" exception: "metadata" is a composite value which can't be cast to "Integer".
+Error = Args("metadata")
 ```
-Elementary fields are automatically cast to the compatible native type. Trying to assign to an incompatible type will raise an exception. Array elements can be accessed by their numeric index. Arrays cannot be directly cast to a native array type. Accessing a field which does not exist will return an empty [GlueDynamicValue](#classes-gluedynamicvalue).  
+Elementary fields are automatically cast to the compatible native type. Trying to assign to an incompatible type will raise an exception. Array elements can be accessed by their numeric index. Arrays can't be directly cast to a native array type. Accessing a field which doesn't exist will return an empty [GlueDynamicValue](#classes-gluedynamicvalue).
 
 You can also store a lower-level composite value or array in a temporary variable and use it to access its fields. This helps avoid unnecessary repetitions of the path to deeper nested composite values and extra calls to the Glue42 COM library:
 
@@ -171,8 +173,8 @@ Glue42 time is essentially a Unix timestamp: the number of milliseconds since th
 VBADate = CDate(GlueTime / 86400 + 25569)
 ```
 
-- `86400` is the number of seconds in one day (60 * 60 * 24);  
-- `25569` is the VBA numeric representation of `1970-01-01 00:00:00`;  
+- `86400` is the number of seconds in one day (60 * 60 * 24);
+- `25569` is the VBA numeric representation of `1970-01-01 00:00:00`;
 
 Note that the resulting `Date` timestamp will also be in UTC, and not in local time.
 
@@ -216,9 +218,9 @@ End Function
 
 ## COM/VBA Reference
 
-This reference describes the components in the Glue42 COM library relevant to VBA. 
+This reference describes the components in the Glue42 COM library relevant to VBA.
 
-*Note that the library also contains components that are not intended to be directly used by VBA applications.*
+*Note that the library also contains components that aren't intended to be directly used by VBA apps.*
 
 ## Enums
 
@@ -238,7 +240,7 @@ Enumeration of the possible flags associated with a Glue42 method.
 
 ### GlueMethodInvocationStatus
 
-Enumeration of the possible values for the status of a Glue42 method invocation.  
+Enumeration of the possible values for the status of a Glue42 method invocation.
 
 | Name | Value |
 |------|-------|
@@ -250,7 +252,7 @@ Enumeration of the possible values for the status of a Glue42 method invocation.
 
 ### GlueStreamState
 
-Enumeration of the possible values for the status of a Glue42 stream subscription.  
+Enumeration of the possible values for the status of a Glue42 stream subscription.
 
 | Name | Value |
 |------|-------|
@@ -260,6 +262,44 @@ Enumeration of the possible values for the status of a Glue42 stream subscriptio
 | `GlueStreamState_Closed` | 3 |
 | `GlueStreamState_SubscriptionRejected` | 4 |
 | `GlueStreamState_SubscriptionFailed` | 5 |
+
+### GlueWindowEventType
+
+Enumeration of the possible values for the event type passed to [`HandleWindowEvent`](#classes-gluewindow-handlewindowevent)
+
+*Note that not all event types are applicable to VBA apps.*
+
+| Name | Value | Hex |
+|------|-------|-----|
+| `GlueWindowEventType_Unknown` | 0 | 00 |
+| `GlueWindowEventType_Snapshot` | 1 | 01 |
+| `GlueWindowEventType_WindowFrameAdded` | 2 | 02 |
+| `GlueWindowEventType_WindowFrameRemoved` | 3 | 03 |
+| `GlueWindowEventType_WindowFrameChanged` | 4 | 04 |
+| `GlueWindowEventType_ButtonClicked` | 5 | 05 |
+| `GlueWindowEventType_ButtonRemoved` | 6 | 06 |
+| `GlueWindowEventType_ButtonAdded` | 7 | 07 |
+| `GlueWindowEventType_GroupHeaderVisibilityChanged` | 8 | 08 |
+| `GlueWindowEventType_CompositionChanged` | 9 | 09 |
+| `GlueWindowEventType_FrameColorChanged` | 10 | 0A |
+| `GlueWindowEventType_Created` | 11 | 0B |
+| `GlueWindowEventType_Closed` | 12 | 0C |
+| `GlueWindowEventType_UrlChanged` | 13 | 0D |
+| `GlueWindowEventType_ContextChanged` | 14 | 0E |
+| `GlueWindowEventType_VisibilityChanged` | 15 | 0F |
+| `GlueWindowEventType_BoundsChanged` | 16 | 10 |
+| `GlueWindowEventType_StateChanged` | 17 | 11 |
+| `GlueWindowEventType_FocusChanged` | 18 | 12 |
+| `GlueWindowEventType_TitleChanged` | 19 | 13 |
+| `GlueWindowEventType_WindowCanvasWindowChanged` | 20 | 14 |
+| `GlueWindowEventType_TabHeaderVisibilityChanged` | 21 | 15 |
+| `GlueWindowEventType_FrameSelectionChanged` | 22 | 16 |
+| `GlueWindowEventType_ShowFlydownBoundsRequested` | 23 | 17 |
+| `GlueWindowEventType_WindowZoomFactorChanged` | 24 | 18 |
+| `GlueWindowEventType_FrameIsLockedChanged` | 25 | 19 |
+| `GlueWindowEventType_DOMReady` | 26 | 1A |
+| `GlueWindowEventType_Hibernated` | 27 | 1B |
+| `GlueWindowEventType_Resumed` | 28 | 1C |
 
 ## Types
 
@@ -276,23 +316,23 @@ This type is used to store information about a Glue42 context.
 
 ### VBGlueInstance
 
-This type is used to store information about a Glue42 application instance.
+This type is used to store information about a Glue42 app instance.
 
 **Properties**
 
 | Name | Type | Description |
 |------|------|-------------|
-| `ApplicationName` | `String` | Name of the application. |
-| `Environment` | `String` | Glue42 environment in which the application instance is running. |
-| `InstanceId` | `String` | Identifier assigned to the application instance by Glue42. |
-| `MachineName` | `String` | Hostname of the machine where the application instance is running. |
-| `Metadata` | [`GlueDynamicValue`](#classes-gluedynamicvalue) | Additional optional information about the application instance represented as a composite value. |
-| `MetricsRepositoryId` | `String` | Identifier of the metrics repository used by the application instance (if any). |
-| `ProcessId ` | `Long` | Identifier of the process (PID) in which the application instance is running. |
+| `ApplicationName` | `String` | Name of the app. |
+| `Environment` | `String` | Glue42 environment in which the app instance is running. |
+| `InstanceId` | `String` | Identifier assigned to the app instance by Glue42. |
+| `MachineName` | `String` | Hostname of the machine where the app instance is running. |
+| `Metadata` | [`GlueDynamicValue`](#classes-gluedynamicvalue) | Additional optional information about the app instance represented as a composite value. |
+| `MetricsRepositoryId` | `String` | Identifier of the metrics repository used by the app instance (if any). |
+| `ProcessId ` | `Long` | Identifier of the process (PID) in which the app instance is running. |
 | `ProcessStartTime` | `Double` | Number representing the [Glue42 Time](#glue42_vba_concepts-glue42_time) when the process was started. |
-| `Region` | `String` | Glue42 region in which the application instance is running. |
-| `ServiceName` | `String` | Service name under which the application instance is running. |
-| `UserName` | `String` | Username under which the application instance is running. |
+| `Region` | `String` | Glue42 region in which the app instance is running. |
+| `ServiceName` | `String` | Service name under which the app instance is running. |
+| `UserName` | `String` | Username under which the app instance is running. |
 | `Version` | `String` | Glue42 client version. |
 
 ### VBGlueMethod
@@ -305,7 +345,7 @@ This type is used to store information about a Glue42 method or stream.
 |------|------|-------------|
 | `Flags` | [`GlueMethodFlags`](#enums-gluemethodflags) | Contains various flags associated with the method. |
 | `Input` | `String` | String representation of the method arguments signature as provided during the method registration. |
-| `Instance` | [`VBGlueInstance`](#types-vbglueinstance) | Contains information about the Glue42 application instance that has registered the method. |
+| `Instance` | [`VBGlueInstance`](#types-vbglueinstance) | Contains information about the Glue42 appistance that has registered the method. |
 | `Name` | `String` | Method name. |
 | `ObjectTypes` | `String()` | Optional array of strings specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.) |
 | `Output` | `String` | String representation of the method return value signature as provided during the method registration. |
@@ -345,11 +385,11 @@ Creates an instance of [`GlueWindowSettings`](#classes-gluewindowsettings) which
 
 ```vbnet
 Function CreateDefaultVBGlueWindowSettings() As GlueWindowSettings
-```  
+```
 
 *Parameters:* None
 
-*Return value:* [`GlueWindowSettings`](#classes-gluewindowsettings)  
+*Return value:* [`GlueWindowSettings`](#classes-gluewindowsettings)
 
 #### CreateGlueData
 
@@ -367,7 +407,7 @@ Function CreateGlueData(data) As GlueData
 |------|------|-------------|
 | `data` | `Variant` | An instance of [`GlueDynamicValue`](#classes-gluedynamicvalue) representing the root of the composite value. |
 
-*Return value:* [`GlueData`](#classes-gluedata)  
+*Return value:* [`GlueData`](#classes-gluedata)
 
 #### CreateGlueValues
 
@@ -381,7 +421,7 @@ Function CreateGlueValues() as Variant
 
 *Parameters:* None
 
-*Return value:* `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue)  
+*Return value:* `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue)
 
 #### CreateMethodInvocator
 
@@ -391,11 +431,11 @@ Creates an instance of [`GlueMethodInvocator`](#classes-gluemethodinvocator) whi
 
 ```vbnet
 Function CreateMethodInvocator() As GlueMethodInvocator
-```  
+```
 
 *Parameters:* None
 
-*Return value:* [`GlueMethodInvocator`](#classes-gluemethodinvocator)  
+*Return value:* [`GlueMethodInvocator`](#classes-gluemethodinvocator)
 
 #### CreateServerMethod
 
@@ -405,7 +445,7 @@ Creates an instance of [`GlueServerMethod`](#classes-glueservermethod) which can
 
 ```vbnet
 Function CreateServerMethod(methodName As String, Input As String, Output As String, objectTypesCSV As String) As GlueServerMethod
-```  
+```
 
 *Parameters:*
 
@@ -416,19 +456,19 @@ Function CreateServerMethod(methodName As String, Input As String, Output As Str
 | `Output` | `String` | Optional string representation of the method return value signature. |
 | `objectTypesCSV` | `String` | Optional string of comma-separated values specifying the types of objects that the method works with (e.g., `Instrument`, `Client`, etc.) |
 
-*Return value:* [`GlueServerMethod`](#classes-glueservermethod)  
+*Return value:* [`GlueServerMethod`](#classes-glueservermethod)
 
 #### CreateServerStream
 
 Creates an instance of [`GlueServerStream`](#classes-glueserverstream) which can be used to register a Glue42 stream and handle the server-side interaction with Glue42.
 
-*Signature:* 
+*Signature:*
 
 ```vbnet
 Function CreateServerStream(streamName As String, Input As String, Output As String, objectTypesCSV As String) As GlueServerStream
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -437,17 +477,17 @@ Function CreateServerStream(streamName As String, Input As String, Output As Str
 | `Output` | `String` | Optional string representation of the published stream data structure. |
 | `objectTypesCSV` | `String` | Optional string of comma-separated values specifying the types of objects that the stream method works with (e.g., `Instrument`, `Client`, etc.) |
 
-*Return value:* [`GlueServerStream`](#classes-glueserverstream)  
+*Return value:* [`GlueServerStream`](#classes-glueserverstream)
 
 #### CreateStreamConsumer
 
-Creates an instance of [`GlueStreamConsumer`](#classes-gluestreamconsumer) which can be used to subscribe to Glue42 streams and handle the client-side interaction with Glue42.  
+Creates an instance of [`GlueStreamConsumer`](#classes-gluestreamconsumer) which can be used to subscribe to Glue42 streams and handle the client-side interaction with Glue42.
 
-*Signature:* 
+*Signature:*
 
 ```vbnet
 Function CreateStreamConsumer() As GlueStreamConsumer
-```  
+```
 
 *Parameters:* None
 
@@ -455,13 +495,13 @@ Function CreateStreamConsumer() As GlueStreamConsumer
 
 #### GetChannels
 
-Obtains the names of all available Glue42 Channels.  
+Obtains the names of all available Glue42 Channels.
 
 *Signature:*
 
 ```vbnet
 Function GetChannels() As String()
-```  
+```
 
 *Parameters:* None
 
@@ -471,13 +511,13 @@ Function GetChannels() As String()
 
 Creates an instance of [`GlueContextManager`](#classes-gluecontextmanager) which can later be linked to a Glue42 context with the [`Open`](#classes-gluecontextmanager-open) method.
 
-*Signature:* 
+*Signature:*
 
 ```vbnet
 Function GetGlueContext(contextName As String) As GlueContextManager
 ```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -487,21 +527,21 @@ Function GetGlueContext(contextName As String) As GlueContextManager
 
 #### GetKnownContexts
 
-Obtains a list of all currently available Glue42 contexts.  
+Obtains a list of all currently available Glue42 contexts.
 
 *Signature:*
 
 ```vbnet
-Function GetKnwonContexts() As GlueContext()`  
+Function GetKnwonContexts() As GlueContext()`
 ```
 
-*Parameters:* None  
+*Parameters:* None
 
-*Return value:* `GlueContext()` - [`GlueContext`](#types-gluecontext) array containing information about the currently available Glue42 contexts.  
+*Return value:* `GlueContext()` - [`GlueContext`](#types-gluecontext) array containing information about the currently available Glue42 contexts.
 
 #### GetMethodNamesForTarget
 
-Obtains the names of all Glue42 methods or streams exposed by the specified application(s).  
+Obtains the names of all Glue42 methods or streams exposed by the specified apps.
 
 *Signature:*
 
@@ -513,19 +553,19 @@ Function GetMethodNamesForTarget(targetRegex As String) As String()
 
 | Name | Type | Description |
 |------|------|-------------|
-| `targetRegex` | `String` | Optional regular expression pattern which allows selecting for which target applications to retrieve the registered Interop methods/streams. If provided, only methods and streams exposed by applications with names matching the regular expression will be returned. An empty string or `Nothing` will match all application names. |
+| `targetRegex` | `String` | Optional regular expression pattern which allows selecting for which target apps to retrieve the registered Interop methods/streams. If provided, only methods and streams exposed by apps with names matching the regular expression will be returned. An empty string or `Nothing` will match all app names. |
 
 *Return value:* `String()`
 
 #### GetTargets
 
-Obtains the names of all Glue42 applications currently exposing methods or streams.  
+Obtains the names of all Glue42 apps currently exposing methods or streams.
 
 *Signature:*
 
 ```vbnet
 Function GetTargets() As String()
-```  
+```
 
 *Parameters:* None
 
@@ -535,13 +575,13 @@ Function GetTargets() As String()
 
 Outputs a message to the Glue42 log.
 
-*Signature:* 
+*Signature:*
 
 ```vbnet
 Sub Log(level As Byte, Message As String)
 ```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -554,13 +594,13 @@ Sub Log(level As Byte, Message As String)
 
 Initiates the registration of a VBA `UserForm` as a Glue42 window with default settings.
 
-*Signature:* 
+*Signature:*
 
 ```vbnet
 Function RegisterGlueWindow(hwnd As Long, windowEventHandler As IGlueWindowEventHandler) As GlueWindow
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -569,19 +609,19 @@ Function RegisterGlueWindow(hwnd As Long, windowEventHandler As IGlueWindowEvent
 
 *Return value:* [`GlueWindow`](#classes-gluewindow)
 
-*Note that the returned instance of `GlueWindow` should not be used to interact with the Glue42 window until the [`HandleWindowReady`](#classes-gluewindow-handlewindowready) event has been raised (i.e., the window registration is complete).*
+*Note that the returned instance of `GlueWindow` shouldn't be used to interact with the Glue42 window until the [`HandleWindowReady`](#classes-gluewindow-handlewindowready) event has been raised (i.e., the window registration is complete).*
 
 #### RegisterGlueWindowWithSettings
 
 Initiates the registration of a VBA `UserForm` as a Glue42 window with custom settings.
 
-*Signature:* 
+*Signature:*
 
 ```vbnet
 Function RegisterGlueWindowWithSettings(hwnd As Long, settings As GlueWindowSettings, windowEventHandler As IGlueWindowEventHandler) As GlueWindow
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -591,23 +631,23 @@ Function RegisterGlueWindowWithSettings(hwnd As Long, settings As GlueWindowSett
 
 *Return value:* [`GlueWindow`](#classes-gluewindow)
 
-*Note that the returned instance of `GlueWindow` should not be used to interact with the Glue42 window until the [`HandleWindowReady`](#classes-gluewindow-handlewindowready) event has been raised (i.e., the window registration is complete).*
+*Note that the returned instance of `GlueWindow` shouldn't be used to interact with the Glue42 window until the [`HandleWindowReady`](#classes-gluewindow-handlewindowready) event has been raised (i.e., the window registration is complete).*
 
 #### StartWithAppName
 
-Connects to the Glue42 Gateway and announces the application instance. Connection to the Glue42 Gateway is required for using any Glue42 functionality.  
+Connects to the Glue42 Gateway and announces the app instance. Connection to the Glue42 Gateway is required for using any Glue42 functionality.
 
-*Signature:* 
+*Signature:*
 
 ```vbnet
 Sub StartWithAppName(ApplicationName As String)
 ```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-| `ApplicationName` | `String` | Name under which the application will be registered in Glue42. |
+| `ApplicationName` | `String` | Name under which the app will be registered in Glue42. |
 
 *Return value:* None
 
@@ -615,11 +655,11 @@ Sub StartWithAppName(ApplicationName As String)
 
 Disconnects from the Glue42 Gateway, shutting down all communication:
 
-- The application instance will no longer receive any notifications from Glue42, no event handlers will be invoked.
+- The app instance will no longer receive any notifications from Glue42, no event handlers will be invoked.
 - All stream subscriptions will be terminated.
-- All methods and streams published by the application will be automatically unregistered.
-- The application instance will no longer be visible/discoverable.
-- Glue42 context data (including Glue42 Channel data) set by the application will persist until overwritten by other applications.
+- All methods and streams published by the app will be automatically unregistered.
+- The app instance will no longer be visible/discoverable.
+- Glue42 context data (including Glue42 Channel data) set by the app will persist until overwritten by other apps.
 
 *Signature:*
 
@@ -645,15 +685,15 @@ This class has no properties.
 
 Closes an open Glue42 context. The context is unlinked from the `GlueContextManager` which can no longer be used to interact with the context. The associated event handler will no longer be executed when the context data changes.
 
-*Signature:* 
+*Signature:*
 
 ```vbnet
 Sub Close()
-```  
+```
 
-*Parameters:*  None  
+*Parameters:*  None
 
-*Return value:* None  
+*Return value:* None
 
 #### GetContextInfo
 
@@ -662,12 +702,30 @@ Obtains a [`GlueContext`](#types-gluecontext) containing information about the l
 *Signature:*
 
 ```vbnet
-Function GetContextInfo() As GlueContext  
+Function GetContextInfo() As GlueContext
 ```
 
 *Parameters:* None
 
 *Return value:* [`GlueContext`](#types-gluecontext)
+
+#### GetDataAsJson
+
+Gets a composite value or an elementary field in JSON format.
+
+*Signature:*
+
+```vbnet
+Function GetDataAsJson(fieldPath As String) As String
+```
+
+*Parameters:*
+
+| Name | Type | Description |
+|------|------|-------------|
+| `fieldPath` | `String` | Path to the field in the composite value structure. An empty string refers to the root of the composite value structure. |
+
+*Return value:* `String`
 
 #### GetReflectData
 
@@ -677,9 +735,9 @@ Gets a composite value or an elementary field from the associated composite valu
 
 ```vbnet
 Function GetReflectData(fieldPath As String) as Variant
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -687,13 +745,13 @@ Function GetReflectData(fieldPath As String) as Variant
 
 *Return value:*
 
-- `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue) if `fieldPath` refers to a composite value;  
-- `Variant`/`<some native type>` if `fieldPath` refers to an elementary field;  
-- `Variant`/`Empty` if the specified `fieldPath` does not exist;
+- `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue) if `fieldPath` refers to a composite value;
+- `Variant`/`<some native type>` if `fieldPath` refers to an elementary field;
+- `Variant`/`Empty` if the specified `fieldPath` doesn't exist;
 
 #### Open
 
-Opens a Glue42 context. If the context does not exist, it is automatically created with an empty data value.
+Opens a Glue42 context. If the context doesn't exist, it is automatically created with an empty data value.
 
 *Signature:*
 
@@ -701,37 +759,77 @@ Opens a Glue42 context. If the context does not exist, it is automatically creat
 Sub Open()
 ```
 
-*Parameters:*  None  
+*Parameters:*  None
+
+*Return value:* None
+
+#### Remove
+
+Removes a shared context value.
+
+*Signature:*
+
+```vbnet
+Sub Remove(fieldPath As String)
+```
+
+*Parameters:*
+
+| Name | Type | Description |
+|------|------|-------------|
+| `fieldPath` | `String` | Path to the composite value or field in the composite value structure to remove. |
 
 *Return value:* None
 
 #### SetValue
 
-Sets or updates a context value.  
+Sets or updates a context value.
 
-*Signature:* 
+*Signature:*
 
 ```vbnet
 Sub SetValue(fieldPath As String, Value)
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-| `fieldPath` | `String` | Path to the composite value or field in the composite value structure. Non-existent elements in the path are automatically created as composite values. If any of the path elements (apart from the last one) exist but are not composite values, the call will fail. |
+| `fieldPath` | `String` | Path to the composite value or field in the composite value structure. Non-existent elements in the path are automatically created as composite values. If any of the path elements (apart from the last one) exist but aren't composite values, the call will fail. |
 | `Value` | `Variant` | An instance of [`GlueDynamicValue`](#classes-gluedynamicvalue) to which the composite value or field will be set. See [Building Composite Values](#glue42_vba_concepts-composite_values-building_composite_values) for details about obtaining and initializing a `GlueDynamicValue`. |
+
+*Return value:* None
+
+#### UpdateContextDataJson
+
+Updates a composite value or an elementary field in the shared context.
+
+*Signature:*
+
+```vbnet
+Sub UpdateContextDataJson(fieldPath As String, jsonEncodedData As String)
+```
+
+*Parameters:*
+
+| Name | Type | Description |
+|------|------|-------------|
+| `fieldPath` | `String` | Path to the composite value or field in the composite value structure. Non-existent elements in the path are automatically created as composite values. If any of the path elements (apart from the last one) exist but aren't composite values, the call will fail. |
+| `jsonEncodedData` | `String` | String representation of the new value in JSON format. |
 
 *Return value:* None
 
 #### Nonapplicable Methods
 
-The following methods are not intended to be used in VBA:
+The following methods aren't intended to be used in VBA:
 
 - `BuildAndSetContextData`
 - `BuildAndUpdateContextData`
 - `GetData`
+- `IsLaunchedByGD`
+- `JsonToVariant`
 - `SetContextData`
+- `SetContextDataOnFieldPath`
 - `UpdateContextData`
 
 **Events**
@@ -740,7 +838,7 @@ The following methods are not intended to be used in VBA:
 
 The handler for this event is executed when the linked context data has been updated or when a context has been linked with the [`Open`](#classes-gluecontextmanager-open) method.
 
-*Handler signature:* 
+*Handler signature:*
 
 ```vbnet
 Sub GlueContextManager_HandleContextUpdate(ByVal contextUpdate As IGlueContextUpdate)
@@ -754,7 +852,7 @@ Sub GlueContextManager_HandleContextUpdate(ByVal contextUpdate As IGlueContextUp
 
 #### Nonapplicable events
 
-The following events are not intended to be used in VBA:
+The following events aren't intended to be used in VBA:
 
 - `HandleContext`
 
@@ -776,11 +874,11 @@ Obtains an instance of [`GlueContextManager`](#classes-gluecontextmanager) linke
 
 ```vbnet
 Function GetContext() As GlueContextManager
-```  
+```
 
-*Parameters:* None  
+*Parameters:* None
 
-*Return value:* [`GlueContextManager`](#classes-gluecontextmanager)  
+*Return value:* [`GlueContextManager`](#classes-gluecontextmanager)
 
 ### GlueData
 
@@ -800,9 +898,9 @@ Gets a composite value or an elementary field from the associated composite valu
 
 ```vbnet
 Function GetReflectData(fieldPath As String) as Variant
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -810,13 +908,13 @@ Function GetReflectData(fieldPath As String) as Variant
 
 *Return value:*
 
-- `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue) if `fieldPath` refers to a composite value;  
-- `Variant`/`<some native type>` if `fieldPath` refers to an elementary field;  
-- `Variant`/`Empty` if the specified `fieldPath` does not exist;
+- `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue) if `fieldPath` refers to a composite value;
+- `Variant`/`<some native type>` if `fieldPath` refers to an elementary field;
+- `Variant`/`Empty` if the specified `fieldPath` doesn't exist;
 
 ### GlueDynamicValue
 
-An instance of this class represents a node in a composite value. Composite values are passed to and returned by various Glue42 COM methods involving data exchange between applications. See also [Building Composite Values](#glue42_vba_concepts-composite_values-building_composite_values) and [Accessing Composite Value Fields](#glue42_vba_concepts-composite_values-accessing_composite_value_fields).
+An instance of this class represents a node in a composite value. Composite values are passed to and returned by various Glue42 COM methods involving data exchange between apps. See also [Building Composite Values](#glue42_vba_concepts-composite_values-building_composite_values) and [Accessing Composite Value Fields](#glue42_vba_concepts-composite_values-accessing_composite_value_fields).
 
 **Properties**
 
@@ -832,13 +930,13 @@ An instance of this class represents a node in a composite value. Composite valu
 
 Checks if a child node with the specified name exists.
 
-*Signature:* 
+*Signature:*
 
 ```vbnet
-Function Contains(Name As String) As Boolean  
+Function Contains(Name As String) As Boolean
 ```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -848,19 +946,19 @@ Function Contains(Name As String) As Boolean
 
 #### Nonapplicable Methods
 
-The following methods are not intended to be used in VBA:
+The following methods aren't intended to be used in VBA:
 
 - `GetEnumerator`
 
 ### GlueInvocationRequest
 
-This class is used by applications when providing a Glue42 method implementation. An instance of this class is passed by Glue42 to the [`HandleInvocationRequest`](#classes-glueservermethod-handleinvocationrequest) event handler. Interface: `IGlueInvocationRequest`.
+This class is used by apps when providing a Glue42 method implementation. An instance of this class is passed by Glue42 to the [`HandleInvocationRequest`](#classes-glueservermethod-handleinvocationrequest) event handler. Interface: `IGlueInvocationRequest`.
 
 **Properties**
 
 | Name | Type | Description |
 |------|------|-------------|
-| `Caller` | [`VBGlueInstance`](#types-vbglueinstance) | Information about the application instance that has invoked the method. |
+| `Caller` | [`VBGlueInstance`](#types-vbglueinstance) | Information about the app instance that has invoked the method. |
 | `method` | [`VBGlueMethod`](#types-vbgluemethod) | Information about the method being invoked. |
 
 **Methods**
@@ -873,9 +971,9 @@ Gets a composite value or an elementary field from the associated composite valu
 
 ```vbnet
 Function GetReflectData(fieldPath As String) as Variant
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -883,9 +981,9 @@ Function GetReflectData(fieldPath As String) as Variant
 
 *Return value:*
 
-- `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue) if `fieldPath` refers to a composite value;  
-- `Variant`/`<some native type>` if `fieldPath` refers to an elementary field;  
-- `Variant`/`Empty` if the specified `fieldPath` does not exist;  
+- `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue) if `fieldPath` refers to a composite value;
+- `Variant`/`<some native type>` if `fieldPath` refers to an elementary field;
+- `Variant`/`Empty` if the specified `fieldPath` doesn't exist;
 
 #### SendFailure
 
@@ -895,9 +993,9 @@ Returns a `"Failed"` status to the Glue42 method invocator (caller).
 
 ```vbnet
 Sub SendFailure(Message As String, additionalData as Variant)
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -925,10 +1023,10 @@ Returns a result to the Glue42 method invocator (caller).
 *Signature:*
 
 ```vbnet
-Sub SendResult(result as Variant)  
+Sub SendResult(result as Variant)
 ```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -938,7 +1036,7 @@ The following may be provided as `result`:
 
 | Type | Description |
 |------|-------------|
-| [`VBGlueResult`](#types-vbglueresult) | An instance of `VBGlueResult` fully describing the result which will be returned back to the caller. You may initialize some or all properties as needed. The `method` property does not need to be initialized (its value is ignored), it will be automatically populated by Glue42 when delivering the result to the caller. |
+| [`VBGlueResult`](#types-vbglueresult) | An instance of `VBGlueResult` fully describing the result which will be returned back to the caller. You may initialize some or all properties as needed. The `method` property doesn't need to be initialized (its value is ignored), it will be automatically populated by Glue42 when delivering the result to the caller. |
 | [`GlueDynamicValue`](#classes-gluedynamicvalue) | Composite value to return to the caller. This is equivalent to providing a `VBGlueResult` with `Status = GlueMethodInvocationStatus_Succeeded`, `GlueData` initialized with the provided composite value, and all other properties initialized with empty/default values. |
 | `Nothing` | No value will be returned to the caller. This is equivalent to sending a `VBGlueResult` with `Status = GlueMethodInvocationStatus_Succeeded` and all other properties initialized with empty/default values. |
 
@@ -952,7 +1050,7 @@ Dim DynamicValue
 Set DynamicValue = Glue.CreateGlueValues
 DynamicValue("jobID") = "JOB#1234"
 
-' Initialize the result.  
+' Initialize the result.
 Dim VBResult As VBGlueResult
 VBResult.Message = "Background job started."
 VBResult.Status = GlueMethodInvocationStatus_Started
@@ -970,12 +1068,12 @@ This class is used to store information about a Glue42 streaming method. Instanc
 
 | Name | Type | Description |
 |------|------|-------------|
-| `correlationId` | `String` | Optional user-defined string which was passed as an argument to [`Subscribe`](#classes-gluestreamconsumer-subscribe) when the application initiated the stream subscription. |
+| `correlationId` | `String` | Optional user-defined string which was passed as an argument to [`Subscribe`](#classes-gluestreamconsumer-subscribe) when the app initiated the stream subscription. |
 | `method` | [`VBGlueMethod`](#types-vbgluemethod) | Contains details about the Glue42 stream. |
 
 **Methods**
 
-This class has no methods.  
+This class has no methods.
 
 ### GlueMethodInvocator
 
@@ -1002,19 +1100,19 @@ Sub InvokeAsync(method As String, targetRegex As String, args, all As Boolean, c
 | Name | Type | Description |
 |------|------|-------------|
 | `method` | `String` | Name of the method to invoke. |
-| `targetRegex` | `String` | Optional regular expression pattern which allows selecting the target application(s) which will service the method invocation. If provided, only targets with application name matching the regular expression will be considered. An empty string or `Nothing` will match all application names. |
+| `targetRegex` | `String` | Optional regular expression pattern which allows selecting the target apps which will service the method invocation. If provided, only targets with app name matching the regular expression will be considered. An empty string or `Nothing` will match all app names. |
 | `args` | `Variant` | An instance of [`GlueDynamicValue`](#classes-gluedynamicvalue) representing the arguments to pass to the Glue42 method being invoked (see also [Building Composite Values](#glue42_vba_concepts-composite_values-building_composite_values)) or `Nothing` in case the method accepts no arguments. |
-| `all` | `Boolean` | Indicates whether the method invocation request should be sent to all available application targets or to one target only. |
+| `all` | `Boolean` | Indicates whether the method invocation request should be sent to all available app targets or to one target only. |
 | `correlationId` | `String` | Optional user-defined string which will be delivered back to the invocation result handler. This can be used to distinguish the returned results in case you make several invocations without waiting for the results to arrive first. |
 | `timeoutMsecs` | `Long` | Specifies how long (in milliseconds) Glue42 will wait for the method invocation to complete before sending a "timed out" status to the caller. |
 
-*Return value:* None  
+*Return value:* None
 
 #### InvokeSync
 
 Invokes a Glue42 method synchronously.
 
-*Note that invoking this method will block VBA execution until the method invocation completes. As VBA code runs in a single thread, it is not possible to synchronously invoke methods registered by the same VBA application.*
+*Note that invoking this method will block VBA execution until the method invocation completes. As VBA code runs in a single thread, it isn't possible to synchronously invoke methods registered by the same VBA app.*
 
 *Signature:*
 
@@ -1027,9 +1125,9 @@ Function InvokeSync(method As String, targetRegex As String, args, all As Boolea
 | Name | Type | Description |
 |------|------|-------------|
 | `method` | `String` | Name of the method to invoke. |
-| `targetRegex` | `String` | Optional regular expression pattern which allows selecting the target application(s) which will service the method invocation. If provided, only targets with application name matching the regular expression will be considered. An empty string or `Nothing` will match all application names. |
+| `targetRegex` | `String` | Optional regular expression pattern which allows selecting the target apps which will service the method invocation. If provided, only targets with app name matching the regular expression will be considered. An empty string or `Nothing` will match all app names. |
 | `args` | `Variant` | An instance of [`GlueDynamicValue`](#classes-gluedynamicvalue) representing the arguments to pass to the Glue42 method being invoked (see also [Building Composite Values](#glue42_vba_concepts-composite_values-building_composite_values)) or `Nothing` in case the method accepts no arguments. |
-| `all` | `Boolean` | Indicates whether the method invocation request should be sent to all available application targets or to one target only. |
+| `all` | `Boolean` | Indicates whether the method invocation request should be sent to all available app targets or to one target only. |
 | `timeoutMsecs` | `Long` | Specifies how long (in milliseconds) Glue42 will wait for the method invocation to complete before sending a "timed out" status to the caller. |
 
 *Return value:* [`VBGlueInvocationResult`](#classes-vbglueinvocationresult) - an instance of `VBGlueInvocationResult` containing information about the result from the method invocation.
@@ -1066,7 +1164,7 @@ This class is used to expose Glue42 methods and handle the server-side interacti
 
 #### Register
 
-Registers an Interop method in Glue42. The registered Interop method becomes visible to other Glue42 applications.
+Registers an Interop method in Glue42. The registered Interop method becomes visible to other Glue42 apps.
 
 *Signature:*
 
@@ -1096,7 +1194,7 @@ Sub Unregister()
 
 #### HandleInvocationRequest
 
-The handler for this event is executed when an application invokes a registered Glue42 method.
+The handler for this event is executed when an app invokes a registered Glue42 method.
 
 *Handler signature:*
 
@@ -1124,7 +1222,7 @@ This class is used to expose Glue42 streams (streaming methods) and handle the s
 
 #### CloseBranch
 
-Closes a stream branch. This will disconnect (unsubscribe) all subscribers from the branch and remove the branch from the stream.  
+Closes a stream branch. This will disconnect (unsubscribe) all subscribers from the branch and remove the branch from the stream.
 
 *Signature:*
 
@@ -1162,11 +1260,11 @@ Gets an array containing the names of all branches of the stream.
 
 ```vbnet
 Function GetBranchKeys() As String()
-```  
+```
 
 *Parameters:* None
 
-*Return value:* `String()` - an array of `String`s containing the names (keys) of all stream branches.  
+*Return value:* `String()` - an array of `String`s containing the names (keys) of all stream branches.
 
 #### PushVariantData
 
@@ -1175,10 +1273,10 @@ Push data to a stream or stream branch.
 *Signature:*
 
 ```vbnet
-Sub PushVariantData(data, branch As String)  
+Sub PushVariantData(data, branch As String)
 ```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -1189,13 +1287,13 @@ Sub PushVariantData(data, branch As String)
 
 #### Register
 
-Registers an Interop stream in Glue42. The registered stream becomes visible to other Glue42 applications.
+Registers an Interop stream in Glue42. The registered stream becomes visible to other Glue42 apps.
 
 *Signature:*
 
 ```vbnet
 Sub Register()
-```  
+```
 *Parameters:* None
 
 *Return value:* None
@@ -1216,7 +1314,7 @@ Sub Unregister()
 
 #### Nonapplicable Methods
 
-The following methods are not intended to be used in VBA:
+The following methods aren't intended to be used in VBA:
 
 - `GatBranch`
 - `Push`
@@ -1225,7 +1323,7 @@ The following methods are not intended to be used in VBA:
 
 #### HandleSubscriber
 
-The handler for this event is executed when a new stream subscriber is accepted.  
+The handler for this event is executed when a new stream subscriber is accepted.
 
 *Handler signature:*
 
@@ -1242,14 +1340,14 @@ Sub GlueServerStream_HandleSubscriber(ByVal subscriber As IVBGlueStreamSubscribe
 
 #### HandleSubscriberLost
 
-The handler for this event is executed when an existing subscriber is unsubscribed from the stream.  
+The handler for this event is executed when an existing subscriber is unsubscribed from the stream.
 
 *Handler signature:*
 
 ```vbnet
 Sub GlueServerStream_HandleSubscriberLost(ByVal subscriber As IVBGlueStreamSubscriber)
 ```
- 
+
 *Parameters:*
 
 | Name | Type | Description |
@@ -1258,7 +1356,7 @@ Sub GlueServerStream_HandleSubscriberLost(ByVal subscriber As IVBGlueStreamSubsc
 
 #### HandleSubscriptionRequest
 
-The handler for this event is executed when an application attempts to subscribe to a stream.  
+The handler for this event is executed when an app attempts to subscribe to a stream.
 
 *Handler signature:*
 
@@ -1290,20 +1388,20 @@ Attempt to subscribe to a Glue42 stream by sending a subscription request.
 
 ```vbnet
 Sub Subscribe(stream As String, targetRegex As String, args, all As Boolean, correlationId As String, timeoutMsecs As Long)
-```  
+```
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
 | `stream` | `String` | Name of the stream to which to subscribe. |
-| `targetRegex` | `String` | Optional regular expression pattern which allows selecting the target application(s) publishing the stream. If provided, only applications with name matching the regular expression will be considered. An empty string or `Nothing` will match all application names. |
+| `targetRegex` | `String` | Optional regular expression pattern which allows selecting the target apps publishing the stream. If provided, only apps with name matching the regular expression will be considered. An empty string or `Nothing` will match all app names. |
 | `args` | `Variant` | An instance of [`GlueDynamicValue`](#classes-gluedynamicvalue) representing the arguments to pass along with the subscription request (see also [Building Composite Values](#glue42_vba_concepts-composite_values-building_composite_values)) or `Nothing` if the stream publisher requires no arguments. |
-| `all` | `Boolean` | Indicates whether the subscription request should be sent to all matching applications which publish the stream, or a single application only. |
+| `all` | `Boolean` | Indicates whether the subscription request should be sent to all matching apps which publish the stream, or a single app only. |
 | `correlationId` | `String` | Optional user-defined string which will be delivered back to the stream consumer event handlers. It can be used to distinguish subscriptions in case you use the same stream consumer for multiple subscriptions. |
 | `timeoutMsecs` | `Long` | Specifies how long (in milliseconds) Glue42 will wait for the subscription request to be accepted or rejected before sending a "timed out" status to the caller. |
 
-*Return value:* None  
+*Return value:* None
 
 **Events**
 
@@ -1325,7 +1423,7 @@ Sub GlueStreamConsumer_HandleStreamClosed(ByVal stream As IGlueMethodInfo)
 
 #### HandleStreamData
 
-The handler for this event is executed when a stream publishing application pushes data to a stream.
+The handler for this event is executed when a stream publishing app pushes data to a stream.
 
 *Handler signature:*
 
@@ -1361,7 +1459,7 @@ Sub GlueStreamConsumer_HandleStreamStatus(ByVal stream As IGlueMethodInfo, ByVal
 
 #### HandleSubscriptionActivated
 
-The handler for this event is executed when a subscription request has been dispatched to Glue42. The main purpose for invoking this event is to provide an instance of the stream subscription which the application may later use to unsubscribe from the stream.
+The handler for this event is executed when a subscription request has been dispatched to Glue42. The main purpose for invoking this event is to provide an instance of the stream subscription which the app may later use to unsubscribe from the stream.
 
 *Handler signature:*
 
@@ -1369,14 +1467,14 @@ The handler for this event is executed when a subscription request has been disp
 Sub GlueStreamConsumer_HandleSubscriptionActivated(ByVal subscription As IGlueStreamSubscription, ByVal correlationId As String)
 ```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-| `subscription` | `IGlueStreamSubscription` | An instance of [`GlueStreamSubscription`](#classes-gluestreamsubscription). |  
-| `correlationId` | `String` | Optional user-defined string which was passed as a parameter to [`Subscribe`](#classes-gluestreamconsumer-subscribe) when the application initiated the stream subscription. |
+| `subscription` | `IGlueStreamSubscription` | An instance of [`GlueStreamSubscription`](#classes-gluestreamsubscription). |
+| `correlationId` | `String` | Optional user-defined string which was passed as a parameter to [`Subscribe`](#classes-gluestreamconsumer-subscribe) when the app initiated the stream subscription. |
 
-*Note that when this event is invoked, the subscription request has not yet been resolved.*
+*Note that when this event is invoked, the subscription request hasn't yet been resolved.*
 
 ### GlueStreamSubscription
 
@@ -1384,7 +1482,7 @@ This class is used to represent a Glue42 stream subscription. Interface: `IGlueS
 
 **Properties**
 
-This class has no properties.  
+This class has no properties.
 
 **Methods**
 
@@ -1404,13 +1502,13 @@ Sub Close()
 
 ### GlueSubscriptionRequest
 
-This class is used by applications which expose Glue42 streams. An instance of this class is passed by Glue42 to the [`HandleSubscriptionRequest`](#classes-glueserverstream-handlesubscriptionrequest) event handler. Interface: `IGlueSubscriptionRequest`.
+This class is used by apps which expose Glue42 streams. An instance of this class is passed by Glue42 to the [`HandleSubscriptionRequest`](#classes-glueserverstream-handlesubscriptionrequest) event handler. Interface: `IGlueSubscriptionRequest`.
 
 **Properties**
 
 | Name | Type | Description |
 |------|------|-------------|
-| `Requester` | [`VBGlueInstance`](#types-vbglueinstance) | Contains information about the Glue42 application instance which has sent the subscription request. |
+| `Requester` | [`VBGlueInstance`](#types-vbglueinstance) | Contains information about the Glue42 app instance which has sent the subscription request. |
 | `stream` | [`VBGlueMethod`](#types-vbgluemethod) | Contains details about the Glue42 streaming method. |
 
 **Methods**
@@ -1423,18 +1521,18 @@ Accepts a new subscriber on the stream.
 
 ```vbnet
 Function Accept(branch As String, result) As IGlueStreamBranch
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-| `branch` | `String` | Name of the branch on which to accept the new subscriber. If the branch does not exist, it will be automatically created. Providing an empty string will put the new subscriber on the default (unnamed) branch. |
-| `result` | `Variant` | This parameter is not applicable in VBA. Use `Nothing` when invoking the method. |
+| `branch` | `String` | Name of the branch on which to accept the new subscriber. If the branch doesn't exist, it will be automatically created. Providing an empty string will put the new subscriber on the default (unnamed) branch. |
+| `result` | `Variant` | This parameter isn't applicable in VBA. Use `Nothing` when invoking the method. |
 
 *Return value:* `IGlueStreamBranch`
 
-*Note that the return value is not intended to be used in VBA and can be ignored.*
+*Note that the return value isn't intended to be used in VBA and can be ignored.*
 
 #### GetReflectData
 
@@ -1444,9 +1542,9 @@ Gets a composite value or an elementary field from the associated composite valu
 
 ```vbnet
 Function GetReflectData(fieldPath As String) as Variant
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -1454,9 +1552,9 @@ Function GetReflectData(fieldPath As String) as Variant
 
 *Return value:*
 
-- `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue) if `fieldPath` refers to a composite value;  
-- `Variant`/`<some native type>` if `fieldPath` refers to an elementary field;  
-- `Variant`/`Empty` if the specified `fieldPath` does not exist;
+- `Variant`/[`GlueDynamicValue`](#classes-gluedynamicvalue) if `fieldPath` refers to a composite value;
+- `Variant`/`<some native type>` if `fieldPath` refers to an elementary field;
+- `Variant`/`Empty` if the specified `fieldPath` doesn't exist;
 
 #### Reject
 
@@ -1466,13 +1564,13 @@ Rejects a subscription request.
 
 ```vbnet
 Sub Reject(result)
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-| `result` | `Variant` | Optional `String` containing a message to deliver back to the application which has sent the subscription request. |
+| `result` | `Variant` | Optional `String` containing a message to deliver back to the app which has sent the subscription request. |
 
 *Return value:* None
 
@@ -1482,9 +1580,37 @@ This class represents a Glue42 Window. Interface: `IGlueWindow`.
 
 **Properties**
 
-This class has no properties.  
+This class has no properties.
 
 **Methods**
+
+#### Activate
+
+Activates the window.
+
+*Signature:*
+
+```vbnet
+Sub Activate()
+```
+
+*Parameters:* None
+
+*Return value:* None
+
+#### GetChannelContext
+
+Obtains an instance of [`GlueContextManager`](#classes-gluecontextmanager) for the Glue42 Channel selected in the window.
+
+*Signature:*
+
+```vbnet
+Function GetChannelContext() As GlueContextManager
+```
+
+*Parameters:* None
+
+*Return value:* [`GlueContextManager`](#classes-gluecontextmanager) or `Nothing` in case no Channel is selected in the window.
 
 #### GetChannelSupport
 
@@ -1494,7 +1620,7 @@ Determines whether the Glue42 Window has Channel support enabled. When Channel s
 
 ```vbnet
 Function GetChannelSupport() As Boolean
-```  
+```
 
 *Parameters:* None
 
@@ -1502,7 +1628,7 @@ Function GetChannelSupport() As Boolean
 
 #### GetId
 
-Obtains the Glue42 Window identifier. The Glue42 Window identifier is an opaque value and the application should not try to interpret the contents of the value in any way.
+Obtains the Glue42 Window identifier. The Glue42 Window identifier is an opaque value and the app shouldn't try to interpret the contents of the value in any way.
 
 *Signature:*
 
@@ -1514,17 +1640,17 @@ Function GetId() As String
 
 *Return value:* `String`
 
-Contains the identifier that Glue42 keeps for the registered window.  
+Contains the identifier that Glue42 keeps for the registered window.
 
 #### GetTitle
 
-Obtains the Glue42 Window title (caption). The Glue42 Window title is separate and independent from the the VBA form title. The initial Glue42 Window title will be set to the name with which the application was registered in Glue42. See also [`SetTitle`](#classes-gluewindow-settitle).
+Obtains the Glue42 Window title (caption). The Glue42 Window title is separate and independent from the the VBA form title. The initial Glue42 Window title will be set to the name with which the app was registered in Glue42. See also [`SetTitle`](#classes-gluewindow-settitle).
 
 *Signature:*
 
 ```vbnet
 Function GetTitle() As String
-```  
+```
 
 *Parameters:* None
 
@@ -1538,7 +1664,7 @@ Determines whether the Glue42 Window is visible. See also [`SetVisible`](#classe
 
 ```vbnet
 Function IsVisible() As Boolean
-```  
+```
 
 *Parameters:* None
 
@@ -1552,9 +1678,9 @@ Enables or disables Channel support for the Glue42 Window. When Channel support 
 
 ```vbnet
 Sub SetChannelSupport(showLink As Boolean)
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -1570,9 +1696,9 @@ Sets the title (caption) of the Glue42 Window. See also [`GetTitle`](#classes-gl
 
 ```vbnet
 Sub SetTitle(title As String)
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -1588,9 +1714,9 @@ Shows or hides the Glue42 Window. See also [`IsVisible`](#classes-gluewindow-isv
 
 ```vbnet
 Sub SetVisible(visible As Boolean)
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -1600,9 +1726,9 @@ Sub SetVisible(visible As Boolean)
 
 #### Nonapplicable Methods
 
-The following methods are not intended to be used in VBA:
+The following methods aren't intended to be used in VBA:
 
-- `Unregister`  
+- `Unregister`
 
 **Events**
 
@@ -1628,7 +1754,7 @@ Sub GlueWindow_HandleChannelChanged(ByVal Window As IGlueWindow, ByVal Channel A
 
 The handler for this event is executed in two cases:
 - when the data in the selected Channel changes;
-- after the `HandleChannelChanged` event, when the user switches to another Channel using the Channel selection box in the title bar.  
+- after the `HandleChannelChanged` event, when the user switches to another Channel using the Channel selection box in the title bar.
 
 *Handler signature:*
 
@@ -1645,7 +1771,7 @@ Sub GlueWindow_HandleChannelData(ByVal window As IGlueWindow, ByVal channelUpdat
 
 #### HandleWindowDestroyed
 
-The handler for this event is executed when the Glue42 Window is being destroyed. The purpose for raising this event is to provide an opportunity for the VBA application to gracefully unload the VBA `UserForm`.
+The handler for this event is executed when the Glue42 Window is being destroyed. The purpose for raising this event is to provide an opportunity for the VBA app to gracefully unload the VBA `UserForm`.
 
 *Handler signature:*
 
@@ -1657,7 +1783,25 @@ Sub GlueWindow_HandleWindowDestroyed(ByVal window As IGlueWindow)
 
 | Name | Type | Description |
 |------|------|-------------|
-| `window` | `IGlueWindow` | The application should ignore this parameter. |
+| `window` | `IGlueWindow` | The app should ignore this parameter. |
+
+#### HandleWindowEvent
+
+The handler for this event is executed when various events related to the Glue42 Window are fired, e.g. when the window is activated, moved, etc.
+
+*Handler signature:*
+
+```vbnet
+Sub GlueWindow_HandleWindowEvent(ByVal window As IGlueWindow, ByVal eventType As GlueWindowEventType, ByVal eventData As GlueDynamicValue)ndow)
+```
+
+*Parameters:*
+
+| Name | Type | Description |
+|------|------|-------------|
+| `window` | `IGlueWindow` | An instance of [`GlueWindow`](#classes-gluewindow) representing the window for which the event was fired.  |
+| `eventType` | [`GlueWindowEventType`](#enums-gluewindoweventtype) | Enumeration value representing the type of the event. |
+| `eventData` | [`GlueDynamicValue`](#classes-gluedynamicvalue) | Additional information about the specific event, represented as a composite value. |
 
 #### HandleWindowReady
 
@@ -1675,36 +1819,36 @@ Sub GlueWindow_HandleWindowReady(ByVal window As IGlueWindow)
 |------|------|-------------|
 | `window` | `IGlueWindow` | An instance of [`GlueWindow`](#classes-gluewindow) representing the window that has been registered. |
 
-To interact with the Glue42 Window, the application can use either the instance of `GlueWindow` passed to this event handler, or the instance obtained from [`RegisterGlueWindow`](#classes-glue42-registergluewindow).
+To interact with the Glue42 Window, the app can use either the instance of `GlueWindow` passed to this event handler, or the instance obtained from [`RegisterGlueWindow`](#classes-glue42-registergluewindow).
 
 ### GlueWindowSettings
 
 This class is used to store the settings to be used when registering a `UserForm` as a Glue42 Window.
 
-**Properties**  
+**Properties**
 
-| Name | Type | Description | Default |
-|------|------|-------------|---------|
-| `AllowMove` | `Boolean` | Specifies whether the window can be moved. (Currently unusable.) | `True` |
-| `AllowResize` | `Boolean` | Specifies whether the window can be resized. (Currently unusable.) | `True` |
-| `AllowTabClose` | `Boolean` | Specifies whether a tab window will have a "Close" button. Only applicable when the window `Type` is set to `"Tab"`. | `True` |
-| `AllowUnstick` | `Boolean` | Specifies whether the Glue42 Window can be separated from other Glue42 Windows once it has been stuck to another Glue42 Window or window group. | `True` |
-| `Channel` | `String` | Specifies the Channel to be initially selected. No Channel is selected by default. | "" |
-| `ChannelSupport` | `Boolean` | Specifies whether the window will have Channel support enabled. | `True` |
-| `FrameColor` | `String` | The color of the window frame. (Currently unusable.) | `""` |
-| `Icon` | `String` | Icon for the application. (Currently unusable.) | `""` |
-| `IsSticky` | `Boolean` | Specifies whether the window can be stuck to other Glue42 Windows or window groups. | `True` |
-| `MaxHeight` | `Long` | Specifies the maximum height (in pixels) to which the window can be resized. A value of `0` means no limit. The height of the window title bar is not included. | `0` |
-| `Maximizable` | `Boolean` | Specifies whether the window will have a "Maximize" button. | `True` |
-| `MaxWidth` | `Long` | Specifies the maximum width (in pixels) to which the window can be resized. A value of `0` means no limit. | `0` |
-| `MinHeight` | `Long` | Specifies the minimum height (in pixels) to which the window can be resized. The height of the window title bar is not included. | `0` |
-| `Minimizable` | `Boolean` | Specifies whether the window will have a "Minimize" button. | `True` |
-| `MinWidth` | `Long` | Specifies the minimum width (in pixels) to which the window can be resized. | `0` |
-| `ShowTaskbarIcon` | `Boolean` | Specifies whether the window should have an icon in the taskbar. | `True` |
-| `StandardButtons` | `String` | Optional list of comma-separated values specifying which command buttons will be available in the window title bar. See [StandardButtons](#classes-gluewindowsettings-standardbuttons) below. | `""` |
-| `SynchronousDestroy` | `Boolean` | VBA applications must always set this value to `True`. | `False` |
-| `Title` | `String` | Specifies the window title. If an empty string is provided, the initial window title will be set to the name of the Glue42 application registering the window. | `""` |
-| `Type` | `String` | Specifies the window type. The available types are `"Flat"` and  `"Tab"` | `"Flat"` |
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| `AllowMove` | `Boolean` | `True` | Specifies whether the window can be moved. (Currently unusable.) |
+| `AllowResize` | `Boolean` | `True` | Specifies whether the window can be resized. (Currently unusable.) |
+| `AllowTabClose` | `Boolean` | `True` | Specifies whether a tab window will have a "Close" button. Only applicable when the window `Type` is set to `"Tab"`. |
+| `AllowUnstick` | `Boolean` | `True` | Specifies whether the Glue42 Window can be separated from other Glue42 Windows once it has been stuck to another Glue42 Window or window group. |
+| `Channel` | `String` | `""` | Specifies the Channel to be initially selected. No Channel is selected by default. |
+| `ChannelSupport` | `Boolean` | `True` | Specifies whether the window will have Channel support enabled. |
+| `FrameColor` | `String` | `""` | The color of the window frame. (Currently unusable.) |
+| `Icon` | `String` | `""` | Icon for the app. (Currently unusable.) |
+| `IsSticky` | `Boolean` | `True` | Specifies whether the window can be stuck to other Glue42 Windows or window groups. |
+| `MaxHeight` | `Long` | `0` | Specifies the maximum height (in pixels) to which the window can be resized. A value of `0` means no limit. The height of the window title bar isn't included. |
+| `Maximizable` | `Boolean` | `True` | Specifies whether the window will have a "Maximize" button. |
+| `MaxWidth` | `Long` | `0` | Specifies the maximum width (in pixels) to which the window can be resized. A value of `0` means no limit. |
+| `MinHeight` | `Long` | `0` | Specifies the minimum height (in pixels) to which the window can be resized. The height of the window title bar isn't included. |
+| `Minimizable` | `Boolean` | `True` | Specifies whether the window will have a "Minimize" button. |
+| `MinWidth` | `Long` | `0` | Specifies the minimum width (in pixels) to which the window can be resized. |
+| `ShowTaskbarIcon` | `Boolean` | `True` | Specifies whether the window should have an icon in the taskbar. |
+| `StandardButtons` | `String` | `""` | Optional list of comma-separated values specifying which command buttons will be available in the window title bar. See [StandardButtons](#classes-gluewindowsettings-standardbuttons) below. |
+| `SynchronousDestroy` | `Boolean` | `False` | VBA apps must always set this value to `True`. |
+| `Title` | `String` | `""` | Specifies the window title. If an empty string is provided, the initial window title will be set to the name of the Glue42 app registering the window. |
+| `Type` | `String` | `"Flat"` | Specifies the window type. The available types are `"Flat"` and `"Tab"`. |
 
 #### StandardButtons
 
@@ -1712,7 +1856,7 @@ The `StandardButtons` property specifies which command buttons will be available
 
 | Value | Description |
 |-------|-------------|
-| `"None"` | No command buttons will be shown. This is used to hide all command buttons and cannot be combined with other values. |
+| `"None"` | No command buttons will be shown. This is used to hide all command buttons and can't be combined with other values. |
 | `"LockUnlock"` | Show the "Lock/Unlock" button. |
 | `"Extract"` | Show the "Extract" button. |
 | `"Collapse"` | Show the "Collapse" button. |
@@ -1723,7 +1867,7 @@ The `StandardButtons` property specifies which command buttons will be available
 
 **Methods**
 
-This class has no methods.  
+This class has no methods.
 
 ### VBGlueInvocationResult
 
@@ -1734,7 +1878,7 @@ Instances of this class are returned by Glue42 when an asynchronous method invoc
 | Name | Type | Description |
 |------|------|-------------|
 | `correlationId` | `String` | User-defined string which was passed as a parameter to [`InvokeAsync`](#classes-gluemethodinvocator-invokeasync). |
-| `Results` | `VBGlueResult()` | A [`VBGlueResult`](#types-vbglueresult) array containing details about the invocation result. If the invocation request was sent to multiple target applications, the array will have an element for each result returned by each application. The array will always contain at least one element even if the invoked method is not available (e.g., the specified method is not registered by any application). |
+| `Results` | `VBGlueResult()` | A [`VBGlueResult`](#types-vbglueresult) array containing details about the invocation result. If the invocation request was sent to multiple target apps, the array will have an element for each result returned by each app. The array will always contain at least one element even if the invoked method isn't available (e.g., the specified method isn't registered by any app). |
 
 **Methods**
 
@@ -1742,11 +1886,11 @@ This class has no methods.
 
 ### VBGlueStreamSubscriber
 
-This class is used to store information about a Glue42 stream subscriber application. An instance of this class is passed to event handlers of [`GlueServerStream`](#classes-glueserverstream) (see [`HandleSubscriber`](#classes-glueserverstream-handlesubscriber) and [`HandleSubscriberLost`](#classes-glueserverstream-handlesubscriberlost). Interface: `IVBGlueStreamSubscriber`.
+This class is used to store information about a Glue42 stream subscriber app. An instance of this class is passed to event handlers of [`GlueServerStream`](#classes-glueserverstream) (see [`HandleSubscriber`](#classes-glueserverstream-handlesubscriber) and [`HandleSubscriberLost`](#classes-glueserverstream-handlesubscriberlost). Interface: `IVBGlueStreamSubscriber`.
 
 **Properties**
 
-This class has no properties.  
+This class has no properties.
 
 **Methods**
 
@@ -1758,19 +1902,19 @@ Unsubscribes (removes) a subscriber from the stream.
 
 ```vbnet
 Sub Close(data)
-```  
+```
 
 *Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
-| `data` | `Variant` | This parameter is not applicable in VBA. Use `Nothing` when invoking the method. |
+| `data` | `Variant` | This parameter isn't applicable in VBA. Use `Nothing` when invoking the method. |
 
 *Return value:* None
 
 #### GetStream
 
-Gets information about the streaming method to which the application is subscribing.
+Gets information about the streaming method to which the app is subscribing.
 
 *Signature:*
 
@@ -1780,11 +1924,11 @@ Function GetStream() As VBGlueMethod
 
 *Parameters:* None
 
-*Return value:* [`VBGlueMethod`](#types-vbgluemethod)  
+*Return value:* [`VBGlueMethod`](#types-vbgluemethod)
 
 #### GetSubscriberInstance
 
-Gets information about the subscriber application instance.
+Gets information about the subscriber app instance.
 
 *Signature:*
 
@@ -1794,22 +1938,22 @@ Function GetSubscriberInstance() As VBGlueInstance
 
 *Parameters:* None
 
-*Return value:* [`VBGlueInstance`](#types-vbglueinstance)  
+*Return value:* [`VBGlueInstance`](#types-vbglueinstance)
 
 #### Push
 
-Pushes stream data only to the associated subscriber application instance.
+Pushes stream data only to the associated subscriber app instance.
 
 *Signature:*
 
 ```vbnet
 Sub Push(data)
-```  
+```
 
-*Parameters:*  
+*Parameters:*
 
 | Name | Type | Description |
 |------|------|-------------|
 | `data` | `Variant` | An instance of [`GlueDynamicValue`](#classes-gluedynamicvalue) representing the data to publish (see also [Building Composite Values](#glue42_vba_concepts-composite_values-building_composite_values)). |
 
-*Return value:* None 
+*Return value:* None

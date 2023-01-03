@@ -4,22 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "makeZip": "node bin/clean-build && node bin/archive",
-    "buildGlueNew": "npm run buildMarkDown && npm run buildGettingStarted && npm run build3ColumnDocumentation",
-    "buildGettingStarted": "glue-js-documentation-builder build-documentation -p g4e -o -q gettingStarted -s ./docs/ -d ./dist/ -m introduction-to-glue,glue-for-devs,configuration,devTools",
-    "build3ColumnDocumentation": "glue-js-documentation-builder build-3-column-documentation -p g4e -q documentation -s ./docs/ -d ./dist/ -m using-glue-libraries,interop,window-management,app-management,activity,contexts,channels,bus,layouts,swimlane-ui,gns,gss,metrics",
-    "buildOverview": "glue-js-documentation-builder build-documentation -p g4e -o -q documentation -s ./docs/ -d ./dist/ -m introduction-to-glue,glue-for-devs,configuration,devTools",
-    "buildJs": "glue-js-documentation-builder build-documentation -p g4e -q documentation -s ./docs/ -d ./dist/ -m using-glue-js,agm,window-management,app-management,activity,layouts,channels,contexts,metrics,gss,gns,bus",
-    "buildDotNet": "glue-js-documentation-builder build-documentation -p g4e -q documentation -s ./docs/ -d ./dist/ -m net-using-glue,net-sticky-windows,net-interop,net-channels,net-contexts,net-gns,net-app-management,net-metrics",
-    "buildNodeJs": "glue-js-documentation-builder build-documentation -p g4e -q documentation -s ./docs/ -d ./dist/ -m nodejs-using-glue",
-    "buildJava": "glue-js-documentation-builder build-documentation -p g4e -q documentation -s ./docs/ -d ./dist/ -m java-using-glue,java-interop,java-windows,java-channels,java-contexts,java-notifications,java-appendix",
-    "buildGlue": "npm run buildMarkDown && npm run buildJs && npm run buildJava && npm run buildDotNet && npm run buildNodeJs && npm run buildOverview",
-    "buildGlueTutorial": "node bin/clean-dist && glue-js-documentation-builder build-documentation -p g4e -q tutorial -m tutorial -s ./docs -d ./dist/ && npm run buildGlueDotNetTutorial",
-    "buildGlueDotNetTutorial": "glue-js-documentation-builder build-documentation -p g4e -q tutorial -m net-tutorial -s ./docs -d ./dist/",
-    "buildLandingPage": "glue-js-documentation-builder build-documentation -p g4e -s ./docs -d ./dist/ -m installer-landing",
-    "buildMarkDown": "glue-js-documentation-builder build-markdown -p application -d ./docs/configuration/ --modules \"WindowConfig=Window Config,EXEConfig=EXE Config\"",
-    "watch": "watch \"npm run buildGlue\" ./docs",
-    "generate-docs-new-structure": "glue-js-documentation-builder build-with-new-structure -p enterprise -s ./docs/ -d ./dist/ -m getting-started,glue42-concepts,connectors,developers,tutorials,glue42-core"
+    "generate-docs-new-structure": "glue-js-documentation-builder build-with-new-structure -p enterprise -s ./docs -d ./dist -m getting-started,glue42-concepts,connectors,developers,tutorials,glue42-core",
+    "generate-docs-new-structure-core": "glue-js-documentation-builder build-with-new-structure -p core -s ../core/docs -d ./dist/core-docs -m getting-started,capabilities,developers,glue42-enterprise"
   },
   "repository": {
     "type": "git",

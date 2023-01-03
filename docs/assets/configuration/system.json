@@ -34,7 +34,7 @@
             "default": false
         },
         "flash": {
-            "description": "Enable Flash Plugin",
+            "description": "Obsolete. Enable Flash Plugin",
             "default": false,
             "oneOf": [
                 {
@@ -140,27 +140,7 @@
             "$ref": "authController.json"
         },
         "gw": {
-            "description": "Glue42 Gateway configuration.",
-            "type": "object",
-            "properties": {
-                "embedded": {
-                    "description": "Whether to embed the Glue42 Gateway in Glue42 Desktop or not.",
-                    "type": "boolean"
-                },
-                "configuration": {
-                    "$ref": "#/definitions/gatewayConfig"
-                },
-                "url": {
-                    "description": "A host to connect to. Will be used only if `embedded` is `false`.",
-                    "type": "string"
-                },
-                "killPortOccupier": {
-                    "description": "The application that has occupied the port will be killed.",
-                    "type": "boolean",
-                    "default": false
-                }
-            },
-            "additionalProperties": false
+            "$ref": "gw.json"
         },
         "windows": {
             "description": "Defines defaults for various window settings like border color, size areas, buttons etc.",
@@ -170,9 +150,38 @@
         "appStores": {
             "description": "Defines one or more sources of application configurations.",
             "type": "array",
+            "default": [],
             "items": {
                 "$ref": "#/definitions/appStoreConfig"
             },
+            "additionalProperties": false
+        },
+        "appStoresCustomError": {
+            "description": "Defines a custom error ",
+            "type": "object",
+            "default": {
+                "enabled": false
+            },
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": ""
+                },
+                "title": {
+                    "type": "string",
+                    "description": ""
+                },
+                "body": {
+                    "type": "string",
+                    "description": ""
+                }
+            },
+            "additionalProperties": false
+        },
+        "appStoresTimeout": {
+            "description": "A timeout in milliseconds to wait for all required stores to be initialized.",
+            "type": "number",
+            "default": 120000,
             "additionalProperties": false
         },
         "metrics": {
@@ -331,9 +340,6 @@
                 "$ref": "#/definitions/appStoreConfig"
             },
             "additionalProperties": false
-        },
-        "processReuse": {
-            "$ref": "#/definitions/processReuseSystemConfig"
         },
         "nodePath": {
             "description": "The path to the Node.js environment that Glue42 Desktop will use to run Node.js applications.",
@@ -521,21 +527,19 @@
                 },
                 "appVersion": {
                     "type": "string",
-                    "description": "Defines the version of application."
+                    "description": "Deprecated. Set automatically from the `version` top-level property."
                 },
                 "buildVersion": {
                     "type": "string",
-                    "description": "Defines the build version."
+                    "description": "Deprecated. Set automatically from the `build` top-level property."
                 },
                 "environment": {
                     "type": "string",
-                    "description": "Glue42 Desktop environment.",
-                    "default": "T42"
+                    "description": "Deprecated. Set automatically from the `env` top-level property."
                 },
                 "region": {
                     "type": "string",
-                    "description": "Glue42 Desktop region.",
-                    "default": "DEMO"
+                    "description": "Deprecated. Set automatically from the `region` top-level property."
                 }
             },
             "required": [
@@ -770,7 +774,8 @@
         },
         "build": {
             "description": "Allows replacing the default product version with a custom version (e.g., GD 3.4). Visible in different UI components, e.g., splash screen, \"About\" box, etc.",
-            "type": "string"
+            "type": "string",
+            "default": "Glue42 Enterprise"
         },
         "legacy": {
             "default": {},
@@ -829,7 +834,8 @@
             "default": "inDifferentEnvRegion",
             "enum": [
                 "never",
-                "inDifferentEnvRegion"
+                "inDifferentEnvRegion",
+                "always"
             ]
         },
         "perfCollector": {
@@ -877,9 +883,41 @@
                     "default": true,
                     "description": "If `true`, will enable the Glue42 global protocol handler."
                 },
-                "defaultExecutable": {
+                "protocol": {
                     "type": "string",
-                    "description": "Path to an executable file that will be started if no other Glue42 instance is running. Defaults to the Glue42 executable file."
+                    "default": "glue42",
+                    "description": "The protocol for Glue42 global protocol handler."
+                },
+                "startNewInstance": {
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true,
+                            "description": "If `false`, won't allow starting a new instance of Glue42 when opening links with the Glue42 protocol."
+                        },
+                        "defaultExecutable": {
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "description": "Path to an executable file that will be started if no other Glue42 instance is running. Defaults to the Glue42 executable file."
+                                },
+                                "args": {
+                                    "type": "array",
+                                    "description": "List of arguments.",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "Argument."
+                                    }
+                                }
+                            },
+                            "additionalProperties": false
+                        },
+                        "errorMessage": {
+                            "type": "string",
+                            "description": "Will override the default error message displayed when starting a new Glue42 instance is disabled."
+                        }
+                    },
+                    "additionalProperties": false
                 },
                 "allowOpeningURLs": {
                     "description": "Specify allowed and/or forbidden URLs for the Glue42 global protocol handler. Can be set to a `boolean` value or to an `object` containing lists of allowed and forbidden URLs.",
@@ -938,6 +976,108 @@
         "allowNTLMCredentialsForDomains": {
             "description": "Dynamically sets whether to always send credentials for HTTP NTLM or Negotiate authentication. A comma-separated list of servers for which integrated authentication is enabled.",
             "type": "string"
+        },
+        "reloadIFrames": {
+            "description": "Reload an IFrame if glue42gd is not registered.",
+            "additionalProperties": false,
+            "properties": {
+                "mode": {
+                    "description": "for which application(s) iframes should be reloaded automatically.",
+                    "enum": [
+                        "none",
+                        "shell",
+                        "all"
+                    ],
+                    "default": "none"
+                }
+            }
+        },
+        "switches": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "key"
+                ],
+                "properties": {
+                    "key": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "additionalProperties": false
+        },
+        "spellchecker": {
+            "description": "Settings for the Glue42 spellchecker.",
+            "default": {},
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If `true`, will enable the Glue42 spellchecker."
+                }
+            },
+            "additionalProperties": false
+        },
+        "telemetry": {
+            "default": {
+                "enabled": true
+            },
+            "$ref": "#/definitions/telemetryConfig"
+        },
+        "notifications": {
+            "description": "Settings for the Glue42 notifications.",
+            "default": {
+                "enabled": true,
+                "sourceFilter": {
+                    "allowed": [
+                        "*"
+                    ]
+                },
+                "toastExpiry": 15000
+            },
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If `true`, will enable the Glue42 notifications."
+                },
+                "sourceFilter": {
+                    "description": "Specify lists of allowed and/or forbidden URLs.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "allowed": {
+                            "type": "array",
+                            "default": [],
+                            "description": "List of allowed application names.",
+                            "items": {
+                                "type": "string",
+                                "description": "Application name."
+                            }
+                        },
+                        "blocked": {
+                            "type": "array",
+                            "default": [],
+                            "description": "List of forbidden application names.",
+                            "items": {
+                                "type": "string",
+                                "description": "Application name.."
+                            }
+                        }
+                    }
+                },
+                "toastExpiry": {
+                    "description": "Amount of time in milliseconds specifying how long the notification toast will be shown.",
+                    "type": "number",
+                    "default": 15000
+                }
+            },
+            "additionalProperties": false
         }
     },
     "required": [
@@ -1123,13 +1263,28 @@
                             ],
                             "default": "no-auth"
                         },
+                        "startRetries": {
+                            "description": "Number of times Glue42 Enterprise will try to connect to the REST server.",
+                            "type": "number",
+                            "default": 5
+                        },
+                        "startRetryInterval": {
+                            "description": "An interval in milliseconds at which Glue42 Enterprise will try to connect to the REST Server.",
+                            "type": "number",
+                            "default": 10000
+                        },
+                        "requestTimeout": {
+                            "description": "A timeout in milliseconds to wait for a response from the REST server.",
+                            "type": "number",
+                            "default": 20000
+                        },
                         "pollInterval": {
-                            "description": "How often (milliseconds) should Glue42 Desktop make REST calls to the GCS server.",
+                            "description": "An interval in milliseconds at which Glue42 Enterprise will make REST calls to the REST server.",
                             "type": "number",
                             "default": 60000
                         },
                         "enablePersistentCache": {
-                            "description": "Whether to store the most recent data response on disk. This allows starting Glue42 Desktop later (with cached app configs) even if the GCS REST server is temporarily down.",
+                            "description": "Whether to store the most recent data response on disk. This allows starting Glue42 Enterprise later with cached app configurations even if the REST service is temporarily unavailable.",
                             "type": "boolean",
                             "default": true
                         },
@@ -1146,6 +1301,11 @@
                         "proxy": {
                             "description": "HTTP proxy to use when fetching data.",
                             "type": "string"
+                        },
+                        "rejectUnauthorized": {
+                            "description": "If `false`, SSL validation is disabled for the server.",
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 }
@@ -1419,8 +1579,13 @@
                     "type": "boolean",
                     "default": false
                 },
+                "showFeedbackButton": {
+                    "description": "If `true`, the window will contain a feedback button.",
+                    "type": "boolean",
+                    "default": false
+                },
                 "readOnlyChannelSelector": {
-                    "description": "If `true` аnd the Channel Selector is visible (Channels are enabled), the users won't be able to click on it and change the current Channel.",
+                    "description": "If `true` and the Channel Selector is visible (Channels are enabled), the users won't be able to click on it and change the current Channel.",
                     "type": "boolean",
                     "default": false
                 },
@@ -1465,6 +1630,17 @@
                     "description": "If `true`, the user cannot refresh the window.",
                     "type": "boolean",
                     "default": false
+                },
+                "preloadScripts": {
+                    "description": "A list of preload scripts (URLs) that will be loaded and executed before the actual page is executed",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "jumpList": {
+                    "default": {},
+                    "$ref": "#/definitions/jumpListConfig"
                 }
             },
             "additionalProperties": false
@@ -1473,7 +1649,7 @@
             "description": "Splash screen configuration.",
             "properties": {
                 "disabled": {
-                    "description": "If true welcome splash is disabled",
+                    "description": "If `true`, the splash screen will be disabled.",
                     "type": "boolean"
                 },
                 "url": {
@@ -1492,26 +1668,14 @@
                     "type": "number"
                 },
                 "blockStartup": {
-                    "description": "If true will block startup until the welcome splash is loaded. This is default behavior before 3.13. It was switched to false in 3.13",
+                    "description": "If `true`, will block startup until the splash screen has loaded. This is the default behavior before Glue42 3.13 and was switched to `false` in Glue42 3.13",
                     "default": false,
                     "type": "boolean"
-                }
-            },
-            "additionalProperties": false
-        },
-        "processReuseConfig": {
-            "description": "Process reuse configuration.",
-            "type": "object",
-            "properties": {
-                "maxAppsInProcess": {
-                    "description": "Maximum number of slots for application windows (instances) in a single process.",
-                    "type": "number",
-                    "default": 9
                 },
-                "appSlotSize": {
-                    "description": "When an app is started in a process, the specified number of slots in this process will be reserved only for instances of the same app. This is helpful for keeping the same applications in the same process. The maximum number of slots in a process is defined by the `maxAppsInProcess` property.",
-                    "type": "number",
-                    "default": 3
+                "showOnShutdown": {
+                    "description": "If `true`, will show the splash screen when Glue42 Enterprise is shutting down.",
+                    "default": true,
+                    "type": "boolean"
                 }
             },
             "additionalProperties": false
@@ -1588,6 +1752,15 @@
                     "type": "number",
                     "default": 3600
                 },
+                "clientAuth": {
+                    "description": "The client auth mechanism for the REST service.",
+                    "default": "no-auth",
+                    "enum": [
+                        "no-auth",
+                        "negotiate",
+                        "kerberos"
+                    ]
+                },
                 "features": {
                     "description": "Features which could be injected in GD3 automatically.",
                     "type": "object",
@@ -1653,113 +1826,14 @@
                 }
             }
         },
-        "gatewayConfig": {
-            "type": "object",
-            "properties": {
-                "showConsole": {
-                    "description": "If `true`, the console will be visible.",
-                    "type": "boolean"
-                },
-                "port": {
-                    "description": "The Glue42 Gateway will start on that port.",
-                    "type": "integer",
-                    "default": 8080
-                },
-                "route": {
-                    "type": "string"
-                },
-                "logLevel": {
-                    "type": "string"
-                },
-                "logConfig": {
-                    "type": "object",
-                    "properties": {
-                        "appenders": {},
-                        "categories": {}
-                    },
-                    "additionalProperties": true
-                },
-                "cluster": {
-                    "type": "object",
-                    "properties": {
-                        "enabled": {
-                            "type": "boolean",
-                            "default": false
-                        },
-                        "type": {
-                            "type": "string",
-                            "default": "broker"
-                        },
-                        "embedded_broker": {
-                            "type": "object",
-                            "properties": {
-                                "enabled": {
-                                    "type": "boolean"
-                                },
-                                "route": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "configuration": {
-                            "type": "object",
-                            "properties": {
-                                "binding": {
-                                    "type": "object",
-                                    "properties": {
-                                        "port": {
-                                            "type": "number",
-                                            "default": 8085
-                                        },
-                                        "ip": {
-                                            "type": "string",
-                                            "default": "0.0.0.0"
-                                        }
-                                    },
-                                    "additionalProperties": false
-                                },
-                                "node_id": {
-                                    "type": "number",
-                                    "description": "Specifies the unique node ID in the mesh - this is required for static directories. Make sure that different Glue42 Gateways in the same mesh have different IDs."
-                                },
-                                "directory": {
-                                    "type": "object",
-                                    "properties": {
-                                        "type": {
-                                            "type": "string",
-                                            "default": "rest"
-                                        },
-                                        "config": {
-                                            "type": "object",
-                                            "properties": {
-                                                "directory_uri": {
-                                                    "type": "string",
-                                                    "default": "http://localhost:8888"
-                                                },
-                                                "announce_interval": {
-                                                    "type": "number",
-                                                    "default": 10000
-                                                }
-                                            },
-                                            "additionalProperties": false
-                                        },
-                                        "members": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/meshStaticMember"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "securityConfig": {
             "description": "Global security settings.",
             "properties": {
+                "allowRunningInsecureContent": {
+                    "description": " Allow an https page to run JavaScript, CSS or plugins from http URLs.",
+                    "type": "boolean",
+                    "default": false
+                },
                 "webSecurity": {
                     "description": "When `false`, the same-origin policy will be disabled (usually used when testing web apps) and `allowRunningInsecureContent` will be set to `true`, if not already set to `true` by the user.",
                     "type": "boolean",
@@ -2088,7 +2162,7 @@
                         "restFetchInterval": {
                             "description": "Valid only in `rest` mode - the interval (in seconds) at which the REST service will be polled for new data.",
                             "type": "number",
-                            "default": 10
+                            "default": 60
                         },
                         "restClientAuth": {
                             "description": "Valid only in `rest` mode - the client auth mechanism for the REST service.",
@@ -2098,6 +2172,11 @@
                                 "negotiate",
                                 "kerberos"
                             ]
+                        },
+                        "rejectUnauthorized": {
+                            "description": "If `false`, SSL validation is disabled for the server.",
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 },
@@ -2109,29 +2188,6 @@
                     "type": "number"
                 }
             }
-        },
-        "processReuseSystemConfig": {
-            "description": "Process reuse configuration.",
-            "type": "object",
-            "properties": {
-                "enabled": {
-                    "description": "If `true`, process reuse will be enabled.",
-                    "type": "boolean",
-                    "default": "true"
-                },
-                "visibleApps": {
-                    "$ref": "#/definitions/processReuseConfig"
-                },
-                "hiddenApps": {
-                    "$ref": "#/definitions/processReuseConfig"
-                },
-                "groupAutoStartedByPriorityBatchNumber": {
-                    "description": "If `true`, will group auto started apps by their priority group. Only works if the `autoStart` priority is enabled.",
-                    "type": "boolean",
-                    "default": true
-                }
-            },
-            "additionalProperties": false
         },
         "applicationsConfig": {
             "description": "Application configuration.",
@@ -2298,17 +2354,6 @@
                 }
             }
         },
-        "meshStaticMember": {
-            "type": "object",
-            "properties": {
-                "node": {
-                    "type": "number"
-                },
-                "endpoint": {
-                    "type": "string"
-                }
-            }
-        },
         "foldersConfig": {
             "description": "Configuration for folders location.",
             "type": "object",
@@ -2323,6 +2368,11 @@
                     "descriptions": "Where to store Electron's cache. You can use environment variables to configure the path to it.",
                     "type": "string",
                     "default": "%LocalAppData%/Tick42/Cache/%GLUE-ENV%-%GLUE-REGION%/"
+                },
+                "remoteConfig": {
+                    "descriptions": "Where to store configuration files downloaded from remote configuration.",
+                    "type": "string",
+                    "default": "%LocalAppData%/Tick42/UserData/%GLUE-ENV%-%GLUE-REGION%/remoteConfig"
                 }
             }
         },
@@ -2807,6 +2857,11 @@
                     ],
                     "default": "file"
                 },
+                "newDataCheckInterval": {
+                    "description": "How often (in seconds) to check for new data from the rest/server store. These checks are executed only if there are subscribers.",
+                    "type": "number",
+                    "default": 1800
+                },
                 "restURL": {
                     "description": "Valid only in `rest` mode - the URL of the REST service providing the layouts.",
                     "type": "string"
@@ -2818,6 +2873,88 @@
                         "negotiate",
                         "kerberos"
                     ]
+                }
+            }
+        },
+        "jumpListConfig": {
+            "description": "Configuration for application jump lists.",
+            "additionalProperties": false,
+            "properties": {
+                "enabled": {
+                    "description": "If `true` (default), will enable jump lists. When the user right-clicks on the taskbar icon of a Glue42 app (or on grouped taskbar icons), the context menu will show predefined categorized lists with actions.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "categories": {
+                    "description": "Categorized lists with actions to execute when the user clicks on them.",
+                    "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "title": {
+                                "description": "Title of the category to be displayed in the context menu.",
+                                "type": "string"
+                            },
+                            "actions": {
+                                "description": "List of actions contained in the category..",
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "type": {
+                                            "description": "Type of the action to execute.",
+                                            "enum": [
+                                                "centerScreen",
+                                                "userDefined",
+                                                "focusApplication",
+                                                "newWorkspace"
+                                            ]
+                                        },
+                                        "icon": {
+                                            "type": "string",
+                                            "description": "Icon for the action to be displayed in the context menu. Must point to a local file."
+                                        },
+                                        "singleInstanceTitle": {
+                                            "type": "string",
+                                            "description": "Title of the action to be displayed in the context menu when there is a single instance with a single taskbar icon."
+                                        },
+                                        "multiInstanceTitle": {
+                                            "type": "string",
+                                            "description": "Title of the action to be displayed in the context menu when there are multiple instances with grouped taskbar icons."
+                                        }
+                                    },
+                                    "required": [
+                                        "type"
+                                    ]
+                                },
+                                "type": "array",
+                                "default": []
+                            }
+                        }
+                    },
+                    "type": "array",
+                    "default": [
+                        {
+                            "title": "Tasks",
+                            "actions": [
+                                {
+                                    "type": "centerScreen",
+                                    "icon": "%GDDIR%/assets/images/center.ico",
+                                    "singleInstanceTitle": "Center on Primary Screen",
+                                    "multiInstanceTitle": "Center all on Primary Screen"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "telemetryConfig": {
+            "description": "Configuration for telemetry data published by Glue42.",
+            "additionalProperties": false,
+            "properties": {
+                "enabled": {
+                    "description": "If `true` (default), will enable telemetry data published by Glue42. If `false`, telemetry data won't be gathered or published.",
+                    "type": "boolean",
+                    "default": true
                 }
             }
         }

@@ -1,6 +1,6 @@
 ## Overview
 
-The Glue42 Toolbar is an application which acts as a central hub for managing Glue42 enabled applications, Layouts, Workspaces, search, notifications and various [**Glue42 Enterprise**](https://glue42.com/enterprise/) settings. [**Glue42 Enterprise**](https://glue42.com/enterprise/) comes with two options for a toolbar - a [Floating Toolbar](#floating_toolbar) and a [Launchpad](#launchpad). Both toolbars have certain advantages and disadvantages and are meant to present you with a choice depending on your specific requirements and preferences.
+The Glue42 Toolbar is an app which acts as a central hub for managing Glue42 enabled apps, Layouts, Workspaces, search, notifications and various [**Glue42 Enterprise**](https://glue42.com/enterprise/) settings. [**Glue42 Enterprise**](https://glue42.com/enterprise/) comes with two options for a toolbar - a [Floating Toolbar](#floating_toolbar) and a [Launchpad](#launchpad). Both toolbars have certain advantages and disadvantages and are meant to present you with a choice depending on your specific requirements and preferences.
 
 ## Floating Toolbar
 
@@ -8,14 +8,14 @@ The Glue42 Toolbar is an application which acts as a central hub for managing Gl
 
 The Glue42 Floating Toolbar is always visible, can be minimized or dragged to any position on the screen. The [**Glue42 Enterprise**](https://glue42.com/enterprise/) trial edition is configured to start with this toolbar. If you prefer using a launch bar in the style of the Windows Start menu, which hides when it loses focus, see the Glue42 [Launchpad](#launchpad).
 
-The Floating Toolbar is an entirely customizable [**Glue42 Enterprise**](https://glue42.com/enterprise/) application that can be implemented to suit your demands in regard to managing the applications, Workspaces and various [**Glue42 Enterprise**](https://glue42.com/enterprise/) settings available to the user. The toolbar UI and functionalities can be designed in accordance with specific user needs and requirements.
+The Floating Toolbar is an entirely customizable [**Glue42 Enterprise**](https://glue42.com/enterprise/) app that can be implemented to suit your demands in regard to managing the apps, Workspaces and various [**Glue42 Enterprise**](https://glue42.com/enterprise/) settings available to the user. The toolbar UI and functionalities can be designed in accordance with specific user needs and requirements.
 
 In the example below, you can see several helpful functionalities of the Floating Toolbar:
 
 - moving the Floating Toolbar, switching from vertical to horizontal view and vice versa;
 - switching the theme from the Settings;
-- listing applications from application stores;
-- using applications, choosing favorite applications;
+- listing apps from app stores;
+- using apps, choosing favorite apps;
 - [Workspace](../windows/workspaces/overview/index.html) and [Layout](../windows/layouts/overview/index.html) save and restore options;
 - feedback form;
 - notifications button with a notifications counter;
@@ -36,8 +36,8 @@ The Launchpad is especially beneficial for power users who feel comfortable work
 In the example below, you can see some of the main functionalities of the Launchpad:
 
 - activating the Launchpad through a configurable shortcut;
-- using the search bar to find applications or Layouts;
-- starting applications;
+- using the search bar to find apps or Layouts;
+- starting apps;
 - saving, restoring and removing Layouts;
 - marking favorite items;
 - pinning the Launchpad so it stays always on screen;
@@ -53,21 +53,16 @@ In the `system.json` file, set the `"useEmbeddedShell"` top-level key to `false`
 
 ```json
 {
-    ...
-    "useEmbeddedShell": false,
-    ...
+    "useEmbeddedShell": false
 }
 ```
 
 In the `launchpad.json` file, set the `"disabled"` top-level key to `false`:
 
 ```json
-[
-    {
-        "disabled": false,
-        ...
-    }
-]
+{
+    "disabled": false
+}
 ```
 
 Restart [**Glue42 Enterprise**](https://glue42.com/enterprise/) for the changes to take effect. To use the Floating Toolbar again, reverse the configuration changes and restart [**Glue42 Enterprise**](https://glue42.com/enterprise/).
@@ -76,9 +71,7 @@ The default shortcut for the Launchpad is `SUPER + \` (Windows key + backslash).
 
 ```json
 {
-    ...
-    "shortcut": "ctrl+alt+space",
-    ...
+    "shortcut": "ctrl+alt+space"
 }
 ```
 
@@ -86,9 +79,7 @@ The users can resize the Launchpad by dragging its borders and its new bounds wi
 
 ```json
 {
-    ...
-    "ignoreSaveOnClose": true,
-    ...
+    "ignoreSaveOnClose": true
 }
 ```
 
@@ -96,9 +87,7 @@ The [Placement](../windows/window-management/javascript/index.html#window_operat
 
 ```json
 {
-    ...
     "details": {
-        ...
         "placement": {
             "snapped": true,
             "verticalAlignment": "top",
@@ -114,25 +103,21 @@ The [Placement](../windows/window-management/javascript/index.html#window_operat
 
 The source code for the Floating Toolbar is [available on GitHub](https://github.com/Glue42/toolbar). You can use it as a template for creating your own custom toolbar.
 
-The Launchpad is available as a React Component on `npm` - [`@glue42/launchpad-ui-react`](https://www.npmjs.com/package/@glue42/launchpad-ui-react). You can use the component in your own apps and also modify it by passing different options. For more details, see the README file of the [`@glue42/launchpad-ui-react`](https://www.npmjs.com/package/@glue42/launchpad-ui-react) package.
+The Launchpad is available as a React Component on NPM - [`@glue42/launchpad-ui-react`](https://www.npmjs.com/package/@glue42/launchpad-ui-react). You can use the component in your own apps and also modify it by passing different options. For more details, see the README file of the [`@glue42/launchpad-ui-react`](https://www.npmjs.com/package/@glue42/launchpad-ui-react) package.
 
-Once you have implemented a toolbar, you must host it, create an [application configuration](../../developers/configuration/application/index.html#application_configuration) file for it and add it to your application store. Make sure to set the `"shell"` top-level key to `true`:
+Once you have implemented a toolbar, you must host it, create an [app configuration](../../developers/configuration/application/index.html#app_configuration) file for it and add it to your app store. Make sure to set the `"shell"` top-level key to `true`:
 
 ```json
 {
-    ...
-    "shell": true,
-    ...
+    "shell": true
 }
 ```
 
-Also, modify the [system configuration](../../developers/configuration/system/index.html) of [**Glue42 Enterprise**](https://glue42.com/enterprise/) from the `system.json` file - set the `"useEmbeddedShell"` property to `false`:
+Modify the [system configuration](../../developers/configuration/system/index.html) of [**Glue42 Enterprise**](https://glue42.com/enterprise/) from the `system.json` file located in `%LocalAppData%\Tick42\GlueDesktop\config`. Set the `"useEmbeddedShell"` property to `false`:
 
 ```json
 {
-    ...
-    "useEmbeddedShell": false,
-    ...
+    "useEmbeddedShell": false
 }
 ```
 

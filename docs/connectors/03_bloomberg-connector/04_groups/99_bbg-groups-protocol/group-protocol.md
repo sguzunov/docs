@@ -2,7 +2,7 @@
 
 The Bloomberg Groups are visual color-coded named groups (much like [Glue42 Channels](../../../../glue42-concepts/data-sharing-between-apps/channels/overview/index.html)) which the user can select from the UI of Bloomberg Components. They provide data synchronization across Bloomberg Components (e.g., if two components are in the same colored group, when an instrument changes in one component, the other component is updated respectively). The Bloomberg Connector API provides configurable mapping between the Bloomberg Groups and the Glue42 Channels.
 
-Below you can see how the Bloomberg Connector automatically synchronizes the Glue42 enabled demo applications that are on the channel mapped to the respective Bloomberg group of the running Bloomberg components:
+Below you can see how the Bloomberg Connector automatically synchronizes the Glue42 enabled demo apps that are on the channel mapped to the respective Bloomberg group of the running Bloomberg components:
 
 ![BBG-Channels](../../../../images/bloomberg/bbg-channels.gif)
 
@@ -99,12 +99,14 @@ Currently, [**Glue42 Enterprise**](https://glue42.com/enterprise/) has Channel d
 The binding configuration for the Bloomberg Groups to the Glue42 Channels can be found in the `meta` property of the Glue42 Channel definition:
 
 ```json
-"blpGroup": {
-    "name" : "Group-G",
-    "readDataFieldPath" : "data.partyPortfolio.ric",
-    "writeDataFieldPath" : "data.partyPortfolio.ric",
-    "read" : "ric",
-    "write": "ric"
+{
+    "blpGroup": {
+        "name" : "Group-G",
+        "readDataFieldPath" : "data.partyPortfolio.ric",
+        "writeDataFieldPath" : "data.partyPortfolio.ric",
+        "read" : "ric",
+        "write": "ric"
+    }
 }
 ```
 
@@ -114,4 +116,4 @@ The binding configuration for the Bloomberg Groups to the Glue42 Channels can be
 
 - `writeDataFieldPath` - specifies the field path to the Glue42 Channel data, where the Bloomberg Connector writes the updated Bloomberg Group context.
 
-- `read` and `write` - specify whether the type of the context to read/write is `RIC` or `BLP`; 
+- `read` and `write` - specify whether the type of the context to read/write is `RIC` or `BLP`;

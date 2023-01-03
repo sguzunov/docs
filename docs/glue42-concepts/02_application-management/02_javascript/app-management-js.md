@@ -1,35 +1,37 @@
 ## Restart and Shutdown
 
-The Application Management API is accessible through the [`glue.appManager`](../../../reference/glue/latest/appmanager/index.html) object.
+The App Management API is accessible through the [`glue.appManager`](../../../reference/glue/latest/appmanager/index.html) object.
 
-*See the JavaScript [Application Management example](https://github.com/Glue42/js-examples/tree/master/app-management-example) on GitHub.*
+*See the JavaScript [App Management example](https://github.com/Glue42/js-examples/tree/master/app-management) on GitHub.*
 
-To restart [**Glue42 Enterprise**](https://glue42.com/enterprise/), use the [`restart()`](../../../reference/glue/latest/appmanager/index.html#API-restart) method. This will close all running applications and their instances and then restart [**Glue42 Enterprise**](https://glue42.com/enterprise/):
+To restart [**Glue42 Enterprise**](https://glue42.com/enterprise/), use the [`restart()`](../../../reference/glue/latest/appmanager/index.html#API-restart) method. This will close all running apps and their instances and then restart [**Glue42 Enterprise**](https://glue42.com/enterprise/):
 
 ```javascript
 await glue.appManager.restart();
 ```
 
-To shut down [**Glue42 Enterprise**](https://glue42.com/enterprise/), use the [`exit()`](../../../reference/glue/latest/appmanager/index.html#API-exit) method. This will close all running applications and their instances:
+To shut down [**Glue42 Enterprise**](https://glue42.com/enterprise/), use the [`exit()`](../../../reference/glue/latest/appmanager/index.html#API-exit) method. This will close all running apps and their instances:
 
 ```javascript
 await glue.appManager.exit();
 ```
 
-## Managing Application Definitions at Runtime
+*For details on how to execute custom code before restart or shutdown and also how to prevent restart or shutdown, see the [Events > Shutdown](#events-shutdown) section.*
+
+## Managing App Definitions at Runtime
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.12">
 
-Application definitions can be imported, exported and removed at runtime using the [`InMemoryStore`](../../../reference/glue/latest/appmanager/index.html#InMemoryStore) object of the Application Management API. 
+App definitions can be imported, exported and removed at runtime using the [`InMemoryStore`](../../../reference/glue/latest/appmanager/index.html#InMemoryStore) object of the App Management API.
 
-*Note that all application [`Definition`](../../../reference/glue/latest/appmanager/index.html#Definition) objects provided at runtime are stored in-memory and the methods of the `InMemoryStore` object operate only on them - i.e., the application definitions provided to [**Glue42 Enterprise**](https://glue42.com/enterprise/) through local or remote configuration files aren't affected.*
+*Note that all app [`Definition`](../../../reference/glue/latest/appmanager/index.html#Definition) objects provided at runtime are stored in-memory and the methods of the `InMemoryStore` object operate only on them - i.e., the app definitions provided to [**Glue42 Enterprise**](https://glue42.com/enterprise/) through local or remote configuration files aren't affected.*
 
 ### Import
 
-To import a list of application definitions at runtime, use the [`import()`](../../../reference/glue/latest/appmanager/index.html#InMemoryStore-import) method:
+To import a list of app definitions at runtime, use the [`import()`](../../../reference/glue/latest/appmanager/index.html#InMemoryStore-import) method:
 
 ```javascript
-const definitions = {
+const definitions = [
     {
         name: "my-app",
         type: "window",
@@ -46,12 +48,13 @@ const definitions = {
             url: "https://my-domain.com/my-other-app"
         }
     }
-};
+];
 const mode = "merge";
+
 const importResult = await glue.appManager.inMemory.import(definitions, mode);
 ```
 
-The `import()` method accepts a list of [`Definition`](../../../reference/glue/latest/appmanager/index.html#Definition) objects as a first parameter and an import mode as a second. There are two import modes - `"replace"` (default) and `"merge"`. Using `"replace"` will replace all existing in-memory definitions with the provided ones, while using `"merge"` will merge the existing ones with the provided ones, replacing the application definitions with the same name. Use the `imported` property of the returned [`ImportResult`](../../../reference/glue/latest/appmanager/index.html#ImportResult) object to see a list of the successfully imported definitions and its `errors` property to see a list of the errors:
+The `import()` method accepts a list of [`Definition`](../../../reference/glue/latest/appmanager/index.html#Definition) objects as a first parameter and an import mode as a second. There are two import modes - `"replace"` (default) and `"merge"`. Using `"replace"` will replace all existing in-memory definitions with the provided ones, while using `"merge"` will merge the existing ones with the provided ones, replacing the app definitions with the same name. Use the `imported` property of the returned [`ImportResult`](../../../reference/glue/latest/appmanager/index.html#ImportResult) object to see a list of the successfully imported definitions and its `errors` property to see a list of the errors:
 
 ```javascript
 const importedApps = importResult.imported;
@@ -63,7 +66,7 @@ errors.forEach(e => console.log(`App: ${e.app}, Error: ${e.error}`));
 
 ### Export
 
-To export a list of already imported in-memory application definitions, use the [`export()`](../../../reference/glue/latest/appmanager/index.html#InMemoryStore-export) method:
+To export a list of already imported in-memory app definitions, use the [`export()`](../../../reference/glue/latest/appmanager/index.html#InMemoryStore-export) method:
 
 ```javascript
 const definitions = await glue.appManager.inMemory.export();
@@ -71,7 +74,7 @@ const definitions = await glue.appManager.inMemory.export();
 
 ### Remove
 
-To remove a specific in-memory application definition, use the [`remove()`](../../../reference/glue/latest/appmanager/index.html#InMemoryStore-remove) method and provide the application name:
+To remove a specific in-memory app definition, use the [`remove()`](../../../reference/glue/latest/appmanager/index.html#InMemoryStore-remove) method and provide the app name:
 
 ```javascript
 await glue.appManager.inMemory.remove("my-app");
@@ -85,33 +88,33 @@ To clear all imported in-memory definitions, use the [`clear()`](../../../refere
 await glue.appManager.inMemory.clear();
 ```
 
-## Listing Applications
+## Listing Apps
 
-To see a list of all applications available to the current user, use the [`applications()`](../../../reference/glue/latest/appmanager/index.html#API-applications) method:
+To see a list of all apps available to the current user, use the [`applications()`](../../../reference/glue/latest/appmanager/index.html#API-applications) method:
 
 ```javascript
-const applications = glue.appManager.applications();
+const apps = glue.appManager.applications();
 ```
 
-### Specific Application
+### Specific App
 
-To get a reference to a specific application, use the [`application()`](../../../reference/glue/latest/appmanager/index.html#API-application) method and pass the name of the application as an argument:
+To get a reference to a specific app, use the [`application()`](../../../reference/glue/latest/appmanager/index.html#API-application) method and pass the name of the app as an argument:
 
 ```javascript
 const app = glue.appManager.application("ClientList");
 ```
 
-### Current Application Instance
+### Current App Instance
 
-To get a reference to the instance of the current application, use the [`myInstance`](../../../reference/glue/latest/appmanager/index.html#API-myInstance) property:
+To get a reference to the instance of the current app, use the [`myInstance`](../../../reference/glue/latest/appmanager/index.html#API-myInstance) property:
 
 ```javascript
 const myInstance = glue.appManager.myInstance;
 ```
 
-## Starting Applications
+## Starting Apps
 
-To start an application, use the [`start()`](../../../reference/glue/latest/appmanager/index.html#Application-start) method of the application object:
+To start an app, use the [`start()`](../../../reference/glue/latest/appmanager/index.html#Application-start) method of the app object:
 
 ```javascript
 const app = glue.appManager.application("ClientList");
@@ -119,19 +122,23 @@ const app = glue.appManager.application("ClientList");
 const appInstance = await app.start();
 ```
 
-The `start()` method accepts two optional parameters - a context object (object in which you can pass custom data to your app) and an [`ApplicationStartOptions`](../../../reference/glue/latest/appmanager/index.html#ApplicationStartOptions) object:
+The `start()` method accepts two optional parameters - a context object (object in which you can pass custom data to your app) and an [`ApplicationStartOptions`](../../../reference/glue/latest/appmanager/index.html#ApplicationStartOptions) object.
+
+The following example demonstrates how to start an app with context, enable the Glue42 [Channels](../../data-sharing-between-apps/channels/overview/index.html) for it and join it to a specific Channel:
 
 ```javascript
 const app = glue.appManager.application("ClientList");
 const context = { selectedUser: 2 };
-const startOptions = { hidden: true };
+const startOptions = { allowChannels: true, channelId: "Red" };
 
 const appInstance = await app.start(context, startOptions);
 ```
 
+*Note that all app options available under the `"details"` top level key of the [app configuration](../../../developers/configuration/application/index.html) can be passed as properties of the [`ApplicationStartOptions`](../../../reference/glue/latest/appmanager/index.html#ApplicationStartOptions) object. For more details on the available app configuration options, see the definition for the `"window"` app type under the `"details"` top-level of the [app configuration schema](../../../assets/configuration/application.json).*
+
 ## Listing Running Instances
 
-To list all running instances of all applications, use the [`instances()`](../../../reference/glue/latest/appmanager/index.html#API-instances) method:
+To list all running instances of all apps, use the [`instances()`](../../../reference/glue/latest/appmanager/index.html#API-instances) method:
 
 ```javascript
 // Returns a collection of the running instances of all apps.
@@ -148,18 +155,18 @@ await appInstance.stop();
 
 ## Events
 
-### Shutdown Event
+### Shutdown
 
 <glue42 name="addClass" class="colorSection" element="p" text="Available since Glue42 Enterprise 3.11">
 
-The shutdown event provided by the Application Management API allows you to execute custom code before [**Glue42 Enterprise**](https://glue42.com/enterprise/) shuts down. The available time for the execution of your code is 60 seconds. The callback you provide for handling the event will receive an object with only one property (`restarting`) as an argument. Use it to determine whether [**Glue42 Enterprise**](https://glue42.com/enterprise/) is restarting or is shutting down.
+The shutdown event provided by the App Management API allows you to execute custom code before [**Glue42 Enterprise**](https://glue42.com/enterprise/) shuts down. The available time for the execution of your code is 60 seconds. The callback you provide for handling the event will receive a [`ShuttingDownEventArgs`](../../../reference/glue/latest/appmanager/index.html#ShuttingDownEventArgs) object as an argument. Use its `restarting` property to determine whether [**Glue42 Enterprise**](https://glue42.com/enterprise/) is restarting or is shutting down:
 
 ```javascript
 // The async code in the handler will be awaited up to 60 seconds
 // before Glue42 Enterprise shuts down.
 const handler = async (args) => {
     const isRestarting = args.restarting;
-    
+
     if (isRestarting) {
         console.log("Restarting...");
     } else {
@@ -170,44 +177,52 @@ const handler = async (args) => {
 glue.appManager.onShuttingDown(handler);
 ```
 
-### Application Events
-
-The set of applications defined for the current user can be changed at runtime. To track the events which fire when an application has been added, removed or updated, use the respective methods exposed by the Application Management API.
-
-Application added event:
+To prevent shutdown or restart of [**Glue42 Enterprise**](https://glue42.com/enterprise/), the async handler must resolve with an object with a `prevent` property set to `true`:
 
 ```javascript
-const handler = application => console.log(application.name);
+const handler = async () => { return { prevent: true } };
 
-// Notifies you when an application has been added.
+glue.appManager.onShuttingDown(handler);
+```
+
+### App
+
+The set of apps defined for the current user can be changed at runtime. To track the events which fire when an app has been added, removed or updated, use the respective methods exposed by the App Management API.
+
+App added event:
+
+```javascript
+const handler = app => console.log(app.name);
+
+// Notifies you when an app has been added.
 const unsubscribe = glue.appManager.onAppAdded(handler);
 ```
 
-Application removed event:
+App removed event:
 
 ```javascript
-const handler = application => console.log(application.name);
+const handler = app => console.log(app.name);
 
-// Notifies you when an application has been removed.
+// Notifies you when an app has been removed.
 const unsubscribe = glue.appManager.onAppRemoved(handler);
 ```
 
-Application updated event:
+App updated event:
 
 ```javascript
-const handler = application => console.log(application.name);
+const handler = app => console.log(app.name);
 
-// Notifies you when an application configuration has been updated.
+// Notifies you when an app configuration has been updated.
 const unsubscribe = glue.appManager.onAppChanged(handler);
 ```
 
-### Instance Events
+### Instance
 
-To monitor instance related events globally (for all instances of all applications running in [**Glue42 Enterprise**](https://glue42.com/enterprise/)) or on an application level (only instances of a specific application), use the respective methods exposed by the Application Management API.
+To monitor instance related events globally (for all instances of all apps running in [**Glue42 Enterprise**](https://glue42.com/enterprise/)) or on an app level (only instances of a specific app), use the respective methods exposed by the App Management API.
 
 #### Global
 
-The [`appManager`](../../../reference/glue/latest/appmanager/index.html#API) object offers methods which you can use to monitor instance events for all applications running in [**Glue42 Enterprise**](https://glue42.com/enterprise/). Get notified when an application instance has started, stopped, has been updated or when starting an application instance has failed. The methods for handling instance events receive a callback as a parameter which in turn receives the application instance as an argument. All methods return an unsubscribe function - use it to stop receiving notifications about instance events.
+The [`appManager`](../../../reference/glue/latest/appmanager/index.html#API) object offers methods which you can use to monitor instance events for all apps running in [**Glue42 Enterprise**](https://glue42.com/enterprise/). Get notified when an app instance has started, stopped, has been updated or when starting an app instance has failed. The methods for handling instance events receive a callback as a parameter which in turn receives the app instance as an argument. All methods return an unsubscribe function - use it to stop receiving notifications about instance events.
 
 Instance started event:
 
@@ -233,9 +248,9 @@ const handler = instance => console.log(instance.id);
 const unsubscribe = glue.appManager.onInstanceUpdated(handler);
 ```
 
-#### Application Level
+#### App Level
 
-To monitor instance events on an application level, use the methods offered by the [`Application`](../../../reference/glue/latest/appmanager/index.html#Application) object. The methods for handling instance events receive a callback as a parameter which in turn receives the application instance as an argument.
+To monitor instance events on an app level, use the methods offered by the [`Application`](../../../reference/glue/latest/appmanager/index.html#Application) object. The methods for handling instance events receive a callback as a parameter which in turn receives the app instance as an argument.
 
 Instance started event:
 
@@ -257,4 +272,4 @@ app.onInstanceStopped(handler);
 
 ## Reference
 
-For a complete list of the available Application Management API methods and properties, see the [Application Management API Reference Documentation](../../../reference/glue/latest/appmanager/index.html).
+For a complete list of the available App Management API methods and properties, see the [App Management API Reference Documentation](../../../reference/glue/latest/appmanager/index.html).

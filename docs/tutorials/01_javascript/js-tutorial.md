@@ -477,7 +477,7 @@ When you are ready, your apps should look like the example below. Type part of a
 You are ready. Try playing with the `ClientSearch` options to see how data comes in and out.
 
 
-## 7. Glue42 Notification Service
+## 7. ~~Glue42 Notification Service~~
 
 The market data team is now sending GNS notifications when a major financial event occurs, which requires advisors to call clients who can lose (or gain) a lot of money, because of a sudden market or instrument price change (e.g., Apple buys Microsoft, or a Grexit/Brexit). Our users are very happy with the notifications, but say that as we own the client portfolios, we surely know who the affected clients are, and wonder if we can do something about it.
 
